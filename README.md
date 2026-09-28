@@ -46,7 +46,7 @@ Design choices are listed in `docs/decisions.md`; the tracking-data format in `d
    package `nbacore-derived-v1.5-shot-p1`,
    zip sha256 `e742442c68b0701d31cf65152a4c1b4b7abc0a93b1ab88da695a58935b9d8f31`,
    `MANIFEST.json` sha256 `6a7080088b3d00dde818551bf2d5c5b54251440d27283fabd9d923b0372ac4e0`.
-3. **Derived data of this project.** [Release data-v1.0](https://github.com/yangzhou-tysportsanalytics/ghost-defense/releases/tag/data-v1.0),
+3. **Derived data of this project.** [Release data-v1.0](https://github.com/yangzhou-tysportsanalytics/ghosting_defence/releases/tag/data-v1.0),
    file `ghost-defense-derived-v1.0.zip` (171,303,886 bytes,
    sha256 `5be3dec62d57d555fa0b1d3917dfea1b01d0b78f46d8dea8f1d36cca45f96395`; `MANIFEST.json` sha256 `98c851fd5b83d6acbe140052a74c39ea383f0d2796031a4aed5c709cb91175bf`):
    possession index, per-step matchup labels, switch / help / closeout events, per-(possession,
@@ -77,6 +77,36 @@ uv run python scripts/make_figures.py
 Without the tracking data, the team- and player-level results can be recomputed from the
 derived-data package (e.g. the team correlations from `team_screen_defense.csv` and
 `team_points_allowed.csv`; reliability from `rule_ghost_deviations.parquet`).
+
+## Pipeline steps
+
+Scripts are numbered by pipeline stage (`phase1_…` to `phase4_…`); each stage reads the outputs
+of the previous one. `scripts/pipeline_all.sh` runs them in this order.
+
+| stage | script | what it does |
+|---|---|---|
+| 1. Possessions | `phase1_possessions.py` | half-court possession windows (midcourt crossing → shot release / turnover / foul), mapped to one basket, resampled to 5 Hz; ball handler per frame |
+| 2. Matchups and events | `phase2_matchups.py` | fits the matchup HMM (EM) and labels who guards whom at every step |
+| | `phase2_em_init_sensitivity.py` | refits the HMM from several starting points (robustness of the weights) |
+| | `phase2_events.py` | changes of matchup and help events |
+| | `phase2_screen_events.py` | links matchup changes to screens (screen switches) and finds closeouts |
+| | `phase2_screen_rates.py` | switch rates per screen |
+| 3. Learned ghost | `phase3_train.py` | trains the generative ghost model (GPU; not needed for the current results) |
+| 4. Deviations and models | `phase4_rule_ghost.py` | league-average rule ghost; per-defender deviation and sag |
+| | `phase4_reliability.py` | split-half reliability, stability curves, team vs player variance |
+| | `phase4_hier.py` | hierarchical model: team means and within-team player effects with intervals |
+| | `phase4_xfg_data.py`, `phase4_xfg.py` | shot table and expected field-goal (xFG) model |
+| | `phase4_ghost_points.py` | xFG at real vs ghost defender positions |
+| Analyses | `analysis_team_screen_defense.py` | team switch and help rates on on-ball screens |
+| | `analysis_team_validity.py` | team rates vs points allowed, with robustness and intervals |
+| | `analysis_help_value.py` | play-level association of help with points and shot quality |
+| | `analysis_player_validity.py` | player measures vs public defensive metrics |
+| Outputs | `make_figures.py` | figures and tables in `paper/` |
+| | `build_derived_release.py`, `check_release.py` | derived-data package and its no-tracks check |
+
+Results are written to `reports/<stage>/<data version>_<game set>/`, e.g.
+`reports/phase4/v1.5_all/` = stage 4 on nbacore data v1.5, all games; team and player analyses
+go to `reports/analysis/`.
 
 ## Repository layout
 
