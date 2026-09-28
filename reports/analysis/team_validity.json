@@ -1,0 +1,144 @@
+{
+  "n_teams": 30,
+  "help_rate_3s__vs__pts_allowed_per_poss": {
+    "pearson_r": -0.46760669521236164,
+    "p": 0.00917213954874347,
+    "spearman_rho": -0.4442714126807564,
+    "p_spearman": 0.013910687533536449
+  },
+  "help_rate_3s__vs__pts_allowed_per_hc_poss": {
+    "pearson_r": -0.4397128708137493,
+    "p": 0.015041442689503033,
+    "spearman_rho": -0.4068965517241379,
+    "p_spearman": 0.0256465659515338
+  },
+  "switch_rate__vs__pts_allowed_per_poss": {
+    "pearson_r": -0.168887229059905,
+    "p": 0.3723071060073514,
+    "spearman_rho": -0.11546162402669634,
+    "p_spearman": 0.5434694510154611
+  },
+  "switch_rate__vs__pts_allowed_per_hc_poss": {
+    "pearson_r": -0.14124055945102848,
+    "p": 0.4565867860016575,
+    "spearman_rho": -0.04427141268075639,
+    "p_spearman": 0.816309167130023
+  },
+  "help_delay_median_s__vs__pts_allowed_per_poss": {
+    "pearson_r": 0.3352523739626957,
+    "p": 0.070133647232427,
+    "spearman_rho": 0.21429023217429463,
+    "p_spearman": 0.25549076990448066
+  },
+  "help_delay_median_s__vs__pts_allowed_per_hc_poss": {
+    "pearson_r": 0.30941152212057993,
+    "p": 0.09614845780901567,
+    "spearman_rho": 0.2234709004283658,
+    "p_spearman": 0.23519773721380968
+  },
+  "help_rate_3s__vs__pts_allowed_per_poss__robustness": {
+    "without_SAS": {
+      "pearson_r": -0.38960532562356975,
+      "p": 0.03669326084717772,
+      "n_teams": 29
+    },
+    "leave_one_team_out_r_range": [
+      -0.5499982794400321,
+      -0.38960532562356975
+    ],
+    "leave_one_team_out_extremes": {
+      "weakest_when_dropped": "SAS",
+      "strongest_when_dropped": "LAL"
+    }
+  },
+  "inference_pts_allowed_per_poss": {
+    "help_r_ci95": [
+      -0.708519678903521,
+      -0.129076605126045
+    ],
+    "help_r_permutation_p": 0.0086,
+    "switch_r_ci95": [
+      -0.49881183355349457,
+      0.20378766691001077
+    ],
+    "help_vs_switch_r": 0.2437759178890944,
+    "help_minus_switch_r": -0.29871946615245665,
+    "help_minus_switch_bootstrap_ci95": [
+      -0.6694100725484157,
+      0.06601731252366726
+    ],
+    "steiger_z": -1.3679039969771623,
+    "steiger_p": 0.1713421284915393,
+    "n_team_level_tests": 6,
+    "help_p_bonferroni_6": 0.05503283729246082
+  },
+  "pts_allowed_per_poss_range": [
+    0.9151061173533084,
+    1.0842970958622462
+  ],
+  "best_defences": [
+    {
+      "team": "SAS",
+      "pts_allowed_per_poss": 0.9151061173533084,
+      "help_rate_3s": 0.532246879334258,
+      "switch_rate": 0.13453536754507628
+    },
+    {
+      "team": "BOS",
+      "pts_allowed_per_poss": 0.9756229685807151,
+      "help_rate_3s": 0.47463651050080774,
+      "switch_rate": 0.13667205169628432
+    },
+    {
+      "team": "IND",
+      "pts_allowed_per_poss": 0.9888080581980974,
+      "help_rate_3s": 0.5256723716381418,
+      "switch_rate": 0.07976772616136919
+    },
+    {
+      "team": "CLE",
+      "pts_allowed_per_poss": 0.9903236569903237,
+      "help_rate_3s": 0.4660493827160494,
+      "switch_rate": 0.09259259259259259
+    },
+    {
+      "team": "GSW",
+      "pts_allowed_per_poss": 0.9931662870159453,
+      "help_rate_3s": 0.4750141964792731,
+      "switch_rate": 0.16978989210675752
+    }
+  ],
+  "worst_defences": [
+    {
+      "team": "LAL",
+      "pts_allowed_per_poss": 1.0842970958622462,
+      "help_rate_3s": 0.50210716435882,
+      "switch_rate": 0.10445514750150511
+    },
+    {
+      "team": "NOP",
+      "pts_allowed_per_poss": 1.0648876404494383,
+      "help_rate_3s": 0.43920829406220546,
+      "switch_rate": 0.12880929940307886
+    },
+    {
+      "team": "MIL",
+      "pts_allowed_per_poss": 1.0642775881683733,
+      "help_rate_3s": 0.3859289617486339,
+      "switch_rate": 0.07752732240437159
+    },
+    {
+      "team": "MIN",
+      "pts_allowed_per_poss": 1.0541097655243494,
+      "help_rate_3s": 0.4532586257741079,
+      "switch_rate": 0.0639929224417576
+    },
+    {
+      "team": "DEN",
+      "pts_allowed_per_poss": 1.0528034839412086,
+      "help_rate_3s": 0.48122299767364574,
+      "switch_rate": 0.13958125623130607
+    }
+  ],
+  "note": "Descriptive association across 30 teams; not causal. Points allowed include all tracked possessions of the half season."
+}

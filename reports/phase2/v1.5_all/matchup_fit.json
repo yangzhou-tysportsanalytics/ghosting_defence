@@ -1,0 +1,137 @@
+{
+  "nbacore_version": "v1.5",
+  "game_set": "all",
+  "n_halfcourt_possessions": 89245,
+  "n_fit_train": 20000,
+  "n_eval_val": 5000,
+  "models": {
+    "hmm": {
+      "params": {
+        "gamma": {
+          "all": [
+            0.6198,
+            0.1081,
+            0.2721
+          ]
+        },
+        "sigma_ft": {
+          "all": 3.216
+        },
+        "rho": 0.98392,
+        "help_lam": null,
+        "help_sigma_ft": null,
+        "stratify": false,
+        "help_state": false
+      },
+      "em_iterations": 4,
+      "converged": true,
+      "train_loglik_per_obs": -5.2826004874159445,
+      "val_loglik_per_obs": -5.320199055925842,
+      "fit_seconds": 168.2,
+      "agreement_with_baseline": 0.9409048928011339,
+      "switches_per_possession": 3.52582217491176,
+      "double_team_step_share": 0.3377924243327919,
+      "help_state_share": 0.0,
+      "mean_max_posterior": 0.9804984059196905,
+      "at_shot": {
+        "n_shot_possessions": 66983,
+        "shooter_has_assigned_defender": 0.9330427123299941,
+        "assigned_is_nearest": 0.8482898645925085,
+        "assigned_dist_ft_median": 4.198365245524103,
+        "nearest_dist_ft_median": 4.074071316772265
+      }
+    },
+    "hmm_strat": {
+      "params": {
+        "gamma": {
+          "strong": [
+            0.6528,
+            0.0971,
+            0.2501
+          ],
+          "weak": [
+            0.5906,
+            0.1002,
+            0.3092
+          ]
+        },
+        "sigma_ft": {
+          "strong": 3.118,
+          "weak": 3.27
+        },
+        "rho": 0.98393,
+        "help_lam": null,
+        "help_sigma_ft": null,
+        "stratify": true,
+        "help_state": false
+      },
+      "em_iterations": 5,
+      "converged": true,
+      "train_loglik_per_obs": -5.264972648548364,
+      "val_loglik_per_obs": -5.301847840762696,
+      "fit_seconds": 248.4,
+      "agreement_with_baseline": 0.9351308717297416,
+      "switches_per_possession": 3.5333632136254134,
+      "double_team_step_share": 0.3295838873666373,
+      "help_state_share": 0.0,
+      "mean_max_posterior": 0.98095957380513,
+      "at_shot": {
+        "n_shot_possessions": 66983,
+        "shooter_has_assigned_defender": 0.9339683203200813,
+        "assigned_is_nearest": 0.8516041383634654,
+        "assigned_dist_ft_median": 4.18772330853872,
+        "nearest_dist_ft_median": 4.074071316772265
+      }
+    },
+    "hmm_strat_help": {
+      "params": {
+        "gamma": {
+          "strong": [
+            0.6438,
+            0.101,
+            0.2552
+          ],
+          "weak": [
+            0.5831,
+            0.0959,
+            0.3209
+          ]
+        },
+        "sigma_ft": {
+          "strong": 2.456,
+          "weak": 2.629
+        },
+        "rho": 0.97758,
+        "help_lam": 0.6654,
+        "help_sigma_ft": 14.844,
+        "stratify": true,
+        "help_state": true
+      },
+      "em_iterations": 7,
+      "converged": true,
+      "train_loglik_per_obs": -5.031683665468231,
+      "val_loglik_per_obs": -5.035560208888245,
+      "fit_seconds": 362.6,
+      "agreement_with_baseline": 0.9007814939427641,
+      "switches_per_possession": 4.982844977309653,
+      "double_team_step_share": 0.26651311611719425,
+      "help_state_share": 0.050933231823906876,
+      "mean_max_posterior": 0.976751970379154,
+      "at_shot": {
+        "n_shot_possessions": 66983,
+        "shooter_has_assigned_defender": 0.9116492244300792,
+        "assigned_is_nearest": 0.8377797351566816,
+        "assigned_dist_ft_median": 4.119563875006383,
+        "nearest_dist_ft_median": 4.074071316772265
+      }
+    }
+  },
+  "baseline": {
+    "gamma": [
+      0.62,
+      0.11,
+      0.27
+    ]
+  },
+  "total_seconds": 1272.9
+}

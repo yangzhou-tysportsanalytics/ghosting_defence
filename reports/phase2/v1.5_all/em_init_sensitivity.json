@@ -1,0 +1,85 @@
+{
+  "nbacore_version": "v1.5",
+  "model": "hmm (pooled, no help state)",
+  "n_train_possessions": 5000,
+  "tol": 1e-08,
+  "fits": {
+    "published": {
+      "init": [
+        0.62,
+        0.11,
+        0.27
+      ],
+      "gamma": [
+        0.6183,
+        0.1098,
+        0.272
+      ],
+      "sigma2": 9.924954241228395,
+      "rho": 0.9836820975569256,
+      "loglik_per_obs": -5.242382385508749,
+      "iterations": 6,
+      "converged": true,
+      "seconds": 40.2
+    },
+    "uniform": {
+      "init": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "gamma": [
+        0.6183,
+        0.1098,
+        0.272
+      ],
+      "sigma2": 9.924990347925489,
+      "rho": 0.9836830492718494,
+      "loglik_per_obs": -5.242382386548785,
+      "iterations": 7,
+      "converged": true,
+      "seconds": 55.4
+    },
+    "man_heavy": {
+      "init": [
+        0.9,
+        0.05,
+        0.05
+      ],
+      "gamma": [
+        0.6183,
+        0.1098,
+        0.272
+      ],
+      "sigma2": 9.924947128592366,
+      "rho": 0.9836819141855173,
+      "loglik_per_obs": -5.242382385979221,
+      "iterations": 7,
+      "converged": true,
+      "seconds": 53.0
+    },
+    "rim_heavy": {
+      "init": [
+        0.3,
+        0.1,
+        0.6
+      ],
+      "gamma": [
+        0.6183,
+        0.1098,
+        0.272
+      ],
+      "sigma2": 9.924972786978792,
+      "rho": 0.9836825899754956,
+      "loglik_per_obs": -5.242382385450999,
+      "iterations": 8,
+      "converged": true,
+      "seconds": 59.1
+    }
+  },
+  "max_abs_spread_across_inits": [
+    0.0,
+    0.0,
+    0.0
+  ]
+}

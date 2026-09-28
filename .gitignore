@@ -1,0 +1,46 @@
+# --- data: never commit raw coordinates ---
+data/raw/
+data/interim/
+data/processed/
+*.7z
+*.json.gz
+
+# --- python ---
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# --- hydra / runs ---
+outputs/
+multirun/
+runs/
+
+# --- large generated media (kept out of git; regenerate via scripts) ---
+reports/**/*.mp4
+reports/**/*.gif
+*.pt
+*.ckpt
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# annotation bundles contain resampled coordinates (never commit)
+data/annotations/bundles/
+data/annotations/raw/
+
+# public derived-data package: GitHub release asset, never committed
+data/derived_release/
+
+# export marker and local derived-data builds
+.ghost_public_export
+data/derived_release/

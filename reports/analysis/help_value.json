@@ -1,0 +1,83 @@
+{
+  "points_on_possession": {
+    "A_offense_fe": {
+      "n": 93253,
+      "mean_outcome": 1.0345082731922834,
+      "helped_3s": {
+        "coef": 0.07183154655863278,
+        "ci95": [
+          0.05268101413796085,
+          0.08888261097596054
+        ]
+      },
+      "early_help_le_1s": {
+        "coef": -0.008305419198708124,
+        "ci95": [
+          -0.02876485961875618,
+          0.010853885167433163
+        ]
+      }
+    },
+    "B_offense_and_defense_fe": {
+      "n": 93253,
+      "mean_outcome": 1.0345082731922834,
+      "helped_3s": {
+        "coef": 0.07277706997723146,
+        "ci95": [
+          0.05199480684742937,
+          0.09329046421283653
+        ]
+      },
+      "early_help_le_1s": {
+        "coef": -0.006852017856951553,
+        "ci95": [
+          -0.024554415604628364,
+          0.014143656651096735
+        ]
+      }
+    }
+  },
+  "raw_means": {
+    "points_helped": 1.0679479452666354,
+    "points_not_helped": 1.003591034795889
+  },
+  "caveat": "observational; help responds to threat, so estimates are biased toward 'help looks costly'. Help B unvalidated; screen candidates 74 % precise on-ball.",
+  "xfg_of_possession_shot": {
+    "A_offense_fe": {
+      "n": 71455,
+      "mean_outcome": 0.4245076215730782,
+      "helped_3s": {
+        "coef": 0.050233023467131266,
+        "ci95": [
+          0.047782636779779696,
+          0.052279575923049895
+        ]
+      },
+      "early_help_le_1s": {
+        "coef": -0.008696411403382634,
+        "ci95": [
+          -0.010849134373639005,
+          -0.0065592329677636885
+        ]
+      }
+    },
+    "B_offense_and_defense_fe": {
+      "n": 71455,
+      "mean_outcome": 0.4245076215730782,
+      "helped_3s": {
+        "coef": 0.05022857092440919,
+        "ci95": [
+          0.04773839887726231,
+          0.052372248479810396
+        ]
+      },
+      "early_help_le_1s": {
+        "coef": -0.008399260124871057,
+        "ci95": [
+          -0.010457698442575587,
+          -0.006034954916733698
+        ]
+      }
+    }
+  }
+}

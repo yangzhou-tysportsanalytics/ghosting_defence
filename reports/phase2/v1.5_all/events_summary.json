@@ -1,0 +1,38 @@
+{
+  "model": "hmm_strat_help",
+  "n_possessions": 89245,
+  "switch_B": {
+    "n_events": 269402,
+    "per_possession": 3.0186789175864193,
+    "share_possessions_with_any": 0.8693596279903636
+  },
+  "help_B": {
+    "n_events": 228178,
+    "per_possession": 2.55675948232394,
+    "share_possessions_with_any": 0.7691523334640596
+  },
+  "help_A": {
+    "n_events": 97779,
+    "per_possession": 1.0956244047285562,
+    "share_possessions_with_any": 0.5892430948512521
+  },
+  "help_A_B_overlap": {
+    "help_B_also_A": 0.013734891181446064,
+    "help_A_also_B": 0.032031417789095816
+  },
+  "switch_A_and_closeouts": "see phase2_screen_events.py (needs nbacore screens / passes)",
+  "config": {
+    "hz": 5.0,
+    "min_hold_s": 1.0,
+    "window_s": 1.0,
+    "help_leave_ft": 6.0,
+    "help_speed_fts": 3.0,
+    "help_zone_ft": 20.0,
+    "help_min_s": 0.4,
+    "help_post": 0.5,
+    "co_far_ft": 8.0,
+    "co_near_ft": 4.0,
+    "co_window_s": 1.0,
+    "co_speed_fts": 8.0
+  }
+}
