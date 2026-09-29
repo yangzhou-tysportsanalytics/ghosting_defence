@@ -1,14 +1,14 @@
 # Data access. Cleaned tracking data (L1), events (L2), possession ledger (L3) and the fixed
 # split (L4) come from an nbacore data release under $NBA_DATA_ROOT (see README).
 source: nbacore
-nbacore_data_version: v1.5   # pinned; the code dependency is pinned to nbacore tag data-v1.5
+nbacore_data_version: v1.6   # pinned; the code dependency is pinned to nbacore tag data-v1.6
 windows_release: l2          # D-017: possession windows end at nbacore's corrected shot release
                              # ("ghost" = the earlier D-011 release rule, for comparison only)
 game_set: small              # tiny (5) | small (25) | all (every usable game)
 game_sets_dir: configs/game_sets
 
 # Outputs of this project, one folder per (data version, window rule).
-processed_dir: data/processed/nbacore-v1.4-l2
+processed_dir: data/processed/nbacore-v1.6-l2
 release_dir: data/derived_release
 reports_dir: reports
 

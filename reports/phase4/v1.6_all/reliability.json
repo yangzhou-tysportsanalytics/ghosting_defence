@@ -7,11 +7,11 @@
     "dev_ft": {
       "context_r2": 0.14943817305506468,
       "split_half_r_raw": 0.9516691816905877,
-      "split_half_r_adjusted": 0.9318103873690456,
-      "spearman_brown_adjusted": 0.96470170515864,
-      "split_half_r_player_within_team": 0.9227977508356732,
+      "split_half_r_adjusted": 0.9318103873690463,
+      "spearman_brown_adjusted": 0.9647017051586405,
+      "split_half_r_player_within_team": 0.9227977508356731,
       "spearman_brown_player_within_team": 0.9598490017315789,
-      "split_half_r_team_effect": 0.9301718522405488,
+      "split_half_r_team_effect": 0.9301718522405484,
       "n_players": 348,
       "stability_curve_adjusted": {
         "25": {
@@ -40,20 +40,20 @@
         }
       },
       "within_position": {
-        "split_half_r_within_position": 0.9209759570664919,
+        "split_half_r_within_position": 0.9209759570664918,
         "n_players": 348,
-        "share_player_variance_explained_by_position": 0.14818438806518008,
+        "share_player_variance_explained_by_position": 0.14818438806517975,
         "by_position": {
           "C": {
-            "r": 0.8859975690712634,
+            "r": 0.8859975690712636,
             "n_players": 49
           },
           "F": {
-            "r": 0.9405119352325809,
+            "r": 0.9405119352325811,
             "n_players": 143
           },
           "G": {
-            "r": 0.9117900058798917,
+            "r": 0.9117900058798916,
             "n_players": 156
           }
         }
@@ -85,17 +85,17 @@
         }
       },
       "variance_shares_adjusted": {
-        "var_team_effect": 0.005367364182977863,
+        "var_team_effect": 0.005367364182977862,
         "var_player_within_team": 0.03034625889895535,
         "var_total_possession_level": 0.7407628799771087,
-        "share_team_of_systematic": 0.15028898554101341
+        "share_team_of_systematic": 0.1502889855410134
       },
       "decision_rule": "player effects reportable"
     },
     "sag_ft": {
       "context_r2": 0.0978354559562088,
-      "split_half_r_raw": 0.9671884336359274,
-      "split_half_r_adjusted": 0.9575909006497471,
+      "split_half_r_raw": 0.9671884336359275,
+      "split_half_r_adjusted": 0.9575909006497472,
       "spearman_brown_adjusted": 0.9783360765846547,
       "split_half_r_player_within_team": 0.9543832619579675,
       "spearman_brown_player_within_team": 0.9766592669258065,
@@ -128,20 +128,20 @@
         }
       },
       "within_position": {
-        "split_half_r_within_position": 0.9215081415530498,
+        "split_half_r_within_position": 0.9215081415530497,
         "n_players": 348,
-        "share_player_variance_explained_by_position": 0.4738809849992416,
+        "share_player_variance_explained_by_position": 0.4738809849992418,
         "by_position": {
           "C": {
-            "r": 0.9251777357897433,
+            "r": 0.9251777357897435,
             "n_players": 49
           },
           "F": {
-            "r": 0.9341869846723088,
+            "r": 0.9341869846723082,
             "n_players": 143
           },
           "G": {
-            "r": 0.9063559004050505,
+            "r": 0.9063559004050502,
             "n_players": 156
           }
         }
@@ -173,10 +173,10 @@
         }
       },
       "variance_shares_adjusted": {
-        "var_team_effect": 0.03286504382806074,
-        "var_player_within_team": 0.371231264323616,
+        "var_team_effect": 0.032865043828060735,
+        "var_player_within_team": 0.3712312643236159,
         "var_total_possession_level": 2.731183301544365,
-        "share_team_of_systematic": 0.0813297304753522
+        "share_team_of_systematic": 0.08132973047535222
       },
       "decision_rule": "player effects reportable"
     }

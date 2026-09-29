@@ -1,0 +1,22 @@
+{
+  "game_set": "all",
+  "n_candidates_in_windows": 350189,
+  "n_physical_screen_groups": 269172,
+  "candidates_per_group": {
+    "mean": 1.3009859866553728,
+    "median": 1.0,
+    "p90": 2.0
+  },
+  "on_ball": {
+    "n_groups": 93453,
+    "switch_rate": 0.10477994285897724,
+    "one_sided_rate": 0.29713331835254086
+  },
+  "off_ball": {
+    "n_groups": 175719,
+    "switch_rate": 0.01711254901291266,
+    "one_sided_rate": 0.08056613115257884
+  },
+  "groups_per_halfcourt_possession": 3.016101742394532,
+  "caveat": "rates per candidate group; nbacore-reviewed precision of real screens: on-ball 74 %, off-ball 33 % (48 % overall after offense_match)"
+}

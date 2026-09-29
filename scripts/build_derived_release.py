@@ -9,7 +9,7 @@ release asset; it is never committed to git.
 Output: data/derived_release/<package_id>/ and data/derived_release/<package_id>.zip
 
 Usage:
-    uv run python scripts/build_derived_release.py [--package-id ghost-defense-derived-v1.0]
+    uv run python scripts/build_derived_release.py [--package-id ghost-defense-derived-v1.1]
 """
 
 from __future__ import annotations
@@ -30,10 +30,10 @@ from check_release import check_dir  # noqa: E402
 from ghost import data as D  # noqa: E402
 
 NBACORE_PACKAGE = {
-    "package_id": "nbacore-derived-v1.5-shot-p1",
-    "release": "https://github.com/yangzhou-tysportsanalytics/nbacore/releases/tag/data-v1.5",
-    "zip_sha256": "e742442c68b0701d31cf65152a4c1b4b7abc0a93b1ab88da695a58935b9d8f31",
-    "manifest_sha256": "6a7080088b3d00dde818551bf2d5c5b54251440d27283fabd9d923b0372ac4e0",
+    "package_id": "nbacore-derived-v1.6-shot-p1",
+    "release": "https://github.com/yangzhou-tysportsanalytics/nbacore/releases/tag/data-v1.6",
+    "zip_sha256": "d44a4a92f584204f10972d56a3ed5c3c9cc278df39fbe53d5c305aacd7c0a92f",
+    "manifest_sha256": "1551d916078c58df702cf9d32a438eed6c54e48a3c1accd4fd582ae0db855fda",
 }
 MATCHUP_MODEL = "hmm_strat_help"
 
@@ -75,7 +75,7 @@ def sha256(p: Path) -> str:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--package-id", default="ghost-defense-derived-v1.0")
+    ap.add_argument("--package-id", default="ghost-defense-derived-v1.1")
     args = ap.parse_args()
     cfg = D.DataConfig.load(game_set="all")
     base = cfg.processed_dir / "all"
@@ -141,11 +141,14 @@ def main() -> None:
             "nbacore_public_package": NBACORE_PACKAGE,
         },
         "coordinate_policy": "no player or ball tracks; only shots.parquet shot_x / shot_y",
-        "notes": {
-            "shots_duplicate_rows_dropped": shots_dropped,
-            "shots_duplicate_reason": "shot attached to two windows of one ledger possession; "
-            "the xFG fit used both rows (effect negligible)",
-        },
+        "notes": (
+            {
+                "shots_duplicate_rows_dropped": shots_dropped,
+                "shots_duplicate_reason": "shot attached to two windows of one ledger possession",
+            }
+            if shots_dropped
+            else {}
+        ),
         "files": {},
     }
     for p in sorted(out.iterdir()):

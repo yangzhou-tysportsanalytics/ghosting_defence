@@ -1,0 +1,23 @@
+{
+  "model": "hmm_strat_help",
+  "n_halfcourt_possessions": 89245,
+  "screen_candidates_offense_match_in_windows": 350189,
+  "screen_candidates_on_ball": 106271,
+  "screen_groups (dup_group)": 312571,
+  "completed_passes_in_windows": 189981,
+  "switch_B_by_class": {
+    "one_sided": 42268,
+    "rotation": 201534,
+    "screen_switch": 25600
+  },
+  "screen_switch_events_per_possession": 0.1434254019833044,
+  "screen_groups_with_switch_or_one_sided": 54957,
+  "closeouts": {
+    "n": 14075,
+    "per_possession": 0.1577119166339851,
+    "per_completed_pass": 0.07408635600402146,
+    "matched_defender_share": 0.618898756660746,
+    "closing_speed_fts_median": 10.412861824035645
+  },
+  "seconds": 474.2
+}

@@ -1,9 +1,9 @@
 {
-  "nbacore_version": "v1.5",
-  "nbacore_manifest_commit": "e3cb6f1313888cff4c310f557816ba65d420743a",
+  "nbacore_version": "v1.6",
+  "nbacore_manifest_commit": "2f739d886123b62b561d59facb556a7ee693d9fe",
   "game_set": "all",
   "n_games": 631,
-  "wall_seconds": 2665.4,
+  "wall_seconds": 1985.1,
   "games_by_split": {
     "test": 126,
     "train": 455,
@@ -74,7 +74,7 @@
       "handler_has": 133,
       "handler_matched": 130,
       "handler_coverage_sum": 150.9736577500741,
-      "seconds": 3.6
+      "seconds": 1.7
     },
     {
       "game_id": "0021500002",
@@ -86,7 +86,7 @@
       "handler_has": 153,
       "handler_matched": 152,
       "handler_coverage_sum": 159.11465575808904,
-      "seconds": 3.2
+      "seconds": 1.8
     },
     {
       "game_id": "0021500003",
@@ -98,7 +98,7 @@
       "handler_has": 133,
       "handler_matched": 131,
       "handler_coverage_sum": 160.9451373119781,
-      "seconds": 3.4
+      "seconds": 1.9
     },
     {
       "game_id": "0021500004",
@@ -110,7 +110,7 @@
       "handler_has": 129,
       "handler_matched": 122,
       "handler_coverage_sum": 150.62552136610975,
-      "seconds": 3.3
+      "seconds": 1.7
     },
     {
       "game_id": "0021500005",
@@ -122,7 +122,7 @@
       "handler_has": 127,
       "handler_matched": 125,
       "handler_coverage_sum": 151.44727071297103,
-      "seconds": 2.8
+      "seconds": 1.9
     },
     {
       "game_id": "0021500007",
@@ -134,7 +134,7 @@
       "handler_has": 119,
       "handler_matched": 109,
       "handler_coverage_sum": 145.0987400341815,
-      "seconds": 2.8
+      "seconds": 1.7
     },
     {
       "game_id": "0021500009",
@@ -146,7 +146,7 @@
       "handler_has": 137,
       "handler_matched": 132,
       "handler_coverage_sum": 166.3515138559448,
-      "seconds": 3.1
+      "seconds": 2.0
     },
     {
       "game_id": "0021500010",
@@ -158,7 +158,7 @@
       "handler_has": 130,
       "handler_matched": 129,
       "handler_coverage_sum": 147.5454805105246,
-      "seconds": 2.9
+      "seconds": 1.9
     },
     {
       "game_id": "0021500011",
@@ -170,7 +170,7 @@
       "handler_has": 134,
       "handler_matched": 130,
       "handler_coverage_sum": 148.47699603475672,
-      "seconds": 2.9
+      "seconds": 1.7
     },
     {
       "game_id": "0021500012",
@@ -182,7 +182,7 @@
       "handler_has": 118,
       "handler_matched": 117,
       "handler_coverage_sum": 135.39791551734032,
-      "seconds": 3.5
+      "seconds": 1.8
     },
     {
       "game_id": "0021500013",
@@ -194,7 +194,7 @@
       "handler_has": 140,
       "handler_matched": 126,
       "handler_coverage_sum": 158.49334631015336,
-      "seconds": 4.5
+      "seconds": 2.2
     },
     {
       "game_id": "0021500015",
@@ -206,7 +206,7 @@
       "handler_has": 148,
       "handler_matched": 140,
       "handler_coverage_sum": 161.65234980319536,
-      "seconds": 3.7
+      "seconds": 2.0
     },
     {
       "game_id": "0021500016",
@@ -218,7 +218,7 @@
       "handler_has": 134,
       "handler_matched": 132,
       "handler_coverage_sum": 150.69942411475074,
-      "seconds": 3.3
+      "seconds": 2.1
     },
     {
       "game_id": "0021500017",
@@ -230,7 +230,7 @@
       "handler_has": 132,
       "handler_matched": 130,
       "handler_coverage_sum": 155.6186940740361,
-      "seconds": 4.5
+      "seconds": 1.9
     },
     {
       "game_id": "0021500018",
@@ -242,7 +242,7 @@
       "handler_has": 123,
       "handler_matched": 119,
       "handler_coverage_sum": 144.09743813624624,
-      "seconds": 3.3
+      "seconds": 1.9
     },
     {
       "game_id": "0021500019",
@@ -254,7 +254,7 @@
       "handler_has": 135,
       "handler_matched": 135,
       "handler_coverage_sum": 149.28443389375852,
-      "seconds": 3.1
+      "seconds": 2.0
     },
     {
       "game_id": "0021500020",
@@ -266,7 +266,7 @@
       "handler_has": 145,
       "handler_matched": 137,
       "handler_coverage_sum": 156.37403519401613,
-      "seconds": 3.5
+      "seconds": 2.2
     },
     {
       "game_id": "0021500021",
@@ -278,7 +278,7 @@
       "handler_has": 126,
       "handler_matched": 117,
       "handler_coverage_sum": 139.3857112787206,
-      "seconds": 3.7
+      "seconds": 1.8
     },
     {
       "game_id": "0021500022",
@@ -290,7 +290,7 @@
       "handler_has": 141,
       "handler_matched": 134,
       "handler_coverage_sum": 172.20494419271066,
-      "seconds": 3.7
+      "seconds": 2.3
     },
     {
       "game_id": "0021500023",
@@ -302,7 +302,7 @@
       "handler_has": 112,
       "handler_matched": 108,
       "handler_coverage_sum": 130.1659548807522,
-      "seconds": 2.4
+      "seconds": 1.8
     },
     {
       "game_id": "0021500024",
@@ -314,7 +314,7 @@
       "handler_has": 131,
       "handler_matched": 127,
       "handler_coverage_sum": 163.52144633744112,
-      "seconds": 3.3
+      "seconds": 2.5
     },
     {
       "game_id": "0021500025",
@@ -326,7 +326,7 @@
       "handler_has": 139,
       "handler_matched": 135,
       "handler_coverage_sum": 162.83155005225098,
-      "seconds": 3.1
+      "seconds": 2.2
     },
     {
       "game_id": "0021500026",
@@ -338,7 +338,7 @@
       "handler_has": 136,
       "handler_matched": 130,
       "handler_coverage_sum": 153.58698798037807,
-      "seconds": 4.3
+      "seconds": 2.3
     },
     {
       "game_id": "0021500027",
@@ -350,7 +350,7 @@
       "handler_has": 109,
       "handler_matched": 106,
       "handler_coverage_sum": 141.61352323483848,
-      "seconds": 3.9
+      "seconds": 2.2
     },
     {
       "game_id": "0021500028",
@@ -362,7 +362,7 @@
       "handler_has": 114,
       "handler_matched": 109,
       "handler_coverage_sum": 129.26665830003287,
-      "seconds": 2.7
+      "seconds": 1.9
     },
     {
       "game_id": "0021500029",
@@ -374,7 +374,7 @@
       "handler_has": 120,
       "handler_matched": 115,
       "handler_coverage_sum": 149.05967588563703,
-      "seconds": 3.6
+      "seconds": 2.0
     },
     {
       "game_id": "0021500031",
@@ -386,7 +386,7 @@
       "handler_has": 139,
       "handler_matched": 134,
       "handler_coverage_sum": 158.7541282550492,
-      "seconds": 4.0
+      "seconds": 2.3
     },
     {
       "game_id": "0021500032",
@@ -398,7 +398,7 @@
       "handler_has": 123,
       "handler_matched": 119,
       "handler_coverage_sum": 144.51055621610323,
-      "seconds": 3.2
+      "seconds": 2.1
     },
     {
       "game_id": "0021500033",
@@ -410,7 +410,7 @@
       "handler_has": 117,
       "handler_matched": 116,
       "handler_coverage_sum": 139.92202927914292,
-      "seconds": 3.9
+      "seconds": 2.3
     },
     {
       "game_id": "0021500034",
@@ -422,7 +422,7 @@
       "handler_has": 126,
       "handler_matched": 123,
       "handler_coverage_sum": 156.36253345020265,
-      "seconds": 4.5
+      "seconds": 2.3
     },
     {
       "game_id": "0021500035",
@@ -434,7 +434,7 @@
       "handler_has": 136,
       "handler_matched": 133,
       "handler_coverage_sum": 160.10992713571864,
-      "seconds": 3.8
+      "seconds": 2.5
     },
     {
       "game_id": "0021500036",
@@ -446,7 +446,7 @@
       "handler_has": 127,
       "handler_matched": 125,
       "handler_coverage_sum": 145.45225171873835,
-      "seconds": 4.1
+      "seconds": 2.1
     },
     {
       "game_id": "0021500037",
@@ -458,7 +458,7 @@
       "handler_has": 136,
       "handler_matched": 129,
       "handler_coverage_sum": 147.0285925685206,
-      "seconds": 3.5
+      "seconds": 2.0
     },
     {
       "game_id": "0021500038",
@@ -470,7 +470,7 @@
       "handler_has": 132,
       "handler_matched": 127,
       "handler_coverage_sum": 152.90318475776309,
-      "seconds": 6.5
+      "seconds": 2.5
     },
     {
       "game_id": "0021500039",
@@ -482,7 +482,7 @@
       "handler_has": 133,
       "handler_matched": 133,
       "handler_coverage_sum": 143.37376908838746,
-      "seconds": 6.3
+      "seconds": 2.3
     },
     {
       "game_id": "0021500040",
@@ -494,7 +494,7 @@
       "handler_has": 131,
       "handler_matched": 128,
       "handler_coverage_sum": 136.26720611077644,
-      "seconds": 5.7
+      "seconds": 2.3
     },
     {
       "game_id": "0021500041",
@@ -506,7 +506,7 @@
       "handler_has": 124,
       "handler_matched": 119,
       "handler_coverage_sum": 142.60811504912533,
-      "seconds": 6.2
+      "seconds": 2.5
     },
     {
       "game_id": "0021500042",
@@ -518,7 +518,7 @@
       "handler_has": 115,
       "handler_matched": 112,
       "handler_coverage_sum": 144.73333770648728,
-      "seconds": 6.1
+      "seconds": 2.4
     },
     {
       "game_id": "0021500043",
@@ -530,7 +530,7 @@
       "handler_has": 137,
       "handler_matched": 133,
       "handler_coverage_sum": 147.90126468263858,
-      "seconds": 6.5
+      "seconds": 2.2
     },
     {
       "game_id": "0021500044",
@@ -542,7 +542,7 @@
       "handler_has": 137,
       "handler_matched": 126,
       "handler_coverage_sum": 154.59205533772885,
-      "seconds": 6.3
+      "seconds": 2.1
     },
     {
       "game_id": "0021500045",
@@ -554,7 +554,7 @@
       "handler_has": 138,
       "handler_matched": 133,
       "handler_coverage_sum": 154.9755554437352,
-      "seconds": 6.2
+      "seconds": 2.3
     },
     {
       "game_id": "0021500046",
@@ -566,7 +566,7 @@
       "handler_has": 123,
       "handler_matched": 116,
       "handler_coverage_sum": 136.1391687494379,
-      "seconds": 5.2
+      "seconds": 2.0
     },
     {
       "game_id": "0021500047",
@@ -578,7 +578,7 @@
       "handler_has": 111,
       "handler_matched": 109,
       "handler_coverage_sum": 133.6708758944432,
-      "seconds": 4.7
+      "seconds": 2.0
     },
     {
       "game_id": "0021500048",
@@ -590,7 +590,7 @@
       "handler_has": 131,
       "handler_matched": 127,
       "handler_coverage_sum": 139.9684796702658,
-      "seconds": 5.3
+      "seconds": 2.0
     },
     {
       "game_id": "0021500049",
@@ -602,7 +602,7 @@
       "handler_has": 123,
       "handler_matched": 118,
       "handler_coverage_sum": 150.67257060040177,
-      "seconds": 5.6
+      "seconds": 2.2
     },
     {
       "game_id": "0021500050",
@@ -614,7 +614,7 @@
       "handler_has": 126,
       "handler_matched": 124,
       "handler_coverage_sum": 153.97817128992276,
-      "seconds": 5.9
+      "seconds": 2.1
     },
     {
       "game_id": "0021500051",
@@ -626,7 +626,7 @@
       "handler_has": 147,
       "handler_matched": 137,
       "handler_coverage_sum": 150.8881377528188,
-      "seconds": 5.8
+      "seconds": 2.4
     },
     {
       "game_id": "0021500052",
@@ -638,7 +638,7 @@
       "handler_has": 123,
       "handler_matched": 103,
       "handler_coverage_sum": 131.86427072562498,
-      "seconds": 5.2
+      "seconds": 2.1
     },
     {
       "game_id": "0021500053",
@@ -650,7 +650,7 @@
       "handler_has": 153,
       "handler_matched": 151,
       "handler_coverage_sum": 161.82323256182895,
-      "seconds": 6.4
+      "seconds": 2.5
     },
     {
       "game_id": "0021500054",
@@ -662,7 +662,7 @@
       "handler_has": 115,
       "handler_matched": 111,
       "handler_coverage_sum": 140.51406567253707,
-      "seconds": 5.7
+      "seconds": 2.4
     },
     {
       "game_id": "0021500055",
@@ -674,7 +674,7 @@
       "handler_has": 134,
       "handler_matched": 129,
       "handler_coverage_sum": 141.53736951385872,
-      "seconds": 6.5
+      "seconds": 2.7
     },
     {
       "game_id": "0021500056",
@@ -686,7 +686,7 @@
       "handler_has": 137,
       "handler_matched": 136,
       "handler_coverage_sum": 153.5489992930357,
-      "seconds": 6.0
+      "seconds": 3.4
     },
     {
       "game_id": "0021500057",
@@ -698,7 +698,7 @@
       "handler_has": 112,
       "handler_matched": 110,
       "handler_coverage_sum": 140.40052241876532,
-      "seconds": 5.4
+      "seconds": 2.9
     },
     {
       "game_id": "0021500058",
@@ -710,7 +710,7 @@
       "handler_has": 114,
       "handler_matched": 112,
       "handler_coverage_sum": 133.51269309361402,
-      "seconds": 4.9
+      "seconds": 2.7
     },
     {
       "game_id": "0021500059",
@@ -722,7 +722,7 @@
       "handler_has": 138,
       "handler_matched": 129,
       "handler_coverage_sum": 160.14950503092388,
-      "seconds": 5.6
+      "seconds": 3.0
     },
     {
       "game_id": "0021500060",
@@ -734,7 +734,7 @@
       "handler_has": 108,
       "handler_matched": 107,
       "handler_coverage_sum": 127.49131041419784,
-      "seconds": 4.8
+      "seconds": 2.6
     },
     {
       "game_id": "0021500061",
@@ -746,7 +746,7 @@
       "handler_has": 100,
       "handler_matched": 98,
       "handler_coverage_sum": 114.86235035106068,
-      "seconds": 4.0
+      "seconds": 2.6
     },
     {
       "game_id": "0021500062",
@@ -758,7 +758,7 @@
       "handler_has": 122,
       "handler_matched": 116,
       "handler_coverage_sum": 143.8173105511019,
-      "seconds": 5.2
+      "seconds": 3.3
     },
     {
       "game_id": "0021500063",
@@ -770,7 +770,7 @@
       "handler_has": 103,
       "handler_matched": 101,
       "handler_coverage_sum": 113.43340556826296,
-      "seconds": 4.0
+      "seconds": 2.3
     },
     {
       "game_id": "0021500064",
@@ -782,7 +782,7 @@
       "handler_has": 115,
       "handler_matched": 108,
       "handler_coverage_sum": 138.1729684474281,
-      "seconds": 6.0
+      "seconds": 3.0
     },
     {
       "game_id": "0021500065",
@@ -794,7 +794,7 @@
       "handler_has": 111,
       "handler_matched": 106,
       "handler_coverage_sum": 126.23818697624556,
-      "seconds": 4.5
+      "seconds": 2.7
     },
     {
       "game_id": "0021500066",
@@ -806,7 +806,7 @@
       "handler_has": 117,
       "handler_matched": 116,
       "handler_coverage_sum": 143.44259333429943,
-      "seconds": 4.9
+      "seconds": 2.8
     },
     {
       "game_id": "0021500067",
@@ -818,7 +818,7 @@
       "handler_has": 122,
       "handler_matched": 116,
       "handler_coverage_sum": 133.59628582755397,
-      "seconds": 4.8
+      "seconds": 2.8
     },
     {
       "game_id": "0021500068",
@@ -830,7 +830,7 @@
       "handler_has": 132,
       "handler_matched": 129,
       "handler_coverage_sum": 149.18624159714258,
-      "seconds": 5.3
+      "seconds": 3.2
     },
     {
       "game_id": "0021500069",
@@ -842,7 +842,7 @@
       "handler_has": 135,
       "handler_matched": 128,
       "handler_coverage_sum": 149.95188948617863,
-      "seconds": 5.2
+      "seconds": 3.3
     },
     {
       "game_id": "0021500070",
@@ -854,7 +854,7 @@
       "handler_has": 124,
       "handler_matched": 121,
       "handler_coverage_sum": 136.76474613512238,
-      "seconds": 6.2
+      "seconds": 2.8
     },
     {
       "game_id": "0021500071",
@@ -866,7 +866,7 @@
       "handler_has": 125,
       "handler_matched": 119,
       "handler_coverage_sum": 152.86745471170502,
-      "seconds": 8.2
+      "seconds": 3.4
     },
     {
       "game_id": "0021500072",
@@ -878,7 +878,7 @@
       "handler_has": 138,
       "handler_matched": 135,
       "handler_coverage_sum": 158.3440371937276,
-      "seconds": 7.7
+      "seconds": 3.2
     },
     {
       "game_id": "0021500073",
@@ -890,7 +890,7 @@
       "handler_has": 115,
       "handler_matched": 108,
       "handler_coverage_sum": 135.92213098557335,
-      "seconds": 5.6
+      "seconds": 2.9
     },
     {
       "game_id": "0021500074",
@@ -902,7 +902,7 @@
       "handler_has": 129,
       "handler_matched": 122,
       "handler_coverage_sum": 143.52013621233294,
-      "seconds": 5.8
+      "seconds": 3.4
     },
     {
       "game_id": "0021500075",
@@ -914,7 +914,7 @@
       "handler_has": 101,
       "handler_matched": 98,
       "handler_coverage_sum": 117.15638645471945,
-      "seconds": 5.2
+      "seconds": 2.6
     },
     {
       "game_id": "0021500076",
@@ -926,7 +926,7 @@
       "handler_has": 131,
       "handler_matched": 127,
       "handler_coverage_sum": 152.153044138062,
-      "seconds": 6.7
+      "seconds": 3.4
     },
     {
       "game_id": "0021500077",
@@ -938,7 +938,7 @@
       "handler_has": 121,
       "handler_matched": 116,
       "handler_coverage_sum": 141.3035865591915,
-      "seconds": 6.8
+      "seconds": 3.5
     },
     {
       "game_id": "0021500078",
@@ -950,7 +950,7 @@
       "handler_has": 103,
       "handler_matched": 100,
       "handler_coverage_sum": 111.68645466565113,
-      "seconds": 4.9
+      "seconds": 2.6
     },
     {
       "game_id": "0021500079",
@@ -962,7 +962,7 @@
       "handler_has": 120,
       "handler_matched": 116,
       "handler_coverage_sum": 143.8229576279258,
-      "seconds": 6.4
+      "seconds": 3.4
     },
     {
       "game_id": "0021500080",
@@ -974,7 +974,7 @@
       "handler_has": 106,
       "handler_matched": 105,
       "handler_coverage_sum": 126.0475485605874,
-      "seconds": 5.4
+      "seconds": 2.9
     },
     {
       "game_id": "0021500081",
@@ -986,7 +986,7 @@
       "handler_has": 122,
       "handler_matched": 120,
       "handler_coverage_sum": 141.44272926844192,
-      "seconds": 6.3
+      "seconds": 3.4
     },
     {
       "game_id": "0021500082",
@@ -998,7 +998,7 @@
       "handler_has": 111,
       "handler_matched": 108,
       "handler_coverage_sum": 133.78382281916157,
-      "seconds": 6.0
+      "seconds": 3.7
     },
     {
       "game_id": "0021500083",
@@ -1010,7 +1010,7 @@
       "handler_has": 147,
       "handler_matched": 134,
       "handler_coverage_sum": 160.2936393209152,
-      "seconds": 7.6
+      "seconds": 5.0
     },
     {
       "game_id": "0021500084",
@@ -1022,7 +1022,7 @@
       "handler_has": 131,
       "handler_matched": 126,
       "handler_coverage_sum": 151.21370829344028,
-      "seconds": 6.3
+      "seconds": 3.4
     },
     {
       "game_id": "0021500085",
@@ -1034,7 +1034,7 @@
       "handler_has": 137,
       "handler_matched": 131,
       "handler_coverage_sum": 156.76767264195863,
-      "seconds": 6.7
+      "seconds": 5.0
     },
     {
       "game_id": "0021500086",
@@ -1046,7 +1046,7 @@
       "handler_has": 120,
       "handler_matched": 111,
       "handler_coverage_sum": 135.83828093389394,
-      "seconds": 5.3
+      "seconds": 3.4
     },
     {
       "game_id": "0021500087",
@@ -1058,7 +1058,7 @@
       "handler_has": 120,
       "handler_matched": 116,
       "handler_coverage_sum": 127.94946750480673,
-      "seconds": 5.1
+      "seconds": 3.6
     },
     {
       "game_id": "0021500088",
@@ -1070,7 +1070,7 @@
       "handler_has": 128,
       "handler_matched": 123,
       "handler_coverage_sum": 145.64361878286752,
-      "seconds": 5.7
+      "seconds": 3.4
     },
     {
       "game_id": "0021500089",
@@ -1082,7 +1082,7 @@
       "handler_has": 103,
       "handler_matched": 98,
       "handler_coverage_sum": 114.58438666175505,
-      "seconds": 4.6
+      "seconds": 2.3
     },
     {
       "game_id": "0021500090",
@@ -1094,7 +1094,7 @@
       "handler_has": 95,
       "handler_matched": 93,
       "handler_coverage_sum": 111.82239608887984,
-      "seconds": 4.5
+      "seconds": 2.4
     },
     {
       "game_id": "0021500091",
@@ -1106,7 +1106,7 @@
       "handler_has": 116,
       "handler_matched": 107,
       "handler_coverage_sum": 141.71535275286223,
-      "seconds": 5.9
+      "seconds": 3.1
     },
     {
       "game_id": "0021500092",
@@ -1118,7 +1118,7 @@
       "handler_has": 126,
       "handler_matched": 119,
       "handler_coverage_sum": 138.2221069800473,
-      "seconds": 5.8
+      "seconds": 3.3
     },
     {
       "game_id": "0021500093",
@@ -1130,7 +1130,7 @@
       "handler_has": 130,
       "handler_matched": 125,
       "handler_coverage_sum": 145.04298436904003,
-      "seconds": 5.7
+      "seconds": 2.9
     },
     {
       "game_id": "0021500094",
@@ -1142,7 +1142,7 @@
       "handler_has": 136,
       "handler_matched": 132,
       "handler_coverage_sum": 145.0324165482217,
-      "seconds": 5.6
+      "seconds": 2.8
     },
     {
       "game_id": "0021500095",
@@ -1154,7 +1154,7 @@
       "handler_has": 140,
       "handler_matched": 138,
       "handler_coverage_sum": 143.47569151847296,
-      "seconds": 5.7
+      "seconds": 3.4
     },
     {
       "game_id": "0021500096",
@@ -1166,7 +1166,7 @@
       "handler_has": 118,
       "handler_matched": 114,
       "handler_coverage_sum": 139.1881255016887,
-      "seconds": 5.7
+      "seconds": 3.3
     },
     {
       "game_id": "0021500097",
@@ -1178,7 +1178,7 @@
       "handler_has": 143,
       "handler_matched": 137,
       "handler_coverage_sum": 170.3043170269977,
-      "seconds": 6.4
+      "seconds": 4.0
     },
     {
       "game_id": "0021500098",
@@ -1190,7 +1190,7 @@
       "handler_has": 131,
       "handler_matched": 122,
       "handler_coverage_sum": 153.93729655029637,
-      "seconds": 6.2
+      "seconds": 3.2
     },
     {
       "game_id": "0021500099",
@@ -1202,7 +1202,7 @@
       "handler_has": 128,
       "handler_matched": 126,
       "handler_coverage_sum": 154.3704099523531,
-      "seconds": 5.9
+      "seconds": 3.4
     },
     {
       "game_id": "0021500101",
@@ -1214,7 +1214,7 @@
       "handler_has": 135,
       "handler_matched": 130,
       "handler_coverage_sum": 159.21411812386535,
-      "seconds": 6.0
+      "seconds": 4.2
     },
     {
       "game_id": "0021500102",
@@ -1226,7 +1226,7 @@
       "handler_has": 138,
       "handler_matched": 131,
       "handler_coverage_sum": 157.8160045758736,
-      "seconds": 6.2
+      "seconds": 4.2
     },
     {
       "game_id": "0021500103",
@@ -1238,7 +1238,7 @@
       "handler_has": 139,
       "handler_matched": 135,
       "handler_coverage_sum": 145.07105925662353,
-      "seconds": 6.1
+      "seconds": 3.6
     },
     {
       "game_id": "0021500104",
@@ -1250,7 +1250,7 @@
       "handler_has": 141,
       "handler_matched": 136,
       "handler_coverage_sum": 151.28322775733142,
-      "seconds": 6.6
+      "seconds": 3.7
     },
     {
       "game_id": "0021500105",
@@ -1262,7 +1262,7 @@
       "handler_has": 117,
       "handler_matched": 107,
       "handler_coverage_sum": 137.95183668466294,
-      "seconds": 6.0
+      "seconds": 3.3
     },
     {
       "game_id": "0021500106",
@@ -1274,7 +1274,7 @@
       "handler_has": 103,
       "handler_matched": 101,
       "handler_coverage_sum": 136.87985979121396,
-      "seconds": 5.3
+      "seconds": 2.7
     },
     {
       "game_id": "0021500107",
@@ -1286,7 +1286,7 @@
       "handler_has": 121,
       "handler_matched": 119,
       "handler_coverage_sum": 131.65819278455461,
-      "seconds": 5.1
+      "seconds": 3.0
     },
     {
       "game_id": "0021500108",
@@ -1298,7 +1298,7 @@
       "handler_has": 132,
       "handler_matched": 125,
       "handler_coverage_sum": 138.68211004110088,
-      "seconds": 5.5
+      "seconds": 3.5
     },
     {
       "game_id": "0021500109",
@@ -1310,7 +1310,7 @@
       "handler_has": 139,
       "handler_matched": 133,
       "handler_coverage_sum": 159.39247233663826,
-      "seconds": 5.7
+      "seconds": 3.0
     },
     {
       "game_id": "0021500110",
@@ -1322,7 +1322,7 @@
       "handler_has": 119,
       "handler_matched": 116,
       "handler_coverage_sum": 137.77256441445698,
-      "seconds": 5.0
+      "seconds": 2.4
     },
     {
       "game_id": "0021500111",
@@ -1334,7 +1334,7 @@
       "handler_has": 135,
       "handler_matched": 134,
       "handler_coverage_sum": 165.26849648749274,
-      "seconds": 5.5
+      "seconds": 2.8
     },
     {
       "game_id": "0021500112",
@@ -1346,7 +1346,7 @@
       "handler_has": 139,
       "handler_matched": 137,
       "handler_coverage_sum": 159.71613873925463,
-      "seconds": 3.6
+      "seconds": 3.5
     },
     {
       "game_id": "0021500113",
@@ -1358,7 +1358,7 @@
       "handler_has": 134,
       "handler_matched": 130,
       "handler_coverage_sum": 149.48484874946465,
-      "seconds": 3.3
+      "seconds": 3.2
     },
     {
       "game_id": "0021500114",
@@ -1370,7 +1370,7 @@
       "handler_has": 131,
       "handler_matched": 127,
       "handler_coverage_sum": 138.92414529703544,
-      "seconds": 2.8
+      "seconds": 2.9
     },
     {
       "game_id": "0021500115",
@@ -1382,7 +1382,7 @@
       "handler_has": 131,
       "handler_matched": 126,
       "handler_coverage_sum": 148.55749581469857,
-      "seconds": 3.2
+      "seconds": 3.1
     },
     {
       "game_id": "0021500116",
@@ -1394,7 +1394,7 @@
       "handler_has": 127,
       "handler_matched": 122,
       "handler_coverage_sum": 161.7026163686317,
-      "seconds": 3.6
+      "seconds": 3.8
     },
     {
       "game_id": "0021500117",
@@ -1406,7 +1406,7 @@
       "handler_has": 129,
       "handler_matched": 126,
       "handler_coverage_sum": 149.04248654510354,
-      "seconds": 3.4
+      "seconds": 3.3
     },
     {
       "game_id": "0021500118",
@@ -1442,7 +1442,7 @@
       "handler_has": 109,
       "handler_matched": 104,
       "handler_coverage_sum": 143.0237812484878,
-      "seconds": 3.2
+      "seconds": 3.0
     },
     {
       "game_id": "0021500121",
@@ -1454,7 +1454,7 @@
       "handler_has": 115,
       "handler_matched": 114,
       "handler_coverage_sum": 135.1698256580128,
-      "seconds": 3.3
+      "seconds": 3.9
     },
     {
       "game_id": "0021500122",
@@ -1466,7 +1466,7 @@
       "handler_has": 125,
       "handler_matched": 116,
       "handler_coverage_sum": 141.05553822474246,
-      "seconds": 3.3
+      "seconds": 4.0
     },
     {
       "game_id": "0021500123",
@@ -1478,7 +1478,7 @@
       "handler_has": 138,
       "handler_matched": 130,
       "handler_coverage_sum": 144.5492811947955,
-      "seconds": 3.1
+      "seconds": 3.9
     },
     {
       "game_id": "0021500124",
@@ -1490,7 +1490,7 @@
       "handler_has": 122,
       "handler_matched": 117,
       "handler_coverage_sum": 143.20974635743045,
-      "seconds": 4.1
+      "seconds": 3.7
     },
     {
       "game_id": "0021500125",
@@ -1502,7 +1502,7 @@
       "handler_has": 132,
       "handler_matched": 128,
       "handler_coverage_sum": 149.09519320383475,
-      "seconds": 4.2
+      "seconds": 3.7
     },
     {
       "game_id": "0021500126",
@@ -1514,7 +1514,7 @@
       "handler_has": 130,
       "handler_matched": 123,
       "handler_coverage_sum": 144.80130055855903,
-      "seconds": 3.9
+      "seconds": 3.8
     },
     {
       "game_id": "0021500127",
@@ -1526,7 +1526,7 @@
       "handler_has": 136,
       "handler_matched": 132,
       "handler_coverage_sum": 143.80176965657319,
-      "seconds": 3.8
+      "seconds": 3.9
     },
     {
       "game_id": "0021500128",
@@ -1550,7 +1550,7 @@
       "handler_has": 135,
       "handler_matched": 130,
       "handler_coverage_sum": 147.10450591142128,
-      "seconds": 4.2
+      "seconds": 3.7
     },
     {
       "game_id": "0021500130",
@@ -1562,7 +1562,7 @@
       "handler_has": 121,
       "handler_matched": 114,
       "handler_coverage_sum": 142.99359239501194,
-      "seconds": 4.0
+      "seconds": 3.8
     },
     {
       "game_id": "0021500131",
@@ -1574,7 +1574,7 @@
       "handler_has": 119,
       "handler_matched": 112,
       "handler_coverage_sum": 145.68663835176653,
-      "seconds": 3.8
+      "seconds": 3.9
     },
     {
       "game_id": "0021500132",
@@ -1586,7 +1586,7 @@
       "handler_has": 136,
       "handler_matched": 133,
       "handler_coverage_sum": 151.52776056312499,
-      "seconds": 3.9
+      "seconds": 3.6
     },
     {
       "game_id": "0021500133",
@@ -1598,7 +1598,7 @@
       "handler_has": 117,
       "handler_matched": 116,
       "handler_coverage_sum": 151.08980480458592,
-      "seconds": 3.8
+      "seconds": 3.7
     },
     {
       "game_id": "0021500134",
@@ -1610,7 +1610,7 @@
       "handler_has": 148,
       "handler_matched": 145,
       "handler_coverage_sum": 161.51027164079264,
-      "seconds": 4.1
+      "seconds": 3.9
     },
     {
       "game_id": "0021500135",
@@ -1622,7 +1622,7 @@
       "handler_has": 121,
       "handler_matched": 118,
       "handler_coverage_sum": 142.67919303870437,
-      "seconds": 3.9
+      "seconds": 3.8
     },
     {
       "game_id": "0021500136",
@@ -1646,7 +1646,7 @@
       "handler_has": 143,
       "handler_matched": 140,
       "handler_coverage_sum": 146.6712626023532,
-      "seconds": 3.9
+      "seconds": 3.7
     },
     {
       "game_id": "0021500138",
@@ -1658,7 +1658,7 @@
       "handler_has": 120,
       "handler_matched": 114,
       "handler_coverage_sum": 147.9605270150482,
-      "seconds": 3.9
+      "seconds": 3.7
     },
     {
       "game_id": "0021500139",
@@ -1670,7 +1670,7 @@
       "handler_has": 120,
       "handler_matched": 113,
       "handler_coverage_sum": 135.60452868984103,
-      "seconds": 3.4
+      "seconds": 3.2
     },
     {
       "game_id": "0021500140",
@@ -1682,7 +1682,7 @@
       "handler_has": 131,
       "handler_matched": 124,
       "handler_coverage_sum": 146.70713748285493,
-      "seconds": 3.1
+      "seconds": 3.5
     },
     {
       "game_id": "0021500141",
@@ -1694,7 +1694,7 @@
       "handler_has": 117,
       "handler_matched": 111,
       "handler_coverage_sum": 138.13895933035496,
-      "seconds": 2.7
+      "seconds": 3.5
     },
     {
       "game_id": "0021500142",
@@ -1706,7 +1706,7 @@
       "handler_has": 137,
       "handler_matched": 135,
       "handler_coverage_sum": 151.2893059404544,
-      "seconds": 2.7
+      "seconds": 3.8
     },
     {
       "game_id": "0021500143",
@@ -1718,7 +1718,7 @@
       "handler_has": 134,
       "handler_matched": 129,
       "handler_coverage_sum": 143.4064016594043,
-      "seconds": 3.0
+      "seconds": 3.9
     },
     {
       "game_id": "0021500144",
@@ -1730,7 +1730,7 @@
       "handler_has": 147,
       "handler_matched": 142,
       "handler_coverage_sum": 158.67062073568536,
-      "seconds": 4.1
+      "seconds": 4.2
     },
     {
       "game_id": "0021500145",
@@ -1742,7 +1742,7 @@
       "handler_has": 122,
       "handler_matched": 119,
       "handler_coverage_sum": 146.3189044806873,
-      "seconds": 3.0
+      "seconds": 3.8
     },
     {
       "game_id": "0021500146",
@@ -1754,7 +1754,7 @@
       "handler_has": 120,
       "handler_matched": 116,
       "handler_coverage_sum": 140.99946295689273,
-      "seconds": 3.1
+      "seconds": 3.6
     },
     {
       "game_id": "0021500147",
@@ -1766,7 +1766,7 @@
       "handler_has": 137,
       "handler_matched": 132,
       "handler_coverage_sum": 155.80867835170983,
-      "seconds": 3.3
+      "seconds": 3.9
     },
     {
       "game_id": "0021500148",
@@ -1778,7 +1778,7 @@
       "handler_has": 103,
       "handler_matched": 101,
       "handler_coverage_sum": 119.96188968546608,
-      "seconds": 2.4
+      "seconds": 2.7
     },
     {
       "game_id": "0021500149",
@@ -1790,7 +1790,7 @@
       "handler_has": 125,
       "handler_matched": 124,
       "handler_coverage_sum": 154.43016356367153,
-      "seconds": 3.2
+      "seconds": 3.6
     },
     {
       "game_id": "0021500150",
@@ -1802,7 +1802,7 @@
       "handler_has": 125,
       "handler_matched": 118,
       "handler_coverage_sum": 147.51648807341405,
-      "seconds": 3.3
+      "seconds": 3.5
     },
     {
       "game_id": "0021500151",
@@ -1826,7 +1826,7 @@
       "handler_has": 118,
       "handler_matched": 115,
       "handler_coverage_sum": 146.131112842126,
-      "seconds": 3.5
+      "seconds": 3.6
     },
     {
       "game_id": "0021500153",
@@ -1838,7 +1838,7 @@
       "handler_has": 136,
       "handler_matched": 128,
       "handler_coverage_sum": 144.294150180183,
-      "seconds": 3.3
+      "seconds": 3.2
     },
     {
       "game_id": "0021500154",
@@ -1850,7 +1850,7 @@
       "handler_has": 129,
       "handler_matched": 124,
       "handler_coverage_sum": 146.13722077921187,
-      "seconds": 3.6
+      "seconds": 3.4
     },
     {
       "game_id": "0021500155",
@@ -1862,7 +1862,7 @@
       "handler_has": 120,
       "handler_matched": 114,
       "handler_coverage_sum": 151.12691081284703,
-      "seconds": 3.4
+      "seconds": 3.3
     },
     {
       "game_id": "0021500156",
@@ -1886,7 +1886,7 @@
       "handler_has": 124,
       "handler_matched": 123,
       "handler_coverage_sum": 138.8838233222467,
-      "seconds": 3.2
+      "seconds": 3.1
     },
     {
       "game_id": "0021500158",
@@ -1934,7 +1934,7 @@
       "handler_has": 134,
       "handler_matched": 128,
       "handler_coverage_sum": 151.67428688024535,
-      "seconds": 3.6
+      "seconds": 3.3
     },
     {
       "game_id": "0021500162",
@@ -1946,7 +1946,7 @@
       "handler_has": 138,
       "handler_matched": 135,
       "handler_coverage_sum": 147.14851541805504,
-      "seconds": 3.4
+      "seconds": 3.3
     },
     {
       "game_id": "0021500163",
@@ -1970,7 +1970,7 @@
       "handler_has": 124,
       "handler_matched": 112,
       "handler_coverage_sum": 150.54070768476788,
-      "seconds": 3.7
+      "seconds": 3.8
     },
     {
       "game_id": "0021500165",
@@ -1982,7 +1982,7 @@
       "handler_has": 145,
       "handler_matched": 143,
       "handler_coverage_sum": 160.8293324870403,
-      "seconds": 3.8
+      "seconds": 3.7
     },
     {
       "game_id": "0021500166",
@@ -1994,7 +1994,7 @@
       "handler_has": 122,
       "handler_matched": 116,
       "handler_coverage_sum": 138.03518928817476,
-      "seconds": 3.6
+      "seconds": 3.1
     },
     {
       "game_id": "0021500167",
@@ -2006,7 +2006,7 @@
       "handler_has": 121,
       "handler_matched": 120,
       "handler_coverage_sum": 141.0290055827503,
-      "seconds": 3.6
+      "seconds": 3.2
     },
     {
       "game_id": "0021500168",
@@ -2018,7 +2018,7 @@
       "handler_has": 122,
       "handler_matched": 120,
       "handler_coverage_sum": 148.20995340266245,
-      "seconds": 3.6
+      "seconds": 3.2
     },
     {
       "game_id": "0021500169",
@@ -2030,7 +2030,7 @@
       "handler_has": 132,
       "handler_matched": 128,
       "handler_coverage_sum": 144.42625576080493,
-      "seconds": 3.6
+      "seconds": 3.4
     },
     {
       "game_id": "0021500170",
@@ -2042,7 +2042,7 @@
       "handler_has": 129,
       "handler_matched": 123,
       "handler_coverage_sum": 148.01539502047524,
-      "seconds": 3.6
+      "seconds": 3.5
     },
     {
       "game_id": "0021500171",
@@ -2054,7 +2054,7 @@
       "handler_has": 135,
       "handler_matched": 132,
       "handler_coverage_sum": 157.16544681190663,
-      "seconds": 3.7
+      "seconds": 3.3
     },
     {
       "game_id": "0021500172",
@@ -2066,7 +2066,7 @@
       "handler_has": 133,
       "handler_matched": 128,
       "handler_coverage_sum": 139.8967791718772,
-      "seconds": 3.4
+      "seconds": 3.2
     },
     {
       "game_id": "0021500173",
@@ -2078,7 +2078,7 @@
       "handler_has": 118,
       "handler_matched": 113,
       "handler_coverage_sum": 136.26759618298018,
-      "seconds": 3.3
+      "seconds": 3.0
     },
     {
       "game_id": "0021500174",
@@ -2090,7 +2090,7 @@
       "handler_has": 123,
       "handler_matched": 112,
       "handler_coverage_sum": 136.99984952445294,
-      "seconds": 3.4
+      "seconds": 3.1
     },
     {
       "game_id": "0021500175",
@@ -2126,7 +2126,7 @@
       "handler_has": 130,
       "handler_matched": 120,
       "handler_coverage_sum": 139.2775646833826,
-      "seconds": 3.6
+      "seconds": 3.3
     },
     {
       "game_id": "0021500178",
@@ -2138,7 +2138,7 @@
       "handler_has": 138,
       "handler_matched": 134,
       "handler_coverage_sum": 153.9685788534938,
-      "seconds": 3.6
+      "seconds": 3.4
     },
     {
       "game_id": "0021500179",
@@ -2150,7 +2150,7 @@
       "handler_has": 142,
       "handler_matched": 140,
       "handler_coverage_sum": 156.70145601501292,
-      "seconds": 3.7
+      "seconds": 3.6
     },
     {
       "game_id": "0021500180",
@@ -2162,7 +2162,7 @@
       "handler_has": 118,
       "handler_matched": 114,
       "handler_coverage_sum": 148.8168539443905,
-      "seconds": 3.5
+      "seconds": 3.3
     },
     {
       "game_id": "0021500181",
@@ -2198,7 +2198,7 @@
       "handler_has": 118,
       "handler_matched": 116,
       "handler_coverage_sum": 140.89227791421837,
-      "seconds": 3.4
+      "seconds": 3.1
     },
     {
       "game_id": "0021500184",
@@ -2210,7 +2210,7 @@
       "handler_has": 93,
       "handler_matched": 90,
       "handler_coverage_sum": 109.2959087642822,
-      "seconds": 3.0
+      "seconds": 2.5
     },
     {
       "game_id": "0021500185",
@@ -2222,7 +2222,7 @@
       "handler_has": 120,
       "handler_matched": 117,
       "handler_coverage_sum": 139.19496312531066,
-      "seconds": 3.8
+      "seconds": 3.3
     },
     {
       "game_id": "0021500186",
@@ -2234,7 +2234,7 @@
       "handler_has": 116,
       "handler_matched": 110,
       "handler_coverage_sum": 138.6135325683604,
-      "seconds": 3.7
+      "seconds": 3.2
     },
     {
       "game_id": "0021500187",
@@ -2246,7 +2246,7 @@
       "handler_has": 134,
       "handler_matched": 123,
       "handler_coverage_sum": 141.87595947374177,
-      "seconds": 3.9
+      "seconds": 3.5
     },
     {
       "game_id": "0021500188",
@@ -2258,7 +2258,7 @@
       "handler_has": 114,
       "handler_matched": 110,
       "handler_coverage_sum": 135.6871486901582,
-      "seconds": 3.3
+      "seconds": 3.6
     },
     {
       "game_id": "0021500189",
@@ -2270,7 +2270,7 @@
       "handler_has": 131,
       "handler_matched": 126,
       "handler_coverage_sum": 155.21871665863378,
-      "seconds": 3.5
+      "seconds": 4.0
     },
     {
       "game_id": "0021500190",
@@ -2282,7 +2282,7 @@
       "handler_has": 127,
       "handler_matched": 120,
       "handler_coverage_sum": 139.82870045793402,
-      "seconds": 3.3
+      "seconds": 3.6
     },
     {
       "game_id": "0021500191",
@@ -2294,7 +2294,7 @@
       "handler_has": 100,
       "handler_matched": 96,
       "handler_coverage_sum": 113.71352649039198,
-      "seconds": 2.6
+      "seconds": 3.2
     },
     {
       "game_id": "0021500192",
@@ -2306,7 +2306,7 @@
       "handler_has": 111,
       "handler_matched": 104,
       "handler_coverage_sum": 132.02878513282917,
-      "seconds": 3.3
+      "seconds": 3.4
     },
     {
       "game_id": "0021500193",
@@ -2318,7 +2318,7 @@
       "handler_has": 114,
       "handler_matched": 107,
       "handler_coverage_sum": 136.83678969555876,
-      "seconds": 3.2
+      "seconds": 3.5
     },
     {
       "game_id": "0021500194",
@@ -2330,7 +2330,7 @@
       "handler_has": 91,
       "handler_matched": 88,
       "handler_coverage_sum": 109.68545864313828,
-      "seconds": 2.5
+      "seconds": 2.8
     },
     {
       "game_id": "0021500195",
@@ -2342,7 +2342,7 @@
       "handler_has": 106,
       "handler_matched": 103,
       "handler_coverage_sum": 128.9030020692204,
-      "seconds": 3.1
+      "seconds": 2.9
     },
     {
       "game_id": "0021500196",
@@ -2354,7 +2354,7 @@
       "handler_has": 111,
       "handler_matched": 104,
       "handler_coverage_sum": 142.4149937631824,
-      "seconds": 3.4
+      "seconds": 3.3
     },
     {
       "game_id": "0021500197",
@@ -2378,7 +2378,7 @@
       "handler_has": 150,
       "handler_matched": 143,
       "handler_coverage_sum": 170.18546571932973,
-      "seconds": 4.0
+      "seconds": 4.5
     },
     {
       "game_id": "0021500199",
@@ -2390,7 +2390,7 @@
       "handler_has": 134,
       "handler_matched": 126,
       "handler_coverage_sum": 162.10227156602207,
-      "seconds": 3.9
+      "seconds": 3.8
     },
     {
       "game_id": "0021500200",
@@ -2414,7 +2414,7 @@
       "handler_has": 115,
       "handler_matched": 94,
       "handler_coverage_sum": 127.92226092186357,
-      "seconds": 3.2
+      "seconds": 2.9
     },
     {
       "game_id": "0021500202",
@@ -2426,7 +2426,7 @@
       "handler_has": 162,
       "handler_matched": 159,
       "handler_coverage_sum": 172.28659258992477,
-      "seconds": 4.2
+      "seconds": 3.9
     },
     {
       "game_id": "0021500203",
@@ -2438,7 +2438,7 @@
       "handler_has": 129,
       "handler_matched": 125,
       "handler_coverage_sum": 144.755917358785,
-      "seconds": 3.4
+      "seconds": 3.2
     },
     {
       "game_id": "0021500204",
@@ -2450,7 +2450,7 @@
       "handler_has": 134,
       "handler_matched": 126,
       "handler_coverage_sum": 148.5554399388472,
-      "seconds": 3.7
+      "seconds": 3.4
     },
     {
       "game_id": "0021500205",
@@ -2462,7 +2462,7 @@
       "handler_has": 97,
       "handler_matched": 90,
       "handler_coverage_sum": 119.60183990684804,
-      "seconds": 2.9
+      "seconds": 3.0
     },
     {
       "game_id": "0021500206",
@@ -2474,7 +2474,7 @@
       "handler_has": 129,
       "handler_matched": 124,
       "handler_coverage_sum": 155.11688251345777,
-      "seconds": 3.8
+      "seconds": 3.9
     },
     {
       "game_id": "0021500207",
@@ -2486,7 +2486,7 @@
       "handler_has": 104,
       "handler_matched": 99,
       "handler_coverage_sum": 128.370075937484,
-      "seconds": 3.0
+      "seconds": 3.5
     },
     {
       "game_id": "0021500208",
@@ -2498,7 +2498,7 @@
       "handler_has": 116,
       "handler_matched": 112,
       "handler_coverage_sum": 145.123692162977,
-      "seconds": 3.3
+      "seconds": 3.8
     },
     {
       "game_id": "0021500209",
@@ -2510,7 +2510,7 @@
       "handler_has": 133,
       "handler_matched": 131,
       "handler_coverage_sum": 157.98453721080736,
-      "seconds": 3.5
+      "seconds": 4.2
     },
     {
       "game_id": "0021500210",
@@ -2522,7 +2522,7 @@
       "handler_has": 120,
       "handler_matched": 117,
       "handler_coverage_sum": 147.81561291271237,
-      "seconds": 2.8
+      "seconds": 3.7
     },
     {
       "game_id": "0021500211",
@@ -2534,7 +2534,7 @@
       "handler_has": 140,
       "handler_matched": 138,
       "handler_coverage_sum": 160.6910155486578,
-      "seconds": 3.4
+      "seconds": 3.8
     },
     {
       "game_id": "0021500212",
@@ -2546,7 +2546,7 @@
       "handler_has": 128,
       "handler_matched": 123,
       "handler_coverage_sum": 148.01308956103017,
-      "seconds": 3.3
+      "seconds": 3.5
     },
     {
       "game_id": "0021500213",
@@ -2558,7 +2558,7 @@
       "handler_has": 139,
       "handler_matched": 135,
       "handler_coverage_sum": 150.1306000420567,
-      "seconds": 3.0
+      "seconds": 3.5
     },
     {
       "game_id": "0021500214",
@@ -2570,7 +2570,7 @@
       "handler_has": 140,
       "handler_matched": 131,
       "handler_coverage_sum": 144.60248782906288,
-      "seconds": 3.3
+      "seconds": 3.6
     },
     {
       "game_id": "0021500215",
@@ -2582,7 +2582,7 @@
       "handler_has": 138,
       "handler_matched": 137,
       "handler_coverage_sum": 157.12058054078753,
-      "seconds": 3.3
+      "seconds": 3.7
     },
     {
       "game_id": "0021500216",
@@ -2594,7 +2594,7 @@
       "handler_has": 126,
       "handler_matched": 124,
       "handler_coverage_sum": 143.72893508688207,
-      "seconds": 3.2
+      "seconds": 3.4
     },
     {
       "game_id": "0021500217",
@@ -2618,7 +2618,7 @@
       "handler_has": 123,
       "handler_matched": 120,
       "handler_coverage_sum": 134.63833053617896,
-      "seconds": 3.0
+      "seconds": 3.1
     },
     {
       "game_id": "0021500219",
@@ -2630,7 +2630,7 @@
       "handler_has": 122,
       "handler_matched": 119,
       "handler_coverage_sum": 133.31045684712717,
-      "seconds": 2.7
+      "seconds": 3.1
     },
     {
       "game_id": "0021500220",
@@ -2642,7 +2642,7 @@
       "handler_has": 120,
       "handler_matched": 116,
       "handler_coverage_sum": 144.12564275314128,
-      "seconds": 3.0
+      "seconds": 3.5
     },
     {
       "game_id": "0021500221",
@@ -2654,7 +2654,7 @@
       "handler_has": 104,
       "handler_matched": 97,
       "handler_coverage_sum": 115.19627723761985,
-      "seconds": 2.7
+      "seconds": 2.6
     },
     {
       "game_id": "0021500222",
@@ -2678,7 +2678,7 @@
       "handler_has": 149,
       "handler_matched": 146,
       "handler_coverage_sum": 168.4979213702966,
-      "seconds": 3.5
+      "seconds": 4.6
     },
     {
       "game_id": "0021500224",
@@ -2690,7 +2690,7 @@
       "handler_has": 128,
       "handler_matched": 126,
       "handler_coverage_sum": 140.61325059066272,
-      "seconds": 2.8
+      "seconds": 3.2
     },
     {
       "game_id": "0021500225",
@@ -2702,7 +2702,7 @@
       "handler_has": 129,
       "handler_matched": 124,
       "handler_coverage_sum": 149.43539221980248,
-      "seconds": 3.0
+      "seconds": 4.0
     },
     {
       "game_id": "0021500226",
@@ -2714,7 +2714,7 @@
       "handler_has": 109,
       "handler_matched": 102,
       "handler_coverage_sum": 138.83159852667293,
-      "seconds": 2.9
+      "seconds": 3.7
     },
     {
       "game_id": "0021500227",
@@ -2726,7 +2726,7 @@
       "handler_has": 124,
       "handler_matched": 121,
       "handler_coverage_sum": 148.88698527954273,
-      "seconds": 3.0
+      "seconds": 3.6
     },
     {
       "game_id": "0021500228",
@@ -2738,7 +2738,7 @@
       "handler_has": 117,
       "handler_matched": 114,
       "handler_coverage_sum": 141.53360941071313,
-      "seconds": 2.8
+      "seconds": 3.6
     },
     {
       "game_id": "0021500229",
@@ -2750,7 +2750,7 @@
       "handler_has": 139,
       "handler_matched": 133,
       "handler_coverage_sum": 157.3157436721004,
-      "seconds": 3.1
+      "seconds": 4.1
     },
     {
       "game_id": "0021500230",
@@ -2762,7 +2762,7 @@
       "handler_has": 135,
       "handler_matched": 130,
       "handler_coverage_sum": 143.60866346653626,
-      "seconds": 3.1
+      "seconds": 3.9
     },
     {
       "game_id": "0021500231",
@@ -2774,7 +2774,7 @@
       "handler_has": 140,
       "handler_matched": 137,
       "handler_coverage_sum": 152.97947903294764,
-      "seconds": 3.3
+      "seconds": 3.7
     },
     {
       "game_id": "0021500232",
@@ -2786,7 +2786,7 @@
       "handler_has": 121,
       "handler_matched": 114,
       "handler_coverage_sum": 136.0130121573435,
-      "seconds": 2.7
+      "seconds": 3.3
     },
     {
       "game_id": "0021500233",
@@ -2798,7 +2798,7 @@
       "handler_has": 122,
       "handler_matched": 120,
       "handler_coverage_sum": 155.11285984215448,
-      "seconds": 3.1
+      "seconds": 3.3
     },
     {
       "game_id": "0021500234",
@@ -2810,7 +2810,7 @@
       "handler_has": 135,
       "handler_matched": 134,
       "handler_coverage_sum": 161.88551032901177,
-      "seconds": 3.1
+      "seconds": 3.4
     },
     {
       "game_id": "0021500235",
@@ -2822,7 +2822,7 @@
       "handler_has": 117,
       "handler_matched": 114,
       "handler_coverage_sum": 139.80068422537843,
-      "seconds": 2.6
+      "seconds": 3.3
     },
     {
       "game_id": "0021500236",
@@ -2834,7 +2834,7 @@
       "handler_has": 133,
       "handler_matched": 130,
       "handler_coverage_sum": 158.80506654843558,
-      "seconds": 3.2
+      "seconds": 3.6
     },
     {
       "game_id": "0021500237",
@@ -2846,7 +2846,7 @@
       "handler_has": 125,
       "handler_matched": 113,
       "handler_coverage_sum": 144.33274555435577,
-      "seconds": 2.8
+      "seconds": 3.2
     },
     {
       "game_id": "0021500239",
@@ -2858,7 +2858,7 @@
       "handler_has": 124,
       "handler_matched": 119,
       "handler_coverage_sum": 148.49071314496885,
-      "seconds": 3.1
+      "seconds": 3.6
     },
     {
       "game_id": "0021500241",
@@ -2870,7 +2870,7 @@
       "handler_has": 107,
       "handler_matched": 106,
       "handler_coverage_sum": 134.82890159994247,
-      "seconds": 2.7
+      "seconds": 3.0
     },
     {
       "game_id": "0021500242",
@@ -2882,7 +2882,7 @@
       "handler_has": 103,
       "handler_matched": 103,
       "handler_coverage_sum": 110.24921468859516,
-      "seconds": 2.3
+      "seconds": 2.7
     },
     {
       "game_id": "0021500243",
@@ -2894,7 +2894,7 @@
       "handler_has": 115,
       "handler_matched": 111,
       "handler_coverage_sum": 148.33533142211735,
-      "seconds": 3.1
+      "seconds": 3.4
     },
     {
       "game_id": "0021500244",
@@ -2906,7 +2906,7 @@
       "handler_has": 125,
       "handler_matched": 122,
       "handler_coverage_sum": 139.44844158377998,
-      "seconds": 2.9
+      "seconds": 3.2
     },
     {
       "game_id": "0021500245",
@@ -2918,7 +2918,7 @@
       "handler_has": 134,
       "handler_matched": 127,
       "handler_coverage_sum": 142.33181985574447,
-      "seconds": 3.0
+      "seconds": 3.7
     },
     {
       "game_id": "0021500246",
@@ -2930,7 +2930,7 @@
       "handler_has": 103,
       "handler_matched": 97,
       "handler_coverage_sum": 132.54590698186064,
-      "seconds": 2.8
+      "seconds": 3.3
     },
     {
       "game_id": "0021500247",
@@ -2942,7 +2942,7 @@
       "handler_has": 123,
       "handler_matched": 118,
       "handler_coverage_sum": 151.72304044904428,
-      "seconds": 3.2
+      "seconds": 3.8
     },
     {
       "game_id": "0021500248",
@@ -2954,7 +2954,7 @@
       "handler_has": 141,
       "handler_matched": 137,
       "handler_coverage_sum": 148.684871997907,
-      "seconds": 3.0
+      "seconds": 3.5
     },
     {
       "game_id": "0021500249",
@@ -2966,7 +2966,7 @@
       "handler_has": 124,
       "handler_matched": 121,
       "handler_coverage_sum": 132.4397042850004,
-      "seconds": 2.9
+      "seconds": 3.4
     },
     {
       "game_id": "0021500250",
@@ -2978,7 +2978,7 @@
       "handler_has": 136,
       "handler_matched": 132,
       "handler_coverage_sum": 148.23539041944093,
-      "seconds": 3.2
+      "seconds": 3.6
     },
     {
       "game_id": "0021500251",
@@ -2990,7 +2990,7 @@
       "handler_has": 117,
       "handler_matched": 113,
       "handler_coverage_sum": 139.42588783920374,
-      "seconds": 3.1
+      "seconds": 3.7
     },
     {
       "game_id": "0021500252",
@@ -3002,7 +3002,7 @@
       "handler_has": 139,
       "handler_matched": 131,
       "handler_coverage_sum": 156.9296915881357,
-      "seconds": 3.2
+      "seconds": 3.7
     },
     {
       "game_id": "0021500253",
@@ -3026,7 +3026,7 @@
       "handler_has": 116,
       "handler_matched": 106,
       "handler_coverage_sum": 129.91616901052018,
-      "seconds": 2.8
+      "seconds": 3.0
     },
     {
       "game_id": "0021500255",
@@ -3038,7 +3038,7 @@
       "handler_has": 117,
       "handler_matched": 112,
       "handler_coverage_sum": 137.8336040583478,
-      "seconds": 2.9
+      "seconds": 3.3
     },
     {
       "game_id": "0021500256",
@@ -3050,7 +3050,7 @@
       "handler_has": 135,
       "handler_matched": 134,
       "handler_coverage_sum": 151.26944575981247,
-      "seconds": 3.5
+      "seconds": 3.4
     },
     {
       "game_id": "0021500257",
@@ -3062,7 +3062,7 @@
       "handler_has": 132,
       "handler_matched": 130,
       "handler_coverage_sum": 141.47146080206227,
-      "seconds": 3.2
+      "seconds": 3.3
     },
     {
       "game_id": "0021500258",
@@ -3074,7 +3074,7 @@
       "handler_has": 120,
       "handler_matched": 116,
       "handler_coverage_sum": 146.05279806127436,
-      "seconds": 3.1
+      "seconds": 3.8
     },
     {
       "game_id": "0021500259",
@@ -3086,7 +3086,7 @@
       "handler_has": 126,
       "handler_matched": 118,
       "handler_coverage_sum": 138.3563252936748,
-      "seconds": 2.8
+      "seconds": 3.1
     },
     {
       "game_id": "0021500260",
@@ -3098,7 +3098,7 @@
       "handler_has": 129,
       "handler_matched": 125,
       "handler_coverage_sum": 148.962042652728,
-      "seconds": 3.3
+      "seconds": 3.4
     },
     {
       "game_id": "0021500261",
@@ -3110,7 +3110,7 @@
       "handler_has": 126,
       "handler_matched": 119,
       "handler_coverage_sum": 153.46361412013073,
-      "seconds": 4.7
+      "seconds": 3.6
     },
     {
       "game_id": "0021500262",
@@ -3122,7 +3122,7 @@
       "handler_has": 110,
       "handler_matched": 109,
       "handler_coverage_sum": 124.37422900281882,
-      "seconds": 3.0
+      "seconds": 2.9
     },
     {
       "game_id": "0021500263",
@@ -3134,7 +3134,7 @@
       "handler_has": 118,
       "handler_matched": 114,
       "handler_coverage_sum": 136.4321306887872,
-      "seconds": 3.0
+      "seconds": 3.2
     },
     {
       "game_id": "0021500264",
@@ -3146,7 +3146,7 @@
       "handler_has": 134,
       "handler_matched": 130,
       "handler_coverage_sum": 147.1429039816099,
-      "seconds": 3.4
+      "seconds": 3.3
     },
     {
       "game_id": "0021500265",
@@ -3158,7 +3158,7 @@
       "handler_has": 117,
       "handler_matched": 113,
       "handler_coverage_sum": 134.486082631823,
-      "seconds": 3.0
+      "seconds": 3.2
     },
     {
       "game_id": "0021500266",
@@ -3170,7 +3170,7 @@
       "handler_has": 125,
       "handler_matched": 125,
       "handler_coverage_sum": 145.98737256538803,
-      "seconds": 3.3
+      "seconds": 3.8
     },
     {
       "game_id": "0021500267",
@@ -3182,7 +3182,7 @@
       "handler_has": 143,
       "handler_matched": 141,
       "handler_coverage_sum": 158.52576638737705,
-      "seconds": 3.6
+      "seconds": 4.0
     },
     {
       "game_id": "0021500268",
@@ -3194,7 +3194,7 @@
       "handler_has": 144,
       "handler_matched": 140,
       "handler_coverage_sum": 158.30579120841907,
-      "seconds": 3.5
+      "seconds": 4.1
     },
     {
       "game_id": "0021500269",
@@ -3206,7 +3206,7 @@
       "handler_has": 139,
       "handler_matched": 138,
       "handler_coverage_sum": 158.9758734061765,
-      "seconds": 3.5
+      "seconds": 4.1
     },
     {
       "game_id": "0021500270",
@@ -3218,7 +3218,7 @@
       "handler_has": 135,
       "handler_matched": 127,
       "handler_coverage_sum": 155.51262672063677,
-      "seconds": 3.6
+      "seconds": 4.2
     },
     {
       "game_id": "0021500271",
@@ -3230,7 +3230,7 @@
       "handler_has": 146,
       "handler_matched": 142,
       "handler_coverage_sum": 155.08194186556057,
-      "seconds": 5.0
+      "seconds": 4.0
     },
     {
       "game_id": "0021500272",
@@ -3242,7 +3242,7 @@
       "handler_has": 125,
       "handler_matched": 120,
       "handler_coverage_sum": 141.7358106362239,
-      "seconds": 5.2
+      "seconds": 3.3
     },
     {
       "game_id": "0021500273",
@@ -3254,7 +3254,7 @@
       "handler_has": 130,
       "handler_matched": 124,
       "handler_coverage_sum": 146.369354026939,
-      "seconds": 5.4
+      "seconds": 3.5
     },
     {
       "game_id": "0021500274",
@@ -3266,7 +3266,7 @@
       "handler_has": 108,
       "handler_matched": 102,
       "handler_coverage_sum": 127.91219715148205,
-      "seconds": 4.8
+      "seconds": 3.0
     },
     {
       "game_id": "0021500275",
@@ -3278,7 +3278,7 @@
       "handler_has": 117,
       "handler_matched": 112,
       "handler_coverage_sum": 129.5710409092601,
-      "seconds": 5.1
+      "seconds": 3.2
     },
     {
       "game_id": "0021500277",
@@ -3290,7 +3290,7 @@
       "handler_has": 130,
       "handler_matched": 125,
       "handler_coverage_sum": 142.06169281547324,
-      "seconds": 5.6
+      "seconds": 3.3
     },
     {
       "game_id": "0021500278",
@@ -3302,7 +3302,7 @@
       "handler_has": 137,
       "handler_matched": 130,
       "handler_coverage_sum": 146.40131934114874,
-      "seconds": 5.5
+      "seconds": 3.6
     },
     {
       "game_id": "0021500279",
@@ -3314,7 +3314,7 @@
       "handler_has": 129,
       "handler_matched": 125,
       "handler_coverage_sum": 153.1560600209525,
-      "seconds": 6.0
+      "seconds": 3.9
     },
     {
       "game_id": "0021500280",
@@ -3326,7 +3326,7 @@
       "handler_has": 119,
       "handler_matched": 116,
       "handler_coverage_sum": 144.48201358499358,
-      "seconds": 5.2
+      "seconds": 3.8
     },
     {
       "game_id": "0021500281",
@@ -3338,7 +3338,7 @@
       "handler_has": 127,
       "handler_matched": 123,
       "handler_coverage_sum": 145.59823544349314,
-      "seconds": 5.4
+      "seconds": 4.0
     },
     {
       "game_id": "0021500283",
@@ -3350,7 +3350,7 @@
       "handler_has": 146,
       "handler_matched": 140,
       "handler_coverage_sum": 152.95160616544436,
-      "seconds": 5.8
+      "seconds": 3.6
     },
     {
       "game_id": "0021500284",
@@ -3362,7 +3362,7 @@
       "handler_has": 131,
       "handler_matched": 127,
       "handler_coverage_sum": 154.14880173743512,
-      "seconds": 5.9
+      "seconds": 3.6
     },
     {
       "game_id": "0021500285",
@@ -3374,7 +3374,7 @@
       "handler_has": 128,
       "handler_matched": 122,
       "handler_coverage_sum": 138.2759901976451,
-      "seconds": 5.2
+      "seconds": 3.1
     },
     {
       "game_id": "0021500286",
@@ -3386,7 +3386,7 @@
       "handler_has": 119,
       "handler_matched": 111,
       "handler_coverage_sum": 133.9112754427188,
-      "seconds": 5.0
+      "seconds": 3.1
     },
     {
       "game_id": "0021500287",
@@ -3398,7 +3398,7 @@
       "handler_has": 92,
       "handler_matched": 88,
       "handler_coverage_sum": 111.33201972617942,
-      "seconds": 4.0
+      "seconds": 2.4
     },
     {
       "game_id": "0021500288",
@@ -3410,7 +3410,7 @@
       "handler_has": 115,
       "handler_matched": 113,
       "handler_coverage_sum": 139.0669298548017,
-      "seconds": 5.1
+      "seconds": 3.5
     },
     {
       "game_id": "0021500289",
@@ -3422,7 +3422,7 @@
       "handler_has": 125,
       "handler_matched": 117,
       "handler_coverage_sum": 152.82616456754658,
-      "seconds": 6.4
+      "seconds": 3.6
     },
     {
       "game_id": "0021500290",
@@ -3434,7 +3434,7 @@
       "handler_has": 124,
       "handler_matched": 117,
       "handler_coverage_sum": 143.59798203077014,
-      "seconds": 5.3
+      "seconds": 3.3
     },
     {
       "game_id": "0021500291",
@@ -3446,7 +3446,7 @@
       "handler_has": 124,
       "handler_matched": 122,
       "handler_coverage_sum": 136.55753302901252,
-      "seconds": 5.5
+      "seconds": 3.2
     },
     {
       "game_id": "0021500292",
@@ -3458,7 +3458,7 @@
       "handler_has": 133,
       "handler_matched": 124,
       "handler_coverage_sum": 142.1916183140619,
-      "seconds": 5.2
+      "seconds": 3.3
     },
     {
       "game_id": "0021500293",
@@ -3470,7 +3470,7 @@
       "handler_has": 121,
       "handler_matched": 112,
       "handler_coverage_sum": 134.8273199480654,
-      "seconds": 5.3
+      "seconds": 3.6
     },
     {
       "game_id": "0021500294",
@@ -3482,7 +3482,7 @@
       "handler_has": 119,
       "handler_matched": 119,
       "handler_coverage_sum": 148.62438859316634,
-      "seconds": 5.1
+      "seconds": 3.7
     },
     {
       "game_id": "0021500295",
@@ -3494,7 +3494,7 @@
       "handler_has": 112,
       "handler_matched": 106,
       "handler_coverage_sum": 127.80329532829676,
-      "seconds": 4.9
+      "seconds": 3.3
     },
     {
       "game_id": "0021500296",
@@ -3506,7 +3506,7 @@
       "handler_has": 111,
       "handler_matched": 109,
       "handler_coverage_sum": 122.90010798200709,
-      "seconds": 4.5
+      "seconds": 3.3
     },
     {
       "game_id": "0021500297",
@@ -3518,7 +3518,7 @@
       "handler_has": 138,
       "handler_matched": 134,
       "handler_coverage_sum": 171.11605933684538,
-      "seconds": 6.3
+      "seconds": 4.5
     },
     {
       "game_id": "0021500298",
@@ -3530,7 +3530,7 @@
       "handler_has": 130,
       "handler_matched": 123,
       "handler_coverage_sum": 146.34358679877562,
-      "seconds": 5.5
+      "seconds": 3.8
     },
     {
       "game_id": "0021500299",
@@ -3542,7 +3542,7 @@
       "handler_has": 129,
       "handler_matched": 128,
       "handler_coverage_sum": 149.25178728575088,
-      "seconds": 5.7
+      "seconds": 3.7
     },
     {
       "game_id": "0021500300",
@@ -3554,7 +3554,7 @@
       "handler_has": 132,
       "handler_matched": 130,
       "handler_coverage_sum": 136.3912085460265,
-      "seconds": 5.1
+      "seconds": 3.2
     },
     {
       "game_id": "0021500301",
@@ -3566,7 +3566,7 @@
       "handler_has": 134,
       "handler_matched": 129,
       "handler_coverage_sum": 155.43966149548757,
-      "seconds": 5.5
+      "seconds": 3.5
     },
     {
       "game_id": "0021500302",
@@ -3578,7 +3578,7 @@
       "handler_has": 135,
       "handler_matched": 134,
       "handler_coverage_sum": 155.34094658884072,
-      "seconds": 5.7
+      "seconds": 3.7
     },
     {
       "game_id": "0021500303",
@@ -3590,7 +3590,7 @@
       "handler_has": 131,
       "handler_matched": 128,
       "handler_coverage_sum": 161.642117606533,
-      "seconds": 6.0
+      "seconds": 3.6
     },
     {
       "game_id": "0021500304",
@@ -3602,7 +3602,7 @@
       "handler_has": 142,
       "handler_matched": 142,
       "handler_coverage_sum": 158.71962251116204,
-      "seconds": 6.0
+      "seconds": 3.9
     },
     {
       "game_id": "0021500305",
@@ -3614,7 +3614,7 @@
       "handler_has": 118,
       "handler_matched": 117,
       "handler_coverage_sum": 140.37564176904309,
-      "seconds": 5.1
+      "seconds": 3.2
     },
     {
       "game_id": "0021500306",
@@ -3626,7 +3626,7 @@
       "handler_has": 133,
       "handler_matched": 125,
       "handler_coverage_sum": 149.23615215402205,
-      "seconds": 5.5
+      "seconds": 3.4
     },
     {
       "game_id": "0021500307",
@@ -3638,7 +3638,7 @@
       "handler_has": 140,
       "handler_matched": 135,
       "handler_coverage_sum": 148.89840144548484,
-      "seconds": 5.8
+      "seconds": 3.8
     },
     {
       "game_id": "0021500308",
@@ -3650,7 +3650,7 @@
       "handler_has": 132,
       "handler_matched": 131,
       "handler_coverage_sum": 155.94030064207868,
-      "seconds": 6.0
+      "seconds": 3.6
     },
     {
       "game_id": "0021500309",
@@ -3662,7 +3662,7 @@
       "handler_has": 124,
       "handler_matched": 118,
       "handler_coverage_sum": 145.26796893109332,
-      "seconds": 5.1
+      "seconds": 3.1
     },
     {
       "game_id": "0021500310",
@@ -3674,7 +3674,7 @@
       "handler_has": 114,
       "handler_matched": 110,
       "handler_coverage_sum": 141.43837436591423,
-      "seconds": 5.1
+      "seconds": 3.1
     },
     {
       "game_id": "0021500311",
@@ -3686,7 +3686,7 @@
       "handler_has": 129,
       "handler_matched": 125,
       "handler_coverage_sum": 154.79611669863777,
-      "seconds": 6.0
+      "seconds": 3.7
     },
     {
       "game_id": "0021500312",
@@ -3698,7 +3698,7 @@
       "handler_has": 136,
       "handler_matched": 133,
       "handler_coverage_sum": 156.61465302208796,
-      "seconds": 5.8
+      "seconds": 3.7
     },
     {
       "game_id": "0021500313",
@@ -3710,7 +3710,7 @@
       "handler_has": 120,
       "handler_matched": 116,
       "handler_coverage_sum": 132.30966302248362,
-      "seconds": 5.0
+      "seconds": 3.3
     },
     {
       "game_id": "0021500314",
@@ -3722,7 +3722,7 @@
       "handler_has": 154,
       "handler_matched": 149,
       "handler_coverage_sum": 162.62352665000844,
-      "seconds": 5.9
+      "seconds": 3.9
     },
     {
       "game_id": "0021500315",
@@ -3734,7 +3734,7 @@
       "handler_has": 133,
       "handler_matched": 129,
       "handler_coverage_sum": 143.9110138686441,
-      "seconds": 5.5
+      "seconds": 3.4
     },
     {
       "game_id": "0021500316",
@@ -3746,7 +3746,7 @@
       "handler_has": 130,
       "handler_matched": 128,
       "handler_coverage_sum": 145.95349647951252,
-      "seconds": 5.3
+      "seconds": 3.5
     },
     {
       "game_id": "0021500317",
@@ -3758,7 +3758,7 @@
       "handler_has": 135,
       "handler_matched": 131,
       "handler_coverage_sum": 148.20150525297623,
-      "seconds": 5.3
+      "seconds": 3.4
     },
     {
       "game_id": "0021500318",
@@ -3770,7 +3770,7 @@
       "handler_has": 127,
       "handler_matched": 126,
       "handler_coverage_sum": 140.2665326831741,
-      "seconds": 5.1
+      "seconds": 3.4
     },
     {
       "game_id": "0021500319",
@@ -3782,7 +3782,7 @@
       "handler_has": 136,
       "handler_matched": 134,
       "handler_coverage_sum": 157.79982710370592,
-      "seconds": 5.8
+      "seconds": 3.8
     },
     {
       "game_id": "0021500320",
@@ -3794,7 +3794,7 @@
       "handler_has": 130,
       "handler_matched": 127,
       "handler_coverage_sum": 147.4882726030785,
-      "seconds": 5.3
+      "seconds": 3.4
     },
     {
       "game_id": "0021500321",
@@ -3806,7 +3806,7 @@
       "handler_has": 139,
       "handler_matched": 135,
       "handler_coverage_sum": 163.85381574360648,
-      "seconds": 6.2
+      "seconds": 3.9
     },
     {
       "game_id": "0021500322",
@@ -3818,7 +3818,7 @@
       "handler_has": 135,
       "handler_matched": 132,
       "handler_coverage_sum": 149.38625277318437,
-      "seconds": 5.3
+      "seconds": 3.5
     },
     {
       "game_id": "0021500323",
@@ -3830,7 +3830,7 @@
       "handler_has": 112,
       "handler_matched": 107,
       "handler_coverage_sum": 145.00008567064202,
-      "seconds": 5.4
+      "seconds": 3.0
     },
     {
       "game_id": "0021500324",
@@ -3842,7 +3842,7 @@
       "handler_has": 117,
       "handler_matched": 113,
       "handler_coverage_sum": 134.55512568797656,
-      "seconds": 4.9
+      "seconds": 2.9
     },
     {
       "game_id": "0021500325",
@@ -3854,7 +3854,7 @@
       "handler_has": 150,
       "handler_matched": 149,
       "handler_coverage_sum": 171.4708196138374,
-      "seconds": 6.0
+      "seconds": 3.4
     },
     {
       "game_id": "0021500326",
@@ -3866,7 +3866,7 @@
       "handler_has": 130,
       "handler_matched": 127,
       "handler_coverage_sum": 154.39501178514436,
-      "seconds": 5.5
+      "seconds": 3.3
     },
     {
       "game_id": "0021500327",
@@ -3878,7 +3878,7 @@
       "handler_has": 127,
       "handler_matched": 123,
       "handler_coverage_sum": 140.85172452329172,
-      "seconds": 5.4
+      "seconds": 3.0
     },
     {
       "game_id": "0021500328",
@@ -3890,7 +3890,7 @@
       "handler_has": 116,
       "handler_matched": 115,
       "handler_coverage_sum": 120.47490124882954,
-      "seconds": 4.4
+      "seconds": 2.6
     },
     {
       "game_id": "0021500329",
@@ -3902,7 +3902,7 @@
       "handler_has": 118,
       "handler_matched": 113,
       "handler_coverage_sum": 135.49801790472594,
-      "seconds": 5.0
+      "seconds": 2.9
     },
     {
       "game_id": "0021500330",
@@ -3914,7 +3914,7 @@
       "handler_has": 130,
       "handler_matched": 126,
       "handler_coverage_sum": 137.82801454671812,
-      "seconds": 4.9
+      "seconds": 2.9
     },
     {
       "game_id": "0021500331",
@@ -3926,7 +3926,7 @@
       "handler_has": 132,
       "handler_matched": 129,
       "handler_coverage_sum": 149.77114134230567,
-      "seconds": 5.3
+      "seconds": 3.1
     },
     {
       "game_id": "0021500332",
@@ -3938,7 +3938,7 @@
       "handler_has": 148,
       "handler_matched": 142,
       "handler_coverage_sum": 154.86866726756267,
-      "seconds": 6.0
+      "seconds": 3.3
     },
     {
       "game_id": "0021500333",
@@ -3950,7 +3950,7 @@
       "handler_has": 134,
       "handler_matched": 130,
       "handler_coverage_sum": 152.55910394451905,
-      "seconds": 6.2
+      "seconds": 3.3
     },
     {
       "game_id": "0021500334",
@@ -3962,7 +3962,7 @@
       "handler_has": 102,
       "handler_matched": 98,
       "handler_coverage_sum": 131.3139625191264,
-      "seconds": 5.0
+      "seconds": 2.8
     },
     {
       "game_id": "0021500335",
@@ -3974,7 +3974,7 @@
       "handler_has": 127,
       "handler_matched": 123,
       "handler_coverage_sum": 140.24107928273577,
-      "seconds": 5.3
+      "seconds": 2.9
     },
     {
       "game_id": "0021500336",
@@ -3986,7 +3986,7 @@
       "handler_has": 181,
       "handler_matched": 175,
       "handler_coverage_sum": 192.46846829065598,
-      "seconds": 7.5
+      "seconds": 4.2
     },
     {
       "game_id": "0021500337",
@@ -3998,7 +3998,7 @@
       "handler_has": 116,
       "handler_matched": 111,
       "handler_coverage_sum": 141.07759954635438,
-      "seconds": 5.3
+      "seconds": 3.1
     },
     {
       "game_id": "0021500338",
@@ -4010,7 +4010,7 @@
       "handler_has": 130,
       "handler_matched": 128,
       "handler_coverage_sum": 152.6543754906147,
-      "seconds": 5.8
+      "seconds": 3.2
     },
     {
       "game_id": "0021500339",
@@ -4022,7 +4022,7 @@
       "handler_has": 125,
       "handler_matched": 124,
       "handler_coverage_sum": 142.36841792056123,
-      "seconds": 5.2
+      "seconds": 3.0
     },
     {
       "game_id": "0021500340",
@@ -4034,7 +4034,7 @@
       "handler_has": 130,
       "handler_matched": 125,
       "handler_coverage_sum": 159.48962950361715,
-      "seconds": 5.8
+      "seconds": 3.4
     },
     {
       "game_id": "0021500341",
@@ -4046,7 +4046,7 @@
       "handler_has": 125,
       "handler_matched": 119,
       "handler_coverage_sum": 145.7535867090453,
-      "seconds": 5.3
+      "seconds": 2.9
     },
     {
       "game_id": "0021500342",
@@ -4058,7 +4058,7 @@
       "handler_has": 140,
       "handler_matched": 137,
       "handler_coverage_sum": 149.34494303946494,
-      "seconds": 5.5
+      "seconds": 3.1
     },
     {
       "game_id": "0021500343",
@@ -4070,7 +4070,7 @@
       "handler_has": 127,
       "handler_matched": 122,
       "handler_coverage_sum": 136.43452756375683,
-      "seconds": 4.9
+      "seconds": 2.7
     },
     {
       "game_id": "0021500344",
@@ -4082,7 +4082,7 @@
       "handler_has": 130,
       "handler_matched": 125,
       "handler_coverage_sum": 153.32363505935223,
-      "seconds": 5.6
+      "seconds": 3.3
     },
     {
       "game_id": "0021500345",
@@ -4094,7 +4094,7 @@
       "handler_has": 149,
       "handler_matched": 147,
       "handler_coverage_sum": 151.40555518613874,
-      "seconds": 5.4
+      "seconds": 3.1
     },
     {
       "game_id": "0021500346",
@@ -4106,7 +4106,7 @@
       "handler_has": 132,
       "handler_matched": 128,
       "handler_coverage_sum": 145.76723021070939,
-      "seconds": 5.3
+      "seconds": 3.0
     },
     {
       "game_id": "0021500347",
@@ -4118,7 +4118,7 @@
       "handler_has": 103,
       "handler_matched": 100,
       "handler_coverage_sum": 121.90405335012706,
-      "seconds": 4.9
+      "seconds": 2.6
     },
     {
       "game_id": "0021500348",
@@ -4130,7 +4130,7 @@
       "handler_has": 133,
       "handler_matched": 129,
       "handler_coverage_sum": 147.3408705828366,
-      "seconds": 5.3
+      "seconds": 3.1
     },
     {
       "game_id": "0021500349",
@@ -4142,7 +4142,7 @@
       "handler_has": 140,
       "handler_matched": 134,
       "handler_coverage_sum": 156.01404726531877,
-      "seconds": 6.0
+      "seconds": 3.4
     },
     {
       "game_id": "0021500350",
@@ -4154,7 +4154,7 @@
       "handler_has": 126,
       "handler_matched": 123,
       "handler_coverage_sum": 137.95782887990492,
-      "seconds": 5.1
+      "seconds": 2.9
     },
     {
       "game_id": "0021500351",
@@ -4166,7 +4166,7 @@
       "handler_has": 132,
       "handler_matched": 129,
       "handler_coverage_sum": 141.10925911456386,
-      "seconds": 5.4
+      "seconds": 2.9
     },
     {
       "game_id": "0021500352",
@@ -4178,7 +4178,7 @@
       "handler_has": 124,
       "handler_matched": 119,
       "handler_coverage_sum": 143.33892815923053,
-      "seconds": 5.4
+      "seconds": 2.9
     },
     {
       "game_id": "0021500353",
@@ -4190,7 +4190,7 @@
       "handler_has": 93,
       "handler_matched": 90,
       "handler_coverage_sum": 117.15761357166005,
-      "seconds": 4.3
+      "seconds": 2.5
     },
     {
       "game_id": "0021500354",
@@ -4202,7 +4202,7 @@
       "handler_has": 124,
       "handler_matched": 120,
       "handler_coverage_sum": 133.07497415065552,
-      "seconds": 5.0
+      "seconds": 2.8
     },
     {
       "game_id": "0021500355",
@@ -4214,7 +4214,7 @@
       "handler_has": 128,
       "handler_matched": 124,
       "handler_coverage_sum": 154.97467268365995,
-      "seconds": 5.7
+      "seconds": 3.2
     },
     {
       "game_id": "0021500356",
@@ -4226,7 +4226,7 @@
       "handler_has": 93,
       "handler_matched": 89,
       "handler_coverage_sum": 111.78787752740037,
-      "seconds": 4.2
+      "seconds": 2.3
     },
     {
       "game_id": "0021500357",
@@ -4238,7 +4238,7 @@
       "handler_has": 125,
       "handler_matched": 124,
       "handler_coverage_sum": 142.72402450518098,
-      "seconds": 5.3
+      "seconds": 3.1
     },
     {
       "game_id": "0021500358",
@@ -4250,7 +4250,7 @@
       "handler_has": 120,
       "handler_matched": 118,
       "handler_coverage_sum": 136.9282768122414,
-      "seconds": 5.1
+      "seconds": 2.9
     },
     {
       "game_id": "0021500359",
@@ -4262,7 +4262,7 @@
       "handler_has": 137,
       "handler_matched": 131,
       "handler_coverage_sum": 150.897262228412,
-      "seconds": 6.0
+      "seconds": 3.3
     },
     {
       "game_id": "0021500360",
@@ -4274,7 +4274,7 @@
       "handler_has": 133,
       "handler_matched": 128,
       "handler_coverage_sum": 158.3089625307551,
-      "seconds": 5.8
+      "seconds": 3.3
     },
     {
       "game_id": "0021500361",
@@ -4286,7 +4286,7 @@
       "handler_has": 132,
       "handler_matched": 129,
       "handler_coverage_sum": 144.90249306594933,
-      "seconds": 5.3
+      "seconds": 3.1
     },
     {
       "game_id": "0021500362",
@@ -4298,7 +4298,7 @@
       "handler_has": 129,
       "handler_matched": 125,
       "handler_coverage_sum": 140.46722809402183,
-      "seconds": 5.1
+      "seconds": 2.9
     },
     {
       "game_id": "0021500363",
@@ -4310,7 +4310,7 @@
       "handler_has": 121,
       "handler_matched": 118,
       "handler_coverage_sum": 145.11753039018046,
-      "seconds": 5.4
+      "seconds": 3.0
     },
     {
       "game_id": "0021500364",
@@ -4322,7 +4322,7 @@
       "handler_has": 115,
       "handler_matched": 113,
       "handler_coverage_sum": 133.88049033813417,
-      "seconds": 5.0
+      "seconds": 2.9
     },
     {
       "game_id": "0021500365",
@@ -4334,7 +4334,7 @@
       "handler_has": 127,
       "handler_matched": 123,
       "handler_coverage_sum": 136.57243684816376,
-      "seconds": 4.9
+      "seconds": 3.0
     },
     {
       "game_id": "0021500366",
@@ -4346,7 +4346,7 @@
       "handler_has": 135,
       "handler_matched": 128,
       "handler_coverage_sum": 153.81499088723143,
-      "seconds": 5.8
+      "seconds": 3.2
     },
     {
       "game_id": "0021500367",
@@ -4358,7 +4358,7 @@
       "handler_has": 128,
       "handler_matched": 126,
       "handler_coverage_sum": 141.60369411741377,
-      "seconds": 5.4
+      "seconds": 3.2
     },
     {
       "game_id": "0021500368",
@@ -4370,7 +4370,7 @@
       "handler_has": 111,
       "handler_matched": 106,
       "handler_coverage_sum": 144.64250812358233,
-      "seconds": 5.1
+      "seconds": 2.9
     },
     {
       "game_id": "0021500369",
@@ -4382,7 +4382,7 @@
       "handler_has": 116,
       "handler_matched": 113,
       "handler_coverage_sum": 142.65336014251625,
-      "seconds": 5.4
+      "seconds": 3.2
     },
     {
       "game_id": "0021500370",
@@ -4394,7 +4394,7 @@
       "handler_has": 113,
       "handler_matched": 109,
       "handler_coverage_sum": 130.24969247450798,
-      "seconds": 4.8
+      "seconds": 2.7
     },
     {
       "game_id": "0021500371",
@@ -4406,7 +4406,7 @@
       "handler_has": 128,
       "handler_matched": 128,
       "handler_coverage_sum": 135.85488469237646,
-      "seconds": 4.6
+      "seconds": 2.8
     },
     {
       "game_id": "0021500372",
@@ -4418,7 +4418,7 @@
       "handler_has": 111,
       "handler_matched": 109,
       "handler_coverage_sum": 130.59869232423947,
-      "seconds": 4.6
+      "seconds": 2.8
     },
     {
       "game_id": "0021500373",
@@ -4430,7 +4430,7 @@
       "handler_has": 129,
       "handler_matched": 125,
       "handler_coverage_sum": 144.62360129528642,
-      "seconds": 5.6
+      "seconds": 2.9
     },
     {
       "game_id": "0021500374",
@@ -4442,7 +4442,7 @@
       "handler_has": 129,
       "handler_matched": 126,
       "handler_coverage_sum": 149.66751983990093,
-      "seconds": 5.4
+      "seconds": 3.1
     },
     {
       "game_id": "0021500375",
@@ -4454,7 +4454,7 @@
       "handler_has": 135,
       "handler_matched": 131,
       "handler_coverage_sum": 146.70238121694305,
-      "seconds": 5.3
+      "seconds": 3.0
     },
     {
       "game_id": "0021500376",
@@ -4466,7 +4466,7 @@
       "handler_has": 119,
       "handler_matched": 115,
       "handler_coverage_sum": 151.24241111753915,
-      "seconds": 5.3
+      "seconds": 3.2
     },
     {
       "game_id": "0021500377",
@@ -4478,7 +4478,7 @@
       "handler_has": 129,
       "handler_matched": 126,
       "handler_coverage_sum": 148.46025440437685,
-      "seconds": 5.5
+      "seconds": 3.3
     },
     {
       "game_id": "0021500378",
@@ -4490,7 +4490,7 @@
       "handler_has": 129,
       "handler_matched": 126,
       "handler_coverage_sum": 161.09794530764407,
-      "seconds": 5.9
+      "seconds": 3.3
     },
     {
       "game_id": "0021500379",
@@ -4502,7 +4502,7 @@
       "handler_has": 126,
       "handler_matched": 122,
       "handler_coverage_sum": 143.055872991222,
-      "seconds": 5.4
+      "seconds": 3.1
     },
     {
       "game_id": "0021500380",
@@ -4514,7 +4514,7 @@
       "handler_has": 107,
       "handler_matched": 101,
       "handler_coverage_sum": 138.09761228319508,
-      "seconds": 5.0
+      "seconds": 2.9
     },
     {
       "game_id": "0021500381",
@@ -4526,7 +4526,7 @@
       "handler_has": 149,
       "handler_matched": 139,
       "handler_coverage_sum": 167.89472082120207,
-      "seconds": 6.5
+      "seconds": 3.6
     },
     {
       "game_id": "0021500382",
@@ -4538,7 +4538,7 @@
       "handler_has": 112,
       "handler_matched": 107,
       "handler_coverage_sum": 125.16267764668603,
-      "seconds": 4.7
+      "seconds": 2.7
     },
     {
       "game_id": "0021500383",
@@ -4550,7 +4550,7 @@
       "handler_has": 147,
       "handler_matched": 146,
       "handler_coverage_sum": 167.33267344694644,
-      "seconds": 6.2
+      "seconds": 3.5
     },
     {
       "game_id": "0021500384",
@@ -4562,7 +4562,7 @@
       "handler_has": 84,
       "handler_matched": 82,
       "handler_coverage_sum": 104.3937614763302,
-      "seconds": 3.9
+      "seconds": 2.1
     },
     {
       "game_id": "0021500385",
@@ -4574,7 +4574,7 @@
       "handler_has": 114,
       "handler_matched": 112,
       "handler_coverage_sum": 131.28649375410635,
-      "seconds": 5.0
+      "seconds": 2.9
     },
     {
       "game_id": "0021500386",
@@ -4586,7 +4586,7 @@
       "handler_has": 123,
       "handler_matched": 120,
       "handler_coverage_sum": 138.37834245845147,
-      "seconds": 5.2
+      "seconds": 2.7
     },
     {
       "game_id": "0021500387",
@@ -4598,7 +4598,7 @@
       "handler_has": 126,
       "handler_matched": 124,
       "handler_coverage_sum": 150.42641746449402,
-      "seconds": 5.7
+      "seconds": 3.1
     },
     {
       "game_id": "0021500388",
@@ -4610,7 +4610,7 @@
       "handler_has": 119,
       "handler_matched": 117,
       "handler_coverage_sum": 143.79509982835896,
-      "seconds": 5.6
+      "seconds": 3.2
     },
     {
       "game_id": "0021500389",
@@ -4622,7 +4622,7 @@
       "handler_has": 128,
       "handler_matched": 122,
       "handler_coverage_sum": 155.2998212992563,
-      "seconds": 5.8
+      "seconds": 2.8
     },
     {
       "game_id": "0021500390",
@@ -4634,7 +4634,7 @@
       "handler_has": 115,
       "handler_matched": 111,
       "handler_coverage_sum": 134.07532568008293,
-      "seconds": 5.0
+      "seconds": 2.3
     },
     {
       "game_id": "0021500391",
@@ -4646,7 +4646,7 @@
       "handler_has": 178,
       "handler_matched": 170,
       "handler_coverage_sum": 206.28726798720456,
-      "seconds": 7.7
+      "seconds": 3.7
     },
     {
       "game_id": "0021500392",
@@ -4658,7 +4658,7 @@
       "handler_has": 127,
       "handler_matched": 125,
       "handler_coverage_sum": 141.35038169207564,
-      "seconds": 5.0
+      "seconds": 2.4
     },
     {
       "game_id": "0021500393",
@@ -4670,7 +4670,7 @@
       "handler_has": 114,
       "handler_matched": 109,
       "handler_coverage_sum": 131.51987258233473,
-      "seconds": 4.9
+      "seconds": 2.2
     },
     {
       "game_id": "0021500394",
@@ -4682,7 +4682,7 @@
       "handler_has": 110,
       "handler_matched": 109,
       "handler_coverage_sum": 129.9850003272301,
-      "seconds": 4.8
+      "seconds": 2.1
     },
     {
       "game_id": "0021500395",
@@ -4694,7 +4694,7 @@
       "handler_has": 121,
       "handler_matched": 118,
       "handler_coverage_sum": 141.51396388366067,
-      "seconds": 5.1
+      "seconds": 2.7
     },
     {
       "game_id": "0021500396",
@@ -4706,7 +4706,7 @@
       "handler_has": 97,
       "handler_matched": 96,
       "handler_coverage_sum": 132.22276338061187,
-      "seconds": 3.8
+      "seconds": 2.9
     },
     {
       "game_id": "0021500397",
@@ -4718,7 +4718,7 @@
       "handler_has": 142,
       "handler_matched": 137,
       "handler_coverage_sum": 160.68629701080494,
-      "seconds": 5.2
+      "seconds": 3.6
     },
     {
       "game_id": "0021500398",
@@ -4730,7 +4730,7 @@
       "handler_has": 133,
       "handler_matched": 125,
       "handler_coverage_sum": 147.07201357873674,
-      "seconds": 4.6
+      "seconds": 3.3
     },
     {
       "game_id": "0021500399",
@@ -4742,7 +4742,7 @@
       "handler_has": 131,
       "handler_matched": 129,
       "handler_coverage_sum": 151.58101695144842,
-      "seconds": 4.5
+      "seconds": 3.4
     },
     {
       "game_id": "0021500400",
@@ -4754,7 +4754,7 @@
       "handler_has": 134,
       "handler_matched": 132,
       "handler_coverage_sum": 148.1781746710238,
-      "seconds": 4.5
+      "seconds": 3.3
     },
     {
       "game_id": "0021500401",
@@ -4766,7 +4766,7 @@
       "handler_has": 123,
       "handler_matched": 117,
       "handler_coverage_sum": 141.07104067169433,
-      "seconds": 4.5
+      "seconds": 3.4
     },
     {
       "game_id": "0021500402",
@@ -4778,7 +4778,7 @@
       "handler_has": 117,
       "handler_matched": 113,
       "handler_coverage_sum": 145.83470643152623,
-      "seconds": 4.3
+      "seconds": 3.3
     },
     {
       "game_id": "0021500403",
@@ -4790,7 +4790,7 @@
       "handler_has": 131,
       "handler_matched": 127,
       "handler_coverage_sum": 150.47305214356382,
-      "seconds": 4.4
+      "seconds": 3.1
     },
     {
       "game_id": "0021500404",
@@ -4802,7 +4802,7 @@
       "handler_has": 130,
       "handler_matched": 124,
       "handler_coverage_sum": 145.746279296002,
-      "seconds": 4.2
+      "seconds": 3.1
     },
     {
       "game_id": "0021500405",
@@ -4814,7 +4814,7 @@
       "handler_has": 134,
       "handler_matched": 127,
       "handler_coverage_sum": 147.6299463055812,
-      "seconds": 4.7
+      "seconds": 3.0
     },
     {
       "game_id": "0021500406",
@@ -4826,7 +4826,7 @@
       "handler_has": 123,
       "handler_matched": 118,
       "handler_coverage_sum": 149.19394727687916,
-      "seconds": 4.5
+      "seconds": 3.0
     },
     {
       "game_id": "0021500407",
@@ -4838,7 +4838,7 @@
       "handler_has": 126,
       "handler_matched": 124,
       "handler_coverage_sum": 150.97198117864718,
-      "seconds": 4.2
+      "seconds": 3.2
     },
     {
       "game_id": "0021500408",
@@ -4850,7 +4850,7 @@
       "handler_has": 132,
       "handler_matched": 130,
       "handler_coverage_sum": 151.32883415681243,
-      "seconds": 4.3
+      "seconds": 3.1
     },
     {
       "game_id": "0021500409",
@@ -4862,7 +4862,7 @@
       "handler_has": 134,
       "handler_matched": 129,
       "handler_coverage_sum": 150.9014244061747,
-      "seconds": 4.5
+      "seconds": 3.4
     },
     {
       "game_id": "0021500410",
@@ -4874,7 +4874,7 @@
       "handler_has": 137,
       "handler_matched": 136,
       "handler_coverage_sum": 153.00023482225356,
-      "seconds": 4.5
+      "seconds": 3.8
     },
     {
       "game_id": "0021500411",
@@ -4886,7 +4886,7 @@
       "handler_has": 137,
       "handler_matched": 133,
       "handler_coverage_sum": 148.7548891671519,
-      "seconds": 4.4
+      "seconds": 3.7
     },
     {
       "game_id": "0021500412",
@@ -4898,7 +4898,7 @@
       "handler_has": 129,
       "handler_matched": 126,
       "handler_coverage_sum": 143.0356637303807,
-      "seconds": 4.2
+      "seconds": 3.3
     },
     {
       "game_id": "0021500413",
@@ -4910,7 +4910,7 @@
       "handler_has": 132,
       "handler_matched": 129,
       "handler_coverage_sum": 151.4719364747362,
-      "seconds": 4.5
+      "seconds": 3.6
     },
     {
       "game_id": "0021500414",
@@ -4922,7 +4922,7 @@
       "handler_has": 141,
       "handler_matched": 137,
       "handler_coverage_sum": 147.8073471375664,
-      "seconds": 4.5
+      "seconds": 3.6
     },
     {
       "game_id": "0021500415",
@@ -4934,7 +4934,7 @@
       "handler_has": 127,
       "handler_matched": 120,
       "handler_coverage_sum": 151.0144061186412,
-      "seconds": 4.4
+      "seconds": 3.5
     },
     {
       "game_id": "0021500416",
@@ -4946,7 +4946,7 @@
       "handler_has": 150,
       "handler_matched": 148,
       "handler_coverage_sum": 151.16001241690725,
-      "seconds": 4.2
+      "seconds": 3.6
     },
     {
       "game_id": "0021500417",
@@ -4958,7 +4958,7 @@
       "handler_has": 122,
       "handler_matched": 120,
       "handler_coverage_sum": 145.56707967082713,
-      "seconds": 4.4
+      "seconds": 3.5
     },
     {
       "game_id": "0021500418",
@@ -4970,7 +4970,7 @@
       "handler_has": 128,
       "handler_matched": 123,
       "handler_coverage_sum": 139.51811751104077,
-      "seconds": 4.0
+      "seconds": 3.1
     },
     {
       "game_id": "0021500419",
@@ -4982,7 +4982,7 @@
       "handler_has": 110,
       "handler_matched": 105,
       "handler_coverage_sum": 138.550321957851,
-      "seconds": 4.1
+      "seconds": 3.3
     },
     {
       "game_id": "0021500420",
@@ -4994,7 +4994,7 @@
       "handler_has": 126,
       "handler_matched": 124,
       "handler_coverage_sum": 135.07379016126475,
-      "seconds": 4.0
+      "seconds": 2.7
     },
     {
       "game_id": "0021500421",
@@ -5006,7 +5006,7 @@
       "handler_has": 130,
       "handler_matched": 126,
       "handler_coverage_sum": 147.4618290036602,
-      "seconds": 4.2
+      "seconds": 3.1
     },
     {
       "game_id": "0021500422",
@@ -5018,7 +5018,7 @@
       "handler_has": 134,
       "handler_matched": 127,
       "handler_coverage_sum": 151.69161604484748,
-      "seconds": 4.2
+      "seconds": 2.8
     },
     {
       "game_id": "0021500423",
@@ -5030,7 +5030,7 @@
       "handler_has": 134,
       "handler_matched": 133,
       "handler_coverage_sum": 154.29793474021486,
-      "seconds": 4.6
+      "seconds": 3.2
     },
     {
       "game_id": "0021500424",
@@ -5042,7 +5042,7 @@
       "handler_has": 122,
       "handler_matched": 120,
       "handler_coverage_sum": 135.34540891721983,
-      "seconds": 4.0
+      "seconds": 2.8
     },
     {
       "game_id": "0021500425",
@@ -5054,7 +5054,7 @@
       "handler_has": 145,
       "handler_matched": 143,
       "handler_coverage_sum": 153.0341061293317,
-      "seconds": 4.5
+      "seconds": 3.3
     },
     {
       "game_id": "0021500426",
@@ -5066,7 +5066,7 @@
       "handler_has": 125,
       "handler_matched": 120,
       "handler_coverage_sum": 141.341177601323,
-      "seconds": 3.9
+      "seconds": 3.0
     },
     {
       "game_id": "0021500427",
@@ -5078,7 +5078,7 @@
       "handler_has": 120,
       "handler_matched": 118,
       "handler_coverage_sum": 149.0648576643693,
-      "seconds": 4.4
+      "seconds": 3.1
     },
     {
       "game_id": "0021500428",
@@ -5090,7 +5090,7 @@
       "handler_has": 141,
       "handler_matched": 140,
       "handler_coverage_sum": 151.53327028920984,
-      "seconds": 4.7
+      "seconds": 3.3
     },
     {
       "game_id": "0021500429",
@@ -5102,7 +5102,7 @@
       "handler_has": 138,
       "handler_matched": 136,
       "handler_coverage_sum": 151.0384313405787,
-      "seconds": 4.4
+      "seconds": 3.3
     },
     {
       "game_id": "0021500430",
@@ -5114,7 +5114,7 @@
       "handler_has": 120,
       "handler_matched": 119,
       "handler_coverage_sum": 147.1613276616304,
-      "seconds": 4.3
+      "seconds": 3.2
     },
     {
       "game_id": "0021500431",
@@ -5126,7 +5126,7 @@
       "handler_has": 125,
       "handler_matched": 122,
       "handler_coverage_sum": 140.64423402246075,
-      "seconds": 4.4
+      "seconds": 2.9
     },
     {
       "game_id": "0021500432",
@@ -5138,7 +5138,7 @@
       "handler_has": 142,
       "handler_matched": 138,
       "handler_coverage_sum": 157.7126296155945,
-      "seconds": 4.7
+      "seconds": 3.3
     },
     {
       "game_id": "0021500433",
@@ -5150,7 +5150,7 @@
       "handler_has": 126,
       "handler_matched": 122,
       "handler_coverage_sum": 141.70576858292938,
-      "seconds": 3.8
+      "seconds": 2.6
     },
     {
       "game_id": "0021500434",
@@ -5162,7 +5162,7 @@
       "handler_has": 135,
       "handler_matched": 135,
       "handler_coverage_sum": 154.07954662439312,
-      "seconds": 4.4
+      "seconds": 3.2
     },
     {
       "game_id": "0021500435",
@@ -5174,7 +5174,7 @@
       "handler_has": 140,
       "handler_matched": 133,
       "handler_coverage_sum": 148.83350986762014,
-      "seconds": 4.1
+      "seconds": 3.2
     },
     {
       "game_id": "0021500436",
@@ -5186,7 +5186,7 @@
       "handler_has": 137,
       "handler_matched": 136,
       "handler_coverage_sum": 163.42208179696001,
-      "seconds": 4.9
+      "seconds": 3.3
     },
     {
       "game_id": "0021500437",
@@ -5198,7 +5198,7 @@
       "handler_has": 148,
       "handler_matched": 142,
       "handler_coverage_sum": 162.57322043831934,
-      "seconds": 4.8
+      "seconds": 3.3
     },
     {
       "game_id": "0021500438",
@@ -5210,7 +5210,7 @@
       "handler_has": 136,
       "handler_matched": 134,
       "handler_coverage_sum": 151.1268732989043,
-      "seconds": 4.6
+      "seconds": 3.2
     },
     {
       "game_id": "0021500439",
@@ -5222,7 +5222,7 @@
       "handler_has": 120,
       "handler_matched": 119,
       "handler_coverage_sum": 140.54841927188505,
-      "seconds": 4.3
+      "seconds": 3.0
     },
     {
       "game_id": "0021500440",
@@ -5234,7 +5234,7 @@
       "handler_has": 135,
       "handler_matched": 133,
       "handler_coverage_sum": 154.29585273988522,
-      "seconds": 4.5
+      "seconds": 3.3
     },
     {
       "game_id": "0021500441",
@@ -5246,7 +5246,7 @@
       "handler_has": 125,
       "handler_matched": 123,
       "handler_coverage_sum": 136.4131821127658,
-      "seconds": 4.0
+      "seconds": 2.9
     },
     {
       "game_id": "0021500442",
@@ -5258,7 +5258,7 @@
       "handler_has": 136,
       "handler_matched": 133,
       "handler_coverage_sum": 141.05641034379022,
-      "seconds": 4.3
+      "seconds": 3.3
     },
     {
       "game_id": "0021500443",
@@ -5270,7 +5270,7 @@
       "handler_has": 123,
       "handler_matched": 120,
       "handler_coverage_sum": 148.1094928693317,
-      "seconds": 4.4
+      "seconds": 3.1
     },
     {
       "game_id": "0021500444",
@@ -5282,7 +5282,7 @@
       "handler_has": 112,
       "handler_matched": 109,
       "handler_coverage_sum": 127.46708106082173,
-      "seconds": 3.7
+      "seconds": 2.6
     },
     {
       "game_id": "0021500445",
@@ -5294,7 +5294,7 @@
       "handler_has": 112,
       "handler_matched": 110,
       "handler_coverage_sum": 131.35204354814485,
-      "seconds": 3.6
+      "seconds": 2.6
     },
     {
       "game_id": "0021500446",
@@ -5306,7 +5306,7 @@
       "handler_has": 126,
       "handler_matched": 126,
       "handler_coverage_sum": 140.60616592327085,
-      "seconds": 4.0
+      "seconds": 3.0
     },
     {
       "game_id": "0021500447",
@@ -5318,7 +5318,7 @@
       "handler_has": 136,
       "handler_matched": 133,
       "handler_coverage_sum": 148.92208908964307,
-      "seconds": 4.4
+      "seconds": 3.1
     },
     {
       "game_id": "0021500448",
@@ -5330,7 +5330,7 @@
       "handler_has": 122,
       "handler_matched": 120,
       "handler_coverage_sum": 142.1750501855053,
-      "seconds": 4.2
+      "seconds": 3.0
     },
     {
       "game_id": "0021500449",
@@ -5342,7 +5342,7 @@
       "handler_has": 105,
       "handler_matched": 103,
       "handler_coverage_sum": 131.30375187643386,
-      "seconds": 3.9
+      "seconds": 2.7
     },
     {
       "game_id": "0021500450",
@@ -5354,7 +5354,7 @@
       "handler_has": 117,
       "handler_matched": 117,
       "handler_coverage_sum": 122.14866817253184,
-      "seconds": 3.7
+      "seconds": 2.5
     },
     {
       "game_id": "0021500451",
@@ -5366,7 +5366,7 @@
       "handler_has": 116,
       "handler_matched": 112,
       "handler_coverage_sum": 144.56730331652346,
-      "seconds": 4.3
+      "seconds": 2.9
     },
     {
       "game_id": "0021500452",
@@ -5378,7 +5378,7 @@
       "handler_has": 124,
       "handler_matched": 119,
       "handler_coverage_sum": 145.3006502563833,
-      "seconds": 4.3
+      "seconds": 3.0
     },
     {
       "game_id": "0021500453",
@@ -5390,7 +5390,7 @@
       "handler_has": 139,
       "handler_matched": 134,
       "handler_coverage_sum": 148.81835555198555,
-      "seconds": 4.3
+      "seconds": 3.1
     },
     {
       "game_id": "0021500454",
@@ -5402,7 +5402,7 @@
       "handler_has": 141,
       "handler_matched": 139,
       "handler_coverage_sum": 157.6423385212185,
-      "seconds": 4.8
+      "seconds": 3.3
     },
     {
       "game_id": "0021500455",
@@ -5414,7 +5414,7 @@
       "handler_has": 114,
       "handler_matched": 110,
       "handler_coverage_sum": 140.71959917754054,
-      "seconds": 4.1
+      "seconds": 2.9
     },
     {
       "game_id": "0021500456",
@@ -5426,7 +5426,7 @@
       "handler_has": 130,
       "handler_matched": 126,
       "handler_coverage_sum": 141.69363242403284,
-      "seconds": 4.2
+      "seconds": 3.1
     },
     {
       "game_id": "0021500457",
@@ -5438,7 +5438,7 @@
       "handler_has": 115,
       "handler_matched": 114,
       "handler_coverage_sum": 137.12905196187853,
-      "seconds": 4.6
+      "seconds": 3.1
     },
     {
       "game_id": "0021500458",
@@ -5450,7 +5450,7 @@
       "handler_has": 149,
       "handler_matched": 149,
       "handler_coverage_sum": 159.52394188323785,
-      "seconds": 4.8
+      "seconds": 3.4
     },
     {
       "game_id": "0021500459",
@@ -5462,7 +5462,7 @@
       "handler_has": 121,
       "handler_matched": 120,
       "handler_coverage_sum": 141.5086387648512,
-      "seconds": 4.1
+      "seconds": 2.9
     },
     {
       "game_id": "0021500460",
@@ -5474,7 +5474,7 @@
       "handler_has": 125,
       "handler_matched": 123,
       "handler_coverage_sum": 137.63611005024205,
-      "seconds": 4.1
+      "seconds": 2.7
     },
     {
       "game_id": "0021500461",
@@ -5486,7 +5486,7 @@
       "handler_has": 129,
       "handler_matched": 128,
       "handler_coverage_sum": 152.8299444147221,
-      "seconds": 4.5
+      "seconds": 3.2
     },
     {
       "game_id": "0021500462",
@@ -5498,7 +5498,7 @@
       "handler_has": 102,
       "handler_matched": 101,
       "handler_coverage_sum": 123.84608197435253,
-      "seconds": 3.6
+      "seconds": 2.8
     },
     {
       "game_id": "0021500463",
@@ -5510,7 +5510,7 @@
       "handler_has": 129,
       "handler_matched": 129,
       "handler_coverage_sum": 140.19431563255225,
-      "seconds": 4.0
+      "seconds": 2.8
     },
     {
       "game_id": "0021500464",
@@ -5522,7 +5522,7 @@
       "handler_has": 108,
       "handler_matched": 105,
       "handler_coverage_sum": 124.4519865100471,
-      "seconds": 3.8
+      "seconds": 2.4
     },
     {
       "game_id": "0021500465",
@@ -5534,7 +5534,7 @@
       "handler_has": 107,
       "handler_matched": 104,
       "handler_coverage_sum": 129.2145180053062,
-      "seconds": 3.7
+      "seconds": 2.7
     },
     {
       "game_id": "0021500466",
@@ -5546,7 +5546,7 @@
       "handler_has": 106,
       "handler_matched": 104,
       "handler_coverage_sum": 120.84604560970455,
-      "seconds": 3.5
+      "seconds": 2.7
     },
     {
       "game_id": "0021500467",
@@ -5558,7 +5558,7 @@
       "handler_has": 122,
       "handler_matched": 118,
       "handler_coverage_sum": 137.67303832875672,
-      "seconds": 4.2
+      "seconds": 3.0
     },
     {
       "game_id": "0021500468",
@@ -5570,7 +5570,7 @@
       "handler_has": 149,
       "handler_matched": 147,
       "handler_coverage_sum": 160.1513633129291,
-      "seconds": 4.6
+      "seconds": 3.6
     },
     {
       "game_id": "0021500469",
@@ -5582,7 +5582,7 @@
       "handler_has": 125,
       "handler_matched": 123,
       "handler_coverage_sum": 133.18194669392284,
-      "seconds": 4.1
+      "seconds": 2.9
     },
     {
       "game_id": "0021500470",
@@ -5594,7 +5594,7 @@
       "handler_has": 113,
       "handler_matched": 107,
       "handler_coverage_sum": 126.29082040945461,
-      "seconds": 3.9
+      "seconds": 2.8
     },
     {
       "game_id": "0021500471",
@@ -5606,7 +5606,7 @@
       "handler_has": 112,
       "handler_matched": 110,
       "handler_coverage_sum": 136.26973295951512,
-      "seconds": 4.1
+      "seconds": 2.9
     },
     {
       "game_id": "0021500472",
@@ -5618,7 +5618,7 @@
       "handler_has": 144,
       "handler_matched": 139,
       "handler_coverage_sum": 163.48301145212224,
-      "seconds": 4.8
+      "seconds": 3.3
     },
     {
       "game_id": "0021500473",
@@ -5630,7 +5630,7 @@
       "handler_has": 125,
       "handler_matched": 119,
       "handler_coverage_sum": 135.38035059008052,
-      "seconds": 3.7
+      "seconds": 2.9
     },
     {
       "game_id": "0021500474",
@@ -5642,7 +5642,7 @@
       "handler_has": 116,
       "handler_matched": 112,
       "handler_coverage_sum": 143.79417376857367,
-      "seconds": 4.0
+      "seconds": 2.9
     },
     {
       "game_id": "0021500475",
@@ -5654,7 +5654,7 @@
       "handler_has": 115,
       "handler_matched": 111,
       "handler_coverage_sum": 121.77414054088507,
-      "seconds": 3.7
+      "seconds": 2.6
     },
     {
       "game_id": "0021500476",
@@ -5666,7 +5666,7 @@
       "handler_has": 134,
       "handler_matched": 131,
       "handler_coverage_sum": 146.7317689138663,
-      "seconds": 4.4
+      "seconds": 3.2
     },
     {
       "game_id": "0021500477",
@@ -5678,7 +5678,7 @@
       "handler_has": 129,
       "handler_matched": 128,
       "handler_coverage_sum": 143.4451298582544,
-      "seconds": 4.3
+      "seconds": 2.9
     },
     {
       "game_id": "0021500478",
@@ -5690,7 +5690,7 @@
       "handler_has": 126,
       "handler_matched": 125,
       "handler_coverage_sum": 144.26303334659178,
-      "seconds": 4.3
+      "seconds": 3.0
     },
     {
       "game_id": "0021500479",
@@ -5702,7 +5702,7 @@
       "handler_has": 96,
       "handler_matched": 96,
       "handler_coverage_sum": 120.44030732021724,
-      "seconds": 3.7
+      "seconds": 2.5
     },
     {
       "game_id": "0021500480",
@@ -5714,7 +5714,7 @@
       "handler_has": 116,
       "handler_matched": 113,
       "handler_coverage_sum": 133.92055008401366,
-      "seconds": 3.9
+      "seconds": 2.8
     },
     {
       "game_id": "0021500481",
@@ -5726,7 +5726,7 @@
       "handler_has": 106,
       "handler_matched": 103,
       "handler_coverage_sum": 121.953118971436,
-      "seconds": 3.6
+      "seconds": 2.7
     },
     {
       "game_id": "0021500482",
@@ -5738,7 +5738,7 @@
       "handler_has": 131,
       "handler_matched": 126,
       "handler_coverage_sum": 143.19737502939202,
-      "seconds": 3.1
+      "seconds": 3.0
     },
     {
       "game_id": "0021500483",
@@ -5774,7 +5774,7 @@
       "handler_has": 126,
       "handler_matched": 123,
       "handler_coverage_sum": 137.85309870094537,
-      "seconds": 3.3
+      "seconds": 2.9
     },
     {
       "game_id": "0021500486",
@@ -5786,7 +5786,7 @@
       "handler_has": 128,
       "handler_matched": 124,
       "handler_coverage_sum": 149.14648278199797,
-      "seconds": 3.3
+      "seconds": 3.0
     },
     {
       "game_id": "0021500487",
@@ -5798,7 +5798,7 @@
       "handler_has": 116,
       "handler_matched": 112,
       "handler_coverage_sum": 123.9910446644803,
-      "seconds": 3.6
+      "seconds": 2.6
     },
     {
       "game_id": "0021500488",
@@ -5810,7 +5810,7 @@
       "handler_has": 122,
       "handler_matched": 117,
       "handler_coverage_sum": 143.761886474898,
-      "seconds": 3.7
+      "seconds": 3.2
     },
     {
       "game_id": "0021500489",
@@ -5822,7 +5822,7 @@
       "handler_has": 119,
       "handler_matched": 117,
       "handler_coverage_sum": 124.49827674689259,
-      "seconds": 3.1
+      "seconds": 2.6
     },
     {
       "game_id": "0021500490",
@@ -5834,7 +5834,7 @@
       "handler_has": 138,
       "handler_matched": 134,
       "handler_coverage_sum": 150.93596213292543,
-      "seconds": 3.5
+      "seconds": 3.3
     },
     {
       "game_id": "0021500491",
@@ -5846,7 +5846,7 @@
       "handler_has": 126,
       "handler_matched": 120,
       "handler_coverage_sum": 146.09771966354108,
-      "seconds": 4.0
+      "seconds": 2.9
     },
     {
       "game_id": "0021500492",
@@ -5858,7 +5858,7 @@
       "handler_has": 120,
       "handler_matched": 117,
       "handler_coverage_sum": 137.88089422933206,
-      "seconds": 3.5
+      "seconds": 2.8
     },
     {
       "game_id": "0021500493",
@@ -5870,7 +5870,7 @@
       "handler_has": 121,
       "handler_matched": 118,
       "handler_coverage_sum": 137.41263508206117,
-      "seconds": 3.1
+      "seconds": 2.9
     },
     {
       "game_id": "0021500494",
@@ -5882,7 +5882,7 @@
       "handler_has": 127,
       "handler_matched": 119,
       "handler_coverage_sum": 138.9925793183849,
-      "seconds": 3.5
+      "seconds": 3.0
     },
     {
       "game_id": "0021500495",
@@ -5894,7 +5894,7 @@
       "handler_has": 135,
       "handler_matched": 133,
       "handler_coverage_sum": 151.4044728707653,
-      "seconds": 3.9
+      "seconds": 3.3
     },
     {
       "game_id": "0021500496",
@@ -5906,7 +5906,7 @@
       "handler_has": 141,
       "handler_matched": 135,
       "handler_coverage_sum": 159.87926731512715,
-      "seconds": 3.7
+      "seconds": 3.4
     },
     {
       "game_id": "0021500497",
@@ -5918,7 +5918,7 @@
       "handler_has": 127,
       "handler_matched": 127,
       "handler_coverage_sum": 155.25984816543593,
-      "seconds": 3.5
+      "seconds": 3.3
     },
     {
       "game_id": "0021500498",
@@ -5930,7 +5930,7 @@
       "handler_has": 109,
       "handler_matched": 105,
       "handler_coverage_sum": 128.44037874066888,
-      "seconds": 2.9
+      "seconds": 2.6
     },
     {
       "game_id": "0021500499",
@@ -5942,7 +5942,7 @@
       "handler_has": 101,
       "handler_matched": 97,
       "handler_coverage_sum": 114.56879002377313,
-      "seconds": 2.9
+      "seconds": 2.4
     },
     {
       "game_id": "0021500500",
@@ -5954,7 +5954,7 @@
       "handler_has": 103,
       "handler_matched": 99,
       "handler_coverage_sum": 121.60665501145115,
-      "seconds": 3.1
+      "seconds": 2.8
     },
     {
       "game_id": "0021500501",
@@ -5978,7 +5978,7 @@
       "handler_has": 94,
       "handler_matched": 91,
       "handler_coverage_sum": 107.2530084558532,
-      "seconds": 2.6
+      "seconds": 2.4
     },
     {
       "game_id": "0021500503",
@@ -5990,7 +5990,7 @@
       "handler_has": 125,
       "handler_matched": 125,
       "handler_coverage_sum": 151.35181558493235,
-      "seconds": 3.6
+      "seconds": 3.2
     },
     {
       "game_id": "0021500504",
@@ -6014,7 +6014,7 @@
       "handler_has": 135,
       "handler_matched": 132,
       "handler_coverage_sum": 147.281218102314,
-      "seconds": 3.3
+      "seconds": 3.2
     },
     {
       "game_id": "0021500506",
@@ -6026,7 +6026,7 @@
       "handler_has": 84,
       "handler_matched": 78,
       "handler_coverage_sum": 97.46142975718055,
-      "seconds": 2.3
+      "seconds": 2.0
     },
     {
       "game_id": "0021500507",
@@ -6038,7 +6038,7 @@
       "handler_has": 135,
       "handler_matched": 133,
       "handler_coverage_sum": 145.04633866285405,
-      "seconds": 3.1
+      "seconds": 3.2
     },
     {
       "game_id": "0021500508",
@@ -6050,7 +6050,7 @@
       "handler_has": 135,
       "handler_matched": 134,
       "handler_coverage_sum": 150.36250746652416,
-      "seconds": 3.4
+      "seconds": 3.6
     },
     {
       "game_id": "0021500509",
@@ -6062,7 +6062,7 @@
       "handler_has": 120,
       "handler_matched": 120,
       "handler_coverage_sum": 154.55153391459692,
-      "seconds": 3.3
+      "seconds": 3.6
     },
     {
       "game_id": "0021500510",
@@ -6074,7 +6074,7 @@
       "handler_has": 113,
       "handler_matched": 105,
       "handler_coverage_sum": 123.80459142963426,
-      "seconds": 3.0
+      "seconds": 3.1
     },
     {
       "game_id": "0021500511",
@@ -6086,7 +6086,7 @@
       "handler_has": 89,
       "handler_matched": 86,
       "handler_coverage_sum": 108.4651899783613,
-      "seconds": 2.6
+      "seconds": 2.5
     },
     {
       "game_id": "0021500512",
@@ -6098,7 +6098,7 @@
       "handler_has": 109,
       "handler_matched": 103,
       "handler_coverage_sum": 133.91244201866374,
-      "seconds": 3.2
+      "seconds": 3.0
     },
     {
       "game_id": "0021500513",
@@ -6110,7 +6110,7 @@
       "handler_has": 117,
       "handler_matched": 117,
       "handler_coverage_sum": 129.7663183659695,
-      "seconds": 3.3
+      "seconds": 3.1
     },
     {
       "game_id": "0021500514",
@@ -6122,7 +6122,7 @@
       "handler_has": 128,
       "handler_matched": 125,
       "handler_coverage_sum": 136.68941557577836,
-      "seconds": 3.5
+      "seconds": 3.2
     },
     {
       "game_id": "0021500515",
@@ -6134,7 +6134,7 @@
       "handler_has": 133,
       "handler_matched": 131,
       "handler_coverage_sum": 146.33287046981303,
-      "seconds": 3.4
+      "seconds": 3.5
     },
     {
       "game_id": "0021500516",
@@ -6146,7 +6146,7 @@
       "handler_has": 127,
       "handler_matched": 121,
       "handler_coverage_sum": 143.66642042475013,
-      "seconds": 3.3
+      "seconds": 3.6
     },
     {
       "game_id": "0021500517",
@@ -6158,7 +6158,7 @@
       "handler_has": 143,
       "handler_matched": 140,
       "handler_coverage_sum": 165.66504471659678,
-      "seconds": 3.7
+      "seconds": 3.8
     },
     {
       "game_id": "0021500518",
@@ -6170,7 +6170,7 @@
       "handler_has": 115,
       "handler_matched": 109,
       "handler_coverage_sum": 137.26232704067039,
-      "seconds": 3.2
+      "seconds": 3.5
     },
     {
       "game_id": "0021500519",
@@ -6182,7 +6182,7 @@
       "handler_has": 130,
       "handler_matched": 125,
       "handler_coverage_sum": 146.30498027853417,
-      "seconds": 3.4
+      "seconds": 3.2
     },
     {
       "game_id": "0021500520",
@@ -6194,7 +6194,7 @@
       "handler_has": 146,
       "handler_matched": 144,
       "handler_coverage_sum": 161.3016985151162,
-      "seconds": 3.6
+      "seconds": 3.3
     },
     {
       "game_id": "0021500521",
@@ -6206,7 +6206,7 @@
       "handler_has": 119,
       "handler_matched": 118,
       "handler_coverage_sum": 142.71692426893463,
-      "seconds": 3.2
+      "seconds": 3.0
     },
     {
       "game_id": "0021500522",
@@ -6218,7 +6218,7 @@
       "handler_has": 119,
       "handler_matched": 112,
       "handler_coverage_sum": 124.41464228389299,
-      "seconds": 2.5
+      "seconds": 2.7
     },
     {
       "game_id": "0021500523",
@@ -6230,7 +6230,7 @@
       "handler_has": 152,
       "handler_matched": 146,
       "handler_coverage_sum": 160.88524210672784,
-      "seconds": 5.1
+      "seconds": 3.3
     },
     {
       "game_id": "0021500524",
@@ -6242,7 +6242,7 @@
       "handler_has": 137,
       "handler_matched": 134,
       "handler_coverage_sum": 145.8358478252993,
-      "seconds": 5.1
+      "seconds": 3.1
     },
     {
       "game_id": "0021500525",
@@ -6254,7 +6254,7 @@
       "handler_has": 108,
       "handler_matched": 103,
       "handler_coverage_sum": 119.54596591123929,
-      "seconds": 3.8
+      "seconds": 2.6
     },
     {
       "game_id": "0021500526",
@@ -6266,7 +6266,7 @@
       "handler_has": 116,
       "handler_matched": 115,
       "handler_coverage_sum": 143.3105387227959,
-      "seconds": 4.7
+      "seconds": 2.9
     },
     {
       "game_id": "0021500527",
@@ -6278,7 +6278,7 @@
       "handler_has": 136,
       "handler_matched": 134,
       "handler_coverage_sum": 152.82989165343668,
-      "seconds": 5.1
+      "seconds": 3.3
     },
     {
       "game_id": "0021500528",
@@ -6290,7 +6290,7 @@
       "handler_has": 124,
       "handler_matched": 121,
       "handler_coverage_sum": 142.73638658857203,
-      "seconds": 4.8
+      "seconds": 3.0
     },
     {
       "game_id": "0021500529",
@@ -6302,7 +6302,7 @@
       "handler_has": 119,
       "handler_matched": 117,
       "handler_coverage_sum": 140.76237777403838,
-      "seconds": 4.6
+      "seconds": 2.9
     },
     {
       "game_id": "0021500530",
@@ -6314,7 +6314,7 @@
       "handler_has": 121,
       "handler_matched": 120,
       "handler_coverage_sum": 135.15224504682425,
-      "seconds": 4.7
+      "seconds": 2.8
     },
     {
       "game_id": "0021500531",
@@ -6326,7 +6326,7 @@
       "handler_has": 127,
       "handler_matched": 124,
       "handler_coverage_sum": 146.29246895249452,
-      "seconds": 5.0
+      "seconds": 3.1
     },
     {
       "game_id": "0021500532",
@@ -6338,7 +6338,7 @@
       "handler_has": 94,
       "handler_matched": 91,
       "handler_coverage_sum": 106.16353058236794,
-      "seconds": 3.6
+      "seconds": 2.3
     },
     {
       "game_id": "0021500533",
@@ -6350,7 +6350,7 @@
       "handler_has": 137,
       "handler_matched": 135,
       "handler_coverage_sum": 154.27884626890716,
-      "seconds": 5.0
+      "seconds": 3.2
     },
     {
       "game_id": "0021500534",
@@ -6362,7 +6362,7 @@
       "handler_has": 125,
       "handler_matched": 123,
       "handler_coverage_sum": 155.92327398340143,
-      "seconds": 4.9
+      "seconds": 3.5
     },
     {
       "game_id": "0021500535",
@@ -6374,7 +6374,7 @@
       "handler_has": 134,
       "handler_matched": 129,
       "handler_coverage_sum": 145.43149545469794,
-      "seconds": 4.8
+      "seconds": 3.0
     },
     {
       "game_id": "0021500536",
@@ -6386,7 +6386,7 @@
       "handler_has": 124,
       "handler_matched": 120,
       "handler_coverage_sum": 145.02671470709714,
-      "seconds": 5.1
+      "seconds": 3.0
     },
     {
       "game_id": "0021500537",
@@ -6398,7 +6398,7 @@
       "handler_has": 116,
       "handler_matched": 113,
       "handler_coverage_sum": 128.60152261448678,
-      "seconds": 4.4
+      "seconds": 2.9
     },
     {
       "game_id": "0021500538",
@@ -6410,7 +6410,7 @@
       "handler_has": 124,
       "handler_matched": 121,
       "handler_coverage_sum": 143.59475888059598,
-      "seconds": 4.9
+      "seconds": 3.0
     },
     {
       "game_id": "0021500539",
@@ -6422,7 +6422,7 @@
       "handler_has": 122,
       "handler_matched": 117,
       "handler_coverage_sum": 136.73156873685815,
-      "seconds": 4.6
+      "seconds": 2.8
     },
     {
       "game_id": "0021500540",
@@ -6434,7 +6434,7 @@
       "handler_has": 125,
       "handler_matched": 123,
       "handler_coverage_sum": 156.10142135905218,
-      "seconds": 5.5
+      "seconds": 3.5
     },
     {
       "game_id": "0021500541",
@@ -6446,7 +6446,7 @@
       "handler_has": 111,
       "handler_matched": 107,
       "handler_coverage_sum": 129.6599207363222,
-      "seconds": 4.4
+      "seconds": 2.7
     },
     {
       "game_id": "0021500542",
@@ -6458,7 +6458,7 @@
       "handler_has": 123,
       "handler_matched": 120,
       "handler_coverage_sum": 142.65247491730463,
-      "seconds": 4.8
+      "seconds": 3.0
     },
     {
       "game_id": "0021500543",
@@ -6470,7 +6470,7 @@
       "handler_has": 112,
       "handler_matched": 110,
       "handler_coverage_sum": 127.90873028251613,
-      "seconds": 4.1
+      "seconds": 2.9
     },
     {
       "game_id": "0021500544",
@@ -6482,7 +6482,7 @@
       "handler_has": 125,
       "handler_matched": 123,
       "handler_coverage_sum": 144.691912825651,
-      "seconds": 4.7
+      "seconds": 3.1
     },
     {
       "game_id": "0021500545",
@@ -6494,7 +6494,7 @@
       "handler_has": 108,
       "handler_matched": 103,
       "handler_coverage_sum": 125.49900928651138,
-      "seconds": 4.1
+      "seconds": 2.6
     },
     {
       "game_id": "0021500546",
@@ -6506,7 +6506,7 @@
       "handler_has": 97,
       "handler_matched": 96,
       "handler_coverage_sum": 105.64060401558153,
-      "seconds": 3.5
+      "seconds": 2.2
     },
     {
       "game_id": "0021500547",
@@ -6518,7 +6518,7 @@
       "handler_has": 126,
       "handler_matched": 119,
       "handler_coverage_sum": 136.76454316557457,
-      "seconds": 4.6
+      "seconds": 3.0
     },
     {
       "game_id": "0021500548",
@@ -6530,7 +6530,7 @@
       "handler_has": 145,
       "handler_matched": 139,
       "handler_coverage_sum": 159.28472404043947,
-      "seconds": 5.4
+      "seconds": 3.3
     },
     {
       "game_id": "0021500549",
@@ -6542,7 +6542,7 @@
       "handler_has": 133,
       "handler_matched": 127,
       "handler_coverage_sum": 144.4365825451585,
-      "seconds": 4.8
+      "seconds": 3.1
     },
     {
       "game_id": "0021500550",
@@ -6554,7 +6554,7 @@
       "handler_has": 129,
       "handler_matched": 124,
       "handler_coverage_sum": 145.99998160278153,
-      "seconds": 4.8
+      "seconds": 3.0
     },
     {
       "game_id": "0021500551",
@@ -6566,7 +6566,7 @@
       "handler_has": 139,
       "handler_matched": 134,
       "handler_coverage_sum": 151.78954783798042,
-      "seconds": 4.9
+      "seconds": 3.1
     },
     {
       "game_id": "0021500552",
@@ -6578,7 +6578,7 @@
       "handler_has": 103,
       "handler_matched": 101,
       "handler_coverage_sum": 118.35306754337105,
-      "seconds": 4.1
+      "seconds": 2.6
     },
     {
       "game_id": "0021500553",
@@ -6590,7 +6590,7 @@
       "handler_has": 143,
       "handler_matched": 140,
       "handler_coverage_sum": 144.07388079038557,
-      "seconds": 4.7
+      "seconds": 3.0
     },
     {
       "game_id": "0021500554",
@@ -6602,7 +6602,7 @@
       "handler_has": 114,
       "handler_matched": 107,
       "handler_coverage_sum": 132.3261981827276,
-      "seconds": 4.3
+      "seconds": 2.7
     },
     {
       "game_id": "0021500555",
@@ -6614,7 +6614,7 @@
       "handler_has": 118,
       "handler_matched": 114,
       "handler_coverage_sum": 137.84343836710258,
-      "seconds": 4.5
+      "seconds": 2.9
     },
     {
       "game_id": "0021500556",
@@ -6626,7 +6626,7 @@
       "handler_has": 139,
       "handler_matched": 134,
       "handler_coverage_sum": 153.76740807832894,
-      "seconds": 5.6
+      "seconds": 3.7
     },
     {
       "game_id": "0021500557",
@@ -6638,7 +6638,7 @@
       "handler_has": 107,
       "handler_matched": 102,
       "handler_coverage_sum": 132.60735347034284,
-      "seconds": 4.3
+      "seconds": 2.8
     },
     {
       "game_id": "0021500558",
@@ -6650,7 +6650,7 @@
       "handler_has": 142,
       "handler_matched": 140,
       "handler_coverage_sum": 164.96231064020867,
-      "seconds": 5.5
+      "seconds": 3.6
     },
     {
       "game_id": "0021500559",
@@ -6662,7 +6662,7 @@
       "handler_has": 117,
       "handler_matched": 115,
       "handler_coverage_sum": 135.40632443742413,
-      "seconds": 4.3
+      "seconds": 2.9
     },
     {
       "game_id": "0021500560",
@@ -6674,7 +6674,7 @@
       "handler_has": 113,
       "handler_matched": 112,
       "handler_coverage_sum": 141.33271939738611,
-      "seconds": 4.6
+      "seconds": 2.9
     },
     {
       "game_id": "0021500561",
@@ -6686,7 +6686,7 @@
       "handler_has": 141,
       "handler_matched": 138,
       "handler_coverage_sum": 154.0410690347188,
-      "seconds": 5.1
+      "seconds": 3.6
     },
     {
       "game_id": "0021500562",
@@ -6698,7 +6698,7 @@
       "handler_has": 112,
       "handler_matched": 109,
       "handler_coverage_sum": 121.14951771315805,
-      "seconds": 3.9
+      "seconds": 2.6
     },
     {
       "game_id": "0021500563",
@@ -6710,7 +6710,7 @@
       "handler_has": 126,
       "handler_matched": 122,
       "handler_coverage_sum": 143.31403149323165,
-      "seconds": 4.9
+      "seconds": 3.1
     },
     {
       "game_id": "0021500564",
@@ -6722,7 +6722,7 @@
       "handler_has": 132,
       "handler_matched": 126,
       "handler_coverage_sum": 152.92912473449542,
-      "seconds": 5.0
+      "seconds": 3.1
     },
     {
       "game_id": "0021500565",
@@ -6734,7 +6734,7 @@
       "handler_has": 118,
       "handler_matched": 115,
       "handler_coverage_sum": 136.4964282868059,
-      "seconds": 4.4
+      "seconds": 2.9
     },
     {
       "game_id": "0021500566",
@@ -6746,7 +6746,7 @@
       "handler_has": 110,
       "handler_matched": 107,
       "handler_coverage_sum": 126.22260711268146,
-      "seconds": 4.0
+      "seconds": 2.5
     },
     {
       "game_id": "0021500567",
@@ -6758,7 +6758,7 @@
       "handler_has": 140,
       "handler_matched": 136,
       "handler_coverage_sum": 156.11268525955936,
-      "seconds": 4.8
+      "seconds": 3.3
     },
     {
       "game_id": "0021500568",
@@ -6770,7 +6770,7 @@
       "handler_has": 139,
       "handler_matched": 138,
       "handler_coverage_sum": 148.52664462573537,
-      "seconds": 4.6
+      "seconds": 3.2
     },
     {
       "game_id": "0021500569",
@@ -6782,7 +6782,7 @@
       "handler_has": 125,
       "handler_matched": 122,
       "handler_coverage_sum": 145.54484579288652,
-      "seconds": 4.5
+      "seconds": 3.0
     },
     {
       "game_id": "0021500570",
@@ -6794,7 +6794,7 @@
       "handler_has": 131,
       "handler_matched": 126,
       "handler_coverage_sum": 143.97607325118128,
-      "seconds": 4.6
+      "seconds": 3.2
     },
     {
       "game_id": "0021500571",
@@ -6806,7 +6806,7 @@
       "handler_has": 124,
       "handler_matched": 119,
       "handler_coverage_sum": 142.56929899851858,
-      "seconds": 4.5
+      "seconds": 3.0
     },
     {
       "game_id": "0021500572",
@@ -6818,7 +6818,7 @@
       "handler_has": 101,
       "handler_matched": 97,
       "handler_coverage_sum": 115.54147444364014,
-      "seconds": 3.5
+      "seconds": 2.7
     },
     {
       "game_id": "0021500573",
@@ -6830,7 +6830,7 @@
       "handler_has": 93,
       "handler_matched": 89,
       "handler_coverage_sum": 105.047951481581,
-      "seconds": 3.2
+      "seconds": 2.2
     },
     {
       "game_id": "0021500574",
@@ -6842,7 +6842,7 @@
       "handler_has": 134,
       "handler_matched": 129,
       "handler_coverage_sum": 151.34391814167333,
-      "seconds": 4.8
+      "seconds": 3.2
     },
     {
       "game_id": "0021500575",
@@ -6854,7 +6854,7 @@
       "handler_has": 125,
       "handler_matched": 123,
       "handler_coverage_sum": 138.49150710433202,
-      "seconds": 4.7
+      "seconds": 3.4
     },
     {
       "game_id": "0021500576",
@@ -6866,7 +6866,7 @@
       "handler_has": 126,
       "handler_matched": 121,
       "handler_coverage_sum": 136.59537075322675,
-      "seconds": 4.1
+      "seconds": 3.0
     },
     {
       "game_id": "0021500577",
@@ -6878,7 +6878,7 @@
       "handler_has": 126,
       "handler_matched": 125,
       "handler_coverage_sum": 149.9665120333644,
-      "seconds": 4.6
+      "seconds": 3.3
     },
     {
       "game_id": "0021500578",
@@ -6890,7 +6890,7 @@
       "handler_has": 123,
       "handler_matched": 118,
       "handler_coverage_sum": 161.89343809091963,
-      "seconds": 5.1
+      "seconds": 3.5
     },
     {
       "game_id": "0021500579",
@@ -6902,7 +6902,7 @@
       "handler_has": 126,
       "handler_matched": 125,
       "handler_coverage_sum": 130.90165724319257,
-      "seconds": 4.1
+      "seconds": 2.7
     },
     {
       "game_id": "0021500580",
@@ -6914,7 +6914,7 @@
       "handler_has": 149,
       "handler_matched": 149,
       "handler_coverage_sum": 163.55044546141477,
-      "seconds": 5.2
+      "seconds": 3.7
     },
     {
       "game_id": "0021500581",
@@ -6926,7 +6926,7 @@
       "handler_has": 115,
       "handler_matched": 109,
       "handler_coverage_sum": 138.98912407170144,
-      "seconds": 4.6
+      "seconds": 3.1
     },
     {
       "game_id": "0021500582",
@@ -6938,7 +6938,7 @@
       "handler_has": 128,
       "handler_matched": 122,
       "handler_coverage_sum": 151.89249973457788,
-      "seconds": 4.8
+      "seconds": 3.4
     },
     {
       "game_id": "0021500583",
@@ -6950,7 +6950,7 @@
       "handler_has": 136,
       "handler_matched": 133,
       "handler_coverage_sum": 154.14123063037476,
-      "seconds": 5.0
+      "seconds": 3.3
     },
     {
       "game_id": "0021500584",
@@ -6962,7 +6962,7 @@
       "handler_has": 111,
       "handler_matched": 108,
       "handler_coverage_sum": 124.7566251535779,
-      "seconds": 3.8
+      "seconds": 2.8
     },
     {
       "game_id": "0021500585",
@@ -6974,7 +6974,7 @@
       "handler_has": 137,
       "handler_matched": 133,
       "handler_coverage_sum": 145.505012725817,
-      "seconds": 4.4
+      "seconds": 3.1
     },
     {
       "game_id": "0021500586",
@@ -6986,7 +6986,7 @@
       "handler_has": 131,
       "handler_matched": 128,
       "handler_coverage_sum": 148.87317099829008,
-      "seconds": 4.4
+      "seconds": 3.1
     },
     {
       "game_id": "0021500591",
@@ -6998,7 +6998,7 @@
       "handler_has": 116,
       "handler_matched": 113,
       "handler_coverage_sum": 152.70362630872262,
-      "seconds": 4.7
+      "seconds": 3.2
     },
     {
       "game_id": "0021500592",
@@ -7010,7 +7010,7 @@
       "handler_has": 143,
       "handler_matched": 139,
       "handler_coverage_sum": 164.99656976836926,
-      "seconds": 5.2
+      "seconds": 3.6
     },
     {
       "game_id": "0021500593",
@@ -7022,7 +7022,7 @@
       "handler_has": 119,
       "handler_matched": 118,
       "handler_coverage_sum": 132.20300123097502,
-      "seconds": 3.9
+      "seconds": 2.7
     },
     {
       "game_id": "0021500594",
@@ -7034,7 +7034,7 @@
       "handler_has": 123,
       "handler_matched": 120,
       "handler_coverage_sum": 144.11158614080867,
-      "seconds": 4.3
+      "seconds": 2.9
     },
     {
       "game_id": "0021500595",
@@ -7046,7 +7046,7 @@
       "handler_has": 136,
       "handler_matched": 134,
       "handler_coverage_sum": 155.29029642904212,
-      "seconds": 4.8
+      "seconds": 3.3
     },
     {
       "game_id": "0021500596",
@@ -7058,7 +7058,7 @@
       "handler_has": 124,
       "handler_matched": 120,
       "handler_coverage_sum": 133.8376995077915,
-      "seconds": 3.9
+      "seconds": 2.9
     },
     {
       "game_id": "0021500597",
@@ -7070,7 +7070,7 @@
       "handler_has": 130,
       "handler_matched": 128,
       "handler_coverage_sum": 144.8338286761521,
-      "seconds": 4.5
+      "seconds": 3.0
     },
     {
       "game_id": "0021500598",
@@ -7082,7 +7082,7 @@
       "handler_has": 124,
       "handler_matched": 123,
       "handler_coverage_sum": 132.5757865640843,
-      "seconds": 3.7
+      "seconds": 2.9
     },
     {
       "game_id": "0021500599",
@@ -7094,7 +7094,7 @@
       "handler_has": 105,
       "handler_matched": 99,
       "handler_coverage_sum": 112.31932303476115,
-      "seconds": 1.9
+      "seconds": 2.4
     },
     {
       "game_id": "0021500600",
@@ -7106,7 +7106,7 @@
       "handler_has": 116,
       "handler_matched": 115,
       "handler_coverage_sum": 138.2219969810745,
-      "seconds": 2.3
+      "seconds": 2.6
     },
     {
       "game_id": "0021500601",
@@ -7118,7 +7118,7 @@
       "handler_has": 105,
       "handler_matched": 103,
       "handler_coverage_sum": 124.61512473167596,
-      "seconds": 2.3
+      "seconds": 2.7
     },
     {
       "game_id": "0021500615",
@@ -7130,7 +7130,7 @@
       "handler_has": 152,
       "handler_matched": 145,
       "handler_coverage_sum": 170.65310608389657,
-      "seconds": 3.3
+      "seconds": 3.7
     },
     {
       "game_id": "0021500616",
@@ -7142,7 +7142,7 @@
       "handler_has": 143,
       "handler_matched": 143,
       "handler_coverage_sum": 164.21034765887217,
-      "seconds": 3.2
+      "seconds": 3.5
     },
     {
       "game_id": "0021500617",
@@ -7154,7 +7154,7 @@
       "handler_has": 135,
       "handler_matched": 130,
       "handler_coverage_sum": 152.49263974498385,
-      "seconds": 3.0
+      "seconds": 3.1
     },
     {
       "game_id": "0021500618",
@@ -7166,7 +7166,7 @@
       "handler_has": 113,
       "handler_matched": 111,
       "handler_coverage_sum": 142.79003731931545,
-      "seconds": 2.5
+      "seconds": 2.9
     },
     {
       "game_id": "0021500619",
@@ -7178,7 +7178,7 @@
       "handler_has": 133,
       "handler_matched": 131,
       "handler_coverage_sum": 135.6544891852685,
-      "seconds": 2.5
+      "seconds": 2.7
     },
     {
       "game_id": "0021500620",
@@ -7190,7 +7190,7 @@
       "handler_has": 116,
       "handler_matched": 112,
       "handler_coverage_sum": 136.56613775864702,
-      "seconds": 2.5
+      "seconds": 2.9
     },
     {
       "game_id": "0021500621",
@@ -7202,7 +7202,7 @@
       "handler_has": 120,
       "handler_matched": 120,
       "handler_coverage_sum": 135.9517167640741,
-      "seconds": 2.4
+      "seconds": 2.9
     },
     {
       "game_id": "0021500622",
@@ -7226,7 +7226,7 @@
       "handler_has": 132,
       "handler_matched": 130,
       "handler_coverage_sum": 153.55158047395872,
-      "seconds": 2.8
+      "seconds": 3.5
     },
     {
       "game_id": "0021500624",
@@ -7238,7 +7238,7 @@
       "handler_has": 145,
       "handler_matched": 134,
       "handler_coverage_sum": 165.07542959181708,
-      "seconds": 2.9
+      "seconds": 4.2
     },
     {
       "game_id": "0021500625",
@@ -7250,7 +7250,7 @@
       "handler_has": 97,
       "handler_matched": 95,
       "handler_coverage_sum": 120.76780062412973,
-      "seconds": 2.1
+      "seconds": 2.7
     },
     {
       "game_id": "0021500626",
@@ -7262,7 +7262,7 @@
       "handler_has": 107,
       "handler_matched": 105,
       "handler_coverage_sum": 135.6553615395814,
-      "seconds": 2.4
+      "seconds": 3.2
     },
     {
       "game_id": "0021500627",
@@ -7274,7 +7274,7 @@
       "handler_has": 131,
       "handler_matched": 129,
       "handler_coverage_sum": 146.90980526924753,
-      "seconds": 2.5
+      "seconds": 3.4
     },
     {
       "game_id": "0021500628",
@@ -7286,7 +7286,7 @@
       "handler_has": 128,
       "handler_matched": 124,
       "handler_coverage_sum": 144.08541894047977,
-      "seconds": 2.5
+      "seconds": 3.4
     },
     {
       "game_id": "0021500629",
@@ -7298,7 +7298,7 @@
       "handler_has": 133,
       "handler_matched": 124,
       "handler_coverage_sum": 154.01823581421664,
-      "seconds": 2.7
+      "seconds": 3.7
     },
     {
       "game_id": "0021500630",
@@ -7310,7 +7310,7 @@
       "handler_has": 115,
       "handler_matched": 112,
       "handler_coverage_sum": 141.2849770347126,
-      "seconds": 2.4
+      "seconds": 3.5
     },
     {
       "game_id": "0021500631",
@@ -7322,7 +7322,7 @@
       "handler_has": 105,
       "handler_matched": 100,
       "handler_coverage_sum": 118.810829311504,
-      "seconds": 2.2
+      "seconds": 2.8
     },
     {
       "game_id": "0021500632",
@@ -7334,7 +7334,7 @@
       "handler_has": 125,
       "handler_matched": 123,
       "handler_coverage_sum": 139.04087131333443,
-      "seconds": 2.6
+      "seconds": 3.4
     },
     {
       "game_id": "0021500633",
@@ -7346,7 +7346,7 @@
       "handler_has": 123,
       "handler_matched": 122,
       "handler_coverage_sum": 142.1567454798241,
-      "seconds": 2.5
+      "seconds": 3.3
     },
     {
       "game_id": "0021500634",
@@ -7358,7 +7358,7 @@
       "handler_has": 145,
       "handler_matched": 141,
       "handler_coverage_sum": 150.74089642230035,
-      "seconds": 2.8
+      "seconds": 4.4
     },
     {
       "game_id": "0021500635",
@@ -7370,7 +7370,7 @@
       "handler_has": 141,
       "handler_matched": 139,
       "handler_coverage_sum": 154.9397215527993,
-      "seconds": 2.8
+      "seconds": 4.1
     },
     {
       "game_id": "0021500636",
@@ -7382,7 +7382,7 @@
       "handler_has": 128,
       "handler_matched": 122,
       "handler_coverage_sum": 156.86386381232478,
-      "seconds": 2.8
+      "seconds": 3.3
     },
     {
       "game_id": "0021500637",
@@ -7394,7 +7394,7 @@
       "handler_has": 124,
       "handler_matched": 121,
       "handler_coverage_sum": 144.19385351415582,
-      "seconds": 2.5
+      "seconds": 3.0
     },
     {
       "game_id": "0021500638",
@@ -7406,7 +7406,7 @@
       "handler_has": 127,
       "handler_matched": 122,
       "handler_coverage_sum": 142.95997025277003,
-      "seconds": 2.6
+      "seconds": 3.0
     },
     {
       "game_id": "0021500639",
@@ -7418,7 +7418,7 @@
       "handler_has": 141,
       "handler_matched": 136,
       "handler_coverage_sum": 152.77256626148682,
-      "seconds": 2.7
+      "seconds": 3.4
     },
     {
       "game_id": "0021500641",
@@ -7430,7 +7430,7 @@
       "handler_has": 100,
       "handler_matched": 97,
       "handler_coverage_sum": 120.00902143429741,
-      "seconds": 2.0
+      "seconds": 2.5
     },
     {
       "game_id": "0021500642",
@@ -7442,7 +7442,7 @@
       "handler_has": 102,
       "handler_matched": 99,
       "handler_coverage_sum": 125.91348545603998,
-      "seconds": 2.1
+      "seconds": 2.8
     },
     {
       "game_id": "0021500645",
@@ -7454,7 +7454,7 @@
       "handler_has": 139,
       "handler_matched": 138,
       "handler_coverage_sum": 155.6920783701272,
-      "seconds": 2.3
+      "seconds": 3.4
     },
     {
       "game_id": "0021500646",
@@ -7466,7 +7466,7 @@
       "handler_has": 142,
       "handler_matched": 139,
       "handler_coverage_sum": 161.5606634278866,
-      "seconds": 2.4
+      "seconds": 3.7
     },
     {
       "game_id": "0021500647",
@@ -7478,7 +7478,7 @@
       "handler_has": 94,
       "handler_matched": 92,
       "handler_coverage_sum": 110.11643738165867,
-      "seconds": 1.9
+      "seconds": 2.5
     },
     {
       "game_id": "0021500648",
@@ -7490,7 +7490,7 @@
       "handler_has": 130,
       "handler_matched": 124,
       "handler_coverage_sum": 141.91328549742823,
-      "seconds": 2.5
+      "seconds": 3.6
     },
     {
       "game_id": "0021500649",
@@ -7502,7 +7502,7 @@
       "handler_has": 108,
       "handler_matched": 107,
       "handler_coverage_sum": 129.10447107329458,
-      "seconds": 2.2
+      "seconds": 2.7
     },
     {
       "game_id": "0021500650",
@@ -7514,7 +7514,7 @@
       "handler_has": 125,
       "handler_matched": 116,
       "handler_coverage_sum": 138.75539377300123,
-      "seconds": 2.4
+      "seconds": 3.0
     },
     {
       "game_id": "0021500651",
@@ -7526,7 +7526,7 @@
       "handler_has": 122,
       "handler_matched": 118,
       "handler_coverage_sum": 134.75056101007186,
-      "seconds": 2.3
+      "seconds": 3.0
     },
     {
       "game_id": "0021500652",
@@ -7538,7 +7538,7 @@
       "handler_has": 136,
       "handler_matched": 132,
       "handler_coverage_sum": 159.54756333944778,
-      "seconds": 3.1
+      "seconds": 4.1
     },
     {
       "game_id": "0021500653",
@@ -7550,7 +7550,7 @@
       "handler_has": 138,
       "handler_matched": 135,
       "handler_coverage_sum": 141.18053207618237,
-      "seconds": 2.7
+      "seconds": 4.2
     },
     {
       "game_id": "0021500655",
@@ -7562,7 +7562,7 @@
       "handler_has": 125,
       "handler_matched": 124,
       "handler_coverage_sum": 150.69024885431514,
-      "seconds": 3.1
+      "seconds": 3.9
     },
     {
       "game_id": "0021500657",
@@ -7574,7 +7574,7 @@
       "handler_has": 101,
       "handler_matched": 97,
       "handler_coverage_sum": 118.38643080176462,
-      "seconds": 2.4
+      "seconds": 3.3
     },
     {
       "game_id": "0021500658",
@@ -7586,7 +7586,7 @@
       "handler_has": 110,
       "handler_matched": 106,
       "handler_coverage_sum": 134.0499115894038,
-      "seconds": 2.5
+      "seconds": 3.5
     },
     {
       "game_id": "0021500660",
@@ -7598,7 +7598,7 @@
       "handler_has": 125,
       "handler_matched": 118,
       "handler_coverage_sum": 143.83670104037492,
-      "seconds": 2.2
+      "seconds": 3.6
     },
     {
       "game_id": "0021500661",
@@ -7610,7 +7610,7 @@
       "handler_has": 102,
       "handler_matched": 100,
       "handler_coverage_sum": 115.98472811217361,
-      "seconds": 1.7
+      "seconds": 2.7
     },
     {
       "game_id": "0021500662",
@@ -7622,7 +7622,7 @@
       "handler_has": 130,
       "handler_matched": 129,
       "handler_coverage_sum": 149.05576183924885,
-      "seconds": 2.7
+      "seconds": 3.7
     },
     {
       "game_id": "0021500663",
@@ -7634,7 +7634,7 @@
       "handler_has": 121,
       "handler_matched": 119,
       "handler_coverage_sum": 138.90973872069446,
-      "seconds": 2.7
+      "seconds": 3.2
     }
   ]
 }

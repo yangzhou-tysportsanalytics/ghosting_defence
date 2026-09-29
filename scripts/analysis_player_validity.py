@@ -35,11 +35,12 @@ MIN_POSS = 300
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--source", default="data/processed/nbacore-v1.0/all")
-    ap.add_argument("--hier", default="reports/phase4/v1.2_all")
+    ap.add_argument("--source", default=None, help="processed game-set dir (default: config)")
+    ap.add_argument("--hier", default=None, help="phase-4 report dir (default: config version)")
     args = ap.parse_args()
     cfg = D.DataConfig.load(game_set="all")
-    src, hier = Path(args.source), Path(args.hier)
+    src = Path(args.source) if args.source else cfg.processed_dir / "all"
+    hier = Path(args.hier) if args.hier else Path("reports/phase4") / f"{cfg.version}_all"
 
     dev = pl.read_parquet(src / "analysis" / "rule_ghost_dev.parquet")
     n_poss = dev.group_by("def_id").len().rename({"def_id": "player_id", "len": "n_def_poss"})

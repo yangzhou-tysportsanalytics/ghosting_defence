@@ -1,5 +1,5 @@
 {
-  "nbacore_version": "v1.5",
+  "nbacore_version": "v1.6",
   "model": "hmm (pooled, no help state)",
   "n_train_possessions": 5000,
   "tol": 1e-08,
@@ -20,7 +20,7 @@
       "loglik_per_obs": -5.242382385508749,
       "iterations": 6,
       "converged": true,
-      "seconds": 40.2
+      "seconds": 67.2
     },
     "uniform": {
       "init": [
@@ -38,7 +38,7 @@
       "loglik_per_obs": -5.242382386548785,
       "iterations": 7,
       "converged": true,
-      "seconds": 55.4
+      "seconds": 76.5
     },
     "man_heavy": {
       "init": [
@@ -56,7 +56,7 @@
       "loglik_per_obs": -5.242382385979221,
       "iterations": 7,
       "converged": true,
-      "seconds": 53.0
+      "seconds": 71.4
     },
     "rim_heavy": {
       "init": [
@@ -74,7 +74,7 @@
       "loglik_per_obs": -5.242382385450999,
       "iterations": 8,
       "converged": true,
-      "seconds": 59.1
+      "seconds": 91.9
     }
   },
   "max_abs_spread_across_inits": [

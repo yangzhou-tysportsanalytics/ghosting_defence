@@ -42,6 +42,9 @@ def main() -> None:
         pl.read_parquet(base / "possessions.parquet")
         .filter(pl.col("terminal_msg_type").is_in([1, 2]))
         .select(["game_id", "possession_id", "t_terminal", "is_transition"])
+        # a few windows share their terminal time; attach each shot to one window (the lower id)
+        .sort(["game_id", "t_terminal", "possession_id"])
+        .unique(subset=["game_id", "t_terminal"], keep="first", maintain_order=True)
     )
     splits = D.splits(cfg).select(["game_id", "split", "parity"])
     rows = []

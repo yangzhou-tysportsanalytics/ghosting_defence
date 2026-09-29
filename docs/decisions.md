@@ -97,7 +97,7 @@ above the league 80th percentile sustained >= 1 s, the first in a cascade attrib
 ## D-016 Shared data layer
 
 Cleaning, events, the possession ledger and the fixed split are provided by nbacore (pinned
-release `data-v1.5`). This repository keeps the half-court tensors, matchup HMM, switch / help /
+release `data-v1.6`). This repository keeps the half-court tensors, matchup HMM, switch / help /
 closeout definitions, ghost models, deviations, hierarchical model and analyses.
 
 ## D-017 Corrected shot release

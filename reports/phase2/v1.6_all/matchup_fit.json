@@ -1,5 +1,5 @@
 {
-  "nbacore_version": "v1.5",
+  "nbacore_version": "v1.6",
   "game_set": "all",
   "n_halfcourt_possessions": 89245,
   "n_fit_train": 20000,
@@ -27,7 +27,7 @@
       "converged": true,
       "train_loglik_per_obs": -5.2826004874159445,
       "val_loglik_per_obs": -5.320199055925842,
-      "fit_seconds": 168.2,
+      "fit_seconds": 195.4,
       "agreement_with_baseline": 0.9409048928011339,
       "switches_per_possession": 3.52582217491176,
       "double_team_step_share": 0.3377924243327919,
@@ -69,7 +69,7 @@
       "converged": true,
       "train_loglik_per_obs": -5.264972648548364,
       "val_loglik_per_obs": -5.301847840762696,
-      "fit_seconds": 248.4,
+      "fit_seconds": 339.4,
       "agreement_with_baseline": 0.9351308717297416,
       "switches_per_possession": 3.5333632136254134,
       "double_team_step_share": 0.3295838873666373,
@@ -111,7 +111,7 @@
       "converged": true,
       "train_loglik_per_obs": -5.031683665468231,
       "val_loglik_per_obs": -5.035560208888245,
-      "fit_seconds": 362.6,
+      "fit_seconds": 530.0,
       "agreement_with_baseline": 0.9007814939427641,
       "switches_per_possession": 4.982844977309653,
       "double_team_step_share": 0.26651311611719425,
@@ -133,5 +133,5 @@
       0.27
     ]
   },
-  "total_seconds": 1272.9
+  "total_seconds": 1710.7
 }

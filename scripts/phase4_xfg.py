@@ -22,12 +22,11 @@ def main() -> None:
     cfg = D.DataConfig.load(game_set="all")
     base = cfg.processed_dir / "all" / "analysis"
     S = pl.read_parquet(base / "shots.parquet").filter(pl.col("def1_ft").is_not_null())
-    if "release_method" in S.columns:  # nbacore v1.3: untrustworthy release times
-        S = S.filter(
-            ~(pl.col("release_method") == "pbp")
-            & ~pl.col("release_method").str.ends_with("_nohand")
-            & ~pl.col("release_method").str.ends_with("_anyhand")
-        )
+    if "release_method" in S.columns:
+        # only releases located from the ball with the shooter in hand ("rim" / "apex"); excluded:
+        # pbp fallback, *_nohand / *_anyhand, the widened-window *_wide variants and "hand"
+        # (nbacore v1.6). Same training population as under v1.5, where only rim / apex passed.
+        S = S.filter(pl.col("release_method").is_in(["rim", "apex"]))
     tr, va, te = (S.filter(pl.col("split") == s) for s in ("train", "val", "test"))
     rep = {
         "n": {"train": tr.height, "val": va.height, "test": te.height},

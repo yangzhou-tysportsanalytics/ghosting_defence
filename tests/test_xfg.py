@@ -62,3 +62,33 @@ def test_design_and_space_effect():
     assert coef["log_def1"] + coef["log_def_front"] > 0  # more space -> higher make probability
     wider = S.with_columns(pl.col("def1_ft") + 3, pl.col("def_front_ft") + 3)
     assert m.predict(wider).mean() > m.predict(S).mean()
+
+
+def test_logistic_optimality_and_recovery():
+    from ghost.xfg.model import Logistic
+
+    rng = np.random.default_rng(3)
+    n, beta = 20000, np.array([0.8, -1.2, 0.3])
+    X = rng.normal(size=(n, 3))
+    y = (rng.random(n) < 1 / (1 + np.exp(-(-0.4 + X @ beta)))).astype(int)
+    m = Logistic(C=1.0).fit(X, y)
+    # first-order condition of 0.5||w||^2 + C * sum logloss (intercept unpenalised)
+    p = m.predict_proba(X)[:, 1]
+    g_w = X.T @ (p - y) + m.coef_[0]
+    g_b = np.sum(p - y)
+    assert np.max(np.abs(g_w)) < 1e-6 and abs(g_b) < 1e-6
+    assert np.allclose(m.coef_[0], beta, atol=0.06) and abs(m.intercept_[0] + 0.4) < 0.06
+    # a stronger penalty shrinks the coefficients
+    assert np.linalg.norm(Logistic(C=1e-4).fit(X, y).coef_) < np.linalg.norm(m.coef_)
+
+
+def test_metrics_match_hand_values():
+    from ghost.xfg.model import brier_score_loss, log_loss, roc_auc_score
+
+    y = np.array([0, 0, 1, 1])
+    p = np.array([0.1, 0.4, 0.35, 0.8])
+    assert abs(roc_auc_score(y, p) - 0.75) < 1e-12  # 3 of 4 positive-negative pairs ordered
+    assert abs(roc_auc_score(np.array([0, 1]), np.array([0.5, 0.5])) - 0.5) < 1e-12  # tie
+    assert abs(brier_score_loss(y, p) - np.mean((p - y) ** 2)) < 1e-12
+    expected = -np.mean([np.log(0.9), np.log(0.6), np.log(0.35), np.log(0.8)])
+    assert abs(log_loss(y, p) - expected) < 1e-12

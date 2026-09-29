@@ -10,7 +10,6 @@ dependencies = [
     "pandas>=2.2",
     "pyarrow>=15",
     "scipy>=1.12",
-    "scikit-learn>=1.4",
     "torch>=2.2",
     "jax>=0.4.30",
     "numpyro>=0.15",
@@ -55,4 +54,4 @@ testpaths = ["tests"]
 addopts = "-q"
 
 [tool.uv.sources]
-nbacore = { git = "https://github.com/yangzhou-tysportsanalytics/nbacore", tag = "data-v1.5" }
+nbacore = { git = "https://github.com/yangzhou-tysportsanalytics/nbacore", tag = "data-v1.6" }

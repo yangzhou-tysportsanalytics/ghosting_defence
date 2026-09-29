@@ -5,6 +5,10 @@ games, the empirical-Bayes rate is (m + k_z p_z) / (n + k_z), with league zone r
 strength k_z from a beta-binomial method of moments over shooters. Training rows use leave-one-out
 counts (the shot's own outcome is removed) so the offset does not leak the label.
 Feature ``skill`` = logit(shrunk rate) - logit(p_z).
+
+The logistic regression is fitted here with Newton's method (numpy only). The objective is the one
+of scikit-learn's ``LogisticRegression(C=C)`` with the default L2 penalty and an unpenalised
+intercept, so the (unique) optimum is the same; scikit-learn is not required.
 """
 
 from __future__ import annotations
@@ -14,8 +18,8 @@ from dataclasses import dataclass, field
 
 import numpy as np
 import polars as pl
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import brier_score_loss, log_loss, roc_auc_score
+from scipy.special import expit as _sigmoid
+from scipy.stats import rankdata
 
 ZONES = ["rim", "paint", "mid", "corner3", "above3"]
 FEATURE_SETS = {
@@ -29,6 +33,64 @@ FEATURE_SETS = {
 def _logit(p):
     p = np.clip(p, 1e-4, 1 - 1e-4)
     return np.log(p / (1 - p))
+
+
+class Logistic:
+    """L2-penalised logistic regression, fitted by Newton's method.
+
+    Minimises 0.5 * ||w||^2 + C * sum_i logloss(y_i, sigmoid(b + x_i w)) with the intercept b not
+    penalised (scikit-learn's ``LogisticRegression(C=C)`` objective). Attributes ``coef_`` (1, d)
+    and ``intercept_`` (1,) and method ``predict_proba`` mirror scikit-learn's.
+    """
+
+    def __init__(self, C: float = 1.0, tol: float = 1e-10, max_iter: int = 100):
+        self.C, self.tol, self.max_iter = C, tol, max_iter
+        self.n_iter_ = 0
+
+    def fit(self, X: np.ndarray, y: np.ndarray) -> Logistic:
+        X = np.asarray(X, dtype=np.float64)
+        y = np.asarray(y, dtype=np.float64)
+        n, d = X.shape
+        Xa = np.column_stack([np.ones(n), X])
+        pen = np.ones(d + 1)
+        pen[0] = 0.0  # intercept not penalised
+        beta = np.zeros(d + 1)
+        beta[0] = _logit(np.array([y.mean()]))[0]
+        for it in range(1, self.max_iter + 1):
+            p = _sigmoid(Xa @ beta)
+            grad = self.C * (Xa.T @ (p - y)) + pen * beta
+            H = self.C * (Xa.T * (p * (1 - p))) @ Xa + np.diag(pen)
+            step = np.linalg.solve(H, grad)
+            beta -= step
+            self.n_iter_ = it
+            if np.max(np.abs(step)) < self.tol:
+                break
+        else:
+            raise RuntimeError(f"Logistic: no convergence in {self.max_iter} Newton steps")
+        self.intercept_ = beta[:1].copy()
+        self.coef_ = beta[None, 1:].copy()
+        return self
+
+    def predict_proba(self, X: np.ndarray) -> np.ndarray:
+        p = _sigmoid(self.intercept_[0] + np.asarray(X, dtype=np.float64) @ self.coef_[0])
+        return np.column_stack([1 - p, p])
+
+
+def log_loss(y: np.ndarray, p: np.ndarray, eps: float = 1e-15) -> float:
+    p = np.clip(p, eps, 1 - eps)
+    return float(-np.mean(y * np.log(p) + (1 - y) * np.log(1 - p)))
+
+
+def brier_score_loss(y: np.ndarray, p: np.ndarray) -> float:
+    return float(np.mean((p - y) ** 2))
+
+
+def roc_auc_score(y: np.ndarray, p: np.ndarray) -> float:
+    """AUC as the Mann-Whitney statistic with average ranks for ties."""
+    y = np.asarray(y).astype(bool)
+    r = rankdata(p)
+    n1, n0 = y.sum(), (~y).sum()
+    return float((r[y].sum() - n1 * (n1 + 1) / 2) / (n1 * n0))
 
 
 @dataclass
@@ -145,7 +207,7 @@ def evaluate(y: np.ndarray, p: np.ndarray) -> dict:
 @dataclass
 class XFG:
     groups: list[str]
-    clf: LogisticRegression
+    clf: Logistic
     names: list[str]
     prior: ShooterPrior | None
 
@@ -165,8 +227,7 @@ def fit_xfg(train: pl.DataFrame, groups: list[str], C: float = 1.0) -> XFG:
     prior = ShooterPrior.fit(train) if "shooter" in groups else None
     sk = prior.skill(train, leave_one_out=True) if prior is not None else None
     X, names = design(train, groups, sk)
-    clf = LogisticRegression(C=C, max_iter=2000)
-    clf.fit(X, train["made"].to_numpy().astype(int))
+    clf = Logistic(C=C).fit(X, train["made"].to_numpy().astype(int))
     return XFG(groups, clf, names, prior)
 
 
