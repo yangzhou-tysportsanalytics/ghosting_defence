@@ -98,7 +98,20 @@ def main() -> None:
             "median": float(G["n_candidates"].median()),
             "p90": float(G["n_candidates"].quantile(0.9)),
         },
-        "on_ball": rates(G.filter(pl.col("on_ball"))),
+        "on_ball": {
+            **rates(G.filter(pl.col("on_ball"))),
+            # the reported rate (analysis_team_screen_defense.py): same groups, but only their
+            # on-ball candidates count as the switch
+            "switch_rate_on_ball_candidates_only": float(
+                SC.filter(pl.col("on_ball"))
+                .group_by("screen_group")
+                .agg(pl.col("switch").any())["switch"]
+                .mean()
+            ),
+            "note": "switch_rate counts a group as switched if any of its candidates switched, "
+            "including off-ball candidates grouped with the on-ball one; the reported on-ball "
+            "switch rate uses on-ball candidates only (switch_rate_on_ball_candidates_only)",
+        },
         "off_ball": rates(G.filter(~pl.col("on_ball"))),
         "groups_per_halfcourt_possession": G.height / P.height,
         "caveat": "rates per candidate group; nbacore-reviewed precision of real screens: "

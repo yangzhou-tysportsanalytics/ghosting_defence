@@ -10,7 +10,9 @@
   "on_ball": {
     "n_groups": 93453,
     "switch_rate": 0.10477994285897724,
-    "one_sided_rate": 0.29713331835254086
+    "one_sided_rate": 0.29713331835254086,
+    "switch_rate_on_ball_candidates_only": 0.10392389757418168,
+    "note": "switch_rate counts a group as switched if any of its candidates switched, including off-ball candidates grouped with the on-ball one; the reported on-ball switch rate uses on-ball candidates only (switch_rate_on_ball_candidates_only)"
   },
   "off_ball": {
     "n_groups": 175719,
