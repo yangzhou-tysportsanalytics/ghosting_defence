@@ -1,257 +1,257 @@
 {
   "n_shots": 66097,
-  "mean_xfg_real": 0.4257117848760934,
-  "mean_xfg_team_ghost": 0.40590179929652387,
-  "mean_dEP_team_per_shot": 0.033730226221599637,
+  "mean_xfg_real": 0.42565452477025556,
+  "mean_xfg_team_ghost": 0.4059067977683949,
+  "mean_dEP_team_per_shot": 0.03366463171199069,
   "mean_def1_real_ft": 4.026809633571806,
   "mean_def1_team_ghost_ft": 4.721788892736064,
   "team_dEP_range": [
-    0.021260258729148464,
-    0.053398879371634116
+    0.021265745112295134,
+    0.053201147017529656
   ],
-  "team_split_half_r": 0.5577645805023842,
+  "team_split_half_r": 0.5575807420162612,
   "indiv_n_defenders_ge_100_shots": 214,
-  "indiv_split_half_r": 0.558624711953251,
+  "indiv_split_half_r": 0.5582370109940231,
   "teams": [
     {
       "team": "POR",
       "defense_team_id": 1610612757,
-      "dEP_team_per_shot": 0.021260258729148464,
+      "dEP_team_per_shot": 0.021265745112295134,
       "n_shots": 2440,
-      "xfg_real": 0.4175083693893954,
-      "xfg_team_ghost": 0.403880327160928
+      "xfg_real": 0.41735281713544686,
+      "xfg_team_ghost": 0.4037522680206201
     },
     {
       "team": "IND",
       "defense_team_id": 1610612754,
-      "dEP_team_per_shot": 0.021385640743213554,
+      "dEP_team_per_shot": 0.021390319117179993,
       "n_shots": 2198,
-      "xfg_real": 0.4191821158107555,
-      "xfg_team_ghost": 0.40564918811913925
+      "xfg_real": 0.4191260019011583,
+      "xfg_team_ghost": 0.4056182778215715
     },
     {
       "team": "UTA",
       "defense_team_id": 1610612762,
-      "dEP_team_per_shot": 0.02279023494060754,
+      "dEP_team_per_shot": 0.022784445768573035,
       "n_shots": 2077,
-      "xfg_real": 0.42380917760512343,
-      "xfg_team_ghost": 0.4095540400243565
+      "xfg_real": 0.4237950977277459,
+      "xfg_team_ghost": 0.40957065633032824
     },
     {
       "team": "MEM",
       "defense_team_id": 1610612763,
-      "dEP_team_per_shot": 0.023557193020767773,
+      "dEP_team_per_shot": 0.02358867232475955,
       "n_shots": 2084,
-      "xfg_real": 0.417229339382807,
-      "xfg_team_ghost": 0.4012554904555581
+      "xfg_real": 0.4171936770955977,
+      "xfg_team_ghost": 0.401246208559724
     },
     {
       "team": "CLE",
       "defense_team_id": 1610612739,
-      "dEP_team_per_shot": 0.02446605214188856,
+      "dEP_team_per_shot": 0.02443335159727548,
       "n_shots": 1851,
-      "xfg_real": 0.4211279233582897,
-      "xfg_team_ghost": 0.4060290470718863
+      "xfg_real": 0.421012973987764,
+      "xfg_team_ghost": 0.4059603405398554
     },
     {
       "team": "WAS",
       "defense_team_id": 1610612764,
-      "dEP_team_per_shot": 0.024525773406898075,
+      "dEP_team_per_shot": 0.02451206647790345,
       "n_shots": 2066,
-      "xfg_real": 0.4183607540744533,
-      "xfg_team_ghost": 0.4030717349242728
+      "xfg_real": 0.41839945205102136,
+      "xfg_team_ghost": 0.40314852608110696
     },
     {
       "team": "CHA",
       "defense_team_id": 1610612766,
-      "dEP_team_per_shot": 0.02617705247145042,
+      "dEP_team_per_shot": 0.026133045196087577,
       "n_shots": 2401,
-      "xfg_real": 0.4202292686198625,
-      "xfg_team_ghost": 0.4033672774559826
+      "xfg_real": 0.4201932328034669,
+      "xfg_team_ghost": 0.4033890597594502
     },
     {
       "team": "PHX",
       "defense_team_id": 1610612756,
-      "dEP_team_per_shot": 0.02675722260061686,
+      "dEP_team_per_shot": 0.026754893591763754,
       "n_shots": 2073,
-      "xfg_real": 0.4213095370075528,
-      "xfg_team_ghost": 0.4047647510293259
+      "xfg_real": 0.4212475682483572,
+      "xfg_team_ghost": 0.4047350957467682
     },
     {
       "team": "SAC",
       "defense_team_id": 1610612758,
-      "dEP_team_per_shot": 0.0268496388835361,
+      "dEP_team_per_shot": 0.026829266222111355,
       "n_shots": 2154,
-      "xfg_real": 0.42380842655173856,
-      "xfg_team_ghost": 0.40714525040307514
+      "xfg_real": 0.42384607683711506,
+      "xfg_team_ghost": 0.4072266478613432
     },
     {
       "team": "ATL",
       "defense_team_id": 1610612737,
-      "dEP_team_per_shot": 0.027833474271040652,
+      "dEP_team_per_shot": 0.027797055214240408,
       "n_shots": 2212,
-      "xfg_real": 0.4228458370936369,
-      "xfg_team_ghost": 0.40628238713369025
-    },
-    {
-      "team": "MIA",
-      "defense_team_id": 1610612748,
-      "dEP_team_per_shot": 0.029486188842165813,
-      "n_shots": 2266,
-      "xfg_real": 0.42541470090436423,
-      "xfg_team_ghost": 0.4078228530452206
+      "xfg_real": 0.4228207562750173,
+      "xfg_team_ghost": 0.40630308140570903
     },
     {
       "team": "SAS",
       "defense_team_id": 1610612759,
-      "dEP_team_per_shot": 0.029486925994716078,
+      "dEP_team_per_shot": 0.029428976013727626,
       "n_shots": 2036,
-      "xfg_real": 0.4251735697895254,
-      "xfg_team_ghost": 0.4082003801174552
+      "xfg_real": 0.42518126975050996,
+      "xfg_team_ghost": 0.4082604190073599
+    },
+    {
+      "team": "MIA",
+      "defense_team_id": 1610612748,
+      "dEP_team_per_shot": 0.029457233712125618,
+      "n_shots": 2266,
+      "xfg_real": 0.4254425920897827,
+      "xfg_team_ghost": 0.4078932131800296
     },
     {
       "team": "MIL",
       "defense_team_id": 1610612749,
-      "dEP_team_per_shot": 0.02953104745532315,
+      "dEP_team_per_shot": 0.02950802713268886,
       "n_shots": 2108,
-      "xfg_real": 0.4291490010369166,
-      "xfg_team_ghost": 0.4107820359165009
+      "xfg_real": 0.4292122914961613,
+      "xfg_team_ghost": 0.4108933569429297
     },
     {
       "team": "ORL",
       "defense_team_id": 1610612753,
-      "dEP_team_per_shot": 0.030061839058959032,
+      "dEP_team_per_shot": 0.030030213905693114,
       "n_shots": 2021,
-      "xfg_real": 0.42537572750559915,
-      "xfg_team_ghost": 0.4067715213325937
+      "xfg_real": 0.42542611802712843,
+      "xfg_team_ghost": 0.406873734231155
     },
     {
       "team": "BOS",
       "defense_team_id": 1610612738,
-      "dEP_team_per_shot": 0.031837294703696936,
+      "dEP_team_per_shot": 0.03180822016990103,
       "n_shots": 2291,
-      "xfg_real": 0.4227593103244265,
-      "xfg_team_ghost": 0.4039683661324045
+      "xfg_real": 0.4226775513985367,
+      "xfg_team_ghost": 0.4039294954937632
     },
     {
       "team": "LAC",
       "defense_team_id": 1610612746,
-      "dEP_team_per_shot": 0.03365567638972993,
+      "dEP_team_per_shot": 0.03359031554326002,
       "n_shots": 2020,
-      "xfg_real": 0.42958542584364323,
-      "xfg_team_ghost": 0.41032559516177214
+      "xfg_real": 0.4294883081997412,
+      "xfg_team_ghost": 0.41028638467070405
     },
     {
       "team": "DEN",
       "defense_team_id": 1610612743,
-      "dEP_team_per_shot": 0.034353912477079994,
+      "dEP_team_per_shot": 0.03425582543597285,
       "n_shots": 2310,
-      "xfg_real": 0.4258401476537275,
-      "xfg_team_ghost": 0.4058213013062843
+      "xfg_real": 0.42564058926231324,
+      "xfg_team_ghost": 0.4057003937191562
     },
     {
       "team": "BKN",
       "defense_team_id": 1610612751,
-      "dEP_team_per_shot": 0.03517410995335148,
+      "dEP_team_per_shot": 0.03512814441879755,
       "n_shots": 2163,
-      "xfg_real": 0.43134766845959066,
-      "xfg_team_ghost": 0.4101606537108446
+      "xfg_real": 0.4314202588088878,
+      "xfg_team_ghost": 0.41029145100381365
     },
     {
       "team": "TOR",
       "defense_team_id": 1610612761,
-      "dEP_team_per_shot": 0.03656933908849113,
+      "dEP_team_per_shot": 0.03650646054235679,
       "n_shots": 2180,
-      "xfg_real": 0.43041934813870325,
-      "xfg_team_ghost": 0.4092253466291436
+      "xfg_real": 0.43045835199601534,
+      "xfg_team_ghost": 0.4093246498355927
     },
     {
       "team": "HOU",
       "defense_team_id": 1610612745,
-      "dEP_team_per_shot": 0.037531661320053186,
+      "dEP_team_per_shot": 0.03745915888958613,
       "n_shots": 2184,
-      "xfg_real": 0.4340117116953145,
-      "xfg_team_ghost": 0.4119666819180204
+      "xfg_real": 0.43399812216892936,
+      "xfg_team_ghost": 0.4120234992247569
     },
     {
       "team": "DAL",
       "defense_team_id": 1610612742,
-      "dEP_team_per_shot": 0.03855135226561999,
+      "dEP_team_per_shot": 0.038448920742462485,
       "n_shots": 2211,
-      "xfg_real": 0.4216686156411183,
-      "xfg_team_ghost": 0.3996344572339364
+      "xfg_real": 0.42160123835642155,
+      "xfg_team_ghost": 0.3996460063859893
     },
     {
       "team": "CHI",
       "defense_team_id": 1610612741,
-      "dEP_team_per_shot": 0.03876006991748627,
+      "dEP_team_per_shot": 0.03866916913942924,
       "n_shots": 2190,
-      "xfg_real": 0.42217908517796093,
-      "xfg_team_ghost": 0.40012364336020395
+      "xfg_real": 0.42204802633407235,
+      "xfg_team_ghost": 0.4000648739020974
     },
     {
       "team": "PHI",
       "defense_team_id": 1610612755,
-      "dEP_team_per_shot": 0.039055941781264876,
+      "dEP_team_per_shot": 0.038959195078314884,
       "n_shots": 2145,
-      "xfg_real": 0.42913162767462804,
-      "xfg_team_ghost": 0.40703242081366187
+      "xfg_real": 0.4290481847705511,
+      "xfg_team_ghost": 0.40702282409944357
     },
     {
       "team": "NOP",
       "defense_team_id": 1610612740,
-      "dEP_team_per_shot": 0.0404888217380001,
+      "dEP_team_per_shot": 0.04039413287538662,
       "n_shots": 2245,
-      "xfg_real": 0.4264432431983443,
-      "xfg_team_ghost": 0.4033047935321156
+      "xfg_real": 0.4263742800958307,
+      "xfg_team_ghost": 0.4033127891593727
     },
     {
       "team": "LAL",
       "defense_team_id": 1610612747,
-      "dEP_team_per_shot": 0.0409256963703859,
+      "dEP_team_per_shot": 0.04080482054190803,
       "n_shots": 2319,
-      "xfg_real": 0.43113330539167893,
-      "xfg_team_ghost": 0.4079072604676242
+      "xfg_real": 0.43118872228875577,
+      "xfg_team_ghost": 0.408049964322877
     },
     {
       "team": "GSW",
       "defense_team_id": 1610612744,
-      "dEP_team_per_shot": 0.04137918638446305,
+      "dEP_team_per_shot": 0.04126646187698051,
       "n_shots": 2400,
-      "xfg_real": 0.4278667036047392,
-      "xfg_team_ghost": 0.40452736030752023
+      "xfg_real": 0.42775533174670005,
+      "xfg_team_ghost": 0.40449746594877145
     },
     {
       "team": "MIN",
       "defense_team_id": 1610612750,
-      "dEP_team_per_shot": 0.04202634787801061,
+      "dEP_team_per_shot": 0.041908285496618694,
       "n_shots": 2291,
-      "xfg_real": 0.4322117559986065,
-      "xfg_team_ghost": 0.4079952233683302
+      "xfg_real": 0.4321919819310154,
+      "xfg_team_ghost": 0.4080663451766212
     },
     {
       "team": "NYK",
       "defense_team_id": 1610612752,
-      "dEP_team_per_shot": 0.04743036599605225,
+      "dEP_team_per_shot": 0.04726699091937557,
       "n_shots": 2414,
-      "xfg_real": 0.4293276904081031,
-      "xfg_team_ghost": 0.40315154181893226
+      "xfg_real": 0.4290576230872316,
+      "xfg_team_ghost": 0.4029880637563715
     },
     {
       "team": "DET",
       "defense_team_id": 1610612765,
-      "dEP_team_per_shot": 0.048764654685666514,
+      "dEP_team_per_shot": 0.04857862521040262,
       "n_shots": 2310,
-      "xfg_real": 0.43215611239941687,
-      "xfg_team_ghost": 0.4052201815196191
+      "xfg_real": 0.43196147585964995,
+      "xfg_team_ghost": 0.4051421620723792
     },
     {
       "team": "OKC",
       "defense_team_id": 1610612760,
-      "dEP_team_per_shot": 0.053398879371634116,
+      "dEP_team_per_shot": 0.053201147017529656,
       "n_shots": 2437,
-      "xfg_real": 0.4327331977213654,
-      "xfg_team_ghost": 0.4038495149087817
+      "xfg_real": 0.432535133659885,
+      "xfg_team_ghost": 0.4037723361823553
     }
   ],
   "note": "rule ghost = matchup-conditional league-average position; at the release real defenders close out, so the ghost is not expected to be neutral at the shot."

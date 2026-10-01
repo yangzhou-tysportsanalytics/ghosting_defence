@@ -1,0 +1,89 @@
+{
+  "defs": "B",
+  "definitions": {
+    "screen_before_s": 1.0,
+    "screen_after_s": 2.0,
+    "recovery_s": 3.0,
+    "cone_half_angle_deg": 30.0,
+    "paint_long_s": 2.5
+  },
+  "league_by_phase": {
+    "help": {
+      "share_of_steps": 0.04287160181849645,
+      "mean_dev_ft": 3.6049563890264342,
+      "mean_sag_ft": 2.178908742006194
+    },
+    "closeout": {
+      "share_of_steps": 0.002987638033146834,
+      "mean_dev_ft": 3.7456013671839923,
+      "mean_sag_ft": 0.24020336664125444
+    },
+    "recovery": {
+      "share_of_steps": 0.08571029230570464,
+      "mean_dev_ft": 3.56375870128064,
+      "mean_sag_ft": 0.8446991415467194
+    },
+    "screen": {
+      "share_of_steps": 0.22655274207011167,
+      "mean_dev_ft": 3.218672702358013,
+      "mean_sag_ft": -0.14402103001523878
+    },
+    "pre_screen": {
+      "share_of_steps": 0.28257798289173913,
+      "mean_dev_ft": 3.0571662551827012,
+      "mean_sag_ft": -0.23213102421210172
+    },
+    "other": {
+      "share_of_steps": 0.3592997428808013,
+      "mean_dev_ft": 3.075964883062761,
+      "mean_sag_ft": -0.2653997587456614
+    }
+  },
+  "covariate_means": {
+    "share_help": 0.04587754339763883,
+    "share_closeout": 0.0034442938123555034,
+    "share_recovery": 0.08490965042245127,
+    "share_screen": 0.2347289159841637,
+    "share_pre_screen": 0.26089842054471646,
+    "cone_share_offball": 0.38518824070766894,
+    "paint_long_share": 0.21472463214047252,
+    "paint_longest_s": 2.6585845965091917
+  },
+  "n_rows_joined": 443393,
+  "effect_of_covariates": {
+    "sag_ft": {
+      "base": {
+        "context_r2": 0.0978354559562088,
+        "split_half_r": 0.9575909006497473,
+        "n_players": 348,
+        "team_share_of_systematic": 0.0813297304753522,
+        "var_player_within_team": 0.371231264323616
+      },
+      "with_phase_and_geometry": {
+        "context_r2": 0.32490455042832056,
+        "split_half_r": 0.925858194873596,
+        "n_players": 348,
+        "team_share_of_systematic": 0.15756362973901916,
+        "var_player_within_team": 0.13855250889036974
+      },
+      "corr_player_means_base_vs_extended": 0.941925993124211
+    },
+    "dev_ft": {
+      "base": {
+        "context_r2": 0.14943817305506468,
+        "split_half_r": 0.9318103873690459,
+        "n_players": 348,
+        "team_share_of_systematic": 0.1502889855410134,
+        "var_player_within_team": 0.03034625889895535
+      },
+      "with_phase_and_geometry": {
+        "context_r2": 0.16093260374936713,
+        "split_half_r": 0.9221596324627022,
+        "n_players": 348,
+        "team_share_of_systematic": 0.17008685717863095,
+        "var_player_within_team": 0.02647057294625939
+      },
+      "corr_player_means_base_vs_extended": 0.9925012234132163
+    }
+  }
+}

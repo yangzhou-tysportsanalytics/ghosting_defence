@@ -1,0 +1,39 @@
+{
+  "threshold_ft": 6.536266187609136,
+  "n_breakdowns": 66755,
+  "gaps": {
+    "0.5s": {
+      "n_cascades": 60223,
+      "share_breakdowns_in_multi_cascades": 0.1866826454947195,
+      "league_initiated_per_100_poss": 13.582307343598117,
+      "split_half_r_player_rate": 0.9105487815331701,
+      "n_players": 348
+    },
+    "1s": {
+      "n_cascades": 58028,
+      "share_breakdowns_in_multi_cascades": 0.2446857913264924,
+      "league_initiated_per_100_poss": 13.08726118815588,
+      "split_half_r_player_rate": 0.9047344187970713,
+      "n_players": 348
+    },
+    "2s": {
+      "n_cascades": 54845,
+      "share_breakdowns_in_multi_cascades": 0.3261778143959254,
+      "league_initiated_per_100_poss": 12.369387879375633,
+      "split_half_r_player_rate": 0.9065605102309102,
+      "n_players": 348
+    }
+  },
+  "possession_outcomes": {
+    "share_possessions_with_breakdown": 0.5123872485853549,
+    "points_with": 1.026701364590623,
+    "points_without": 1.048440839212262,
+    "note": "descriptive; breakdowns and scoring share causes (penetration, mismatches)"
+  },
+  "player_rate_quantiles_per_100": {
+    "0.1": 6.327744726879394,
+    "0.5": 12.775842044134727,
+    "0.9": 20.166666666666668
+  },
+  "quantile": 0.95
+}

@@ -117,6 +117,10 @@ It is used for window ends, shot features and the handler check. `window_uid`
   defender at least 6 ft from his man, closing on the ball handler at >= 3 ft/s, handler within
   20 ft of the rim, for >= 0.4 s. They capture different behaviour (1–3 % overlap).
 - Second-chance possessions are excluded in v1 (windows start at the midcourt crossing).
+  Sensitivity: windows that start at the offensive-rebound control when the ball never leaves the
+  frontcourt add 3.8 % half-court possessions; reliability, team shares, player effects and the
+  team help / points association are unchanged
+  (`reports/analysis/second_chance_sensitivity.json`).
 
 ## D-019 Data release policy
 
@@ -124,3 +128,36 @@ The raw SportVU files are not redistributed (licence unclear); this repository l
 source and contains the code. Released data contain no player or ball tracks. The only point
 coordinates are shot locations. Third-party metrics used for validation are not redistributed
 except FiveThirtyEight RAPTOR (CC BY 4.0, attributed).
+
+## D-020 Phases, help geometry and breakdown timing
+
+- Phases per defender and step, in priority order: help (inside one of the defender's help
+  events, definition B) > closeout (inside one of his closeouts) > recovery (2 s after the end of
+  his help or closeout) > screen (0.5 s before to 1.0 s after an on-ball screen contact of the
+  possession) > pre-screen (before the first on-ball screen's window) > other.
+- Sightline cone: the defender is within 20° of the ball handler → rim direction and no farther
+  from the handler than the handler is from the rim.
+- Paint time: continuous stretches in the lane (19 ft from the baseline, 16 ft wide); steps in
+  stretches of at least 2.5 s are flagged as approaching the defensive three-second limit.
+- Wider alternative for sensitivity: screen window −1.0 s to +2.0 s, recovery 3 s, cone 30°.
+- Breakdown events (D-015) are defined against the learned ghost only: against the rule ghost the
+  80th-percentile, 1-s rule flags 97 % of possessions.
+
+## D-021 Context term of the deviation model
+
+The context adjustment of the deviations (and γ[context] of the hierarchical model) uses the base
+covariates — mean man-to-rim and man-to-ball distance and their squares, strong-side share,
+on-ball share, guarding more than one man, log steps — plus the D-020 phase shares (pre-screen,
+screen, help, closeout, recovery; "other" is the reference). This is the main specification; the
+base-only adjustment is reported alongside. Sightline-cone share and paint time are outcomes of
+positioning and are reported as descriptors, not used as adjustments.
+
+## D-022 Learned-ghost output parametrised on the rule ghost
+
+Each mixture component mean of the learned ghost is an attention-weighted combination of the five
+attackers' rule positions (man, ball and rim weights from the matchup model) plus a learned
+offset. The weights come from attention between the defender and attacker tokens, plus two
+learned priors: one ghost per attacker when all five defenders are hidden (team ghost), and a
+preference for attackers far from every visible defender when four are visible (individual
+ghost). The offset starts at zero, so the untrained model is the rule ghost and training learns
+corrections to it. The unanchored head is kept as an ablation.

@@ -1,16 +1,18 @@
 """Phase 4 hierarchical model on rule-ghost deviations (sag and |deviation|), with prior
 sensitivity. Uses the context adjustment of phase4_reliability.adjust.
 
-Outputs: reports/phase4/<version>_all/hier.json and hier_players_<metric>.csv
+Outputs: reports/phase4/<version>_all/hier<suffix>.json and hier_players_<metric><suffix>.csv
+(suffix "_phases" with --context phases: phase shares in the context term, D-021)
 (players with >= 300 defensive possessions; NOT a best/worst defender ranking - a positioning
 style descriptor with 95 % intervals).
 
 Usage:
-    uv run python scripts/phase4_hier.py
+    uv run python scripts/phase4_hier.py [--context base|phases]
 """
 
 from __future__ import annotations
 
+import argparse
 import importlib.util
 import json
 from pathlib import Path
@@ -21,15 +23,24 @@ import polars as pl
 from ghost import data as D
 from ghost.hier.model import Cells, definitional, fit, summarize
 
-spec = importlib.util.spec_from_file_location("rel", "scripts/phase4_reliability.py")
+spec = importlib.util.spec_from_file_location(
+    "rel", Path(__file__).resolve().parent / "phase4_reliability.py"
+)
 rel = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(rel)
 
 
 def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--context", default="base", choices=["base", "phases"], help="D-021")
+    args = ap.parse_args()
+    extra = tuple(rel.PHASE_COVS) if args.context == "phases" else ()
+    suffix = "" if args.context == "base" else "_phases"
     cfg = D.DataConfig.load(game_set="all")
     base = cfg.processed_dir / "all"
     df = pl.read_parquet(base / "analysis" / "rule_ghost_dev.parquet")
+    if extra:
+        df = rel.with_phases(df, base)
     ros = (
         D.L.rosters(cfg.version)
         .select(["player_id", "firstname", "lastname"])
@@ -46,7 +57,7 @@ def main() -> None:
         "metrics": {},
     }
     for y in ("sag_ft", "dev_ft"):
-        res, _ = rel.adjust(df, y)
+        res, _ = rel.adjust(df, y, extra)
         d = df.with_columns(pl.Series("r", res))
         sigma_e = float(
             np.sqrt(
@@ -105,7 +116,7 @@ def main() -> None:
                         }
                     )
                 P = pl.DataFrame(rows).join(ros, on="player_id", how="left").sort("effect_mean")
-                P.write_csv(out_dir / f"hier_players_{y}.csv")
+                P.write_csv(out_dir / f"hier_players_{y}{suffix}.csv")
                 met["n_player_cells_ge300"] = int(big.sum())
                 met["share_player_intervals_excluding_zero"] = float(
                     ((P["effect_lo95"] > 0) | (P["effect_hi95"] < 0)).mean()
@@ -114,7 +125,8 @@ def main() -> None:
                 met["team_effects"] = sorted(tmean, key=lambda r: r["mean"])
         report["metrics"][y] = met
         print(y, json.dumps({k: v for k, v in met.items() if k != "team_effects"}, indent=1)[:2500])
-    (out_dir / "hier.json").write_text(json.dumps(report, indent=2))
+    report["context"] = args.context
+    (out_dir / f"hier{suffix}.json").write_text(json.dumps(report, indent=2))
 
 
 if __name__ == "__main__":

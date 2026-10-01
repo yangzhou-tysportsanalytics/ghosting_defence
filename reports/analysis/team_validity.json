@@ -72,6 +72,32 @@
     "n_team_level_tests": 6,
     "help_p_bonferroni_6": 0.058761378307897114
   },
+  "rule_ghost_dEP__vs__pts_allowed_per_poss": {
+    "pearson_r": 0.07879824683297068,
+    "p": 0.6789464449889712,
+    "ci95": [
+      -0.28970135601666175,
+      0.4269527153945065
+    ],
+    "n_teams": 30
+  },
+  "fixed_split": {
+    "test": {
+      "n_games": 126,
+      "first_date": "2016-01-04",
+      "last_date": "2016-01-23"
+    },
+    "val": {
+      "n_games": 50,
+      "first_date": "2015-10-27",
+      "last_date": "2016-01-03"
+    },
+    "train": {
+      "n_games": 455,
+      "first_date": "2015-10-27",
+      "last_date": "2016-01-04"
+    }
+  },
   "pts_allowed_per_poss_range": [
     0.9141161773891318,
     1.0845540992032896

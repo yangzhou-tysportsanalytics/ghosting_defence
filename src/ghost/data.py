@@ -112,7 +112,11 @@ WINDOW_KEYS = ["window_uid", "poss_uid", "overlap_frac", "offense_match"]
 def ghost_v1(cfg: DataConfig) -> pl.DataFrame:
     """This project's v1 possession windows as built by nbacore, plus stable keys
     ``window_uid`` / ``poss_uid``. ``cfg.windows_release``: "l2" (D-017, corrected shot release,
-    nbacore >= v1.4) or "ghost" (the original D-011 rule, identical to our own segmentation)."""
+    nbacore >= v1.4) or "ghost" (the original D-011 rule, identical to our own segmentation);
+    "l2_sc": the "l2" windows plus second chances (nbacore ``include_second_chance``), built
+    locally by scripts/build_windows_second_chance.py (D-018 sensitivity)."""
+    if cfg.windows_release == "l2_sc":
+        return pl.read_parquet(cfg.processed_dir / "windows_l2_sc.parquet")
     if cfg.windows_release == "l2":
         return L.ghost_v1(cfg.version, release="l2")
     return L.ghost_v1(cfg.version)

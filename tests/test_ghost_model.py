@@ -179,3 +179,76 @@ def test_checkpoint_resume(tmp_path):
         log=lambda r: None,
     )
     assert len(h1) == 2 and len(h2) == 3 and h2[:2] == h1
+
+
+def test_rule_anchor_starts_at_rule_ghost():
+    """Untrained anchored head = one ghost at each attacker's rule position (slot s -> attacker s)."""
+    from ghost.court import HOOP_LEFT
+    from ghost.ghost.model import mixture_mean
+
+    torch.manual_seed(0)
+    cfg = GhostConfig(d_model=16, n_blocks=1, dropout=0.0, anchor="rule", anchor_id_bias=30.0)
+    m = GhostModel(cfg, n_steps=T).eval()
+    feats, ctx, _, _ = _batch()
+    f, _ = apply_mask(feats, "team")
+    with torch.no_grad():
+        mean = mixture_mean(m(f, ctx))  # (B,5,T,2)
+    scale = torch.tensor([47.0, 50.0])
+    off = (feats[:, 1:6, :, :2] + 0.5) * scale
+    ball = (feats[:, 0, :, :2] + 0.5) * scale
+    g_o, g_b, g_h = cfg.gamma
+    rule = g_o * off + g_b * ball[:, None] + g_h * torch.tensor(HOOP_LEFT, dtype=torch.float32)
+    assert torch.allclose(mean, rule, atol=1e-3)
+
+
+def test_rule_anchor_equivariant_to_attacker_order():
+    """Without the slot bias, permuting the attackers leaves the predictions unchanged."""
+    torch.manual_seed(0)
+    cfg = GhostConfig(d_model=16, n_blocks=1, dropout=0.0, anchor="rule", anchor_id_bias=0.0)
+    m = GhostModel(cfg, n_steps=T).eval()
+    with torch.no_grad():
+        m.head.weight.normal_(0, 0.1)  # non-trivial offsets
+    feats, ctx, _, _ = _batch()
+    f, _ = apply_mask(feats, "team")
+    perm = torch.tensor([0, 3, 1, 5, 2, 4, 6, 7, 8, 9, 10])  # reorder attackers 1-5 only
+    with torch.no_grad():
+        a, b = m(f, ctx)["mu"], m(f[:, perm], ctx)["mu"]
+    assert torch.allclose(a, b, atol=1e-4)
+
+
+def test_rule_anchor_online_is_causal():
+    torch.manual_seed(0)
+    feats, ctx, _, _ = _batch()
+    f2 = feats.clone()
+    f2[:, :, 12:, :4] += 5.0
+    m = GhostModel(
+        GhostConfig(d_model=16, n_blocks=2, dropout=0.0, anchor="rule"), n_steps=T
+    ).eval()
+    with torch.no_grad():
+        m.head.weight.normal_(0, 0.1)
+        assert torch.allclose(
+            m(feats, ctx)["mu"][:, :, :12], m(f2, ctx)["mu"][:, :, :12], atol=1e-5
+        )
+
+
+def test_rule_anchor_individual_takes_uncovered_attacker():
+    """Four visible defenders stand on four attackers' rule positions: the untrained anchored head
+    puts the masked defender at the fifth attacker's rule position."""
+    from ghost.ghost.model import mixture_mean
+
+    torch.manual_seed(0)
+    cfg = GhostConfig(d_model=16, n_blocks=1, dropout=0.0, anchor="rule", anchor_cover_bias=5.0)
+    m = GhostModel(cfg, n_steps=T).eval()
+    feats, ctx, _, _ = _batch(B=1)
+    feats[:, 1:6, :, 0] = torch.linspace(-0.4, 0.4, 5)[:, None]  # attackers well apart
+    scale = torch.tensor([47.0, 50.0])
+    rule = m.rule_anchors(feats)  # (1,5,T,2) ft
+    cover = [4, 0, 2, 1]  # visible defenders 1-4 on attackers 4, 0, 2, 1; attacker 3 is free
+    for d, k in zip(range(1, 5), cover, strict=True):
+        feats[0, 6 + d, :, :2] = rule[0, k] / scale - 0.5
+    f = feats.clone()
+    f[:, 6, :, :4] = 0.0
+    f[:, 6, :, 5], f[:, 6, :, 6] = 1.0, 0.0  # defender 0 masked
+    with torch.no_grad():
+        mean = mixture_mean(m(f, ctx))
+    assert torch.allclose(mean[0, 0], rule[0, 3], atol=0.05)

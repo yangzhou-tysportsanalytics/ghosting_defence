@@ -105,8 +105,9 @@ def fig_help_vs_points() -> str:
     return "help_vs_points.png"
 
 
-def fig_reliability() -> str:
-    rel = _load(f"reports/phase4/{V}_all/reliability.json")
+def fig_reliability(sfx: str = "") -> str:
+    """sfx "" = base context adjustment (SSAC abstract); "_phases" = main specification (D-021)."""
+    rel = _load(f"reports/phase4/{V}_all/reliability{sfx}.json")
     if rel is None:
         return "skip reliability (run phase4_reliability.py)"
     fig, ax = plt.subplots(figsize=(5.2, 3.8))
@@ -132,13 +133,13 @@ def fig_reliability() -> str:
     ax.set_ylabel("split-half correlation across players")
     ax.set_ylim(0, 1)
     ax.legend(fontsize=8)
-    fig.savefig(FIG / "reliability_curve.png", dpi=200, bbox_inches="tight")
+    fig.savefig(FIG / f"reliability_curve{sfx}.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
-    return "reliability_curve.png"
+    return f"reliability_curve{sfx}.png"
 
 
-def fig_team_effects() -> str:
-    h = _load(f"reports/phase4/{V}_all/hier.json")
+def fig_team_effects(sfx: str = "") -> str:
+    h = _load(f"reports/phase4/{V}_all/hier{sfx}.json")
     if h is None:
         return "skip team_effects (run phase4_hier.py)"
     te = h["metrics"]["sag_ft"]["team_effects"]
@@ -149,9 +150,9 @@ def fig_team_effects() -> str:
     ax.set_yticks(range(len(te)), [r["team"] for r in te], fontsize=7)
     ax.axvline(0, color="0.5", lw=0.8)
     ax.set_xlabel("team mean sag relative to the rule ghost (ft), 95% interval")
-    fig.savefig(FIG / "team_sag_effects.png", dpi=200, bbox_inches="tight")
+    fig.savefig(FIG / f"team_sag_effects{sfx}.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
-    return "team_sag_effects.png"
+    return f"team_sag_effects{sfx}.png"
 
 
 def tab_franks() -> str:
@@ -194,15 +195,17 @@ def tab_xfg() -> str:
 def main() -> None:
     FIG.mkdir(parents=True, exist_ok=True)
     TAB.mkdir(parents=True, exist_ok=True)
-    for f in (
-        fig_team_screen,
-        fig_help_vs_points,
-        fig_reliability,
-        fig_team_effects,
-        tab_franks,
-        tab_xfg,
+    for name, f in (
+        ("fig_team_screen", fig_team_screen),
+        ("fig_help_vs_points", fig_help_vs_points),
+        ("fig_reliability", fig_reliability),
+        ("fig_reliability_phases", lambda: fig_reliability("_phases")),
+        ("fig_team_effects", fig_team_effects),
+        ("fig_team_effects_phases", lambda: fig_team_effects("_phases")),
+        ("tab_franks", tab_franks),
+        ("tab_xfg", tab_xfg),
     ):
-        print(f.__name__, "->", f())
+        print(name, "->", f())
 
 
 if __name__ == "__main__":

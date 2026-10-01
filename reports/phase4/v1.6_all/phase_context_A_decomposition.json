@@ -1,0 +1,32 @@
+{
+  "base": {
+    "context_r2": 0.0978,
+    "split_half_r": 0.9576,
+    "var_player_within_team": 0.3712,
+    "team_share": 0.0813
+  },
+  "screen timing only (pre_screen, screen)": {
+    "context_r2": 0.099,
+    "split_half_r": 0.9576,
+    "var_player_within_team": 0.3706,
+    "team_share": 0.082
+  },
+  "all phases": {
+    "context_r2": 0.128,
+    "split_half_r": 0.9602,
+    "var_player_within_team": 0.3737,
+    "team_share": 0.0774
+  },
+  "geometry only (cone, paint)": {
+    "context_r2": 0.2557,
+    "split_half_r": 0.9292,
+    "var_player_within_team": 0.1709,
+    "team_share": 0.1471
+  },
+  "all": {
+    "context_r2": 0.2956,
+    "split_half_r": 0.9321,
+    "var_player_within_team": 0.1643,
+    "team_share": 0.1444
+  }
+}

@@ -125,6 +125,31 @@ def main() -> None:
             min(1.0, res["help_rate_3s__vs__pts_allowed_per_poss"]["p"] * 6)
         ),
     }
+    # rule-ghost shot value (phase4_ghost_points.py): team mean expected points given up relative
+    # to the rule ghost vs points allowed; the fixed split (first / last game date per split)
+    gp = Path("reports/phase4") / f"{cfg.version}_all" / "ghost_points.json"
+    if gp.exists():
+        dep = pl.DataFrame(json.loads(gp.read_text())["teams"]).select(
+            pl.col("defense_team_id").alias("team_id"), "dEP_team_per_shot"
+        )
+        J = T.join(dep, on="team_id")
+        a, b = J["dEP_team_per_shot"].to_numpy(), J["pts_allowed_per_poss"].to_numpy()
+        r_, p_ = stats.pearsonr(a, b)
+        z_, se_ = np.arctanh(r_), 1 / np.sqrt(len(a) - 3)
+        res["rule_ghost_dEP__vs__pts_allowed_per_poss"] = {
+            "pearson_r": float(r_),
+            "p": float(p_),
+            "ci95": [float(np.tanh(z_ - 1.96 * se_)), float(np.tanh(z_ + 1.96 * se_))],
+            "n_teams": int(len(a)),
+        }
+    g = D.games(cfg).filter(pl.col("split").is_not_null())
+    res["fixed_split"] = {
+        r["split"]: {"n_games": r["n"], "first_date": r["first"], "last_date": r["last"]}
+        for r in g.group_by("split")
+        .agg(pl.len().alias("n"), pl.col("game_date").min().alias("first"),
+             pl.col("game_date").max().alias("last"))
+        .iter_rows(named=True)
+    }  # fmt: skip
     res["pts_allowed_per_poss_range"] = [
         float(T["pts_allowed_per_poss"].min()),
         float(T["pts_allowed_per_poss"].max()),

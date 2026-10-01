@@ -17,6 +17,16 @@ possession (set loss, as in DETR). In individual mode the target is the masked d
 
 Head: per defender token and step, a mixture of ``n_comp`` isotropic Gaussians in feet (analytic
 density, D-007). ``loss="l2"`` trains the component-weighted mean only (deterministic v1).
+
+Anchored head (``anchor="rule"``): every component mean is a learned convex combination of the
+five attackers' rule positions g_o O_k + g_b B + g_h H (the fitted HMM emission means) plus a
+learned offset in feet. The combination weights come from query-key attention between the
+defender token and the attacker tokens (so the head is equivariant to the attackers' order), plus
+two learned priors: in team mode a bias towards "slot s -> attacker s" (one ghost per attacker);
+when some defenders are visible, a bias towards attackers far from every visible defender
+(u_k = distance from attacker k's rule position to the nearest visible defender: a soft version
+of "the masked defender takes the attacker the others leave"). The offset and the rest of the
+head start at zero, so an untrained model is the rule ghost and training learns corrections.
 """
 
 from __future__ import annotations
@@ -27,6 +37,8 @@ from dataclasses import dataclass
 
 import torch
 from torch import nn
+
+from ghost.court import HOOP_LEFT
 
 PERMS = torch.tensor(list(itertools.permutations(range(5))), dtype=torch.long)  # (120, 5)
 X_SCALE, Y_SCALE, V_SCALE = 47.0, 50.0, 20.0
@@ -43,6 +55,13 @@ class GhostConfig:
     dropout: float = 0.1
     mode: str = "online"  # online | offline
     min_sigma_ft: float = 0.5
+    anchor: str = "none"  # none | rule
+    gamma: tuple[float, float, float] = (0.62, 0.11, 0.27)  # rule weights (man, ball, hoop)
+    anchor_id_bias: float = 5.0  # initial bias of slot s towards attacker s (team mode)
+    anchor_cover_bias: float = (
+        1.0  # initial score per ft of distance to the nearest visible defender
+    )
+    offset_scale_ft: float = 10.0
 
 
 class Block(nn.Module):
@@ -77,6 +96,17 @@ class GhostModel(nn.Module):
         self.blocks = nn.ModuleList(Block(d, cfg.n_heads, cfg.dropout) for _ in range(cfg.n_blocks))
         self.norm = nn.LayerNorm(d)
         self.head = nn.Linear(d, cfg.n_comp * 4)  # logit, mu_x, mu_y, log_sigma
+        if cfg.anchor == "rule":
+            # mu_x, mu_y are offsets from the anchor; all-zero start = the rule ghost
+            nn.init.zeros_(self.head.weight)
+            nn.init.zeros_(self.head.bias)
+            self.q = nn.Linear(d, cfg.n_comp * d)
+            self.k = nn.Linear(d, d)
+            self.id_bias = nn.Parameter(torch.tensor(float(cfg.anchor_id_bias)))
+            self.cover_bias = nn.Parameter(torch.tensor(float(cfg.anchor_cover_bias)))
+            self.register_buffer("hoop", torch.tensor(HOOP_LEFT, dtype=torch.float32), False)
+        elif cfg.anchor != "none":
+            raise ValueError(cfg.anchor)
         causal = torch.triu(torch.ones(n_steps, n_steps, dtype=torch.bool), diagonal=1)
         self.register_buffer("causal", causal, persistent=False)
         roles = torch.tensor([0] + [1] * 5 + [2] * 5)
@@ -96,13 +126,51 @@ class GhostModel(nn.Module):
         t_mask = self.causal[:T, :T] if self.cfg.mode == "online" else None
         for blk in self.blocks:
             x = blk(x, t_mask)
-        out = self.head(self.norm(x[:, 6:]))  # (B, 5, T, 4M)
+        h = self.norm(x)
+        out = self.head(h[:, 6:])  # (B, 5, T, 4M)
         M = self.cfg.n_comp
         out = out.reshape(B, 5, T, M, 4)
         logits = out[..., 0]
-        mu = torch.stack([(out[..., 1] + 0.5) * X_SCALE, (out[..., 2] + 0.5) * Y_SCALE], dim=-1)
         sigma = self.cfg.min_sigma_ft + nn.functional.softplus(out[..., 3]) * 5.0
-        return {"logits": logits, "mu": mu, "sigma": sigma}
+        if self.cfg.anchor == "none":
+            mu = torch.stack([(out[..., 1] + 0.5) * X_SCALE, (out[..., 2] + 0.5) * Y_SCALE], -1)
+            return {"logits": logits, "mu": mu, "sigma": sigma}
+        anchors = self.rule_anchors(feats)  # (B, 5 attackers, T, 2) ft
+        d = h.shape[-1]
+        q = self.q(h[:, 6:]).reshape(B, 5, T, M, d)
+        k = self.k(h[:, 1:6])  # (B, 5 attackers, T, d)
+        score = torch.einsum("bstmc,bktc->bstmk", q, k) / math.sqrt(d)
+        u, team = self.uncovered(feats, anchors)  # (B, T, 5 attackers) ft, (B, T) bool
+        eye = torch.eye(5, device=feats.device)[None, :, None, None, :]  # slot s, attacker k
+        prior = self.id_bias * eye * team[:, None, :, None, None].float()
+        prior = prior + self.cover_bias * u[:, None, :, None, :]
+        w = torch.softmax(score + prior, dim=-1)  # (B, 5, T, M, 5)
+        base = torch.einsum("bstmk,bktx->bstmx", w, anchors)
+        mu = base + out[..., 1:3] * self.cfg.offset_scale_ft
+        return {"logits": logits, "mu": mu, "sigma": sigma, "anchor_w": w}
+
+    def rule_anchors(self, feats: torch.Tensor) -> torch.Tensor:
+        """Rule positions g_o O_k + g_b B + g_h H (feet) of the five attackers, (B, 5, T, 2).
+        Offence and ball are never masked; at step t they use only step t (causal)."""
+        scale = torch.tensor([X_SCALE, Y_SCALE], device=feats.device)
+        off = (feats[:, 1:6, :, :2] + 0.5) * scale
+        ball = (feats[:, 0, :, :2] + 0.5) * scale
+        g_o, g_b, g_h = self.cfg.gamma
+        return g_o * off + g_b * ball[:, None] + g_h * self.hoop
+
+    @staticmethod
+    def uncovered(feats: torch.Tensor, anchors: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        """u (B, T, 5): distance (ft, capped at 30) from each attacker's rule position to the
+        nearest visible defender at the same step, 0 where no defender is visible; and the
+        team-mode flag (B, T): no defender visible."""
+        scale = torch.tensor([X_SCALE, Y_SCALE], device=feats.device)
+        dxy = (feats[:, 6:, :, :2] + 0.5) * scale  # (B, 5 defenders, T, 2)
+        vis = feats[:, 6:, :, 6] > 0.5  # (B, 5, T)
+        dist = torch.linalg.vector_norm(dxy[:, :, None] - anchors[:, None], dim=-1)  # (B,5d,5k,T)
+        dist = torch.where(vis[:, :, None], dist, torch.full_like(dist, 30.0))
+        u = dist.amin(1).clamp(max=30.0).transpose(1, 2)  # (B, T, 5k)
+        team = ~vis.any(1)  # (B, T)
+        return torch.where(team[..., None], torch.zeros_like(u), u), team
 
 
 # ------------------------------------------------------------------------------------------

@@ -1,0 +1,308 @@
+{
+ "note": "Main = v1 windows (second chances excluded, D-018); with_sc = the same chain on windows that start at the offensive-rebound control when the ball never leaves the frontcourt (nbacore include_second_chance). Second chances shot within 4 s of the rebound are flagged transition and stay excluded, as in v1.",
+ "windows": {
+  "nbacore_version": "v1.6",
+  "n_games": 631,
+  "windows_release": 108005,
+  "windows_with_second_chances": 114064,
+  "added_second_chance": 6059,
+  "added_halfcourt": 3368,
+  "release_windows_missing": 0,
+  "release_windows_unchanged": true,
+  "wall_seconds": 555
+ },
+ "main": {
+  "n_possessions": 108005,
+  "n_halfcourt": 89245,
+  "hmm_strat_help_gamma": {
+   "strong": [
+    0.6438,
+    0.101,
+    0.2552
+   ],
+   "weak": [
+    0.5831,
+    0.0959,
+    0.3209
+   ]
+  },
+  "sag_ft_base": {
+   "n_players_ge300": 348,
+   "split_half_r_adjusted": 0.9575909006497471,
+   "split_half_r_within_position": 0.9215081415530499,
+   "hier_team_share": {
+    "mean": 0.0777668675780262,
+    "lo95": 0.07375819499542705,
+    "hi95": 0.08151114808318942
+   },
+   "share_player_intervals_excluding_zero": 0.9054441260744985
+  },
+  "dev_ft_base": {
+   "n_players_ge300": 348,
+   "split_half_r_adjusted": 0.9318103873690456,
+   "split_half_r_within_position": 0.9209759570664919,
+   "hier_team_share": {
+    "mean": 0.14422806489398363,
+    "lo95": 0.13430679371984058,
+    "hi95": 0.1541588221657254
+   },
+   "share_player_intervals_excluding_zero": 0.7908309455587392
+  },
+  "sag_ft_phases": {
+   "n_players_ge300": 348,
+   "split_half_r_adjusted": 0.9602241766914922,
+   "split_half_r_within_position": 0.9250382475730206,
+   "hier_team_share": {
+    "mean": 0.0740443360287306,
+    "lo95": 0.07063286314650569,
+    "hi95": 0.07764799935688628
+   },
+   "share_player_intervals_excluding_zero": 0.9083094555873925
+  },
+  "dev_ft_phases": {
+   "n_players_ge300": 348,
+   "split_half_r_adjusted": 0.9306286194122991,
+   "split_half_r_within_position": 0.9198849384012998,
+   "hier_team_share": {
+    "mean": 0.14401506792338534,
+    "lo95": 0.13518316417381007,
+    "hi95": 0.1533010355920286
+   },
+   "share_player_intervals_excluding_zero": 0.7851002865329513
+  },
+  "team": {
+   "n_on_ball_screens": 93453,
+   "league_help_rate_3s": 0.479342557221277,
+   "league_switch_rate": 0.10392389757418168,
+   "league_help_delay_median_s": 0.879,
+   "help_rate_3s_vs_pts": {
+    "r": -0.46403623263531363,
+    "ci95": [
+     -0.7062414895776407,
+     -0.12459003703053205
+    ]
+   },
+   "switch_rate_vs_pts": {
+    "r": -0.16614714632629787,
+    "ci95": [
+     -0.4966911134428458,
+     0.20648822566992966
+    ]
+   },
+   "early_help_rate_vs_pts": {
+    "r": -0.41418230941408773,
+    "p": 0.02287864972222839,
+    "ci95": [
+     -0.6738986515379053,
+     -0.06336189410386599
+    ]
+   },
+   "league_early_help_rate": 0.2804083336008475
+  },
+  "predictive_validity": {
+   "n_shot_possessions": 47950,
+   "space_per_ft_sag": {
+    "coef": 0.15260325297759994,
+    "ci95": [
+     0.14619119827728674,
+     0.15879133779694452
+    ],
+    "per_sd": 0.37290114577552724
+   },
+   "xfg_m3_per_ft_sag": {
+    "coef": 0.007337083076814426,
+    "ci95": [
+     0.007094215760052673,
+     0.007592511665753842
+    ],
+    "per_sd": 0.017928888359908936
+   },
+   "player_rho": {
+    "def1_ft": [
+     0.44817391213656166,
+     0.4277615481124559
+    ],
+    "xfg_m3_cf": [
+     0.2861115475647136,
+     0.2869458383319685
+    ],
+    "def1_ft__within_position": [
+     0.18071514453189386,
+     0.18800250441864086
+    ],
+    "xfg_m3_cf__within_position": [
+     0.15355435343763324,
+     0.12815191159537156
+    ]
+   }
+  }
+ },
+ "with_sc": {
+  "n_possessions": 114064,
+  "n_halfcourt": 92613,
+  "hmm_strat_help_gamma": {
+   "strong": [
+    0.644,
+    0.1002,
+    0.2558
+   ],
+   "weak": [
+    0.5822,
+    0.0957,
+    0.3221
+   ]
+  },
+  "sag_ft_base": {
+   "n_players_ge300": 351,
+   "split_half_r_adjusted": 0.9584263726495343,
+   "split_half_r_within_position": 0.9226428740833463,
+   "hier_team_share": {
+    "mean": 0.07581036437029741,
+    "lo95": 0.07244116623433083,
+    "hi95": 0.07963823196077184
+   },
+   "share_player_intervals_excluding_zero": 0.9090909090909091
+  },
+  "dev_ft_base": {
+   "n_players_ge300": 351,
+   "split_half_r_adjusted": 0.9342158684666826,
+   "split_half_r_within_position": 0.9215190685699995,
+   "hier_team_share": {
+    "mean": 0.1408635490924321,
+    "lo95": 0.1320480540026236,
+    "hi95": 0.14986408159058723
+   },
+   "share_player_intervals_excluding_zero": 0.7869318181818182
+  },
+  "sag_ft_phases": {
+   "n_players_ge300": 351,
+   "split_half_r_adjusted": 0.9610014524040179,
+   "split_half_r_within_position": 0.9261386497753071,
+   "hier_team_share": {
+    "mean": 0.07209563629319038,
+    "lo95": 0.06891468077496843,
+    "hi95": 0.0754484910940772
+   },
+   "share_player_intervals_excluding_zero": 0.90625
+  },
+  "dev_ft_phases": {
+   "n_players_ge300": 351,
+   "split_half_r_adjusted": 0.9332091686906685,
+   "split_half_r_within_position": 0.9206986059606537,
+   "hier_team_share": {
+    "mean": 0.14158214990216716,
+    "lo95": 0.1324721061748768,
+    "hi95": 0.15098795001908677
+   },
+   "share_player_intervals_excluding_zero": 0.7926136363636364
+  },
+  "team": {
+   "n_on_ball_screens": 96966,
+   "league_help_rate_3s": 0.4760328362518821,
+   "league_switch_rate": 0.10378895695398387,
+   "league_help_delay_median_s": 0.879,
+   "help_rate_3s_vs_pts": {
+    "r": -0.4541422932295321,
+    "ci95": [
+     -0.6999021896500259,
+     -0.11222962768305009
+    ]
+   },
+   "switch_rate_vs_pts": {
+    "r": -0.1764767730813246,
+    "ci95": [
+     -0.5046652993480328,
+     0.1962778700897979
+    ]
+   },
+   "early_help_rate_vs_pts": {
+    "r": -0.4080424198102198,
+    "p": 0.02519395411639719,
+    "ci95": [
+     -0.6698453288286194,
+     -0.055999519948482374
+    ]
+   },
+   "league_early_help_rate": 0.27858218344574387
+  },
+  "predictive_validity": {
+   "n_shot_possessions": 49730,
+   "space_per_ft_sag": {
+    "coef": 0.15263902345223174,
+    "ci95": [
+     0.14634212994189272,
+     0.15889976418683005
+    ],
+    "per_sd": 0.3757141167150198
+   },
+   "xfg_m3_per_ft_sag": {
+    "coef": 0.007358365434661403,
+    "ci95": [
+     0.00713596440333001,
+     0.00762129943562066
+    ],
+    "per_sd": 0.01811228680072979
+   },
+   "player_rho": {
+    "def1_ft": [
+     0.45819442885681577,
+     0.4409158587740437
+    ],
+    "xfg_m3_cf": [
+     0.2904904491481673,
+     0.31068173145792055
+    ],
+    "def1_ft__within_position": [
+     0.19363111939125946,
+     0.21075086117397177
+    ],
+    "xfg_m3_cf__within_position": [
+     0.16002873111714663,
+     0.15929785611723163
+    ]
+   }
+  }
+ },
+ "player_effects_main_vs_with_sc": {
+  "base": {
+   "sag_ft": {
+    "pearson_r": 0.9997338010893017,
+    "max_abs_change_ft": 0.05382490587801536,
+    "n_player_cells": 349
+   },
+   "dev_ft": {
+    "pearson_r": 0.9983091265238353,
+    "max_abs_change_ft": 0.03873230723054799,
+    "n_player_cells": 349
+   }
+  },
+  "phases": {
+   "sag_ft": {
+    "pearson_r": 0.9997328221421526,
+    "max_abs_change_ft": 0.05902636729764854,
+    "n_player_cells": 349
+   },
+   "dev_ft": {
+    "pearson_r": 0.9983736524516773,
+    "max_abs_change_ft": 0.03923651356287525,
+    "n_player_cells": 349
+   }
+  }
+ },
+ "deviation_by_possession_type_with_sc": {
+  "other": {
+   "is_second_chance": false,
+   "n_possession_defender": 443443,
+   "n_possessions": 89175,
+   "sag_ft": 0.005453359772708844,
+   "dev_ft": 3.244979880423305
+  },
+  "second_chance": {
+   "is_second_chance": true,
+   "n_possession_defender": 16483,
+   "n_possessions": 3368,
+   "sag_ft": 0.34153432887762614,
+   "dev_ft": 3.508648030438987
+  }
+ }
+}

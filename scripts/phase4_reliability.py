@@ -34,12 +34,28 @@ MIN_POSS = 300
 COVS = ["man_to_hoop_ft", "man_to_ball_ft", "share_strong", "share_on_ball"]
 
 
-def adjust(df: pl.DataFrame, y: str) -> np.ndarray:
+# D-021: the context term adds the phase shares of D-020 ("other" is the reference)
+PHASE_COVS = ["share_pre_screen", "share_screen", "share_help", "share_closeout", "share_recovery"]
+
+
+def with_phases(df: pl.DataFrame, base) -> pl.DataFrame:
+    """Join the per-(possession, defender) phase shares (phase4_phase_context.py, definitions A)."""
+    ph = pl.read_parquet(base / "analysis" / "phase_context_A.parquet").select(
+        ["game_id", "possession_id", "def_id", *PHASE_COVS]
+    )
+    out = df.join(ph, on=["game_id", "possession_id", "def_id"], how="inner")
+    if out.height != df.height:
+        raise ValueError(f"phase shares missing for {df.height - out.height} rows")
+    return out
+
+
+def adjust(df: pl.DataFrame, y: str, extra: tuple[str, ...] = ()) -> np.ndarray:
     X = np.column_stack(
         [np.ones(df.height)]
         + [df[c].to_numpy() for c in COVS]
         + [df["man_to_hoop_ft"].to_numpy() ** 2, df["man_to_ball_ft"].to_numpy() ** 2]
         + [(df["n_men"].to_numpy() > 1).astype(float), np.log(df["n_steps"].to_numpy())]
+        + [df[c].to_numpy() for c in extra]
     )
     yy = df[y].to_numpy()
     beta, *_ = np.linalg.lstsq(X, yy, rcond=None)
@@ -161,10 +177,15 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--game-set", default="all")
     ap.add_argument("--reps", type=int, default=20)
+    ap.add_argument("--context", default="base", choices=["base", "phases"], help="D-021")
     args = ap.parse_args()
+    extra = tuple(PHASE_COVS) if args.context == "phases" else ()
+    suffix = "" if args.context == "base" else "_phases"
     cfg = D.DataConfig.load(game_set=args.game_set)
     base = cfg.processed_dir / cfg.game_set
     df = pl.read_parquet(base / "analysis" / "rule_ghost_dev.parquet")
+    if extra:
+        df = with_phases(df, base)
     rng = np.random.default_rng(9)
     counts = df.group_by("def_id").len()
     players = counts.filter(pl.col("len") >= MIN_POSS)["def_id"].to_list()
@@ -177,7 +198,7 @@ def main() -> None:
         "metrics": {},
     }
     for y in ("dev_ft", "sag_ft"):
-        res, r2 = adjust(df, y)
+        res, r2 = adjust(df, y, extra)
         d = df.with_columns(pl.Series("adj", res))
         r_raw, n_raw = split_half(d, y, players)
         r_adj, n_adj = split_half(d, "adj", players)
@@ -226,9 +247,10 @@ def main() -> None:
         print("  stability within position:", rep["metrics"][y]["stability_curve_within_position"])
     out = Path("reports/phase4") / f"{cfg.version}_{cfg.game_set}"
     out.mkdir(parents=True, exist_ok=True)
-    (out / "reliability.json").write_text(json.dumps(rep, indent=2))
+    rep["context"] = args.context
+    (out / f"reliability{suffix}.json").write_text(json.dumps(rep, indent=2))
     # summary cited by the abstract (previously written by hand; now generated here)
-    (out / "reliability_within_position.json").write_text(
+    (out / f"reliability_within_position{suffix}.json").write_text(
         json.dumps({y: rep["metrics"][y]["within_position"] for y in rep["metrics"]}, indent=2)
     )
 

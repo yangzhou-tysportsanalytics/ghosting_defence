@@ -83,56 +83,56 @@
       "n": 348
     },
     "indiv_dep__dbpm": {
-      "rho": 0.1592172014533818,
-      "p": 0.019785506688195585,
+      "rho": 0.15936483749559058,
+      "p": 0.01967021573376439,
       "n": 214
     },
     "indiv_dep__raptor_defense": {
-      "rho": 0.2557074242892696,
-      "p": 0.00015567633776082952,
+      "rho": 0.25566334324136514,
+      "p": 0.00015609878594741375,
       "n": 214
     },
     "indiv_dep__predator_defense": {
-      "rho": 0.21826179856797817,
-      "p": 0.0013134668424005544,
+      "rho": 0.21820424831099178,
+      "p": 0.001317442881011995,
       "n": 214
     },
     "indiv_dep__dpoy_share": {
-      "rho": 0.08213350684333233,
-      "p": 0.23150338884685392,
+      "rho": 0.08273500112302325,
+      "p": 0.22809229633628367,
       "n": 214
     }
   },
   "all_defense": {
     "sag_effect": {
-      "mean_all_defense": 0.04176513337015972,
-      "mean_others": -0.018299178783434993,
+      "mean_all_defense": 0.041765133370159684,
+      "mean_others": -0.018299178783434997,
       "n_all_defense": 49,
       "p_mannwhitney": 0.7108374287291489
     },
     "dev_effect": {
-      "mean_all_defense": 0.06517341503986115,
+      "mean_all_defense": 0.06517341503986114,
       "mean_others": -0.01584627747605383,
       "n_all_defense": 49,
       "p_mannwhitney": 0.0030638596299356604
     },
     "help_b_rate": {
       "mean_all_defense": 0.5159435881041291,
-      "mean_others": 0.5113705230823982,
+      "mean_others": 0.511370523082398,
       "n_all_defense": 49,
       "p_mannwhitney": 0.8331658426980062
     },
     "help_a_rate": {
-      "mean_all_defense": 0.23321505307765172,
+      "mean_all_defense": 0.23321505307765167,
       "mean_others": 0.21799616104457734,
       "n_all_defense": 49,
       "p_mannwhitney": 0.14642164053154744
     },
     "indiv_dep": {
-      "mean_all_defense": 0.045831706404153794,
-      "mean_others": 0.03984199325373588,
+      "mean_all_defense": 0.04569709816869461,
+      "mean_others": 0.03973431014787723,
       "n_all_defense": 44,
-      "p_mannwhitney": 0.42112982309178604
+      "p_mannwhitney": 0.416414436966396
     }
   },
   "sources": {

@@ -1,0 +1,132 @@
+{
+  "n_screens": 93453,
+  "early_s": 1.0,
+  "teams": {
+    "league_median_delay_s": 0.879,
+    "league_early_help_rate": 0.2804083336008475,
+    "team_median_delay_range_s": [
+      0.76,
+      1.039
+    ],
+    "team_early_help_range": [
+      0.1894844656879481,
+      0.3391103408434431
+    ],
+    "most_aggressive_by_early_rate": [
+      "POR",
+      "NYK",
+      "SAS",
+      "TOR",
+      "DET"
+    ],
+    "least_aggressive_by_early_rate": [
+      "MIL",
+      "HOU",
+      "MIN",
+      "BKN",
+      "MEM"
+    ],
+    "early_help_rate_vs_pts": {
+      "r": -0.41418230941408773,
+      "p": 0.02287864972222839,
+      "ci95": [
+        -0.6738986515379053,
+        -0.06336189410386599
+      ]
+    },
+    "median_delay_vs_pts": {
+      "r": 0.3320231281070034,
+      "p": 0.07304759600039816,
+      "ci95": [
+        -0.032090820942019815,
+        0.6183335036154344
+      ]
+    },
+    "help_rate_3s_vs_pts": {
+      "r": -0.46403623263531363,
+      "p": 0.009793563051316186,
+      "ci95": [
+        -0.7062414895776407,
+        -0.12459003703053205
+      ]
+    }
+  },
+  "players": {
+    "n_players": 313,
+    "help_propensity_quantiles": {
+      "0.1": 0.06145966709346991,
+      "0.5": 0.13764044943820225,
+      "0.9": 0.2596685082872928
+    },
+    "split_half_r_help_propensity": 0.9212907438887414,
+    "note": "opportunity = on-ball screen with the player on defence, not the screened or screener's defender"
+  },
+  "confidence_sensitivity": {
+    "all": {
+      "n_screens": 93453,
+      "league_switch_rate": 0.10392389757418168,
+      "league_help_rate_3s": 0.479342557221277,
+      "help_rate_3s_vs_pts": {
+        "r": -0.46403623263531363,
+        "p": 0.009793563051316186,
+        "ci95": [
+          -0.7062414895776407,
+          -0.12459003703053205
+        ]
+      },
+      "switch_rate_vs_pts": {
+        "r": -0.16614714632629787,
+        "p": 0.3802267578731795,
+        "ci95": [
+          -0.4966911134428458,
+          0.20648822566992966
+        ]
+      },
+      "corr_team_help_rate_with_all_groups": 0.9999999999999998
+    },
+    "confidence_ge_0.5": {
+      "n_screens": 79757,
+      "league_switch_rate": 0.11792068407788658,
+      "league_help_rate_3s": 0.514713442080319,
+      "help_rate_3s_vs_pts": {
+        "r": -0.48172442351663947,
+        "p": 0.007030172899734581,
+        "ci95": [
+          -0.7174788002554541,
+          -0.14695343629143784
+        ]
+      },
+      "switch_rate_vs_pts": {
+        "r": -0.18463243601243617,
+        "p": 0.32870068174257255,
+        "ci95": [
+          -0.5109219308129436,
+          0.18815886304006013
+        ]
+      },
+      "corr_team_help_rate_with_all_groups": 0.9927564430417807
+    },
+    "top_half_ge_0.81": {
+      "n_screens": 46727,
+      "league_switch_rate": 0.12085089990797612,
+      "league_help_rate_3s": 0.5739294198215165,
+      "help_rate_3s_vs_pts": {
+        "r": -0.512764712899695,
+        "p": 0.0037632501961397595,
+        "ci95": [
+          -0.7369064878764723,
+          -0.1870431425283984
+        ]
+      },
+      "switch_rate_vs_pts": {
+        "r": -0.3134735181931467,
+        "p": 0.09163656964527206,
+        "ci95": [
+          -0.6053792108678592,
+          0.0527603144607756
+        ]
+      },
+      "corr_team_help_rate_with_all_groups": 0.9634826208682942
+    }
+  }
+}

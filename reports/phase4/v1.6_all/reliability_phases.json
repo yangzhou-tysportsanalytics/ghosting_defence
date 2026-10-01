@@ -1,0 +1,185 @@
+{
+  "game_set": "all",
+  "n_rows_possession_defender": 443393,
+  "n_players_total": 447,
+  "n_players_ge_300": 348,
+  "metrics": {
+    "dev_ft": {
+      "context_r2": 0.15486865530928218,
+      "split_half_r_raw": 0.9516691816905881,
+      "split_half_r_adjusted": 0.9306286194122991,
+      "spearman_brown_adjusted": 0.9640679828890042,
+      "split_half_r_player_within_team": 0.9214241876955954,
+      "spearman_brown_player_within_team": 0.9591054318939107,
+      "split_half_r_team_effect": 0.9302687159353632,
+      "n_players": 348,
+      "stability_curve_adjusted": {
+        "25": {
+          "r": 0.5473111548371826,
+          "n_players": 406
+        },
+        "50": {
+          "r": 0.6958186683275971,
+          "n_players": 388
+        },
+        "100": {
+          "r": 0.8181182132621281,
+          "n_players": 353
+        },
+        "150": {
+          "r": 0.8629745642630524,
+          "n_players": 327
+        },
+        "200": {
+          "r": 0.8882423593121718,
+          "n_players": 309
+        },
+        "300": {
+          "r": 0.9144183560272747,
+          "n_players": 271
+        }
+      },
+      "within_position": {
+        "split_half_r_within_position": 0.9198849384012998,
+        "n_players": 348,
+        "share_player_variance_explained_by_position": 0.1463649452248218,
+        "by_position": {
+          "C": {
+            "r": 0.884494544858956,
+            "n_players": 49
+          },
+          "F": {
+            "r": 0.9399977438281496,
+            "n_players": 143
+          },
+          "G": {
+            "r": 0.9104088746075166,
+            "n_players": 156
+          }
+        }
+      },
+      "stability_curve_within_position": {
+        "25": {
+          "r": 0.49352556217715227,
+          "n_players": 406
+        },
+        "50": {
+          "r": 0.653783878059525,
+          "n_players": 388
+        },
+        "100": {
+          "r": 0.7853976491374103,
+          "n_players": 353
+        },
+        "150": {
+          "r": 0.845812777201405,
+          "n_players": 327
+        },
+        "200": {
+          "r": 0.8754810583933486,
+          "n_players": 309
+        },
+        "300": {
+          "r": 0.900391968024816,
+          "n_players": 271
+        }
+      },
+      "variance_shares_adjusted": {
+        "var_team_effect": 0.005315347404025475,
+        "var_player_within_team": 0.03000711275695336,
+        "var_total_possession_level": 0.7360334181709652,
+        "share_team_of_systematic": 0.15048066810186134
+      },
+      "decision_rule": "player effects reportable"
+    },
+    "sag_ft": {
+      "context_r2": 0.1280229016384804,
+      "split_half_r_raw": 0.9671884336359275,
+      "split_half_r_adjusted": 0.9602241766914922,
+      "spearman_brown_adjusted": 0.9797085334516982,
+      "split_half_r_player_within_team": 0.9573911074644763,
+      "spearman_brown_player_within_team": 0.9782317941605868,
+      "split_half_r_team_effect": 0.9471392260236688,
+      "n_players": 348,
+      "stability_curve_adjusted": {
+        "25": {
+          "r": 0.7958564961459612,
+          "n_players": 406
+        },
+        "50": {
+          "r": 0.873635936143416,
+          "n_players": 388
+        },
+        "100": {
+          "r": 0.9205821942710715,
+          "n_players": 353
+        },
+        "150": {
+          "r": 0.9409757484166518,
+          "n_players": 327
+        },
+        "200": {
+          "r": 0.9476013823740803,
+          "n_players": 309
+        },
+        "300": {
+          "r": 0.9565571307926375,
+          "n_players": 271
+        }
+      },
+      "within_position": {
+        "split_half_r_within_position": 0.9250382475730206,
+        "n_players": 348,
+        "share_player_variance_explained_by_position": 0.4826694622372505,
+        "by_position": {
+          "C": {
+            "r": 0.9221884238088831,
+            "n_players": 49
+          },
+          "F": {
+            "r": 0.9375717304952075,
+            "n_players": 143
+          },
+          "G": {
+            "r": 0.9114573449184857,
+            "n_players": 156
+          }
+        }
+      },
+      "stability_curve_within_position": {
+        "25": {
+          "r": 0.6622548867042694,
+          "n_players": 406
+        },
+        "50": {
+          "r": 0.7768990771592629,
+          "n_players": 388
+        },
+        "100": {
+          "r": 0.856075415428083,
+          "n_players": 353
+        },
+        "150": {
+          "r": 0.8890652323255592,
+          "n_players": 327
+        },
+        "200": {
+          "r": 0.9064836194021042,
+          "n_players": 309
+        },
+        "300": {
+          "r": 0.9180939101513467,
+          "n_players": 271
+        }
+      },
+      "variance_shares_adjusted": {
+        "var_team_effect": 0.03136263826874559,
+        "var_player_within_team": 0.3737487944861584,
+        "var_total_possession_level": 2.639794820243446,
+        "share_team_of_systematic": 0.07741731220831842
+      },
+      "decision_rule": "player effects reportable"
+    }
+  },
+  "context": "phases"
+}

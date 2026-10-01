@@ -30,7 +30,7 @@ import torch  # noqa: E402
 from ghost import data as D  # noqa: E402
 from ghost.court import HOOP_LEFT  # noqa: E402
 from ghost.ghost.dataset import build_arrays  # noqa: E402
-from ghost.ghost.model import GhostConfig  # noqa: E402
+from ghost.ghost.model import GhostConfig, GhostModel  # noqa: E402
 from ghost.ghost.train import (  # noqa: E402
     TrainConfig,
     calibration_eval,
@@ -60,6 +60,25 @@ def baseline_nll(arrs: dict, gamma, sigma_ft: float) -> float:
     return float(-(ll * v).sum() / (v.sum() * 5))
 
 
+def baseline_rmse(arrs: dict, gamma) -> float:
+    """RMSE (ft) of the rule positions "one defender at the emission mean of each attacker",
+    matched to the five real defenders by the best permutation per possession (the same hindsight
+    matching as the team-ghost set loss)."""
+    from itertools import permutations
+
+    f = arrs["feats"]
+    off = np.stack([(f[:, 1:6, :, 0] + 0.5) * 47.0, (f[:, 1:6, :, 1] + 0.5) * 50.0], -1)
+    ball = np.stack([(f[:, 0, :, 0] + 0.5) * 47.0, (f[:, 0, :, 1] + 0.5) * 50.0], -1)
+    g_o, g_b, g_h = gamma
+    mu = g_o * off + g_b * ball[:, None] + g_h * HOOP_LEFT  # (N, 5 attackers, T, 2)
+    z, v = arrs["target"], arrs["valid"]  # (N, 5 defenders, T, 2), (N, T)
+    d2 = ((z[:, :, None] - mu[:, None]) ** 2).sum(-1)  # (N, 5d, 5k, T)
+    cost = (d2 * v[:, None, None, :]).sum(-1)  # (N, 5d, 5k) summed over valid steps
+    perms = np.array(list(permutations(range(5))))  # (120, 5): defender d -> attacker perm[d]
+    tot = cost[:, np.arange(5)[None, :], perms].sum(-1)  # (N, 120)
+    return float(np.sqrt(tot.min(1).sum() / (v.sum() * 5)))
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--game-set", default="tiny")
@@ -75,11 +94,26 @@ def main() -> None:
     ap.add_argument("--tag", default="v1min")
     ap.add_argument("--amp", action="store_true", help="bfloat16 autocast on CUDA")
     ap.add_argument("--resume", action="store_true", help="resume from runs/.../checkpoint.pt")
+    ap.add_argument("--train-games", type=int, default=None, help="seeded subset of train games")
+    ap.add_argument("--val-games", type=int, default=None, help="seeded subset of val games")
+    ap.add_argument("--lr", type=float, default=None)
+    ap.add_argument(
+        "--anchor", default="none", choices=["none", "rule"], help="rule: residual on rule ghost"
+    )
     args = ap.parse_args()
 
     cfg = D.DataConfig.load(game_set=args.game_set)
     base = cfg.processed_dir / cfg.game_set
     P = pl.read_parquet(base / "possessions.parquet").filter(~pl.col("is_transition"))
+    if args.train_games or args.val_games:  # CPU prototypes: whole games, fixed seed
+        keep = []
+        for j, (split_name, k) in enumerate((("train", args.train_games), ("val", args.val_games))):
+            # one stream per split: the val games do not depend on --train-games; a larger
+            # train subset contains the smaller ones (prefix of one permutation)
+            rng = np.random.default_rng([cfg.seed, j])
+            g = sorted(P.filter(pl.col("split") == split_name)["game_id"].unique().to_list())
+            keep += list(rng.permutation(g)[: min(k, len(g))]) if k else g
+        P = P.filter(pl.col("game_id").is_in(keep))
     pt = load_game_set(base / "frames", sorted(P["game_id"].unique().to_list()), P)
     fill_shot_clock(pt, {g: D.shot_clock(g, cfg) for g in np.unique(pt.game_id)})
     arrs = build_arrays(pt, P)
@@ -93,7 +127,19 @@ def main() -> None:
         f"{cfg.game_set}: train {len(tr)} / val {len(va)} half-court possessions; device {args.device}"
     )
 
-    mcfg = GhostConfig(d_model=args.d_model, n_blocks=args.blocks, mode=args.mode)
+    # HMM emission fitted on the same game set (Phase 2): rule baseline and anchored head
+    fitp = Path("reports/phase2") / f"{cfg.version}_{cfg.game_set}" / "matchup_fit.json"
+    gamma, sigma = (0.62, 0.11, 0.27), 3.0
+    if fitp.exists():
+        prm = json.loads(fitp.read_text())["models"]["hmm"]["params"]
+        gamma, sigma = prm["gamma"]["all"], prm["sigma_ft"]["all"]
+    mcfg = GhostConfig(
+        d_model=args.d_model,
+        n_blocks=args.blocks,
+        mode=args.mode,
+        anchor=args.anchor,
+        gamma=tuple(gamma),
+    )
     tcfg = TrainConfig(
         epochs=args.epochs,
         batch_size=args.batch_size,
@@ -102,6 +148,7 @@ def main() -> None:
         device=args.device,
         max_batches_per_epoch=args.max_batches,
         amp=args.amp,
+        **({"lr": args.lr} if args.lr else {}),
         checkpoint_path=str(
             Path("runs/phase3") / f"{cfg.version}_{cfg.game_set}_{args.tag}" / "checkpoint.pt"
         ),
@@ -109,19 +156,20 @@ def main() -> None:
     ck = Path(tcfg.checkpoint_path)
     if ck.exists() and not args.resume:
         ck.unlink()  # fresh run unless --resume
+    init_eval = None
+    if args.anchor == "rule" and len(va):  # the untrained anchored model should be the rule ghost
+        torch.manual_seed(tcfg.seed)  # same initial weights as fit()
+        m0 = GhostModel(mcfg, n_steps=train["valid"].shape[1]).to(args.device)
+        init_eval = {s: evaluate(m0, val, s, args.device) for s in ("team", "individual")}
+        print("untrained anchored model:", json.dumps(init_eval))
     model, hist = fit(train, val, mcfg, tcfg)
 
-    # baseline with the HMM emission fitted on the same game set (Phase 2)
-    fitp = Path("reports/phase2") / f"{cfg.version}_{cfg.game_set}" / "matchup_fit.json"
-    gamma, sigma = (0.62, 0.11, 0.27), 3.0
-    if fitp.exists():
-        prm = json.loads(fitp.read_text())["models"]["hmm"]["params"]
-        gamma, sigma = prm["gamma"]["all"], prm["sigma_ft"]["all"]
     result = {
         "config": config_dict(mcfg, tcfg),
         "n_params": sum(p.numel() for p in model.parameters()),
         "val_team": evaluate(model, val, "team", args.device),
         "val_individual": evaluate(model, val, "individual", args.device),
+        "val_untrained": init_eval,
         # sensitivity: drop steps whose shot clock was imputed by rule (nbacore v1.2)
         "val_team_excl_imputed_sc": evaluate(model, val, "team", args.device, exclude_imputed=True),
         "share_steps_sc_imputed_val": float(val["sc_imputed"][val["valid"]].mean())
@@ -132,6 +180,7 @@ def main() -> None:
             "gamma": gamma,
             "sigma_ft": sigma,
             "val_nll_ft": baseline_nll(val, gamma, sigma),
+            "val_rmse_ft_best_permutation": baseline_rmse(val, gamma),
         },
         "note": "NLL = -log density of the true defender position in ft^-2 units, mean per "
         "defender-step; lower is better.",

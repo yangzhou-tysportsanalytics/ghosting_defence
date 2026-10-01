@@ -65,6 +65,7 @@ def main() -> None:
             "defense_team_id",
             "offense_team_id",
             "attacks_left",
+            "defense_player_ids",
         ]
     )
 
@@ -86,6 +87,7 @@ def main() -> None:
                     "y",
                     "user_def_id",
                     "screen_group_uid",
+                    "screen_confidence",
                 ]
             )
         )
@@ -124,6 +126,8 @@ def main() -> None:
         pl.col("attacks_left").first(),
         pl.col("x").first(),
         pl.col("y").first(),
+        pl.col("screen_confidence").max(),
+        pl.col("defense_player_ids").first(),
     )
     # help by a third defender after contact
     Hj = G.join(
@@ -136,7 +140,14 @@ def main() -> None:
         & (pl.col("def_id") != pl.col("screened_def_id"))
         & (pl.col("def_id") != pl.col("screener_def_id"))
     )
-    first_help = Hj.group_by("screen_group").agg(pl.col("delay_s").min().alias("help_delay_s"))
+    first_help = (
+        Hj.sort(["screen_group", "delay_s", "def_id"])
+        .group_by("screen_group", maintain_order=True)
+        .agg(
+            pl.col("delay_s").first().alias("help_delay_s"),
+            pl.col("def_id").first().alias("first_helper_id"),
+        )
+    )
     G = G.join(first_help, on="screen_group", how="left").with_columns(
         pl.col("help_delay_s").is_not_null().alias("helped_3s")
     )

@@ -20,7 +20,6 @@ from pathlib import Path
 
 import numpy as np
 import polars as pl
-import py7zr
 
 BALL_ID = -1
 COURT_LENGTH_FT = 94.0
@@ -86,6 +85,8 @@ def extract_archive(archive: str | Path, out_dir: str | Path | None = None) -> P
     if existing:
         return existing[0]
     out_dir.mkdir(parents=True, exist_ok=True)
+    import py7zr  # only needed to extract raw archives; keeps light imports (e.g. xFG) free of it
+
     with py7zr.SevenZipFile(archive, "r") as z:
         z.extractall(out_dir)
     jsons = sorted(out_dir.glob("*.json"))

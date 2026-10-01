@@ -41,6 +41,9 @@ data/annotations/raw/
 # public derived-data package: GitHub release asset, never committed
 data/derived_release/
 
+# collaborator packs (generated copies)
+share/
+
 # export marker and local derived-data builds
 .ghost_public_export
 data/derived_release/
