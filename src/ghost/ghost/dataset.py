@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 import polars as pl
 import torch
@@ -69,6 +71,12 @@ def apply_mask(
             masked[team] = True
     else:
         raise ValueError(schedule)
+    return mask_defenders(feats, masked), masked
+
+
+def mask_defenders(feats: torch.Tensor, masked: torch.Tensor) -> torch.Tensor:
+    """Hide the defenders flagged in ``masked`` (B, 5) bool: zero their features, set the masked
+    flag on real steps and clear the visible flag. Ball and offence are untouched."""
     f = feats.clone()
     dm = masked[:, :, None, None]  # (B,5,1,1)
     d = f[:, 6:]
@@ -78,4 +86,23 @@ def apply_mask(
     d[..., 6:7] = torch.where(dm, torch.zeros_like(pad), d[..., 6:7])
     d[..., 7:8] = pad
     f[:, 6:] = d
-    return f, masked
+    return f
+
+
+def load_arrays(
+    root: str | Path, split: str, games: list[str] | None = None, mmap: bool = False
+) -> tuple[dict[str, np.ndarray], pl.DataFrame]:
+    """Arrays written by scripts/phase3_export_arrays.py for one split, optionally restricted to
+    ``games`` (rows kept in file order). Returns (arrays, keys)."""
+    d = Path(root) / split
+    keys = pl.read_parquet(d / "keys.parquet").sort("row")
+    rows = None
+    if games is not None:
+        keys = keys.filter(pl.col("game_id").is_in(list(games)))
+        rows = keys["row"].to_numpy()
+    out = {}
+    for k in ("feats", "ctx", "target", "valid", "sc_imputed"):
+        a = np.load(d / f"{k}.npy", mmap_mode="r")
+        # np.array copies into memory (np.asarray would keep the file mapped)
+        out[k] = np.array(a[rows]) if rows is not None else (a if mmap else np.array(a))
+    return out, keys

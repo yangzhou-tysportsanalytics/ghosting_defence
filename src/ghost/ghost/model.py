@@ -62,6 +62,14 @@ class GhostConfig:
         1.0  # initial score per ft of distance to the nearest visible defender
     )
     offset_scale_ft: float = 10.0
+    # Phase 3 task 4: "league" (no identity), "lineup" (the five defenders, no team) or
+    # "scheme" (defending team). Shrinkage: small embeddings and identity dropout; index 0 =
+    # unknown (also what the model sees when no ids are passed). Vocab sizes include index 0.
+    condition: str = "league"  # league | lineup | scheme
+    n_players: int = 1
+    n_teams: int = 1
+    id_dim: int = 8
+    id_dropout: float = 0.3
 
 
 class Block(nn.Module):
@@ -111,15 +119,49 @@ class GhostModel(nn.Module):
         self.register_buffer("causal", causal, persistent=False)
         roles = torch.tensor([0] + [1] * 5 + [2] * 5)
         self.register_buffer("roles", roles, persistent=False)
+        if cfg.condition == "lineup":
+            self.id_emb = nn.Embedding(cfg.n_players, cfg.id_dim)
+        elif cfg.condition == "scheme":
+            self.id_emb = nn.Embedding(cfg.n_teams, cfg.id_dim)
+        elif cfg.condition != "league":
+            raise ValueError(cfg.condition)
+        if cfg.condition != "league":
+            nn.init.normal_(self.id_emb.weight, std=0.01)
+            self.id_proj = nn.Linear(cfg.id_dim, d, bias=False)
 
-    def forward(self, feats: torch.Tensor, ctx: torch.Tensor) -> dict[str, torch.Tensor]:
-        """feats (B, 11, T, N_FEAT) with defenders already masked; ctx (B, T, N_CTX).
+    def identity(self, ids: dict | None, B: int, device) -> torch.Tensor | None:
+        """(B, d_model) condition vector, or None for the league ghost. ids: "players" (B, 5) or
+        "team" (B,) vocabulary indices; missing ids = unknown (0); dropout in training."""
+        c = self.cfg.condition
+        if c == "league":
+            return None
+        key = "players" if c == "lineup" else "team"
+        shape = (B, 5) if c == "lineup" else (B,)
+        idx = ids[key] if ids is not None and key in ids else None
+        if idx is None:
+            idx = torch.zeros(shape, dtype=torch.long, device=device)
+        if self.training and self.cfg.id_dropout > 0:
+            keep = torch.rand(shape, device=device) >= self.cfg.id_dropout
+            idx = torch.where(keep, idx, torch.zeros_like(idx))
+        e = self.id_emb(idx)
+        if c == "lineup":
+            e = e.mean(1)  # who is on the floor, not which slot is whom
+        return self.id_proj(e)
+
+    def forward(
+        self, feats: torch.Tensor, ctx: torch.Tensor, ids: dict | None = None
+    ) -> dict[str, torch.Tensor]:
+        """feats (B, 11, T, N_FEAT) with defenders already masked; ctx (B, T, N_CTX); ids:
+        identity indices for the lineup / scheme ghosts (ignored by the league ghost).
         Returns mixture parameters for the 5 defender tokens: logits (B,5,T,M),
         mu (B,5,T,M,2) in feet, sigma (B,5,T,M) in feet."""
         B, A, T, _ = feats.shape
         x = self.inp(feats) + self.role(self.roles)[None, :, None, :]
         x = x + self.time.weight[:T][None, None]
         x = x + self.ctx(ctx)[:, None]
+        cond = self.identity(ids, B, feats.device)
+        if cond is not None:
+            x = x + cond[:, None, None, :]
         slot = torch.zeros(A, x.shape[-1], device=x.device)
         slot[6:] = self.def_slot.weight
         x = x + slot[None, :, None, :]
@@ -144,9 +186,11 @@ class GhostModel(nn.Module):
         eye = torch.eye(5, device=feats.device)[None, :, None, None, :]  # slot s, attacker k
         prior = self.id_bias * eye * team[:, None, :, None, None].float()
         prior = prior + self.cover_bias * u[:, None, :, None, :]
-        w = torch.softmax(score + prior, dim=-1)  # (B, 5, T, M, 5)
-        base = torch.einsum("bstmk,bktx->bstmx", w, anchors)
-        mu = base + out[..., 1:3] * self.cfg.offset_scale_ft
+        w = torch.softmax(score.float() + prior, dim=-1)  # (B, 5, T, M, 5)
+        # positions in float32 even under autocast (bfloat16 resolves ~0.2 ft at 47 ft)
+        with torch.autocast(device_type=feats.device.type, enabled=False):
+            base = torch.einsum("bstmk,bktx->bstmx", w.float(), anchors.float())
+            mu = base + out[..., 1:3].float() * self.cfg.offset_scale_ft
         return {"logits": logits, "mu": mu, "sigma": sigma, "anchor_w": w}
 
     def rule_anchors(self, feats: torch.Tensor) -> torch.Tensor:

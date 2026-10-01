@@ -33,12 +33,14 @@ spec.loader.exec_module(rel)
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--context", default="base", choices=["base", "phases"], help="D-021")
+    ap.add_argument("--ghost", default="rule", help='"rule" or "learned:<name>"')
     args = ap.parse_args()
     extra = tuple(rel.PHASE_COVS) if args.context == "phases" else ()
-    suffix = "" if args.context == "base" else "_phases"
+    suffix = "" if args.context == "base" else "_phases"  # prefixed by the ghost suffix below
     cfg = D.DataConfig.load(game_set="all")
     base = cfg.processed_dir / "all"
-    df = pl.read_parquet(base / "analysis" / "rule_ghost_dev.parquet")
+    df, metrics, gsfx = rel.load_dev(base, args.ghost)
+    suffix = gsfx + suffix
     if extra:
         df = rel.with_phases(df, base)
     ros = (
@@ -56,7 +58,7 @@ def main() -> None:
         "note": "two-stage Gaussian hierarchical model; stage-1 context coefficients fixed",
         "metrics": {},
     }
-    for y in ("sag_ft", "dev_ft"):
+    for y in ("sag_ft", "dev_ft") if args.ghost == "rule" else metrics:
         res, _ = rel.adjust(df, y, extra)
         d = df.with_columns(pl.Series("r", res))
         sigma_e = float(

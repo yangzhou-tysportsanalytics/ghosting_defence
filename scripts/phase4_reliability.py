@@ -49,6 +49,27 @@ def with_phases(df: pl.DataFrame, base) -> pl.DataFrame:
     return out
 
 
+LEARNED_METRICS = ("nll_ind", "nll_team", "d_mean", "d_mode")
+
+
+def load_dev(base, ghost: str = "rule") -> tuple[pl.DataFrame, tuple[str, ...], str]:
+    """Per-(possession, defender) deviations. ``ghost`` "rule" (default): rule-ghost dev and sag;
+    "learned:<name>": the learned-ghost metrics of phase4_learned_ghost_dev.py joined onto the
+    same rows (same covariates, parity and teams), plus dev and sag for comparison.
+    Returns (table, metrics, output-name suffix)."""
+    df = pl.read_parquet(base / "analysis" / "rule_ghost_dev.parquet")
+    if ghost == "rule":
+        return df, ("dev_ft", "sag_ft"), ""
+    name = ghost.split(":", 1)[1]
+    lg = pl.read_parquet(base / "analysis" / f"learned_ghost_dev_{name}.parquet")
+    df = df.join(
+        lg.select(["game_id", "possession_id", "def_id", *LEARNED_METRICS]),
+        on=["game_id", "possession_id", "def_id"],
+        how="inner",
+    )
+    return df, (*LEARNED_METRICS, "dev_ft", "sag_ft"), f"_learned_{name}"
+
+
 def adjust(df: pl.DataFrame, y: str, extra: tuple[str, ...] = ()) -> np.ndarray:
     X = np.column_stack(
         [np.ones(df.height)]
@@ -178,12 +199,13 @@ def main() -> None:
     ap.add_argument("--game-set", default="all")
     ap.add_argument("--reps", type=int, default=20)
     ap.add_argument("--context", default="base", choices=["base", "phases"], help="D-021")
+    ap.add_argument("--ghost", default="rule", help='"rule" or "learned:<name>"')
     args = ap.parse_args()
     extra = tuple(PHASE_COVS) if args.context == "phases" else ()
-    suffix = "" if args.context == "base" else "_phases"
     cfg = D.DataConfig.load(game_set=args.game_set)
     base = cfg.processed_dir / cfg.game_set
-    df = pl.read_parquet(base / "analysis" / "rule_ghost_dev.parquet")
+    df, metrics, gsfx = load_dev(base, args.ghost)
+    suffix = gsfx + ("" if args.context == "base" else "_phases")
     if extra:
         df = with_phases(df, base)
     rng = np.random.default_rng(9)
@@ -197,7 +219,7 @@ def main() -> None:
         "n_players_ge_300": len(players),
         "metrics": {},
     }
-    for y in ("dev_ft", "sag_ft"):
+    for y in metrics:
         res, r2 = adjust(df, y, extra)
         d = df.with_columns(pl.Series("adj", res))
         r_raw, n_raw = split_half(d, y, players)
@@ -248,6 +270,7 @@ def main() -> None:
     out = Path("reports/phase4") / f"{cfg.version}_{cfg.game_set}"
     out.mkdir(parents=True, exist_ok=True)
     rep["context"] = args.context
+    rep["ghost"] = args.ghost
     (out / f"reliability{suffix}.json").write_text(json.dumps(rep, indent=2))
     # summary cited by the abstract (previously written by hand; now generated here)
     (out / f"reliability_within_position{suffix}.json").write_text(

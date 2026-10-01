@@ -25,3 +25,15 @@ def test_cascade_initiator_is_earliest():
     assert init == [True, False, True, False]
     cid, init = bd.cascades(events, gap=0)  # no gap: only overlapping events chain
     assert cid[0] == cid[3] and cid[1] == cid[0] and init == [True, False, True, False]
+
+
+def test_sustained_max_matches_runs():
+    """A run of >= 5 steps above a threshold exists iff the sustained maximum exceeds it."""
+    rng = np.random.default_rng(0)
+    for _ in range(200):
+        dev = rng.normal(size=(5, 30))
+        dev[rng.random((5, 30)) < 0.05] = np.nan
+        s = bd.sustained_max(dev)
+        for thr in (-0.5, 0.0, 0.5, 1.0):
+            has = any(bd.runs(np.nan_to_num(dev[d], nan=-1e9) > thr) for d in range(5))
+            assert has == (s > thr)

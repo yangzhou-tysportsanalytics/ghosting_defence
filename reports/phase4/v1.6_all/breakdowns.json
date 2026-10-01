@@ -1,38 +1,41 @@
 {
-  "threshold_ft_p80": 4.676665330116942,
-  "n_breakdowns": 347598,
+  "threshold_ft": 7.307932472229004,
+  "threshold_rule": "possession",
+  "ghost": "rule",
+  "n_breakdowns": 20455,
   "gaps": {
     "0.5s": {
-      "n_cascades": 184176,
-      "share_breakdowns_in_multi_cascades": 0.7300042002543168,
-      "league_initiated_per_100_poss": 41.53786821172188,
-      "split_half_r_player_rate": 0.924382851257301,
+      "n_cascades": 19794,
+      "share_breakdowns_in_multi_cascades": 0.06330970422879492,
+      "league_initiated_per_100_poss": 4.464211207664532,
+      "split_half_r_player_rate": 0.832488593240179,
       "n_players": 348
     },
     "1s": {
-      "n_cascades": 155838,
-      "share_breakdowns_in_multi_cascades": 0.8127837329328708,
-      "league_initiated_per_100_poss": 35.14669830150679,
-      "split_half_r_player_rate": 0.9102278471269847,
+      "n_cascades": 19539,
+      "share_breakdowns_in_multi_cascades": 0.08692251283304815,
+      "league_initiated_per_100_poss": 4.4067001508819486,
+      "split_half_r_player_rate": 0.8264932007797346,
       "n_players": 348
     },
     "2s": {
-      "n_cascades": 125729,
-      "share_breakdowns_in_multi_cascades": 0.8887939516337838,
-      "league_initiated_per_100_poss": 28.356108463597756,
-      "split_half_r_player_rate": 0.8959483906940426,
+      "n_cascades": 19133,
+      "share_breakdowns_in_multi_cascades": 0.12441945734539232,
+      "league_initiated_per_100_poss": 4.315133527141835,
+      "split_half_r_player_rate": 0.8273904884340276,
       "n_players": 348
     }
   },
   "possession_outcomes": {
-    "share_possessions_with_breakdown": 0.9721104823799652,
-    "points_with": 1.0361012494813038,
-    "points_without": 1.0791482523101648,
+    "share_possessions_with_breakdown": 0.1998543335761107,
+    "points_with": 1.0256784032294237,
+    "points_without": 1.0402050161744318,
     "note": "descriptive; breakdowns and scoring share causes (penetration, mismatches)"
   },
   "player_rate_quantiles_per_100": {
-    "0.1": 22.29491696024157,
-    "0.5": 34.7103274559194,
-    "0.9": 46.67562122229684
-  }
+    "0.1": 1.639344262295082,
+    "0.5": 4.242424242424242,
+    "0.9": 7.368421052631579
+  },
+  "quantile": 0.8
 }

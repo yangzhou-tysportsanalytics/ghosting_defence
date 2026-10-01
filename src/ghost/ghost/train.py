@@ -35,6 +35,12 @@ def _batches(n: int, bs: int, rng: np.random.Generator, shuffle: bool):
         yield idx[a : a + bs]
 
 
+def ids_of(b: dict) -> dict | None:
+    """Identity indices of a batch for the lineup / scheme ghosts (None if absent)."""
+    out = {k: b[a] for k, a in (("players", "player_idx"), ("team", "team_idx")) if a in b}
+    return out or None
+
+
 def _to(arrs: dict, idx: np.ndarray, device: str) -> dict:
     return {k: torch.from_numpy(np.ascontiguousarray(v[idx])).to(device) for k, v in arrs.items()}
 
@@ -59,7 +65,7 @@ def evaluate(
             if exclude_imputed and "sc_imputed" in b:
                 b["valid"] = b["valid"] & ~b["sc_imputed"]
             f, masked = apply_mask(b["feats"], schedule, g)
-            out = model(f, b["ctx"])
+            out = model(f, b["ctx"], ids_of(b))
             nll, info = ghost_loss(out, b["target"], b["valid"], masked, "nll")
             l2, _ = ghost_loss(out, b["target"], b["valid"], masked, "l2")
             tot_nll += float(nll) * info["n_obs"]
@@ -121,7 +127,7 @@ def fit(
             b = _to(train, idx, tcfg.device)
             f, masked = apply_mask(b["feats"], tcfg.schedule, g)
             with torch.autocast("cuda", dtype=torch.bfloat16, enabled=use_amp):
-                out = model(f, b["ctx"])
+                out = model(f, b["ctx"], ids_of(b))
             out = {k: v.float() for k, v in out.items()}
             loss, _ = ghost_loss(out, b["target"], b["valid"], masked, tcfg.loss)
             opt.zero_grad()
@@ -169,7 +175,7 @@ def predict_mean(model: GhostModel, arrs: dict, schedule: str, device: str = "cp
         for idx in _batches(len(arrs["valid"]), 32, np.random.default_rng(0), False):
             b = _to(arrs, idx, device)
             f, _ = apply_mask(b["feats"], schedule, g)
-            outs.append(mixture_mean(model(f, b["ctx"])).cpu().numpy())
+            outs.append(mixture_mean(model(f, b["ctx"], ids_of(b))).cpu().numpy())
     return np.concatenate(outs)
 
 
@@ -198,7 +204,7 @@ def calibration_eval(
     with torch.no_grad():
         for sch in ("individual", "team"):
             f, masked = apply_mask(b["feats"], sch, g)
-            out = model(f, b["ctx"])
+            out = model(f, b["ctx"], ids_of(b))
             if sch == "individual":
                 j = masked.float().argmax(-1)  # (B,)
                 ix = torch.arange(len(j))

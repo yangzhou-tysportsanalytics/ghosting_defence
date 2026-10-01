@@ -252,3 +252,27 @@ def test_rule_anchor_individual_takes_uncovered_attacker():
     with torch.no_grad():
         mean = mixture_mean(m(f, ctx))
     assert torch.allclose(mean[0, 0], rule[0, 3], atol=0.05)
+
+
+def test_condition_lineup_and_scheme():
+    """Identity conditions: no ids = unknown (index 0); different ids change the output; the
+    lineup ghost does not depend on which slot carries which player."""
+    feats, ctx, _, _ = _batch(B=2)
+    f, _ = apply_mask(feats, "team")
+    for cond, ids in (
+        ("lineup", {"players": torch.tensor([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]])}),
+        ("scheme", {"team": torch.tensor([1, 2])}),
+    ):
+        torch.manual_seed(0)
+        cfg = GhostConfig(d_model=16, n_blocks=1, dropout=0.0, anchor="rule", condition=cond,
+                          n_players=11, n_teams=3)  # fmt: skip
+        m = GhostModel(cfg, n_steps=T).eval()
+        with torch.no_grad():
+            m.id_emb.weight.normal_(0, 1.0)
+            m.head.weight.normal_(0, 0.1)
+            zero = {k: torch.zeros_like(v) for k, v in ids.items()}
+            assert torch.allclose(m(f, ctx)["mu"], m(f, ctx, zero)["mu"])
+            assert not torch.allclose(m(f, ctx)["mu"], m(f, ctx, ids)["mu"])
+            if cond == "lineup":
+                perm = {"players": ids["players"][:, [4, 2, 0, 1, 3]]}
+                assert torch.allclose(m(f, ctx, ids)["mu"], m(f, ctx, perm)["mu"], atol=1e-5)

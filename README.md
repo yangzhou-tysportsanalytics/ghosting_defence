@@ -45,8 +45,9 @@ not a ranking of defenders.
 | predictive validity: per ft of the primary defender's sag in the 2 s before the release, the nearest defender is 0.15 ft farther at the release; player sag on one half of the games predicts shooter-aware xFG allowed on the other half (Spearman 0.29; 0.16 / 0.13 within listed position) | `reports/phase5/v1.6_all/predictive_validity{,_phases}.json` (`phase5_predictive_validity.py`) |
 | second-chance possessions included (+3.8 % half-court possessions): reliability, team share, player effects (r = 0.9997) and the team help / points association unchanged | `reports/analysis/second_chance_sensitivity.json` (`second_chance_sensitivity.sh`, `compare_second_chance.py`) |
 
-Breakdown events (D-015) are computed by `phase4_breakdowns.py` against the rule ghost for
-reference only; they are reported against the learned ghost (D-020).
+Breakdown events (D-015) use a possession-level threshold (D-023: the worst fifth of
+possessions); `phase4_breakdowns.py` computes them against the rule ghost for reference only, and
+they are reported against the learned ghost (D-020).
 
 Design choices are listed in `docs/decisions.md`; the tracking-data format in `docs/data_schema.md`.
 
@@ -107,8 +108,12 @@ of the previous one. `scripts/pipeline_all.sh` runs them in dependency order.
 | | `phase2_events.py` | changes of matchup and help events |
 | | `phase2_screen_events.py` | links matchup changes to screens (screen switches) and finds closeouts |
 | | `phase2_screen_rates.py` | switch rates per screen |
-| 3. Learned ghost | `phase3_train.py` | trains the generative ghost model (GPU; not needed for the current results) |
+| 3. Learned ghost | `phase3_export_arrays.py` | packs the model inputs per split (private: contains positions) |
+| | `phase3_train.py` | trains / evaluates the ghost model (league, lineup or scheme; cross-fitting folds) |
+| | `phase3_gpu.sh` | GPU stages: check, smoke, sweep, final (test once), ablation, conditions, cross-fitting, deviations |
+| | `phase3_multimodality.py`, `phase3_overlay.py` | multimodality at screens; overlay videos (kept private) |
 | 4. Deviations and models | `phase4_rule_ghost.py` | league-average rule ghost; per-defender deviation and sag |
+| | `phase4_learned_ghost_dev.py` | out-of-fold learned-ghost deviations (negative log density, distance to the nearest mode) |
 | | `phase4_phase_context.py` | phases of each defender-step and help-geometry descriptors |
 | | `phase4_reliability.py` | split-half reliability, stability curves, team vs player variance (`--context phases`: main specification) |
 | | `phase4_hier.py` | hierarchical model: team means and within-team player effects with intervals (`--context phases`) |

@@ -161,3 +161,13 @@ learned priors: one ghost per attacker when all five defenders are hidden (team 
 preference for attackers far from every visible defender when four are visible (individual
 ghost). The offset starts at zero, so the untrained model is the rule ghost and training learns
 corrections to it. The unanchored head is kept as an ablation.
+
+## D-023 Breakdown threshold at the possession level
+
+A threshold on single defender-steps flags almost every possession (five defenders, about 100
+autocorrelated steps each): 97 % with the rule ghost at the 80th percentile. The threshold is
+therefore set per possession: the largest deviation level that some defender holds for at least
+1 s, and its league 80th percentile across possessions, so the worst fifth of possessions contain
+a breakdown. Breakdowns are runs of at least 1 s above that threshold; the first breakdown of a
+cascade is attributed to its defender. The metric is the individual-ghost negative log density
+(cross-fitted); the rule-ghost distance version is kept for reference.

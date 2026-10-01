@@ -1,16 +1,23 @@
-"""Phase 4 task 1: discrete breakdown events on the rule-ghost deviation (Le et al. 2017 80-20 rule).
+"""Phase 4 task 1: discrete breakdown events (D-015, threshold rule D-023).
 
-Per 5 Hz step, a defender with a stable man (help state and steps without a man excluded) has
-deviation |d| from the rule ghost (definitions as in phase4_rule_ghost.py). The league 80th
-percentile of |d| over all such defender-steps is the threshold. A breakdown is a run of >= 5
-consecutive steps (1 s) above it. Breakdowns of one possession form a cascade when one starts no
-later than ``gap`` after the previous one of the cascade ends; the earliest breakdown of a cascade
-is its initiator. gap = 1 s (reported), 0.5 s and 2 s (sensitivity).
+Per 5 Hz step and defender, a deviation: |d| from the rule ghost for steps with a stable man
+(``--ghost rule``, definitions as in phase4_rule_ghost.py; reference only, D-020), or a per-step
+learned-ghost metric (``--ghost learned:<name> --metric nll_ind``, phase4_learned_ghost_dev.py).
 
-Outputs:
-    <processed_dir>/all/analysis/breakdowns.parquet   one row per breakdown (no coordinates)
-    reports/phase4/<version>_all/breakdowns.json       threshold, counts, player rates and their
-                                                       split-half reliability, possession outcomes
+Threshold (D-023, default ``--threshold possession``): for every possession, the largest level
+that some defender holds for >= 1 s (5 steps); the league 80th percentile of that value over
+possessions is the threshold, so the worst fifth of possessions contain a breakdown. (``--threshold
+step``: the 80th percentile of all defender-steps, D-015 as first written; it flags almost every
+possession because deviations are autocorrelated and five defenders are watched.)
+
+A breakdown is a run of >= 5 consecutive steps above the threshold. Breakdowns of one possession
+form a cascade when one starts no later than ``gap`` after the previous one of the cascade ends;
+the earliest breakdown of a cascade is its initiator. gap = 1 s (reported), 0.5 s and 2 s.
+
+Outputs (tagged by ghost, threshold rule and quantile):
+    <processed_dir>/all/analysis/breakdowns<tag>.parquet   one row per breakdown (no coordinates)
+    reports/phase4/<version>_all/breakdowns<tag>.json       threshold, counts, player rates and their
+                                                            split-half reliability, outcomes
 """
 
 from __future__ import annotations
@@ -45,6 +52,17 @@ def runs(mask: np.ndarray) -> list[tuple[int, int]]:
                 out.append((start, t - 1))
             start = None
     return out
+
+
+def sustained_max(dev: np.ndarray) -> float:
+    """Largest level held for >= MIN_RUN consecutive steps by any defender of one possession:
+    max over defenders and windows of the window minimum (NaN steps break a window). A run of
+    >= MIN_RUN steps above a threshold exists iff this value exceeds it."""
+    x = np.nan_to_num(dev, nan=-np.inf)
+    if x.shape[1] < MIN_RUN:
+        return -np.inf
+    w = np.lib.stride_tricks.sliding_window_view(x, MIN_RUN, axis=1).min(-1)  # (5, T-4)
+    return float(w.max())
 
 
 def cascades(events: list[tuple[int, int]], gap: int) -> tuple[list[int], list[bool]]:
@@ -86,8 +104,22 @@ def step_deviation(pt, i: int, s: np.ndarray, g_strong, g_weak) -> np.ndarray:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--quantile", type=float, default=0.8, help="league threshold (D-015: 0.8)")
+    ap.add_argument("--ghost", default="rule", help='"rule" or "learned:<name>" (D-020)')
+    ap.add_argument("--metric", default="nll_ind", help="learned ghost: per-step metric")
+    ap.add_argument(
+        "--threshold",
+        default="possession",
+        choices=["possession", "step"],
+        help="possession (D-023): quantile of the possessions' worst sustained deviation; "
+        "step (D-015 as first written): quantile of all defender-steps",
+    )
     args = ap.parse_args()
+    learned = args.ghost != "rule"
     tag = "" if args.quantile == 0.8 else f"_q{round(args.quantile * 100)}"
+    if args.threshold == "step":
+        tag = "_stepthr" + tag
+    if learned:
+        tag = f"_learned_{args.ghost.split(':', 1)[1]}_{args.metric}" + tag
     cfg = D.DataConfig.load(game_set="all")
     base = cfg.processed_dir / "all"
     prm = json.loads((base / "matchups" / "hmm_strat_help_params.json").read_text())
@@ -98,6 +130,25 @@ def main() -> None:
 
     # pass 1: per-step deviations of every game (kept in memory as per-possession arrays)
     store, all_dev, t0 = {}, [], time.time()
+    if learned:  # per-step metrics of phase4_learned_ghost_dev.py (all on-court defender-steps)
+        sdir = base / "learned_ghost" / args.ghost.split(":", 1)[1]
+        for gi, gid in enumerate(games, 1):
+            p = sdir / f"{gid}.parquet"
+            if not p.exists():
+                continue
+            S = pl.read_parquet(
+                p, columns=["possession_id", "def_slot", "def_id", "step", args.metric]
+            )
+            for (pid,), g in S.group_by(["possession_id"]):
+                dev = np.full((5, 121), np.nan, dtype=np.float32)
+                dev[g["def_slot"].to_numpy(), g["step"].to_numpy()] = g[args.metric].to_numpy()
+                ids = np.zeros(5, dtype=np.int64)
+                ids[g["def_slot"].to_numpy()] = g["def_id"].to_numpy()
+                store[(gid, int(pid))] = (dev, ids)
+                all_dev.append(dev[~np.isnan(dev)])
+            if gi % 100 == 0 or gi == len(games):
+                print(f"[pass 1 {gi}/{len(games)}] {time.time() - t0:.0f}s", flush=True)
+        games = []  # skip the rule-ghost loop
     for gi, gid in enumerate(games, 1):
         Pg = P.filter(pl.col("game_id") == gid)
         pt = load_game_set(base / "frames", [gid], Pg)
@@ -113,7 +164,11 @@ def main() -> None:
             all_dev.append(dev[~np.isnan(dev)])
         if gi % 100 == 0 or gi == len(games):
             print(f"[pass 1 {gi}/{len(games)}] {time.time() - t0:.0f}s", flush=True)
-    thr = float(np.quantile(np.concatenate(all_dev), args.quantile))
+    if args.threshold == "possession":  # D-023: the worst `1 - quantile` of possessions
+        smax = np.array([sustained_max(dev) for dev, _ in store.values()])
+        thr = float(np.quantile(smax[np.isfinite(smax)], args.quantile))
+    else:  # D-015 as first written: quantile of all defender-steps
+        thr = float(np.quantile(np.concatenate(all_dev), args.quantile))
     del all_dev
 
     # pass 2: events, cascades
@@ -135,7 +190,7 @@ def main() -> None:
                     "start_step": s,
                     "end_step": e,
                     "duration_s": (e - s + 1) / 5,
-                    "peak_dev_ft": peak,
+                    ("peak_" + args.metric if learned else "peak_dev_ft"): peak,
                     **{f"cascade_{k}": flags[k][0][j] for k in GAPS},
                     **{f"initiator_{k}": flags[k][1][j] for k in GAPS},
                 }
@@ -149,7 +204,9 @@ def main() -> None:
     )
     par = dev_tab.select(["game_id", "parity"]).unique()
     Bp = B.join(par, on="game_id", how="left")
-    rep = {"threshold_ft": thr, "n_breakdowns": B.height, "gaps": {}}
+    rep = {"threshold_ft" if not learned else f"threshold_{args.metric}": thr,
+           "threshold_rule": args.threshold, "ghost": args.ghost,
+           "n_breakdowns": B.height, "gaps": {}}  # fmt: skip
     for k in GAPS:
         ini = Bp.filter(pl.col(f"initiator_{k}"))
         cnt = ini.group_by(["def_id", "parity"]).len().rename({"len": "n_init"})
