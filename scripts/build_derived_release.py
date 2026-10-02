@@ -10,6 +10,7 @@ Output: data/derived_release/<package_id>/ and data/derived_release/<package_id>
 
 Usage:
     uv run python scripts/build_derived_release.py [--package-id ghost-defense-derived-v1.1]
+        [--ghost-crossfit <config tag>] [--ghost-final <run tag>]   # v1.2 learned-ghost outputs
 """
 
 from __future__ import annotations
@@ -62,6 +63,31 @@ DESCRIPTIONS = {
     "players with >= 300 defensive possessions; not a ranking of defenders",
     "hier_players_dev_ft.csv": "as above for |deviation|",
     "matchup_params.json": "fitted matchup-HMM parameters (all three model variants)",
+    # v1.2 additions (each included when its source exists; see MANIFEST "optional")
+    "phase_context.parquet": "per (possession, defender): share of man-guarding steps in each "
+    "phase (pre-screen, screen, help, closeout, recovery, other; D-020), sightline-cone share "
+    "and paint-time descriptors",
+    "breakdowns_rule_ghost.parquet": "breakdown events against the rule ghost (D-023 threshold; "
+    "reference only, D-020): defender, start / end step, peak, cascade and initiator flags",
+    "help_timing_teams.csv": "team help delay after on-ball screen contact and early-help rates",
+    "help_timing_players.csv": "player help propensity as a potential third defender",
+    "hier_players_sag_ft_phases.csv": "player sag effects, main specification (context with "
+    "phase shares, D-021); not a ranking of defenders",
+    "hier_players_dev_ft_phases.csv": "as above for |deviation|",
+    "learned_ghost_deviations.parquet": "per (possession, defender): mean negative log density "
+    "under the individual and the identity-free team ghost, distance to the mixture mean and to "
+    "the nearest mode (cross-fitted: each fold scored by a model trained without it)",
+    "learned_ghost_points.parquet": "per shot and defender: shooter-aware xFG at the real "
+    "positions and its expectation with the defender drawn from his ghost (and with the team ghost)",
+    "breakdowns_learned_ghost.parquet": "breakdown events against the learned individual ghost "
+    "(D-023 threshold on the negative log density)",
+    "ghost_model_final.pt": "learned-ghost weights (PyTorch state dict), the model scored on the "
+    "test games",
+    "ghost_model_config.json": "its configuration (model and training) and evaluation summary",
+    "ghost_models_crossfit.zip": "the five cross-fitting models (state dicts + configuration)",
+    "annotations.json": "the 200 annotated possessions: reviewed matchup corrections and events "
+    "per annotator (anonymised A1, A2); notes and video links removed",
+    "annotation_eval.json": "accuracy of the matchup model and events against the annotations",
 }
 
 
@@ -73,9 +99,95 @@ def sha256(p: Path) -> str:
     return h.hexdigest()
 
 
+def add_optional(out: Path, base: Path, cfg, args, zstd: dict) -> tuple[list[str], list[str]]:
+    """v1.2 additions, each copied when its source exists. Returns (included, skipped)."""
+    ana, rep = base / "analysis", Path("reports")
+    r4 = rep / "phase4" / f"{cfg.version}_all"
+    items: list[tuple[Path, str]] = [
+        (ana / "phase_context_A.parquet", "phase_context.parquet"),
+        (ana / "breakdowns.parquet", "breakdowns_rule_ghost.parquet"),
+        (rep / "analysis" / "help_timing_teams.csv", "help_timing_teams.csv"),
+        (rep / "analysis" / "help_timing_players.csv", "help_timing_players.csv"),
+        (r4 / "hier_players_sag_ft_phases.csv", "hier_players_sag_ft_phases.csv"),
+        (r4 / "hier_players_dev_ft_phases.csv", "hier_players_dev_ft_phases.csv"),
+    ]
+    if args.ghost_crossfit:
+        n = f"cf_{args.ghost_crossfit}"
+        items += [
+            (ana / f"learned_ghost_dev_{n}.parquet", "learned_ghost_deviations.parquet"),
+            (ana / f"learned_ghost_points_{n}.parquet", "learned_ghost_points.parquet"),
+            (ana / f"breakdowns_learned_{n}_nll_ind.parquet", "breakdowns_learned_ghost.parquet"),
+        ]
+    included, skipped = [], []
+    for src, name in items:
+        if not src.exists():
+            skipped.append(name)
+            continue
+        if src.suffix == ".parquet":
+            pl.read_parquet(src).write_parquet(out / name, **zstd)
+        else:
+            shutil.copy2(src, out / name)
+        included.append(name)
+    runs = Path("runs/phase3")
+    if args.ghost_final:
+        run = runs / f"{cfg.version}_all_{args.ghost_final}"
+        if (run / "model.pt").exists():
+            shutil.copy2(run / "model.pt", out / "ghost_model_final.pt")
+            ev = json.loads((run / "eval.json").read_text())
+            keep = {k: ev[k] for k in ("config", "n_params", "val_team", "val_individual", "test")
+                    if k in ev}  # fmt: skip
+            (out / "ghost_model_config.json").write_text(json.dumps(keep, indent=1))
+            included += ["ghost_model_final.pt", "ghost_model_config.json"]
+        else:
+            skipped.append("ghost_model_final.pt")
+    if args.ghost_crossfit:
+        folds = [runs / f"{cfg.version}_all_{args.ghost_crossfit}_fold{k}" for k in range(5)]
+        if all((f / "model.pt").exists() for f in folds):
+            with zipfile.ZipFile(out / "ghost_models_crossfit.zip", "w") as z:
+                for k, f in enumerate(folds):
+                    z.write(f / "model.pt", arcname=f"fold{k}/model.pt")
+                    cfg_k = json.loads((f / "eval.json").read_text())["config"]
+                    z.writestr(f"fold{k}/config.json", json.dumps(cfg_k, indent=1))
+            included.append("ghost_models_crossfit.zip")
+        else:
+            skipped.append("ghost_models_crossfit.zip")
+    raw = sorted(Path("data/annotations/raw").glob("gd_v2_all__*.json"))
+    if raw:
+        anns = []
+        for j, f in enumerate(raw, 1):  # anonymise; drop free text and video links
+            a = json.loads(f.read_text(encoding="utf-8"))
+            poss = {}
+            for key, x in a["possessions"].items():
+                segs = [{k: v for k, v in sg.items() if k != "note"} for sg in x["segments"]]
+                poss[key] = {"segments": segs, "status": x.get("status"),
+                             "rejected_prelabels": x.get("rejected_prelabels", []),
+                             "time_spent_s": x.get("time_spent_s")}  # fmt: skip
+            anns.append({"annotator": f"A{j}", "possessions": poss})
+        data = {"bundle": "gd_v2_all", "annotators": anns}
+        (out / "annotations.json").write_text(json.dumps(data))
+        included.append("annotations.json")
+    else:
+        skipped.append("annotations.json")
+    ev_p = Path("reports/phase2") / f"{cfg.version}_all" / "annotation_eval.json"
+    if ev_p.exists():
+        e = json.loads(ev_p.read_text())
+        e.pop("files", None)
+        for a in e.get("per_annotator", []):
+            a.pop("annotator", None)
+        for a in e.get("agreement", []):
+            a.pop("pair", None)
+        (out / "annotation_eval.json").write_text(json.dumps(e, indent=1))
+        included.append("annotation_eval.json")
+    else:
+        skipped.append("annotation_eval.json")
+    return included, skipped
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--package-id", default="ghost-defense-derived-v1.1")
+    ap.add_argument("--ghost-crossfit", default=None, help="cross-fitting config tag (cf_<tag>)")
+    ap.add_argument("--ghost-final", default=None, help="run tag of the model scored on test")
     args = ap.parse_args()
     cfg = D.DataConfig.load(game_set="all")
     base = cfg.processed_dir / "all"
@@ -127,6 +239,8 @@ def main() -> None:
     }
     (out / "matchup_params.json").write_text(json.dumps(params, indent=2))
 
+    included, skipped = add_optional(out, base, cfg, args, zstd)
+
     bad = check_dir(out)
     if bad:
         sys.exit("release check failed:\n  " + "\n  ".join(bad))
@@ -141,6 +255,7 @@ def main() -> None:
             "nbacore_public_package": NBACORE_PACKAGE,
         },
         "coordinate_policy": "no player or ball tracks; only shots.parquet shot_x / shot_y",
+        "optional": {"included": included, "skipped_missing_source": skipped},
         "notes": (
             {
                 "shots_duplicate_rows_dropped": shots_dropped,
@@ -175,7 +290,7 @@ def main() -> None:
         "",
         "| file | content |",
         "|---|---|",
-        *[f"| `{k}` | {v} |" for k, v in DESCRIPTIONS.items()],
+        *[f"| `{k}` | {v} |" for k, v in DESCRIPTIONS.items() if (out / k).exists()],
         "",
         "Keys: `game_id` (NBA game id), `possession_id` (window index within a game), `window_uid`",
         "(`<game_id>:<terminal pbp event>`), `poss_uid` (nbacore ledger possession), player and team",
