@@ -76,6 +76,11 @@ Design choices are listed in `docs/decisions.md`; the tracking-data format in `d
 Requirements: [uv](https://docs.astral.sh/uv/), Python 3.12, about 3 h on a 16-core laptop CPU for
 the full season (no GPU needed for the results above).
 
+Use the current `main` branch. The commit tagged `data-v1.1` locks an earlier nbacore commit
+that is no longer in nbacore's public history (the code is the same; only comments changed), so
+installing from that tag may fail. The `data-v1.1` derived-data package is unchanged and
+remains valid.
+
 ```bash
 uv sync
 uv run pytest -q
