@@ -235,18 +235,51 @@ def main() -> None:
             "split_half_r_player_rate": float(np.corrcoef(W["0"], W["1"])[0, 1]),
             "n_players": W.height,
         }
-    # possession outcomes with vs without a breakdown (descriptive)
+    # possession outcomes with vs without a breakdown (descriptive), over the scored possessions.
+    # The possession maximum grows with possession length and long possessions score less, so the
+    # comparison is also made within quintiles of possession length.
     led = D.L.ledger(cfg.version).select(["poss_uid", "points"])
-    Pp = P.select(["game_id", "possession_id", "poss_uid"]).join(led, on="poss_uid", how="left")
+    scored = pl.DataFrame(
+        {"game_id": [g for g, _ in store], "possession_id": [p for _, p in store]},
+        schema={"game_id": pl.Utf8, "possession_id": P["possession_id"].dtype},
+    )
+    Pp = (
+        P.join(scored, on=["game_id", "possession_id"], how="semi")
+        .select(["game_id", "possession_id", "poss_uid", "t_start", "t_end"])
+        .join(led, on="poss_uid", how="left")
+        .with_columns(((pl.col("t_end") - pl.col("t_start")) / 1000).alias("duration_s"))
+    )
     has = B.select(["game_id", "possession_id"]).unique().with_columns(pl.lit(True).alias("has_bd"))
     Pp = Pp.join(has, on=["game_id", "possession_id"], how="left").with_columns(
-        pl.col("has_bd").fill_null(False)
+        pl.col("has_bd").fill_null(False),
+        pl.col("duration_s").qcut(5, labels=[f"q{i + 1}" for i in range(5)]).alias("length_q"),
+    )
+    by_q = (
+        Pp.group_by(["length_q", "has_bd"])
+        .agg(pl.col("points").mean(), pl.len().alias("n"))
+        .pivot(on="has_bd", index="length_q", values=["points", "n"])
+        .sort("length_q")
     )
     rep["possession_outcomes"] = {
+        "n_possessions_scored": Pp.height,
         "share_possessions_with_breakdown": float(Pp["has_bd"].mean()),
         "points_with": float(Pp.filter(pl.col("has_bd"))["points"].mean()),
         "points_without": float(Pp.filter(~pl.col("has_bd"))["points"].mean()),
-        "note": "descriptive; breakdowns and scoring share causes (penetration, mismatches)",
+        "duration_s_with": float(Pp.filter(pl.col("has_bd"))["duration_s"].mean()),
+        "duration_s_without": float(Pp.filter(~pl.col("has_bd"))["duration_s"].mean()),
+        "within_length_quintile": [
+            {
+                "quintile": r["length_q"],
+                "points_with": r["points_true"],
+                "points_without": r["points_false"],
+                "difference": r["points_true"] - r["points_false"],
+                "n_with": r["n_true"],
+                "n_without": r["n_false"],
+            }
+            for r in by_q.iter_rows(named=True)
+        ],
+        "note": "descriptive; breakdowns and scoring share causes (penetration, mismatches); "
+        "compare within possession-length quintiles (the possession maximum grows with length)",
     }
     # player table (initiated breakdowns per 100, gap 1 s)
     ini = (

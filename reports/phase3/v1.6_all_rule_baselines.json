@@ -1,0 +1,31 @@
+{
+ "gamma": [
+  0.6198,
+  0.1081,
+  0.2721
+ ],
+ "team_sigma_ft": 3.216,
+ "val": {
+  "n_games": 50,
+  "n_possessions": 7333,
+  "team_identity_free_nll_ft": 6.626590700052398,
+  "team_rmse_ft_best_permutation": 6.0798129123152584,
+  "individual_leftover": {
+   "rmse_ft": 8.275353135313976,
+   "sigma_ft": 5.851558318693869,
+   "nll_ft": 6.371293076479381
+  }
+ },
+ "test": {
+  "n_games": 126,
+  "n_possessions": 17526,
+  "team_identity_free_nll_ft": 6.610386504182401,
+  "team_rmse_ft_best_permutation": 6.076328457852649,
+  "individual_leftover": {
+   "rmse_ft": 8.177905253121782,
+   "sigma_ft": 5.851558318693869,
+   "nll_ft": 6.34788038985789
+  }
+ },
+ "note": "individual sigma fitted (MLE) on all validation games, applied to test"
+}

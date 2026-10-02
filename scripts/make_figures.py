@@ -192,9 +192,118 @@ def tab_xfg() -> str:
     return "xfg_models.tex"
 
 
+def _ghost_eval(tag: str):
+    return _load(f"reports/phase3/{V}_all_{tag}_eval.json")
+
+
+def fig_ghost_calibration(tag: str, fig_dir: Path) -> str:
+    """Highest-density coverage vs nominal and PIT histograms (test games if scored, else val)."""
+    e = _ghost_eval(tag)
+    if e is None:
+        return f"skip ghost calibration ({tag} not evaluated)"
+    where = "test" if e.get("test") else "val"
+    cal = e["test"]["calibration"] if where == "test" else e["calibration_val"]
+    fig, axs = plt.subplots(1, 2, figsize=(8.2, 3.6))
+    for key, lab, col in (
+        ("individual", "individual ghost", "#d62728"),
+        ("team", "team ghost", "0.3"),
+    ):
+        c = cal[key]["coverage"]
+        nom = sorted(c, key=float)
+        axs[0].plot([float(k) for k in nom], [c[k] for k in nom], marker="o", color=col, label=lab)
+        h = np.asarray(cal[key]["pit_hist"])
+        edges = np.linspace(0, 1, len(h) + 1)
+        axs[1].step(edges, np.append(h, h[-1]), where="post", color=col, label=lab)
+    axs[0].plot([0.4, 1], [0.4, 1], color="0.6", ls=":", lw=0.8)
+    axs[0].set_xlabel("nominal coverage")
+    axs[0].set_ylabel("observed coverage")
+    axs[0].legend(fontsize=8, frameon=False)
+    axs[1].axhline(0.1, color="0.6", ls=":", lw=0.8)
+    axs[1].set_ylim(0, 0.2)  # uniform = 0.1; a zero-based axis does not exaggerate noise
+    fig.subplots_adjust(wspace=0.35)
+    axs[1].set_xlabel("HPD probability integral transform")
+    axs[1].set_ylabel("share of defender-steps")
+    fig.suptitle(f"learned ghost calibration ({where} games)", fontsize=9)
+    out = fig_dir / f"ghost_calibration_{tag}.png"
+    fig.savefig(out, dpi=200, bbox_inches="tight")
+    plt.close(fig)
+    return out.name
+
+
+def fig_ghost_multimodality(tag: str, fig_dir: Path) -> str:
+    m = _load(f"reports/phase3/{V}_all_{tag}_multimodality.json")
+    if m is None:
+        return f"skip multimodality ({tag})"
+    sh = m["share_bimodal_steps"]
+    labs = [
+        ("switch", "after a screen,\nswitch"),
+        ("no_switch", "after a screen,\nno switch"),
+        ("away", "away from\nscreens"),
+    ]
+    fig, ax = plt.subplots(figsize=(4.4, 3.2))
+    ax.bar([b for _, b in labs], [sh[a] for a, _ in labs], color=["#d62728", "#ff9896", "0.6"])
+    for i, (a, _) in enumerate(labs):
+        ax.text(i, sh[a] + 0.02, f"{sh[a]:.0%}\n(n = {m['n'][a]:,})", ha="center", fontsize=7)
+    ax.set_ylim(0, 1)
+    ax.set_ylabel("share of steps with two modes")
+    ax.set_title("screened defender's ghost (held-out games)", fontsize=9)
+    out = fig_dir / f"ghost_multimodality_{tag}.png"
+    fig.savefig(out, dpi=200, bbox_inches="tight")
+    plt.close(fig)
+    return out.name
+
+
+def tab_ghost_vs_baseline(tag: str, tab_dir: Path) -> str:
+    """Learned ghost vs rule baselines: NLL and RMSE of the mixture mean (test if scored)."""
+    e = _ghost_eval(tag)
+    if e is None:
+        return f"skip ghost table ({tag})"
+    nan = float("nan")
+    if e.get("test"):
+        t, where = e["test"], "test"
+        b, bi = t["baseline_attacker_mixture"], t["baseline_individual_leftover"]
+        team = (t["team"]["slot_mixture_nll_ft"], b["nll_ft"], t["team"]["rmse_ft"],
+                b["rmse_ft_best_permutation"])  # fmt: skip
+        ind = (t["individual"]["nll_ft"], bi["nll_ft"], t["individual"]["rmse_ft"], bi["rmse_ft"])
+    else:
+        where = "val"
+        b, bi = e["baseline_attacker_mixture"], e.get("baseline_individual_leftover") or {}
+        team = (e["val_team"]["slot_mixture_nll_ft"], b["val_nll_ft"], e["val_team"]["rmse_ft"],
+                b["val_rmse_ft_best_permutation"])  # fmt: skip
+        ind = (e["val_individual"]["nll_ft"], bi.get("nll_ft", nan),
+               e["val_individual"]["rmse_ft"], bi.get("rmse_ft", nan))  # fmt: skip
+    lines = [
+        r"\begin{tabular}{lcccc}",
+        r"\hline",
+        rf"{where} games & NLL ghost & NLL rule & RMSE ghost (ft) & RMSE rule (ft) \\",
+        r"\hline",
+    ]
+    for lab, (a, b_, c, d) in (("team ghost (identity-free)", team), ("individual ghost", ind)):
+        lines.append(rf"{lab} & {a:.3f} & {b_:.3f} & {c:.2f} & {d:.2f} \\")
+    lines += [r"\hline", r"\end{tabular}"]
+    out = tab_dir / f"ghost_vs_baseline_{tag}.tex"
+    out.write_text("\n".join(lines) + "\n")
+    return out.name
+
+
 def main() -> None:
+    import argparse
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--ghost-tag", default=None, help="learned-ghost run tag (final GPU model)")
+    ap.add_argument("--out-dir", default=None, help="ghost figures go here (prototypes only)")
+    args = ap.parse_args()
     FIG.mkdir(parents=True, exist_ok=True)
     TAB.mkdir(parents=True, exist_ok=True)
+    if args.ghost_tag:
+        fd = Path(args.out_dir) if args.out_dir else FIG
+        td = Path(args.out_dir) if args.out_dir else TAB
+        fd.mkdir(parents=True, exist_ok=True)
+        print("fig_ghost_calibration ->", fig_ghost_calibration(args.ghost_tag, fd))
+        print("fig_ghost_multimodality ->", fig_ghost_multimodality(args.ghost_tag, fd))
+        print("tab_ghost_vs_baseline ->", tab_ghost_vs_baseline(args.ghost_tag, td))
+        if args.out_dir:
+            return  # prototypes: only the ghost figures, kept out of paper/
     for name, f in (
         ("fig_team_screen", fig_team_screen),
         ("fig_help_vs_points", fig_help_vs_points),
