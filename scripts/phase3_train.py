@@ -153,6 +153,7 @@ def main() -> None:
     ap.add_argument("--load-model", default=None, help="model.pt to evaluate instead of training")
     ap.add_argument("--fold-out", type=int, default=None, help="cross-fitting: hold out this fold")
     ap.add_argument("--condition", default="league", choices=["league", "lineup", "scheme"])
+    ap.add_argument("--max-eval", type=int, default=None, help="dry runs: cap val / test size")
     ap.add_argument(
         "--anchor", default="none", choices=["none", "rule"], help="rule: residual on rule ghost"
     )
@@ -160,7 +161,7 @@ def main() -> None:
 
     cfg = D.DataConfig.load(game_set=args.game_set)
     base = cfg.processed_dir / cfg.game_set
-    test = None
+    test, keys = None, {}
     if args.fold_out is not None:  # cross-fitting: train on the other folds (all splits)
         if not args.arrays_dir or args.eval_test or args.train_games or args.val_games:
             raise SystemExit("--fold-out needs --arrays-dir, without --eval-test / game subsets")
@@ -206,6 +207,11 @@ def main() -> None:
         tr, va = np.flatnonzero(split == "train"), np.flatnonzero(split == "val")
         sub = lambda ix: {k: v[ix] for k, v in arrs.items()}  # noqa: E731
         train, val = sub(tr), sub(va)
+    if args.max_eval:  # dry runs only: first N possessions of val / test (keys kept aligned)
+        val = {k: v[: args.max_eval] for k, v in val.items()}
+        if test is not None:
+            test = {k: v[: args.max_eval] for k, v in test.items()}
+        keys = {k: v.head(args.max_eval) if k != "train" else v for k, v in keys.items()}
     tr, va = np.arange(len(train["valid"])), np.arange(len(val["valid"]))
     print(
         f"{cfg.game_set}: train {len(tr)} / val {len(va)} half-court possessions; device {args.device}"

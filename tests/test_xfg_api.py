@@ -92,3 +92,15 @@ def test_fit_save_load_predict(tmp_path):
     # rows without features -> NaN
     bad = S.head(3).with_columns(pl.lit(None, dtype=pl.Float64).alias("dist_ft"))
     assert np.isnan(api.predict(bad, m)).all()
+
+
+def test_read_release_shots_restores_location_names(tmp_path):
+    import polars as pl
+
+    from ghost.xfg import api
+
+    pl.DataFrame({"shot_x": [10.0], "shot_y": [25.0], "made": [True]}).write_parquet(
+        tmp_path / "s.parquet"
+    )
+    df = api.read_release_shots(tmp_path / "s.parquet")
+    assert df.columns == ["x", "y", "made"] and df["x"][0] == 10.0

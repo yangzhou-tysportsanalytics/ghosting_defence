@@ -1,0 +1,130 @@
+{
+ "shooting_prior": {
+  "prior_mean": 0.35948222148179837,
+  "prior_strength": 283.1176946427274,
+  "n_players_prior": 198
+ },
+ "n_rows": 443393,
+ "n_rows_rule_ghost_dev": 443393,
+ "n_players": 348,
+ "metrics": {
+  "sag_ft": {
+   "base": {
+    "without_skill": {
+     "context_r2": 0.0978354559562088,
+     "split_half_r_adjusted": 0.9575909006497472,
+     "split_half_r_player_within_team": 0.9543832619579672,
+     "split_half_r_within_position": 0.9215081415530497,
+     "team_share_of_systematic": 0.0813297304753522
+    },
+    "with_skill": {
+     "context_r2": 0.14632504391370416,
+     "split_half_r_adjusted": 0.9474181784186408,
+     "split_half_r_player_within_team": 0.9422049336735469,
+     "split_half_r_within_position": 0.9134198866888605,
+     "team_share_of_systematic": 0.10744705124657368
+    },
+    "corr_player_means_without_vs_with_skill": 0.9893182710783792,
+    "skill_coefficients_per_sd_ft": {
+     "g_three_pct": 0.12293842063290492,
+     "g_three_rate": 1.5294563813204078,
+     "g_three_pct_x_rate": -1.9686350980884741
+    }
+   },
+   "phases": {
+    "without_skill": {
+     "context_r2": 0.1280229016384804,
+     "split_half_r_adjusted": 0.9602241766914922,
+     "split_half_r_player_within_team": 0.9573911074644763,
+     "split_half_r_within_position": 0.9250382475730204,
+     "team_share_of_systematic": 0.07741731220831843
+    },
+    "with_skill": {
+     "context_r2": 0.17665950401021857,
+     "split_half_r_adjusted": 0.9495010184736201,
+     "split_half_r_player_within_team": 0.944762855093285,
+     "split_half_r_within_position": 0.9153645900235798,
+     "team_share_of_systematic": 0.10297191617487472
+    },
+    "corr_player_means_without_vs_with_skill": 0.9894339128273165,
+    "skill_coefficients_per_sd_ft": {
+     "share_pre_screen": -0.023998292123025875,
+     "share_screen": 0.09543127007263692,
+     "share_help": 0.19056271737052521,
+     "share_closeout": 0.015823513911789724,
+     "share_recovery": 0.1610000178159088,
+     "g_three_pct": 0.1213338043082726,
+     "g_three_rate": 1.4336493380245645,
+     "g_three_pct_x_rate": -1.8750867934173587
+    }
+   },
+   "share_of_player_mean_variance_explained_by_guarded_skill": 0.6112564831794225,
+   "player_level_main_spec": {
+    "n_players": 348,
+    "r2_pooled": 0.5939538262798765,
+    "r2_within_position": 0.2719491344750514,
+    "corr_within_position_guarded_three_rate": -0.5211222389222163,
+    "corr_within_position_guarded_three_pct": 0.13523732375843112
+   }
+  },
+  "dev_ft": {
+   "base": {
+    "without_skill": {
+     "context_r2": 0.14943817305506468,
+     "split_half_r_adjusted": 0.9318103873690461,
+     "split_half_r_player_within_team": 0.9227977508356734,
+     "split_half_r_within_position": 0.9209759570664919,
+     "team_share_of_systematic": 0.1502889855410134
+    },
+    "with_skill": {
+     "context_r2": 0.15752964090111832,
+     "split_half_r_adjusted": 0.9285354505543145,
+     "split_half_r_player_within_team": 0.9185514890068295,
+     "split_half_r_within_position": 0.9202505116863077,
+     "team_share_of_systematic": 0.15787105577423788
+    },
+    "corr_player_means_without_vs_with_skill": 0.9925282287164106,
+    "skill_coefficients_per_sd_ft": {
+     "g_three_pct": -0.03673318078601913,
+     "g_three_rate": -0.5419832876517099,
+     "g_three_pct_x_rate": 0.6361638872338021
+    }
+   },
+   "phases": {
+    "without_skill": {
+     "context_r2": 0.15486865530928218,
+     "split_half_r_adjusted": 0.9306286194122991,
+     "split_half_r_player_within_team": 0.9214241876955951,
+     "split_half_r_within_position": 0.9198849384012998,
+     "team_share_of_systematic": 0.15048066810186136
+    },
+    "with_skill": {
+     "context_r2": 0.16261006410402723,
+     "split_half_r_adjusted": 0.9276323583329297,
+     "split_half_r_player_within_team": 0.9175387718643827,
+     "split_half_r_within_position": 0.9193641547380405,
+     "team_share_of_systematic": 0.15760105372001432
+    },
+    "corr_player_means_without_vs_with_skill": 0.9928815837589281,
+    "skill_coefficients_per_sd_ft": {
+     "share_pre_screen": -0.00895002966217828,
+     "share_screen": -0.0008793613319742053,
+     "share_help": 0.010990554578737268,
+     "share_closeout": 0.05244778215192625,
+     "share_recovery": 0.026615853520473964,
+     "g_three_pct": -0.037761081820926044,
+     "g_three_rate": -0.5629819143040137,
+     "g_three_pct_x_rate": 0.6547661857642645
+    }
+   },
+   "share_of_player_mean_variance_explained_by_guarded_skill": 0.4658507790065842,
+   "player_level_main_spec": {
+    "n_players": 348,
+    "r2_pooled": 0.16434629238279375,
+    "r2_within_position": 0.07914118854576446,
+    "corr_within_position_guarded_three_rate": 0.27847596006329395,
+    "corr_within_position_guarded_three_pct": -0.023204167320608014
+   }
+  }
+ }
+}

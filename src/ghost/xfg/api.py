@@ -7,6 +7,9 @@
   M3 = + shrunken shooter-by-zone offset; unseen shooters get offset 0).
 - ``fit(shots, game_ids, version)``: refit on the trusted shots of the given games (~1 s).
 - ``save`` / ``load``: frozen models as JSON (+ shooter prior counts as parquet).
+- ``read_release_shots(path)``: the public shot table (release asset ``shots_xfg.parquet``, shot
+  location published as ``shot_x`` / ``shot_y``) with the column names ``fit`` / ``predict`` use;
+  refitting needs no tracking data.
 """
 
 from __future__ import annotations
@@ -199,3 +202,11 @@ def load(directory: Path, name: str) -> XFG:
             },
         )
     return XFG(d["groups"], clf, d["feature_names"], prior)
+
+
+def read_release_shots(path: str | Path) -> pl.DataFrame:
+    """Read the public shot table and restore the shot location names used by the models (the
+    data release names them ``shot_x`` / ``shot_y``; D-019)."""
+    df = pl.read_parquet(path)
+    ren = {a: b for a, b in (("shot_x", "x"), ("shot_y", "y")) if a in df.columns}
+    return df.rename(ren)

@@ -1,0 +1,311 @@
+{
+ "n_screens": 90679,
+ "share_early": 0.28809316379757166,
+ "covariates": [
+  "h_dist_rim",
+  "h_speed",
+  "h_v_to_rim",
+  "h_lateral",
+  "scr_dist_rim",
+  "scr_v_to_rim",
+  "d_screened_h",
+  "d_screener_def_h",
+  "d_third_h",
+  "d_third_rim",
+  "n_beyond_arc",
+  "h_three_pct",
+  "h_three_rate",
+  "shot_clock",
+  "shot_clock_missing",
+  "game_clock",
+  "margin",
+  "screen_dist_rim",
+  "screen_lateral"
+ ],
+ "comparisons": {
+  "A_early_vs_rest": {
+   "n": 90679,
+   "n_treated": 26124,
+   "points": {
+    "n": 90679,
+    "naive_difference": 0.02749273879437575,
+    "ato_overlap_weighted": 0.039119194484221964,
+    "ato_ci95_game_bootstrap": [
+     0.022352700662949393,
+     0.055123806296186365
+    ],
+    "att_trimmed_aipw": 0.042063383595620056,
+    "att_ci95_game_bootstrap": [
+     0.019138488493140676,
+     0.062237239986081126
+    ],
+    "share_kept_by_trimming": 0.7711046659094167,
+    "propensity_quantiles_treated": [
+     0.09255416734165324,
+     0.579925782528294,
+     0.8992310620239137
+    ],
+    "propensity_quantiles_control": [
+     0.005416623539838685,
+     0.10699336154730416,
+     0.6257146709426231
+    ],
+    "max_abs_smd_before": 0.9200990966132429,
+    "max_abs_smd_overlap_weighted": 3.665209691863294e-06,
+    "smd_before": {
+     "h_dist_rim": -0.305,
+     "h_speed": 0.541,
+     "h_v_to_rim": 0.92,
+     "h_lateral": -0.01,
+     "scr_dist_rim": -0.089,
+     "scr_v_to_rim": -0.049,
+     "d_screened_h": -0.462,
+     "d_screener_def_h": -0.022,
+     "d_third_h": -0.039,
+     "d_third_rim": -0.084,
+     "n_beyond_arc": -0.197,
+     "h_three_pct": -0.076,
+     "h_three_rate": -0.123,
+     "shot_clock": -0.036,
+     "shot_clock_missing": 0.0,
+     "game_clock": 0.011,
+     "margin": -0.024,
+     "screen_dist_rim": -0.09,
+     "screen_lateral": 0.012
+    },
+    "smd_overlap_weighted": {
+     "h_dist_rim": 0.0,
+     "h_speed": -0.0,
+     "h_v_to_rim": 0.0,
+     "h_lateral": -0.0,
+     "scr_dist_rim": -0.0,
+     "scr_v_to_rim": 0.0,
+     "d_screened_h": 0.0,
+     "d_screener_def_h": 0.0,
+     "d_third_h": 0.0,
+     "d_third_rim": 0.0,
+     "n_beyond_arc": 0.0,
+     "h_three_pct": -0.0,
+     "h_three_rate": -0.0,
+     "shot_clock": 0.0,
+     "shot_clock_missing": 0.0,
+     "game_clock": -0.0,
+     "margin": 0.0,
+     "screen_dist_rim": 0.0,
+     "screen_lateral": -0.0
+    }
+   },
+   "xfg_of_shot": {
+    "n": 69195,
+    "naive_difference": 0.02543206318392177,
+    "ato_overlap_weighted": 0.02520208894114384,
+    "ato_ci95_game_bootstrap": [
+     0.023154833863982656,
+     0.027443940226199774
+    ],
+    "att_trimmed_aipw": 0.024362748581632048,
+    "att_ci95_game_bootstrap": [
+     0.021398428092561407,
+     0.026420529718276436
+    ],
+    "share_kept_by_trimming": 0.7715008309848977,
+    "propensity_quantiles_treated": [
+     0.09298993732583402,
+     0.5873692357462195,
+     0.9072534860827554
+    ],
+    "propensity_quantiles_control": [
+     0.005353791258949963,
+     0.10659992321830619,
+     0.6266777500489462
+    ],
+    "max_abs_smd_before": 0.9251644375786369,
+    "max_abs_smd_overlap_weighted": 5.152265117907216e-06,
+    "smd_before": {
+     "h_dist_rim": -0.331,
+     "h_speed": 0.547,
+     "h_v_to_rim": 0.925,
+     "h_lateral": -0.027,
+     "scr_dist_rim": -0.1,
+     "scr_v_to_rim": -0.065,
+     "d_screened_h": -0.494,
+     "d_screener_def_h": -0.033,
+     "d_third_h": -0.051,
+     "d_third_rim": -0.094,
+     "n_beyond_arc": -0.2,
+     "h_three_pct": -0.076,
+     "h_three_rate": -0.133,
+     "shot_clock": -0.035,
+     "shot_clock_missing": 0.0,
+     "game_clock": 0.014,
+     "margin": -0.021,
+     "screen_dist_rim": -0.1,
+     "screen_lateral": 0.002
+    },
+    "smd_overlap_weighted": {
+     "h_dist_rim": -0.0,
+     "h_speed": -0.0,
+     "h_v_to_rim": 0.0,
+     "h_lateral": -0.0,
+     "scr_dist_rim": -0.0,
+     "scr_v_to_rim": 0.0,
+     "d_screened_h": 0.0,
+     "d_screener_def_h": 0.0,
+     "d_third_h": 0.0,
+     "d_third_rim": 0.0,
+     "n_beyond_arc": 0.0,
+     "h_three_pct": -0.0,
+     "h_three_rate": -0.0,
+     "shot_clock": 0.0,
+     "shot_clock_missing": 0.0,
+     "game_clock": -0.0,
+     "margin": 0.0,
+     "screen_dist_rim": 0.0,
+     "screen_lateral": -0.0
+    }
+   }
+  },
+  "B_early_vs_late_help": {
+   "n": 44621,
+   "n_treated": 26124,
+   "points": {
+    "n": 44621,
+    "naive_difference": -0.00940578850649243,
+    "ato_overlap_weighted": -0.009867771342665366,
+    "ato_ci95_game_bootstrap": [
+     -0.03325701653493061,
+     0.01944273400060122
+    ],
+    "att_trimmed_aipw": -0.020336309475651373,
+    "att_ci95_game_bootstrap": [
+     -0.054809656850112305,
+     0.01935316549907971
+    ],
+    "share_kept_by_trimming": 0.7838909930301876,
+    "propensity_quantiles_treated": [
+     0.3135078833845108,
+     0.8499923573717563,
+     0.9872702795009756
+    ],
+    "propensity_quantiles_control": [
+     0.01276691583045191,
+     0.2505744737536551,
+     0.8703852300347795
+    ],
+    "max_abs_smd_before": 0.8053770922189845,
+    "max_abs_smd_overlap_weighted": 1.145767616864884e-05,
+    "smd_before": {
+     "h_dist_rim": -0.76,
+     "h_speed": 0.41,
+     "h_v_to_rim": 0.805,
+     "h_lateral": -0.035,
+     "scr_dist_rim": -0.452,
+     "scr_v_to_rim": 0.044,
+     "d_screened_h": -0.341,
+     "d_screener_def_h": -0.132,
+     "d_third_h": -0.3,
+     "d_third_rim": -0.203,
+     "n_beyond_arc": -0.408,
+     "h_three_pct": -0.086,
+     "h_three_rate": -0.151,
+     "shot_clock": -0.088,
+     "shot_clock_missing": 0.0,
+     "game_clock": 0.025,
+     "margin": -0.015,
+     "screen_dist_rim": -0.461,
+     "screen_lateral": 0.019
+    },
+    "smd_overlap_weighted": {
+     "h_dist_rim": -0.0,
+     "h_speed": 0.0,
+     "h_v_to_rim": 0.0,
+     "h_lateral": -0.0,
+     "scr_dist_rim": -0.0,
+     "scr_v_to_rim": 0.0,
+     "d_screened_h": 0.0,
+     "d_screener_def_h": 0.0,
+     "d_third_h": 0.0,
+     "d_third_rim": 0.0,
+     "n_beyond_arc": 0.0,
+     "h_three_pct": -0.0,
+     "h_three_rate": -0.0,
+     "shot_clock": -0.0,
+     "shot_clock_missing": 0.0,
+     "game_clock": -0.0,
+     "margin": -0.0,
+     "screen_dist_rim": 0.0,
+     "screen_lateral": -0.0
+    }
+   },
+   "xfg_of_shot": {
+    "n": 34493,
+    "naive_difference": -0.006605965114877543,
+    "ato_overlap_weighted": -0.007770405640047051,
+    "ato_ci95_game_bootstrap": [
+     -0.011421759136866296,
+     -0.0036955343316199237
+    ],
+    "att_trimmed_aipw": -0.01029526184166017,
+    "att_ci95_game_bootstrap": [
+     -0.013690515256068205,
+     -0.006910148705821206
+    ],
+    "share_kept_by_trimming": 0.7813469399588322,
+    "propensity_quantiles_treated": [
+     0.31695179090230574,
+     0.8504660573531901,
+     0.9874231715197541
+    ],
+    "propensity_quantiles_control": [
+     0.01239570344973183,
+     0.2516589806741917,
+     0.8702516433160837
+    ],
+    "max_abs_smd_before": 0.811699459824081,
+    "max_abs_smd_overlap_weighted": 1.2975688178924364e-05,
+    "smd_before": {
+     "h_dist_rim": -0.756,
+     "h_speed": 0.419,
+     "h_v_to_rim": 0.812,
+     "h_lateral": -0.047,
+     "scr_dist_rim": -0.451,
+     "scr_v_to_rim": 0.035,
+     "d_screened_h": -0.329,
+     "d_screener_def_h": -0.123,
+     "d_third_h": -0.299,
+     "d_third_rim": -0.202,
+     "n_beyond_arc": -0.405,
+     "h_three_pct": -0.086,
+     "h_three_rate": -0.147,
+     "shot_clock": -0.086,
+     "shot_clock_missing": 0.0,
+     "game_clock": 0.031,
+     "margin": -0.012,
+     "screen_dist_rim": -0.46,
+     "screen_lateral": 0.008
+    },
+    "smd_overlap_weighted": {
+     "h_dist_rim": -0.0,
+     "h_speed": -0.0,
+     "h_v_to_rim": 0.0,
+     "h_lateral": -0.0,
+     "scr_dist_rim": -0.0,
+     "scr_v_to_rim": 0.0,
+     "d_screened_h": 0.0,
+     "d_screener_def_h": 0.0,
+     "d_third_h": 0.0,
+     "d_third_rim": 0.0,
+     "n_beyond_arc": 0.0,
+     "h_three_pct": -0.0,
+     "h_three_rate": -0.0,
+     "shot_clock": -0.0,
+     "shot_clock_missing": 0.0,
+     "game_clock": -0.0,
+     "margin": 0.0,
+     "screen_dist_rim": 0.0,
+     "screen_lateral": -0.0
+    }
+   }
+  }
+ }
+}

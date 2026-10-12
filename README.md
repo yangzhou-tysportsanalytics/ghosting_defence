@@ -51,6 +51,10 @@ they are reported against the learned ghost (D-020).
 
 Design choices are listed in `docs/decisions.md`; the tracking-data format in `docs/data_schema.md`.
 
+**xFG as a separate component.** The expected field-goal models (`ghost.xfg`) can be installed
+and refitted on their own, without tracking data: tag `xfg-v1.0`, release asset
+`ghost-xfg-v1.0.zip`, light dependencies. See `docs/xfg.md`.
+
 ## Data
 
 1. **Raw data (not redistributed).** SportVU tracking logs: github.com/linouk23/NBA-Player-Movements.
