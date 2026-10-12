@@ -78,6 +78,23 @@ Measured on a laptop CPU (Intel Core Ultra 7, 16 GB). A rebuild reproduces the p
 `ghost_xfg v1.0`: the shot table is identical, M2 predictions are identical, and M3 predictions
 and coefficients differ by at most 3e-14 (floating-point summation order).
 
+## Version consistency (frozen product vs public tag)
+
+The frozen product `ghost_xfg v1.0` was built from an internal commit of this project; the public
+tag `xfg-v1.0` (commit `15ded21`) carries the same model and feature code. Two checks:
+
+1. **Code**, `reports/analysis/xfg_code_consistency.json`, made with
+   `scripts/compare_code_trees.py` (Python syntax trees with docstrings removed; comments never
+   enter the tree). `ghost.xfg.features`, `ghost.xfg.model`, `ghost.court` and `ghost.io.schema`
+   are identical; `ghost.xfg.api` is identical apart from the added `read_release_shots`; the two
+   other differences (`ghost.data`, `ghost.io.raw`) are outside the code paths of `ghost.xfg`.
+   The file lists the sha256 of each normalised file on both sides.
+2. **Numbers**, which anyone can repeat from public material only: the predictions in the
+   release asset were produced by the frozen build; refitting with the public tag reproduces
+   them (snippet above; max difference 0 for M2, 4e-16 for M3).
+
+Published tags and release assets are not moved or replaced; changes get a new tag.
+
 ## Terms
 
 Underlying tracking and play-by-play data (c) NBA / NBA.com; the derived tables are shared for

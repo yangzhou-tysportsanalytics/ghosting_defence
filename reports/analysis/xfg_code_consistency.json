@@ -1,0 +1,85 @@
+{
+ "a": "internal tag xfg-v1.0 (56d1750), src/ghost: built product ghost_xfg v1.0",
+ "b": "public tag xfg-v1.0 (15ded21), src/ghost",
+ "method": "Python AST with docstrings removed (comments are not in the AST)",
+ "files": {
+  "xfg/__init__.py": {
+   "text_identical": true,
+   "code_identical": true,
+   "code_sha256_a": "3543b4693a36a1098850b8bc928887694ed59a6deb7d3dfd0339de01f55a77b6",
+   "code_sha256_b": "3543b4693a36a1098850b8bc928887694ed59a6deb7d3dfd0339de01f55a77b6"
+  },
+  "xfg/api.py": {
+   "text_identical": false,
+   "code_identical": false,
+   "code_sha256_a": "f32c00f0dfa75f61e29fd2f3a95586567022f4dfb0f2816a1dd81ac971e07a4a",
+   "code_sha256_b": "f76d4d30351ceec79d74f92919684e3cb450154a63961244b133e0aecf296631",
+   "code_identical_without": {
+    "functions": [
+     "read_release_shots"
+    ],
+    "identical": true
+   }
+  },
+  "xfg/features.py": {
+   "text_identical": true,
+   "code_identical": true,
+   "code_sha256_a": "65b0d7fd313b213f5889d5ab0158272b595fb32579cb2423ffe862fb76935ec8",
+   "code_sha256_b": "65b0d7fd313b213f5889d5ab0158272b595fb32579cb2423ffe862fb76935ec8"
+  },
+  "xfg/model.py": {
+   "text_identical": true,
+   "code_identical": true,
+   "code_sha256_a": "3ca95f1daf16515a48f946e75deddc677d9637af1265b9f2a3fe63e1de307478",
+   "code_sha256_b": "3ca95f1daf16515a48f946e75deddc677d9637af1265b9f2a3fe63e1de307478"
+  },
+  "data.py": {
+   "text_identical": false,
+   "code_identical": false,
+   "code_sha256_a": "4d0d5c52014e68f414098c2d3208a5df53821332b3e7f9a879ffbc3275ff9f39",
+   "code_sha256_b": "8dcd2bcc58c7b76071e0eb5eee52ffeda85fe53b5168359913ac2efb46caeee3"
+  },
+  "court.py": {
+   "text_identical": true,
+   "code_identical": true,
+   "code_sha256_a": "f17fa1206cfcbb12ae57d65955f295d370166fbc073409072b58ccd09b016fcb",
+   "code_sha256_b": "f17fa1206cfcbb12ae57d65955f295d370166fbc073409072b58ccd09b016fcb"
+  },
+  "__init__.py": {
+   "text_identical": true,
+   "code_identical": true,
+   "code_sha256_a": "3543b4693a36a1098850b8bc928887694ed59a6deb7d3dfd0339de01f55a77b6",
+   "code_sha256_b": "3543b4693a36a1098850b8bc928887694ed59a6deb7d3dfd0339de01f55a77b6"
+  },
+  "io/__init__.py": {
+   "text_identical": true,
+   "code_identical": true,
+   "code_sha256_a": "5682a89ddfb392e5008eeca77c5bca5a70d7147a8a58ff41da682086f873c0b2",
+   "code_sha256_b": "5682a89ddfb392e5008eeca77c5bca5a70d7147a8a58ff41da682086f873c0b2"
+  },
+  "io/raw.py": {
+   "text_identical": false,
+   "code_identical": false,
+   "code_sha256_a": "0834b5f0a5852640648d4091bdb2697b2e7f19b236c83ee03efdc77a529c9d82",
+   "code_sha256_b": "f6dd56825b3f52067b583bbb9d69b2eb70dc477c3bed2f81541cbd1445e4baa1"
+  },
+  "io/schema.py": {
+   "text_identical": true,
+   "code_identical": true,
+   "code_sha256_a": "965acc8957fcdc1fb459f546cb83b53da2d2fb92ccf56c024d912165a5e54854",
+   "code_sha256_b": "965acc8957fcdc1fb459f546cb83b53da2d2fb92ccf56c024d912165a5e54854"
+  },
+  "io/pbp.py": {
+   "text_identical": true,
+   "code_identical": true,
+   "code_sha256_a": "8ee533f9456ff67d9d1277c1d0bac96d9a08b34f39cf75479f3dd6f685eeea67",
+   "code_sha256_b": "8ee533f9456ff67d9d1277c1d0bac96d9a08b34f39cf75479f3dd6f685eeea67"
+  }
+ },
+ "notes": {
+  "xfg/api.py": "public side adds read_release_shots (reads the release asset; renames shot_x / shot_y to x / y); identical otherwise",
+  "data.py": "public side adds a branch for windows_release 'l2_sc' (second-chance sensitivity); not reached by ghost.xfg",
+  "io/raw.py": "public side imports py7zr inside extract_archive instead of at module level; extract_archive is not used by ghost.xfg",
+  "numeric_check": "refitting M2 / M3 with the public code on the release asset reproduces the predictions of the product built from the internal tag: max |difference| 0 (M2), 4e-16 (M3)"
+ }
+}
