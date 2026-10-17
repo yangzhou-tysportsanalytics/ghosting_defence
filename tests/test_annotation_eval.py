@@ -95,3 +95,15 @@ def test_closeout_counted_once():
     r = ae.evaluate({"possessions": [p]}, _confirm_all(p))
     assert r["events"]["closeout"] == {"precision": 1.0, "recall": 1.0, "f1": 1.0, "n_pred": 1,
                                        "n_ref": 1, "tp": 1}  # fmt: skip
+
+
+def test_population_weighted_accuracy():
+    from collections import Counter
+
+    by = {
+        "a": Counter(hmm=9, n=10, hmm_man=9, n_man=10),
+        "b": Counter(hmm=5, n=10, hmm_man=5, n_man=10),
+    }
+    w = ae.weighted(by, {"a": 0.75, "b": 0.25, "c": 0.5})  # "c" absent from the sample: ignored
+    assert np.isclose(w["frame_accuracy_hmm"], 0.75 * 0.9 + 0.25 * 0.5)
+    assert ae.weighted(by, None) is None

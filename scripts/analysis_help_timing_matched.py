@@ -217,7 +217,10 @@ def main() -> None:
     ).sort(["game_id", "screen_group"])  # fmt: skip
     rng = np.random.default_rng(9)
     rep: dict = {"n_screens": df.height, "share_early": float(df["early"].mean()),
-                 "covariates": NUM, "comparisons": {}}  # fmt: skip
+                 "covariates": NUM,
+                 "indicators": ["offense_team_id", "defense_team_id"],
+                 "propensity_terms": "standardised covariates, their decile indicators, team indicators",
+                 "comparisons": {}}  # fmt: skip
     for comp, sub in (("A_early_vs_rest", df),
                       ("B_early_vs_late_help", df.filter((pl.col("early") == 1) | (pl.col("late") == 1)))):  # fmt: skip
         out = {"n": sub.height, "n_treated": int(sub["early"].sum())}

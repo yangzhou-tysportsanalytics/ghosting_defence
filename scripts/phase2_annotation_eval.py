@@ -113,10 +113,30 @@ def final_events(segments: list[dict]) -> list[dict]:
     return [s for s in segments if s["type"] in EVENT_TYPES and s.get("source") != "model"]
 
 
-def evaluate(bundle: dict, ann: dict) -> dict:
+def weighted(by_stratum: dict, weights: dict | None) -> dict | None:
+    """Frame accuracy with strata weighted by their share of the eligible pool (the sample
+    over-represents rare strata); None without weights."""
+    if not weights:
+        return None
+    out = {}
+    for key, num, den in (("frame_accuracy_hmm", "hmm", "n"),
+                          ("frame_accuracy_hmm_steps_with_man", "hmm_man", "n_man")):  # fmt: skip
+        ks = [k for k, v in by_stratum.items() if v[den] and k in weights]
+        tot = sum(weights[k] for k in ks)
+        out[key] = (
+            sum(weights[k] / tot * by_stratum[k][num] / by_stratum[k][den] for k in ks)
+            if tot
+            else None
+        )
+    out["weights"] = {k: weights[k] for k in sorted(by_stratum) if k in weights}
+    return out
+
+
+def evaluate(bundle: dict, ann: dict, weights: dict | None = None) -> dict:
     """Metrics of one annotator file against the model (lanes, baseline, events)."""
     poss = {p["key"]: p for p in bundle["possessions"]}
     lanes = Counter()
+    by_stratum = defaultdict(Counter)  # stratum -> hmm / n / hmm_man / n_man
     sw_acc = Counter()
     ev = defaultdict(lambda: [0, 0, 0])  # (type, kind) -> tp, n_pred, n_ref
     review = defaultdict(Counter)  # (type, kind) -> confirmed / edited / deleted
@@ -136,6 +156,11 @@ def evaluate(bundle: dict, ann: dict) -> dict:
         lanes["n_man"] += int(man.sum())
         lanes["hmm"] += int((hmm == truth).sum())
         lanes["hmm_man"] += int(((hmm == truth) & man).sum())
+        st = by_stratum[p.get("stratum", "all")]
+        st["hmm"] += int((hmm == truth).sum())
+        st["n"] += truth.size
+        st["hmm_man"] += int(((hmm == truth) & man).sum())
+        st["n_man"] += int(man.sum())
         lanes["base_man"] += int(((base == truth) & man).sum())
         lanes["changed"] += int((hmm != truth).sum())
         def_ids = [q["id"] for q in p["defense"]]
@@ -187,6 +212,15 @@ def evaluate(bundle: dict, ann: dict) -> dict:
     return {
         "annotator": ann.get("annotator"),
         "n_possessions_done": n_done,
+        "lanes_by_stratum": {
+            k: {
+                "frame_accuracy_hmm": acc(v["hmm"], v["n"]),
+                "frame_accuracy_hmm_steps_with_man": acc(v["hmm_man"], v["n_man"]),
+                "n_defender_steps": v["n"],
+            }
+            for k, v in sorted(by_stratum.items())
+        },  # fmt: skip
+        "lanes_population_weighted": weighted(by_stratum, weights),
         "lanes": {
             "frame_accuracy_hmm": acc(lanes["hmm"], lanes["n"]),
             "frame_accuracy_hmm_steps_with_man": acc(lanes["hmm_man"], lanes["n_man"]),
@@ -224,9 +258,18 @@ def agreement(bundle: dict, a1: dict, a2: dict) -> dict:
             "event_agreement": prf(tp, n1, n2)}  # fmt: skip
 
 
+def pool_weights() -> dict | None:
+    """Stratum shares of the eligible pool (sample v1; the core 100 is drawn from it)."""
+    f = Path("data/annotations/sample_v1_summary.json")
+    if not f.exists():
+        return None
+    pool = json.loads(f.read_text())["pool"]
+    return {k: v / sum(pool.values()) for k, v in pool.items()}
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--bundle", default="gd_v2_all")
+    ap.add_argument("--bundle", default="gd_v2_core100")
     ap.add_argument("--raw-dir", default="data/annotations/raw")
     ap.add_argument("--out", default=None, help="output path (default: reports/phase2/...)")
     args = ap.parse_args()
@@ -237,7 +280,7 @@ def main() -> None:
         raise SystemExit(f"no annotation files {args.raw_dir}/{args.bundle}__*.json")
     anns = [json.loads(f.read_text(encoding="utf-8")) for f in files]
     rep = {"bundle": args.bundle, "files": [f.name for f in files], "tolerance_steps": TOL,
-           "per_annotator": [evaluate(bundle, a) for a in anns], "agreement": []}  # fmt: skip
+           "per_annotator": [evaluate(bundle, a, pool_weights()) for a in anns], "agreement": []}  # fmt: skip
     for i in range(len(anns)):
         for j in range(i + 1, len(anns)):
             rep["agreement"].append(

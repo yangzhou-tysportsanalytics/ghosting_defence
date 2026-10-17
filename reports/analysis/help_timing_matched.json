@@ -22,6 +22,11 @@
   "screen_dist_rim",
   "screen_lateral"
  ],
+ "indicators": [
+  "offense_team_id",
+  "defense_team_id"
+ ],
+ "propensity_terms": "standardised covariates, their decile indicators, team indicators",
  "comparisons": {
   "A_early_vs_rest": {
    "n": 90679,

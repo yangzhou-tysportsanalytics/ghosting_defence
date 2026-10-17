@@ -85,7 +85,7 @@ DESCRIPTIONS = {
     "test games",
     "ghost_model_config.json": "its configuration (model and training) and evaluation summary",
     "ghost_models_crossfit.zip": "the five cross-fitting models (state dicts + configuration)",
-    "annotations.json": "the 200 annotated possessions: reviewed matchup corrections and events "
+    "annotations.json": "the 100 annotated possessions (core sample): reviewed matchup corrections and events "
     "per annotator (anonymised A1, A2); notes and video links removed",
     "annotation_eval.json": "accuracy of the matchup model and events against the annotations",
 }
@@ -151,7 +151,7 @@ def add_optional(out: Path, base: Path, cfg, args, zstd: dict) -> tuple[list[str
             included.append("ghost_models_crossfit.zip")
         else:
             skipped.append("ghost_models_crossfit.zip")
-    raw = sorted(Path("data/annotations/raw").glob("gd_v2_all__*.json"))
+    raw = sorted(Path("data/annotations/raw").glob("gd_v2_core100__*.json"))
     if raw:
         anns = []
         for j, f in enumerate(raw, 1):  # anonymise; drop free text and video links
@@ -163,7 +163,7 @@ def add_optional(out: Path, base: Path, cfg, args, zstd: dict) -> tuple[list[str
                              "rejected_prelabels": x.get("rejected_prelabels", []),
                              "time_spent_s": x.get("time_spent_s")}  # fmt: skip
             anns.append({"annotator": f"A{j}", "possessions": poss})
-        data = {"bundle": "gd_v2_all", "annotators": anns}
+        data = {"bundle": "gd_v2_core100", "annotators": anns}
         (out / "annotations.json").write_text(json.dumps(data))
         included.append("annotations.json")
     else:

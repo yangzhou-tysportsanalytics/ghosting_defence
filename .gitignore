@@ -25,6 +25,7 @@ runs/
 # --- large generated media (kept out of git; regenerate via scripts) ---
 reports/**/*.mp4
 reports/**/*.gif
+reports/phase3/overlays/
 *.pt
 *.ckpt
 
