@@ -200,3 +200,14 @@ anchor weights read as "whom the ghost guards". The unanchored head is reported 
 Ten of the 100 validation possessions (two per stratum) are annotated first without any model
 output, and again with the model pre-labels at least two days later by the same annotator. The
 paired difference in matchup accuracy measures the anchoring of the pre-labels.
+
+## D-028 Conditioned ghosts are not used as the reference
+
+The lineup- and scheme-conditioned ghosts improve validation NLL (lineup by 0.021 / 0.035, scheme
+by 0.030 / 0.060 for the team / individual ghost). A draft plan said such a ghost would then be
+used for deviations. It is not: the lineup ghost includes the evaluated defender's own identity,
+so his habits move into the reference and his effect is pulled toward zero by construction; the
+scheme ghost measures deviations from the own team's habits and so absorbs part of the team
+effect. The league ghost stays the reference; this is a judgement made after the results. On the
+validation and test games, which both conditioned ghosts never saw, their deviations are
+compared with the league ghost's.

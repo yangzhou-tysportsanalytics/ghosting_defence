@@ -102,6 +102,11 @@ def main() -> None:
     ap.add_argument("--batch-size", type=int, default=64)
     ap.add_argument("--games", type=int, default=None, help="first N games per split (CPU test)")
     ap.add_argument(
+        "--splits",
+        default="train,val,test",
+        help="splits to score; a --model-run trained on train is out of sample on val,test",
+    )
+    ap.add_argument(
         "--deadline",
         type=float,
         default=None,
@@ -115,7 +120,10 @@ def main() -> None:
     base = cfg.processed_dir / "all"
     root = Path(args.arrays_dir) if args.arrays_dir else base / "ghost_arrays"
     runs = Path("runs/phase3")
+    splits = tuple(args.splits.split(","))
     name = f"cf_{args.crossfit}" if args.crossfit else args.model_run
+    if splits != ("train", "val", "test"):
+        name += "_" + "".join(splits)
     step_dir = base / "learned_ghost" / name
     step_dir.mkdir(parents=True, exist_ok=True)
 
@@ -123,7 +131,7 @@ def main() -> None:
     models: dict = {}
     agg, t0 = [], time.time()
     n_scored, t_scored = 0, 0.0  # games scored in this process and their time
-    for split in ("train", "val", "test"):
+    for split in splits:
         K = pl.read_parquet(root / split / "keys.parquet").sort("row")
         games = sorted(K["game_id"].unique().to_list())[: args.games]
         A = {k: np.load(root / split / f"{k}.npy", mmap_mode="r")

@@ -1,0 +1,92 @@
+{
+ "league_ghost": "cf_gpu_d128_lr1e-3",
+ "min_possessions": 100,
+ "comparisons": {
+  "lineup": {
+   "n_rows": 123442,
+   "n_games": 176,
+   "n_players": 327,
+   "nll_ind": {
+    "league_mean": 4.242123665686175,
+    "conditioned_mean": 4.246373386540545,
+    "corr_possession_defender": 0.9497578029139374,
+    "player_effects": {
+     "corr_league_vs_conditioned": 0.8847323283795083,
+     "sd_league": 0.15084658219851163,
+     "sd_conditioned": 0.1376516766258025,
+     "sd_ratio_conditioned_to_league": 0.9125276464312273,
+     "split_half_r_league": 0.6351100102958626,
+     "split_half_r_conditioned": 0.5432869086034621
+    },
+    "team_means": {
+     "corr_league_vs_conditioned": 0.9705164745558269,
+     "sd_league": 0.08987025856823169,
+     "sd_conditioned": 0.08025829601886841,
+     "sd_ratio_conditioned_to_league": 0.8930462346220397
+    }
+   },
+   "nll_team": {
+    "league_mean": 6.064083570137728,
+    "conditioned_mean": 6.060315975770737,
+    "corr_possession_defender": 0.9588177835221543,
+    "player_effects": {
+     "corr_league_vs_conditioned": 0.9532470397995255,
+     "sd_league": 0.15796425593132338,
+     "sd_conditioned": 0.14814694943864898,
+     "sd_ratio_conditioned_to_league": 0.9378510889391168,
+     "split_half_r_league": 0.8009923018927675,
+     "split_half_r_conditioned": 0.763443342533522
+    },
+    "team_means": {
+     "corr_league_vs_conditioned": 0.9853892963282016,
+     "sd_league": 0.06874507792757119,
+     "sd_conditioned": 0.06520493276157761,
+     "sd_ratio_conditioned_to_league": 0.9485032925597463
+    }
+   }
+  },
+  "scheme": {
+   "n_rows": 123442,
+   "n_games": 176,
+   "n_players": 327,
+   "nll_ind": {
+    "league_mean": 4.242123665686175,
+    "conditioned_mean": 4.222312310405958,
+    "corr_possession_defender": 0.966678628705722,
+    "player_effects": {
+     "corr_league_vs_conditioned": 0.9439620420301705,
+     "sd_league": 0.15084658219851163,
+     "sd_conditioned": 0.14018726672054982,
+     "sd_ratio_conditioned_to_league": 0.9293367120248417,
+     "split_half_r_league": 0.6351100102958626,
+     "split_half_r_conditioned": 0.5707197925640477
+    },
+    "team_means": {
+     "corr_league_vs_conditioned": 0.9777257854689907,
+     "sd_league": 0.08987025856823168,
+     "sd_conditioned": 0.07913693794522356,
+     "sd_ratio_conditioned_to_league": 0.8805687132316513
+    }
+   },
+   "nll_team": {
+    "league_mean": 6.064083570137728,
+    "conditioned_mean": 6.049866362992133,
+    "corr_possession_defender": 0.972066595335021,
+    "player_effects": {
+     "corr_league_vs_conditioned": 0.975841857105497,
+     "sd_league": 0.15796425593132338,
+     "sd_conditioned": 0.15077183319968712,
+     "sd_ratio_conditioned_to_league": 0.9544680365236345,
+     "split_half_r_league": 0.8009923018927673,
+     "split_half_r_conditioned": 0.7680998826353009
+    },
+    "team_means": {
+     "corr_league_vs_conditioned": 0.9881163107341119,
+     "sd_league": 0.06874507792757117,
+     "sd_conditioned": 0.06408931487700664,
+     "sd_ratio_conditioned_to_league": 0.9322749614820456
+    }
+   }
+  }
+ }
+}
