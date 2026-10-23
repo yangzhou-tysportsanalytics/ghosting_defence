@@ -1,0 +1,87 @@
+{
+ "device": [
+  "NVIDIA H100 80GB HBM3 MIG 3g.40gb"
+ ],
+ "n_jobs": 20,
+ "step_wall_minutes": {
+  "ablation:l2": 78.4,
+  "ablation:noanchor": 76.5,
+  "calibration": 11.9,
+  "check": 0.1,
+  "conditions:lineup": 78.5,
+  "conditions:scheme": 78.4,
+  "crossfit:fold0": 96.0,
+  "crossfit:fold1": 95.9,
+  "crossfit:fold2": 95.9,
+  "crossfit:fold3": 95.9,
+  "crossfit:fold4": 94.0,
+  "deviations": 7.2,
+  "final": 3.3,
+  "smoke": 2.2,
+  "sweep:d128_lr1e-3": 79.6,
+  "sweep:d128_lr3e-4": 81.5,
+  "sweep:d64_lr1e-3": 26.9,
+  "sweep:d64_lr3e-4": 22.9
+ },
+ "sum_step_wall_hours": 17.08,
+ "sum_job_hours_incl_failed_attempts": 17.12,
+ "training_seconds_per_epoch": {
+  "gpu_d128_lr1e-3": {
+   "epochs": 30,
+   "median_s": 141.4
+  },
+  "gpu_d128_lr1e-3_fold0": {
+   "epochs": 30,
+   "median_s": 156.6
+  },
+  "gpu_d128_lr1e-3_fold1": {
+   "epochs": 30,
+   "median_s": 156.14999999999998
+  },
+  "gpu_d128_lr1e-3_fold2": {
+   "epochs": 30,
+   "median_s": 157.2
+  },
+  "gpu_d128_lr1e-3_fold3": {
+   "epochs": 30,
+   "median_s": 157.7
+  },
+  "gpu_d128_lr1e-3_fold4": {
+   "epochs": 30,
+   "median_s": 157.7
+  },
+  "gpu_d128_lr1e-3_l2": {
+   "epochs": 30,
+   "median_s": 141.2
+  },
+  "gpu_d128_lr1e-3_lineup": {
+   "epochs": 30,
+   "median_s": 142.2
+  },
+  "gpu_d128_lr1e-3_noanchor": {
+   "epochs": 30,
+   "median_s": 137.64999999999998
+  },
+  "gpu_d128_lr1e-3_scheme": {
+   "epochs": 30,
+   "median_s": 141.9
+  },
+  "gpu_d128_lr3e-4": {
+   "epochs": 30,
+   "median_s": 141.9
+  },
+  "gpu_d64_lr1e-3": {
+   "epochs": 30,
+   "median_s": 39.150000000000006
+  },
+  "gpu_d64_lr3e-4": {
+   "epochs": 30,
+   "median_s": 39.1
+  },
+  "gpu_smoke": {
+   "epochs": 1,
+   "median_s": 7.5
+  }
+ },
+ "note": "One MIG slice (3/7 of an H100) per job; jobs under 3 h with checkpoint resumption. Step wall time includes data loading and evaluation."
+}

@@ -15,6 +15,11 @@ they saved (data/annotations/raw/<bundle>__<initials>.json). Only possessions ma
   counts (confirmed / edited / deleted); help kinds (annotated pre_positioned / leave_man /
   recovery_scramble) against model definitions A and B (D-018).
 * Two annotators on the double-annotated possessions: lane agreement and event F1 between them.
+* Blind subset (``--blind gd_v2_blind10``; writing request A1b): the same annotator labels 10
+  core possessions first without any model output, later again with the pre-labels. HMM and
+  baseline accuracy against the blind and the assisted labels on the same steps (the difference
+  is the anchoring of the pre-labels), lane agreement blind vs assisted, and event precision /
+  recall of the model against both; possession-bootstrap intervals.
 
 Output (aggregates only): reports/phase2/<version>_all/annotation_eval.json
 
@@ -38,6 +43,7 @@ EVENT_TYPES = ("switch", "help_rotation", "closeout")
 PRINCIPAL = {"switch": "defender_1", "help_rotation": "helper", "closeout": "defender"}
 KIND = {"switch": "switch_kind", "help_rotation": "help_kind"}
 TOL = 2  # steps (0.4 s)
+UNLABELLED = -2  # blind bundles: lane not labelled yet
 GAMMA = (0.62, 0.11, 0.27)  # Franks et al. (2015)
 
 
@@ -258,6 +264,61 @@ def agreement(bundle: dict, a1: dict, a2: dict) -> dict:
             "event_agreement": prf(tp, n1, n2)}  # fmt: skip
 
 
+def blind_eval(core: dict, blind: dict, b_ann: dict, a_ann: dict, reps: int = 2000) -> dict:
+    """Same annotator, same possessions: blind labels (b_ann on the blind bundle) vs labels made
+    with the model pre-labels (a_ann on the core bundle)."""
+    poss = {p["key"]: p for p in core["possessions"]}
+    rows, ev = [], Counter()
+    for bp in blind["possessions"]:
+        key = bp["key"]
+        x, y = b_ann["possessions"].get(key), a_ann["possessions"].get(key)
+        if not x or not y or x.get("status") != "done" or y.get("status") != "done":
+            continue
+        p = poss[key]
+        tb, ta = truth_lanes(bp, x["segments"]), truth_lanes(p, y["segments"])
+        lab = tb != UNLABELLED
+        hmm, base = np.array(p["matchup_prelabel"], dtype=int), min_residual(p)
+        mb, ma = lab & (tb >= 0), lab & (ta >= 0)
+        rows.append([lab.sum(), ((hmm == tb) & lab).sum(), ((hmm == ta) & lab).sum(),
+                     mb.sum(), ((base == tb) & mb).sum(), ma.sum(), ((base == ta) & ma).sum(),
+                     ((tb == ta) & lab).sum()])  # fmt: skip
+        pre = [q for q in p["prelabels"] if q["type"] in EVENT_TYPES]
+        eb, ea = final_events(x["segments"]), final_events(y["segments"])
+        ev["tp_blind"] += len(match_events(pre, eb))
+        ev["tp_assisted"] += len(match_events(pre, ea))
+        ev["tp_blind_assisted"] += len(match_events(eb, ea))
+        ev["n_pred"] += len(pre)
+        ev["n_blind"] += len(eb)
+        ev["n_assisted"] += len(ea)
+    if not rows:
+        return {"n_possessions": 0}
+    R = np.array(rows, dtype=float)
+
+    def stats(r: np.ndarray) -> np.ndarray:
+        t = r.sum(0)
+        return np.array([t[1] / t[0], t[2] / t[0], t[4] / t[3], t[6] / t[5], t[7] / t[0]])
+
+    est = stats(R)
+    rng = np.random.default_rng(9)
+    boot = np.array([stats(R[rng.integers(0, len(R), len(R))]) for _ in range(reps)])
+    gap = boot[:, 1] - boot[:, 0]
+    ci = lambda a: [float(np.quantile(a, 0.025)), float(np.quantile(a, 0.975))]  # noqa: E731
+    return {
+        "n_possessions": len(rows),
+        "n_defender_steps": int(R[:, 0].sum()),
+        "hmm_accuracy_vs_blind": float(est[0]),
+        "hmm_accuracy_vs_assisted": float(est[1]),
+        "anchoring_gap_assisted_minus_blind": float(est[1] - est[0]),
+        "anchoring_gap_ci95_possession_bootstrap": ci(gap),
+        "min_residual_accuracy_steps_with_man_vs_blind": float(est[2]),
+        "min_residual_accuracy_steps_with_man_vs_assisted": float(est[3]),
+        "lane_agreement_blind_vs_assisted": float(est[4]),
+        "events_model_vs_blind": prf(ev["tp_blind"], ev["n_pred"], ev["n_blind"]),
+        "events_model_vs_assisted": prf(ev["tp_assisted"], ev["n_pred"], ev["n_assisted"]),
+        "events_blind_vs_assisted": prf(ev["tp_blind_assisted"], ev["n_blind"], ev["n_assisted"]),
+    }
+
+
 def pool_weights() -> dict | None:
     """Stratum shares of the eligible pool (sample v1; the core 100 is drawn from it)."""
     f = Path("data/annotations/sample_v1_summary.json")
@@ -272,6 +333,7 @@ def main() -> None:
     ap.add_argument("--bundle", default="gd_v2_core100")
     ap.add_argument("--raw-dir", default="data/annotations/raw")
     ap.add_argument("--out", default=None, help="output path (default: reports/phase2/...)")
+    ap.add_argument("--blind", default=None, help="blind bundle paired with --bundle (A1b)")
     args = ap.parse_args()
     cfg = D.DataConfig.load(game_set="all")
     bundle = json.loads(Path(f"data/annotations/bundles/{args.bundle}.json").read_text())
@@ -289,6 +351,16 @@ def main() -> None:
                     **agreement(bundle, anns[i], anns[j]),
                 }  # fmt: skip
             )
+    if args.blind:  # pair each annotator's blind file with his assisted file on --bundle
+        blind = json.loads(Path(f"data/annotations/bundles/{args.blind}.json").read_text())
+        rep["blind_vs_assisted"] = {}
+        for f in sorted(Path(args.raw_dir).glob(f"{args.blind}__*.json")):
+            b_ann = json.loads(f.read_text(encoding="utf-8"))
+            a_ann = next((a for a in anns if a.get("annotator") == b_ann.get("annotator")), None)
+            if a_ann is not None:
+                rep["blind_vs_assisted"][b_ann.get("annotator")] = blind_eval(
+                    bundle, blind, b_ann, a_ann
+                )
     out = Path(args.out or Path("reports/phase2") / f"{cfg.version}_all" / "annotation_eval.json")
     out.write_text(json.dumps(rep, indent=1))
     print(json.dumps(rep, indent=1))

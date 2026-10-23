@@ -64,10 +64,12 @@ def apply_mask(
     if schedule == "team":
         masked[:] = True
     elif schedule in ("individual", "mixed"):
-        who = torch.randint(0, 5, (B,), generator=generator, device=feats.device)
-        masked[torch.arange(B), who] = True
+        # drawn on the generator's device (CPU), then moved: the same masks on CPU and GPU
+        gdev = generator.device if generator is not None else feats.device
+        who = torch.randint(0, 5, (B,), generator=generator, device=gdev).to(feats.device)
+        masked[torch.arange(B, device=feats.device), who] = True
         if schedule == "mixed":
-            team = torch.rand(B, generator=generator, device=feats.device) < 0.5
+            team = torch.rand(B, generator=generator, device=gdev).to(feats.device) < 0.5
             masked[team] = True
     else:
         raise ValueError(schedule)

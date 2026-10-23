@@ -157,10 +157,8 @@ def smd(X: np.ndarray, t: np.ndarray, w: np.ndarray | None = None) -> np.ndarray
     return (m1 - m0) / s
 
 
-def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--boot", type=int, default=100)
-    args = ap.parse_args()
+def analysis_frame() -> pl.DataFrame:
+    """One row per on-ball screen: state at contact, treatment flags and outcomes."""
     cfg = D.DataConfig.load(game_set="all")
     base = cfg.processed_dir / "all"
     S = pl.read_parquet(base / "analysis" / "onball_screens.parquet")
@@ -215,22 +213,38 @@ def main() -> None:
         ((pl.col("help_delay_s").fill_null(99) > 1.0) & pl.col("helped_3s")).cast(pl.Int8)
         .alias("late"),
     ).sort(["game_id", "screen_group"])  # fmt: skip
+    return df
+
+
+def comparisons(df: pl.DataFrame) -> list[tuple[str, pl.DataFrame]]:
+    """A: early help vs everything else; B: early vs late help (help happened)."""
+    late_or_early = df.filter((pl.col("early") == 1) | (pl.col("late") == 1))
+    return [("A_early_vs_rest", df), ("B_early_vs_late_help", late_or_early)]
+
+
+def outcome_samples(sub: pl.DataFrame) -> list[tuple[str, pl.DataFrame, np.ndarray]]:
+    """(outcome, sample, y): points on every possession; xFG on possessions with a shot."""
+    d = sub.filter(pl.col("xfg_real").is_not_null())
+    return [("points", sub, sub["points"].to_numpy().astype(float)),
+            ("xfg_of_shot", d, d["xfg_real"].to_numpy().astype(float))]  # fmt: skip
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--boot", type=int, default=100)
+    args = ap.parse_args()
+    df = analysis_frame()
     rng = np.random.default_rng(9)
     rep: dict = {"n_screens": df.height, "share_early": float(df["early"].mean()),
                  "covariates": NUM,
                  "indicators": ["offense_team_id", "defense_team_id"],
                  "propensity_terms": "standardised covariates, their decile indicators, team indicators",
                  "comparisons": {}}  # fmt: skip
-    for comp, sub in (("A_early_vs_rest", df),
-                      ("B_early_vs_late_help", df.filter((pl.col("early") == 1) | (pl.col("late") == 1)))):  # fmt: skip
+    for comp, sub in comparisons(df):
         out = {"n": sub.height, "n_treated": int(sub["early"].sum())}
-        for yname, d in (
-            ("points", sub),
-            ("xfg_of_shot", sub.filter(pl.col("xfg_real").is_not_null())),
-        ):
+        for yname, d, yd in outcome_samples(sub):
             Xd, lin = design(d)
             td = d["early"].to_numpy().astype(float)
-            yd = (d["points"] if yname == "points" else d["xfg_real"]).to_numpy().astype(float)
             est = estimates(Xd, td, yd)
             e = est.pop("e")
             naive = float(yd[td == 1].mean() - yd[td == 0].mean())

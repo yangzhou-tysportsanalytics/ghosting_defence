@@ -26,6 +26,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import sys
 import time
 from pathlib import Path
 
@@ -84,6 +85,13 @@ def score(model: GhostModel, b: dict, ids: dict | None = None) -> dict[str, torc
     return {"nll_team": nll_team, "nll_ind": nll_ind, "d_mean": d_mean, "d_mode": d_mode}
 
 
+def _per_defender(steps: pl.DataFrame) -> pl.DataFrame:
+    return steps.group_by(["game_id", "possession_id", "def_id"]).agg(
+        *[pl.col(k).mean() for k in ("nll_team", "nll_ind", "d_mean", "d_mode")],
+        pl.len().alias("n_steps_ghost"),
+    )
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     g = ap.add_mutually_exclusive_group(required=True)
@@ -93,6 +101,15 @@ def main() -> None:
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     ap.add_argument("--batch-size", type=int, default=64)
     ap.add_argument("--games", type=int, default=None, help="first N games per split (CPU test)")
+    ap.add_argument(
+        "--deadline",
+        type=float,
+        default=None,
+        help="unix time; stop between games before it and exit with code 3 (rerun to continue)",
+    )
+    ap.add_argument(
+        "--resume", action="store_true", help="keep games already scored (per-game files)"
+    )
     args = ap.parse_args()
     cfg = D.DataConfig.load(game_set="all")
     base = cfg.processed_dir / "all"
@@ -105,6 +122,7 @@ def main() -> None:
     T = None
     models: dict = {}
     agg, t0 = [], time.time()
+    n_scored, t_scored = 0, 0.0  # games scored in this process and their time
     for split in ("train", "val", "test"):
         K = pl.read_parquet(root / split / "keys.parquet").sort("row")
         games = sorted(K["game_id"].unique().to_list())[: args.games]
@@ -112,6 +130,17 @@ def main() -> None:
              for k in ("feats", "ctx", "target", "valid")}  # fmt: skip
         T = T or A["valid"].shape[1]
         for gi, gid in enumerate(games, 1):
+            done = step_dir / f"{gid}.parquet"
+            if args.resume and done.exists():  # scored by an earlier segment
+                agg.append(_per_defender(pl.read_parquet(done)))
+                continue
+            per_game = t_scored / n_scored if n_scored else 0.0
+            if args.deadline is not None and time.time() + 1.5 * per_game > args.deadline:
+                print(
+                    f"INCOMPLETE deviations {name}: stopped before {split} game {gi}/{len(games)}"
+                )
+                sys.exit(3)
+            tg = time.time()
             Kg = K.filter(pl.col("game_id") == gid)
             rows = Kg["row"].to_numpy()
             fold = int(Kg["fold"][0])
@@ -144,12 +173,10 @@ def main() -> None:
                     **{k: v[ii, dd, tt].astype(np.float32) for k, v in res.items()},
                 }
             )
-            steps.write_parquet(step_dir / f"{gid}.parquet")
-            agg.append(
-                steps.group_by(["game_id", "possession_id", "def_id"]).agg(
-                    *[pl.col(k).mean() for k in res], pl.len().alias("n_steps_ghost")
-                )
-            )
+            steps.write_parquet(step_dir / f"{gid}.parquet.tmp")
+            (step_dir / f"{gid}.parquet.tmp").replace(done)  # a killed job leaves no partial file
+            agg.append(_per_defender(steps))
+            n_scored, t_scored = n_scored + 1, t_scored + time.time() - tg
             if gi % 50 == 0 or gi == len(games):
                 print(f"[{split} {gi}/{len(games)}] {time.time() - t0:.0f}s", flush=True)
     dev = pl.concat(agg).with_columns(pl.lit(name).alias("ghost"))

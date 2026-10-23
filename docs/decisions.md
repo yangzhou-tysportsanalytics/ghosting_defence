@@ -171,3 +171,32 @@ therefore set per possession: the largest deviation level that some defender hol
 a breakdown. Breakdowns are runs of at least 1 s above that threshold; the first breakdown of a
 cascade is attributed to its defender. The metric is the individual-ghost negative log density
 (cross-fitted); the rule-ghost distance version is kept for reference.
+
+## D-024 Published tags and release assets are immutable
+
+Public tags (data-v1.0, data-v1.1, xfg-v1.0) are never moved and their release assets are never
+replaced; any change gets a new tag. A later archive (e.g. Zenodo) re-publishes the same tag with
+the same asset bytes.
+
+## D-025 Matchup validation sample of 100 possessions
+
+The validation sample is 100 half-court possessions from the train and validation games, in the
+same strata as the original 200-possession design (screen with switch 25, screen without switch
+25, drive 18, ball movement 17, other 15), drawn at random within strata; 15 are annotated by a
+second annotator. Accuracies are reported weighted by each stratum's share of all half-court
+possessions.
+
+## D-026 Learned ghost: anchored head and model choice
+
+The learned ghost is the configuration with the lowest mean validation NLL of a pre-specified
+sweep (d_model 64 or 128, learning rate 3e-4 or 1e-3): d_model 128, 4 blocks, learning rate 1e-3.
+The rule-anchored head (D-022) is kept for both the team and the individual ghost. At full scale
+the unanchored head has a better team NLL on validation (5.757 vs 6.079) and a slightly worse
+individual NLL (4.332 vs 4.281); individual attribution uses the individual ghost, and the
+anchor weights read as "whom the ghost guards". The unanchored head is reported as an ablation.
+
+## D-027 Blind annotation subset
+
+Ten of the 100 validation possessions (two per stratum) are annotated first without any model
+output, and again with the model pre-labels at least two days later by the same annotator. The
+paired difference in matchup accuracy measures the anchoring of the pre-labels.

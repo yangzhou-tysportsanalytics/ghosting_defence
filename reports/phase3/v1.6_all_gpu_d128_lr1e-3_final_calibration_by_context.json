@@ -1,0 +1,103 @@
+{
+ "model_run": "gpu_d128_lr1e-3_final",
+ "split": "test",
+ "n_games": 126,
+ "n_possessions": 17526,
+ "contexts": {
+  "individual": {
+   "release": {
+    "n_defender_steps": 190590,
+    "coverage": {
+     "0.5": 0.49798521399497986,
+     "0.8": 0.7852877974510193,
+     "0.9": 0.8828007578849792,
+     "0.95": 0.9372265338897705
+    },
+    "mean_nll": 4.329419136047363
+   },
+   "screen": {
+    "n_defender_steps": 630770,
+    "coverage": {
+     "0.5": 0.5076446533203125,
+     "0.8": 0.7947968244552612,
+     "0.9": 0.8911473155021667,
+     "0.95": 0.9424909353256226
+    },
+    "mean_nll": 4.155500888824463
+   },
+   "early": {
+    "n_defender_steps": 852065,
+    "coverage": {
+     "0.5": 0.5089928507804871,
+     "0.8": 0.7957010269165039,
+     "0.9": 0.8894838094711304,
+     "0.95": 0.9397323131561279
+    },
+    "mean_nll": 4.633997917175293
+   },
+   "other": {
+    "n_defender_steps": 2788855,
+    "coverage": {
+     "0.5": 0.505405604839325,
+     "0.8": 0.7922573685646057,
+     "0.9": 0.888197124004364,
+     "0.95": 0.9394088387489319
+    },
+    "mean_nll": 4.157235145568848
+   }
+  },
+  "team": {
+   "release": {
+    "n_defender_steps": 190590,
+    "coverage": {
+     "0.5": 0.5070465207099915,
+     "0.8": 0.8010073900222778,
+     "0.9": 0.9093656539916992,
+     "0.95": 0.9619392156600952
+    },
+    "mean_nll": 6.0188164710998535
+   },
+   "screen": {
+    "n_defender_steps": 630770,
+    "coverage": {
+     "0.5": 0.4766095280647278,
+     "0.8": 0.7884109616279602,
+     "0.9": 0.8986873030662537,
+     "0.95": 0.9554591774940491
+    },
+    "mean_nll": 6.04253625869751
+   },
+   "early": {
+    "n_defender_steps": 852065,
+    "coverage": {
+     "0.5": 0.5035261511802673,
+     "0.8": 0.8069501519203186,
+     "0.9": 0.9100620150566101,
+     "0.95": 0.9590606093406677
+    },
+    "mean_nll": 6.295502185821533
+   },
+   "other": {
+    "n_defender_steps": 2788855,
+    "coverage": {
+     "0.5": 0.4946313202381134,
+     "0.8": 0.7952597141265869,
+     "0.9": 0.9019612073898315,
+     "0.95": 0.9554361701011658
+    },
+    "mean_nll": 6.017824649810791
+   }
+  }
+ },
+ "release_distance_to_shooter": {
+  "all_defenders": {
+   "n": 63530,
+   "share_ghost_draws_farther": 0.47823038820242403
+  },
+  "defender_nearest_by_ghost": {
+   "n_shots": 12706,
+   "share_ghost_draws_farther": 0.49582612914174407
+  },
+  "note": "0.5 if calibrated; > 0.5: real defenders are closer to the shooter than the ghost expects. The defender is chosen by his ghost, never by his real position (selecting the really nearest of five would bias the comparison by construction)."
+ }
+}

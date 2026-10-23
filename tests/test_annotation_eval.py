@@ -107,3 +107,47 @@ def test_population_weighted_accuracy():
     w = ae.weighted(by, {"a": 0.75, "b": 0.25, "c": 0.5})  # "c" absent from the sample: ignored
     assert np.isclose(w["frame_accuracy_hmm"], 0.75 * 0.9 + 0.25 * 0.5)
     assert ae.weighted(by, None) is None
+
+
+def test_blind_vs_assisted_anchoring_gap():
+    p = _poss()
+    bp = copy.deepcopy(p)
+    bp["prelabels"], bp["matchup_prelabel"] = [], [[ae.UNLABELLED] * N for _ in range(5)]
+    # blind: four defenders as the model, defender 23 guards nobody; events re-created by hand
+    segs = [
+        {
+            "type": "matchup",
+            "participants": [
+                {"role": "defender", "player_id": 20 + d},
+                {"role": "attacker", "player_id": None if d == 3 else 10 + d},
+            ],
+            "start_step": 0,
+            "end_step": N - 1,
+            "source": "human",
+        }
+        for d in range(5)
+    ]
+    segs += [dict(copy.deepcopy(s), source="human") for s in p["prelabels"]]
+    blind = {"annotator": "A", "possessions": {"g:1": {"segments": segs, "status": "done"}}}
+    r = ae.blind_eval({"possessions": [p]}, {"possessions": [bp]}, blind, _confirm_all(p), reps=50)
+    assert r["n_possessions"] == 1 and r["n_defender_steps"] == 5 * N
+    assert np.isclose(r["hmm_accuracy_vs_blind"], 0.8) and r["hmm_accuracy_vs_assisted"] == 1.0
+    assert np.isclose(r["anchoring_gap_assisted_minus_blind"], 0.2)
+    assert r["events_model_vs_blind"]["f1"] == 1.0
+
+
+def test_unlabelled_steps_are_excluded():
+    p = _poss()
+    bp = copy.deepcopy(p)
+    bp["prelabels"], bp["matchup_prelabel"] = [], [[ae.UNLABELLED] * N for _ in range(5)]
+    seg = {
+        "type": "matchup",
+        "participants": [
+            {"role": "defender", "player_id": 20},
+            {"role": "attacker", "player_id": 10},
+        ],
+        "start_step": 0,
+        "end_step": 4,
+    }
+    t = ae.truth_lanes(bp, [seg])
+    assert (t[0, :5] == 0).all() and (t[0, 5:] == ae.UNLABELLED).all() and (t[1:] == -2).all()

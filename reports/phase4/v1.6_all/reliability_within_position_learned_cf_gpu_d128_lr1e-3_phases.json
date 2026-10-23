@@ -1,0 +1,116 @@
+{
+  "nll_ind": {
+    "split_half_r_within_position": 0.8894854422890034,
+    "n_players": 348,
+    "share_player_variance_explained_by_position": 0.02378772708947674,
+    "by_position": {
+      "C": {
+        "r": 0.8452389448619504,
+        "n_players": 49
+      },
+      "F": {
+        "r": 0.8930576692354671,
+        "n_players": 143
+      },
+      "G": {
+        "r": 0.9008071082855972,
+        "n_players": 156
+      }
+    }
+  },
+  "nll_team": {
+    "split_half_r_within_position": 0.9390958891321649,
+    "n_players": 348,
+    "share_player_variance_explained_by_position": 0.15909070049508922,
+    "by_position": {
+      "C": {
+        "r": 0.9179975754410539,
+        "n_players": 49
+      },
+      "F": {
+        "r": 0.9574848443169357,
+        "n_players": 143
+      },
+      "G": {
+        "r": 0.9238245969287237,
+        "n_players": 156
+      }
+    }
+  },
+  "d_mean": {
+    "split_half_r_within_position": 0.8311080520914067,
+    "n_players": 348,
+    "share_player_variance_explained_by_position": 0.03244070250117326,
+    "by_position": {
+      "C": {
+        "r": 0.8049725022132154,
+        "n_players": 49
+      },
+      "F": {
+        "r": 0.8151696612512892,
+        "n_players": 143
+      },
+      "G": {
+        "r": 0.8517335067240043,
+        "n_players": 156
+      }
+    }
+  },
+  "d_mode": {
+    "split_half_r_within_position": 0.8188518448049937,
+    "n_players": 348,
+    "share_player_variance_explained_by_position": 0.04396034957437189,
+    "by_position": {
+      "C": {
+        "r": 0.8199060872450853,
+        "n_players": 49
+      },
+      "F": {
+        "r": 0.8047493914556729,
+        "n_players": 143
+      },
+      "G": {
+        "r": 0.8328758280182115,
+        "n_players": 156
+      }
+    }
+  },
+  "dev_ft": {
+    "split_half_r_within_position": 0.9198849384013001,
+    "n_players": 348,
+    "share_player_variance_explained_by_position": 0.14636494522482169,
+    "by_position": {
+      "C": {
+        "r": 0.8844945448589564,
+        "n_players": 49
+      },
+      "F": {
+        "r": 0.9399977438281498,
+        "n_players": 143
+      },
+      "G": {
+        "r": 0.9104088746075165,
+        "n_players": 156
+      }
+    }
+  },
+  "sag_ft": {
+    "split_half_r_within_position": 0.9250382475730201,
+    "n_players": 348,
+    "share_player_variance_explained_by_position": 0.4826694622372506,
+    "by_position": {
+      "C": {
+        "r": 0.9221884238088834,
+        "n_players": 49
+      },
+      "F": {
+        "r": 0.9375717304952073,
+        "n_players": 143
+      },
+      "G": {
+        "r": 0.9114573449184857,
+        "n_players": 156
+      }
+    }
+  }
+}

@@ -27,6 +27,9 @@ class TrainConfig:
     checkpoint_path: str | None = None  # saved after every epoch; resumed if it exists
     amp: bool = False  # bfloat16 autocast on CUDA (ignored on CPU)
     lr_cosine: bool = True
+    # unix time: stop at an epoch boundary when the next epoch would not finish before it (short
+    # batch jobs); the checkpoint then continues the run, and fit returns fewer than ``epochs``
+    deadline: float | None = None
 
 
 def _batches(n: int, bs: int, rng: np.random.Generator, shuffle: bool):
@@ -104,6 +107,7 @@ def fit(
     )
     history: list[dict] = []
     start = 0
+    last_wall = None  # wall time of one epoch (training, validation, checkpoint)
     ckpt = Path(tcfg.checkpoint_path) if tcfg.checkpoint_path else None
     if ckpt is not None and ckpt.exists():
         state = torch.load(ckpt, map_location=tcfg.device, weights_only=False)
@@ -114,10 +118,18 @@ def fit(
         history = state["history"]
         start = state["epoch"] + 1
         rng = state["rng"]
-        g.set_state(state["g"])
+        g.set_state(state["g"].cpu())  # map_location moves it to the GPU; generators are CPU
+        last_wall = state.get("epoch_wall")
+        if state.get("torch_rng") is not None:  # dropout: a resumed run continues the same stream
+            torch.set_rng_state(state["torch_rng"].cpu())
+        if state.get("cuda_rng") is not None and tcfg.device.startswith("cuda"):
+            torch.cuda.set_rng_state(state["cuda_rng"].cpu())
         log({"resumed_from_epoch": state["epoch"]})
     use_amp = tcfg.amp and tcfg.device.startswith("cuda")
     for ep in range(start, tcfg.epochs):
+        if tcfg.deadline is not None and time.time() + 1.1 * (last_wall or 0.0) > tcfg.deadline:
+            log({"stopped_before_epoch": ep, "reason": "deadline"})
+            break
         model.train()
         t0 = time.time()
         losses = []
@@ -158,11 +170,18 @@ def fit(
                     "epoch": ep,
                     "rng": rng,
                     "g": g.get_state(),
+                    "torch_rng": torch.get_rng_state(),
+                    "cuda_rng": torch.cuda.get_rng_state()
+                    if tcfg.device.startswith("cuda")
+                    else None,
                     "mcfg": asdict(mcfg),
                     "tcfg": asdict(tcfg),
+                    "epoch_wall": time.time() - t0,
                 },
-                ckpt,
+                ckpt.with_suffix(".tmp"),
             )
+            ckpt.with_suffix(".tmp").replace(ckpt)  # a job killed while saving keeps the last one
+        last_wall = time.time() - t0
     return model, history
 
 
@@ -180,7 +199,8 @@ def predict_mean(model: GhostModel, arrs: dict, schedule: str, device: str = "cp
 
 
 def config_dict(mcfg: GhostConfig, tcfg: TrainConfig) -> dict:
-    return {"model": asdict(mcfg), "train": asdict(tcfg)}
+    train = {k: v for k, v in asdict(tcfg).items() if k != "deadline"}  # job timing, not config
+    return {"model": asdict(mcfg), "train": train}
 
 
 def calibration_eval(
@@ -207,7 +227,7 @@ def calibration_eval(
             out = model(f, b["ctx"], ids_of(b))
             if sch == "individual":
                 j = masked.float().argmax(-1)  # (B,)
-                ix = torch.arange(len(j))
+                ix = torch.arange(len(j), device=j.device)
                 lg, mu, sg = out["logits"][ix, j], out["mu"][ix, j], out["sigma"][ix, j]
                 z = b["target"][ix, j]  # (B,T,2)
                 v = b["valid"]

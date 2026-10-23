@@ -66,6 +66,23 @@ def cross_fit(shots: pl.DataFrame, version: str) -> np.ndarray:
     return out
 
 
+def cross_fit_m3d(shots: pl.DataFrame, variant: str = "m3d") -> np.ndarray:
+    """As cross_fit for the M3D variant (writing request A4b: + nearest defender's height and
+    closing speed; scripts/analysis_xfg_defender_features.py). ``shots`` already has the def1
+    columns."""
+    from analysis_xfg_defender_features import TERMS, fit_m3d
+
+    games = D.games(D.DataConfig.load(game_set="all")).select(["game_id", "fold"])
+    S = shots.join(games, on="game_id", how="left")
+    out = np.full(S.height, np.nan)
+    for k in sorted(S["fold"].drop_nulls().unique().to_list()):
+        other = api.trusted(S.filter(pl.col("fold").is_not_null() & (pl.col("fold") != k)))
+        m, _ = fit_m3d(other, TERMS[variant])
+        idx = ((S["fold"] == k).fill_null(False) & S["def1_ft"].is_not_null()).to_numpy()
+        out[idx] = m.predict(S.filter(pl.Series(idx)))
+    return out
+
+
 def design(df: pl.DataFrame, x_cols: list[str]) -> np.ndarray:
     z = df["zone"].to_numpy()
     d = df["dist_ft"].to_numpy()
@@ -115,6 +132,8 @@ def spearman_boot(a: np.ndarray, b: np.ndarray, reps: int, rng) -> dict:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--context", default="base", choices=["base", "phases"], help="D-021")
+    ap.add_argument("--xfg-variant", default=None, choices=["m3d", "m3h", "m3c"],
+                    help="also an xFG variant (A4b): m3d height + closing, m3h height, m3c closing; separate *_<variant>.json")  # fmt: skip
     args = ap.parse_args()
     cfg = D.DataConfig.load(game_set="all")
     base = cfg.processed_dir / "all"
@@ -124,6 +143,13 @@ def main() -> None:
     rng = np.random.default_rng(9)
 
     shots_all = pl.read_parquet(base / "analysis" / "shots.parquet")
+    if args.xfg_variant:
+        from analysis_xfg_defender_features import with_def1
+
+        shots_all = with_def1(cfg, shots_all)
+        shots_all = shots_all.with_columns(
+            pl.Series("xfg_m3d_cf", cross_fit_m3d(shots_all, args.xfg_variant))
+        )
     shots_all = shots_all.with_columns(
         pl.Series("xfg_m2_cf", cross_fit(shots_all, "M2")),
         pl.Series("xfg_m3_cf", cross_fit(shots_all, "M3")),
@@ -189,6 +215,7 @@ def main() -> None:
                     "def1_ft": r["def1_ft"],
                     "xfg_m2_cf": r["xfg_m2_cf"],
                     "xfg_m3_cf": r["xfg_m3_cf"],
+                    **({"xfg_m3d_cf": r["xfg_m3d_cf"]} if args.xfg_variant else {}),
                     "made": bool(r["made"]),
                     "zone": r["zone"],
                     "dist_ft": r["dist_ft"],
@@ -200,7 +227,7 @@ def main() -> None:
     V = pl.DataFrame(rows)
 
     rep: dict = {"n_shot_possessions": V.height, "possession_level": {}}
-    outcomes = ("def1_ft", "xfg_m2_cf", "xfg_m3_cf")
+    outcomes = ("def1_ft", "xfg_m2_cf", "xfg_m3_cf") + (("xfg_m3d_cf",) if args.xfg_variant else ())
     for y in outcomes:
         rep["possession_level"][y] = ols_boot(V, y, ["pre_sag_ft", "pre_dev_ft"], 500, rng)
 
@@ -245,7 +272,9 @@ def main() -> None:
     out = Path("reports/phase5") / f"{cfg.version}_all"
     out.mkdir(parents=True, exist_ok=True)
     rep["context"] = args.context
-    sfx = "" if args.context == "base" else "_phases"
+    sfx = ("" if args.context == "base" else "_phases") + (
+        f"_{args.xfg_variant}" if args.xfg_variant else ""
+    )
     (out / f"predictive_validity{sfx}.json").write_text(json.dumps(rep, indent=2))
     print(json.dumps(rep, indent=1))
 

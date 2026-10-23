@@ -39,13 +39,14 @@ def sample_mixture(
     shape = logits.shape[:-1]
     M = logits.shape[-1]
     flat_logits = logits.reshape(-1, M)
-    comp = torch.multinomial(
-        torch.softmax(flat_logits, -1), n, replacement=True, generator=generator
-    )
+    # drawn on the generator's device (CPU), then moved: the same samples on CPU and GPU
+    gdev = generator.device if generator is not None else logits.device
+    probs = torch.softmax(flat_logits, -1).to(gdev)
+    comp = torch.multinomial(probs, n, replacement=True, generator=generator).to(logits.device)
     comp = comp.reshape(*shape, n)
     m = torch.gather(mu, -2, comp[..., None].expand(*shape, n, 2))
     s = torch.gather(sigma, -1, comp)
-    eps = torch.randn(*shape, n, 2, generator=generator, device=mu.device)
+    eps = torch.randn(*shape, n, 2, generator=generator, device=gdev).to(mu.device)
     return m + s[..., None] * eps
 
 

@@ -1,0 +1,233 @@
+{
+ "ghost": "rule",
+ "n_players": 348,
+ "bootstrap": "games, B=200",
+ "date_cutoff": "2015-12-09",
+ "context": "D-021 phase shares (main spec)",
+ "metrics": {
+  "dev_ft_adjusted": {
+   "discrimination": 0.9608749390119738,
+   "stability_parity": {
+    "stability": 1.0059361991750644,
+    "r_between_halves": 0.9309783359268203,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.9427898474533042,
+    "r_between_halves": 0.873978170966439,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.8497899809983654,
+     "r2_raw": 0.14926484087111858,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.7911627610143894,
+     "r2_raw": 0.20757713380450216,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.7581639560789039,
+     "r2_raw": 0.2434350845306179,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": -0.036358753150199555,
+     "spearman": -0.05320777098548485,
+     "pearson_disattenuated_by_D": -0.03709159834688005,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": 0.030229362135821277,
+     "spearman": 0.018892563468351272,
+     "pearson_disattenuated_by_D": 0.030838663636024957,
+     "n_players": 348
+    }
+   }
+  },
+  "dev_ft_within_team": {
+   "discrimination": 0.9557088990058554,
+   "stability_parity": {
+    "stability": 1.0057516504638806,
+    "r_between_halves": 0.9219269244215924,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.9362391790270428,
+    "r_between_halves": 0.857968419985219,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.8187642018141756,
+     "r2_raw": 0.17797403306886017,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.7616300136208182,
+     "r2_raw": 0.23448829144103778,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.739471391397222,
+     "r2_raw": 0.2598109864929471,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": -0.010185670493982602,
+     "spearman": -0.03903203514136014,
+     "pearson_disattenuated_by_D": -0.01041901846478752,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": 0.07843510698383996,
+     "spearman": 0.05401716920101184,
+     "pearson_disattenuated_by_D": 0.0802320110821375,
+     "n_players": 348
+    }
+   }
+  },
+  "sag_ft_adjusted": {
+   "discrimination": 0.981226454034182,
+   "stability_parity": {
+    "stability": 0.9949549410473105,
+    "r_between_halves": 0.9604321528803995,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.9576362406328873,
+    "r_between_halves": 0.924174276863582,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.5089374065088507,
+     "r2_raw": 0.48483009949697853,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.45940043088058624,
+     "r2_raw": 0.5345101031736325,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.35787937469980197,
+     "r2_raw": 0.635396209006137,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": 0.29227200982326024,
+     "spearman": 0.2940719883074738,
+     "pearson_disattenuated_by_D": 0.29505474405037807,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": 0.20100245930434688,
+     "spearman": 0.18582997817895425,
+     "pearson_disattenuated_by_D": 0.20291621226200882,
+     "n_players": 348
+    }
+   }
+  },
+  "sag_ft_within_team": {
+   "discrimination": 0.9799613102230694,
+   "stability_parity": {
+    "stability": 0.995054137460338,
+    "r_between_halves": 0.9575491744918049,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.9542765807703403,
+    "r_between_halves": 0.9190003756027926,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.4750065952995425,
+     "r2_raw": 0.5172716499464325,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.4221588819244502,
+     "r2_raw": 0.5700118359495885,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.31435363048805803,
+     "r2_raw": 0.6766344806884202,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": 0.31065396359235564,
+     "spearman": 0.31015974717446276,
+     "pearson_disattenuated_by_D": 0.31381408644949604,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": 0.22141012149052236,
+     "spearman": 0.21294951872024653,
+     "pearson_disattenuated_by_D": 0.22366241268176745,
+     "n_players": 348
+    }
+   }
+  },
+  "help_b_rate": {
+   "discrimination": 0.9033472807733989,
+   "stability_parity": {
+    "stability": 0.9909642933186376,
+    "r_between_halves": 0.8205929914082946,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.9289412301282403,
+    "r_between_halves": 0.7696046444745703,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.6922342044113899,
+     "r2_raw": 0.28218066606112757,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.6937941025013945,
+     "r2_raw": 0.28286435479128913,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.25926612596867893,
+     "r2_raw": 0.6739073670373639,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": -0.28505575616407797,
+     "spearman": -0.29400741531947155,
+     "pearson_disattenuated_by_D": -0.2999179399564191,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": -0.07394854591854015,
+     "spearman": -0.0952596124380812,
+     "pearson_disattenuated_by_D": -0.07780406139876471,
+     "n_players": 348
+    }
+   }
+  }
+ },
+ "sources": {
+  "basketball_reference": "local research use only; do not redistribute",
+  "raptor": "FiveThirtyEight, CC BY 4.0 (attribution required)"
+ }
+}

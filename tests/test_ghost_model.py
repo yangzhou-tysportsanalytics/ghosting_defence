@@ -276,3 +276,49 @@ def test_condition_lineup_and_scheme():
             if cond == "lineup":
                 perm = {"players": ids["players"][:, [4, 2, 0, 1, 3]]}
                 assert torch.allclose(m(f, ctx, ids)["mu"], m(f, ctx, perm)["mu"], atol=1e-5)
+
+
+def test_deadline_segments_match_uninterrupted_run(tmp_path, monkeypatch):
+    """A run cut at a deadline and resumed equals the uninterrupted run (dropout on)."""
+    import ghost.ghost.train as tr
+
+    rng = np.random.default_rng(1)
+    N = 8
+    arrs = {
+        "feats": rng.normal(0, 0.3, size=(N, 11, T, N_FEAT)).astype(np.float32),
+        "ctx": np.zeros((N, T, N_CTX), dtype=np.float32),
+        "target": rng.uniform(0, 40, size=(N, 5, T, 2)).astype(np.float32),
+        "valid": np.ones((N, T), dtype=bool),
+    }
+    mcfg = GhostConfig(d_model=16, n_blocks=1, dropout=0.1, n_comp=2)
+    quiet = lambda r: None  # noqa: E731
+    ref, h_ref = fit(arrs, None, mcfg, TrainConfig(epochs=4, batch_size=4), log=quiet)
+
+    clock = iter(range(10**6))  # fake clock: one tick per call, so the cut is deterministic
+    monkeypatch.setattr(tr.time, "time", lambda: float(next(clock)))
+    ck = str(tmp_path / "ck.pt")
+    _, h1 = fit(arrs, None, mcfg, TrainConfig(epochs=4, batch_size=4, checkpoint_path=ck,
+                                              deadline=12.0), log=quiet)  # fmt: skip
+    assert 0 < len(h1) < 4
+    seg, h2 = fit(arrs, None, mcfg, TrainConfig(epochs=4, batch_size=4, checkpoint_path=ck),
+                  log=quiet)  # fmt: skip
+    strip = lambda h: [{k: v for k, v in r.items() if k != "seconds"} for r in h]  # noqa: E731
+    assert strip(h2) == strip(h_ref)
+    a, b = ref.state_dict(), seg.state_dict()
+    assert all(torch.equal(a[k], b[k]) for k in a)
+
+
+def test_gpu_duration_parsing():
+    import importlib.util
+    import sys
+    from pathlib import Path
+
+    p = Path(__file__).resolve().parents[1] / "scripts" / "gpu.py"
+    spec = importlib.util.spec_from_file_location("gpu_cli", p)
+    g = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = g  # dataclasses look the module up
+    spec.loader.exec_module(g)
+    assert g.parse_duration("2:50:00") == 2 * 3600 + 50 * 60
+    assert g.parse_duration("1-02:00:00") == 26 * 3600
+    assert g.parse_duration("45:10") == 45 * 60 + 10  # squeue MM:SS
+    assert g.parse_duration("170m") == 170 * 60 and g.parse_duration("3h") == 3 * 3600

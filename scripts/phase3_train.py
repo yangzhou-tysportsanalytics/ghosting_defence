@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -144,6 +145,13 @@ def main() -> None:
     ap.add_argument("--tag", default="v1min")
     ap.add_argument("--amp", action="store_true", help="bfloat16 autocast on CUDA")
     ap.add_argument("--resume", action="store_true", help="resume from runs/.../checkpoint.pt")
+    ap.add_argument(
+        "--deadline",
+        type=float,
+        default=None,
+        help="unix time; stop at an epoch boundary before it and exit with code 3 (rerun with "
+        "--resume to continue; scripts/gpu.py sets it from the batch job's time limit)",
+    )
     ap.add_argument("--train-games", type=int, default=None, help="seeded subset of train games")
     ap.add_argument("--val-games", type=int, default=None, help="seeded subset of val games")
     ap.add_argument("--lr", type=float, default=None)
@@ -267,6 +275,7 @@ def main() -> None:
         device=args.device,
         max_batches_per_epoch=args.max_batches,
         amp=args.amp,
+        deadline=args.deadline,
         **({"lr": args.lr} if args.lr else {}),
         checkpoint_path=str(
             Path("runs/phase3") / f"{cfg.version}_{cfg.game_set}_{args.tag}" / "checkpoint.pt"
@@ -276,17 +285,26 @@ def main() -> None:
     if ck.exists() and not args.resume:
         ck.unlink()  # fresh run unless --resume
     init_eval = None
-    if args.anchor == "rule" and len(va):  # the untrained anchored model should be the rule ghost
+    init_p = ck.parent / "untrained_eval.json"  # kept across resumed segments of a run
+    if args.anchor == "rule" and len(va) and args.resume and init_p.exists():
+        init_eval = json.loads(init_p.read_text())
+    elif args.anchor == "rule" and len(va):  # the untrained anchored model should be the rule ghost
         torch.manual_seed(tcfg.seed)  # same initial weights as fit()
         m0 = GhostModel(mcfg, n_steps=train["valid"].shape[1]).to(args.device)
         init_eval = {s: evaluate(m0, val, s, args.device) for s in ("team", "individual")}
         print("untrained anchored model:", json.dumps(init_eval))
+        if not args.load_model:
+            init_p.parent.mkdir(parents=True, exist_ok=True)
+            init_p.write_text(json.dumps(init_eval))
     if args.load_model:  # score a trained model (e.g. the chosen sweep run on the test games)
         model = GhostModel(mcfg, n_steps=train["valid"].shape[1]).to(args.device)
         model.load_state_dict(torch.load(args.load_model, map_location=args.device))
         hist = []
     else:
         model, hist = fit(train, val, mcfg, tcfg)
+        if len(hist) < tcfg.epochs:  # stopped at the deadline: the checkpoint continues the run
+            print(f"INCOMPLETE {args.tag}: {len(hist)}/{tcfg.epochs} epochs; rerun with --resume")
+            sys.exit(3)
 
     result = {
         "config": config_dict(mcfg, tcfg),

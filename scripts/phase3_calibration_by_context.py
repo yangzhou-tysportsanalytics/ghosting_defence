@@ -55,6 +55,12 @@ def step_contexts(n: int, release: int | None, contacts: list[int]) -> np.ndarra
     return c
 
 
+def run_masked(model, f, x, masked, ids, device: str) -> dict:
+    """Model outputs (on the CPU) for one possession with the defenders in ``masked`` hidden."""
+    o = model(mask_defenders(f, masked).to(device), x.to(device), ids)
+    return {k: v.float().cpu() for k, v in o.items()}
+
+
 @torch.no_grad()
 def main() -> None:
     ap = argparse.ArgumentParser()
@@ -109,7 +115,7 @@ def main() -> None:
         z = torch.from_numpy(np.array(A["target"][i, :, :n]))  # (5, n, 2)
         ids = lgd.ids_for(model, K.filter(pl.col("i") == i), args.device)
         # team ghost: equal-weight mixture over the five slots, evaluated for every defender
-        out = model(mask_defenders(f, torch.ones(1, 5, dtype=torch.bool)), x, ids)
+        out = run_masked(model, f, x, torch.ones(1, 5, dtype=torch.bool), ids, args.device)
         lg = out["logits"][0, :, :n]  # (5 slots, n, M)
         M = lg.shape[-1]
         lw = (torch.log_softmax(lg, -1) - math.log(5.0)).permute(1, 0, 2).reshape(n, 5 * M)
@@ -122,7 +128,7 @@ def main() -> None:
         for d in range(5):  # individual ghost of d
             m = torch.zeros(1, 5, dtype=torch.bool)
             m[0, d] = True
-            o = model(mask_defenders(f, m), x, ids)
+            o = run_masked(model, f, x, m, ids, args.device)
             lg_d, mu_d, sg_d = o["logits"][0, d, :n], o["mu"][0, d, :n], o["sigma"][0, d, :n]
             u_ind.append(hpd_pit(lg_d, mu_d, sg_d, z[d], args.n_samples, g))
             nll_ind.append(-mixture_log_density(lg_d, mu_d, sg_d, z[d][:, None])[:, 0])

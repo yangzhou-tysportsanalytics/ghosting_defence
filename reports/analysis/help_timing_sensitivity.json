@@ -1,0 +1,537 @@
+{
+ "method": "E-values (VanderWeele & Ding 2017; continuous outcome via RR = exp(0.91 d)) for the overlap-weighted estimates; omitted-variable bounds and robustness values (Cinelli & Hazlett 2020) for the OLS-adjusted estimate with the propensity design",
+ "comparisons": {
+  "A_early_vs_rest": {
+   "points": {
+    "n": 90679,
+    "ato_overlap_weighted": 0.039119194484221964,
+    "ato_ci95_game_bootstrap": [
+     0.022352700662949393,
+     0.055123806296186365
+    ],
+    "sd_outcome": 1.135632703393323,
+    "standardised_difference": 0.03444704821139089,
+    "e_value_estimate": 1.2131091128607594,
+    "e_value_ci_bound": 1.1537179487669886,
+    "estimate_ols_adjusted": 0.03455626994311426,
+    "se_classical": 0.010125505559304533,
+    "t": 3.4127945257370187,
+    "df": 90444,
+    "partial_r2_outcome_treatment": 0.00012876107617101093,
+    "rv_q1": 0.011283818238429473,
+    "rv_q1_alpha05": 0.004819176591693114,
+    "benchmark_partial_r2": {
+     "h_v_to_rim": {
+      "with_treatment": 0.09305,
+      "with_outcome": 0.00029
+     },
+     "h_dist_rim": {
+      "with_treatment": 0.07077,
+      "with_outcome": 0.00036
+     },
+     "d_screened_h": {
+      "with_treatment": 0.01007,
+      "with_outcome": 0.00012
+     },
+     "d_third_h": {
+      "with_treatment": 0.00597,
+      "with_outcome": 0.00015
+     },
+     "d_screener_def_h": {
+      "with_treatment": 0.00446,
+      "with_outcome": 4e-05
+     },
+     "shot_clock": {
+      "with_treatment": 0.00131,
+      "with_outcome": 0.00106
+     },
+     "h_three_rate": {
+      "with_treatment": 0.0013,
+      "with_outcome": 0.00015
+     },
+     "d_third_rim": {
+      "with_treatment": 0.00107,
+      "with_outcome": 0.0002
+     },
+     "screen_dist_rim": {
+      "with_treatment": 0.00104,
+      "with_outcome": 5e-05
+     },
+     "scr_v_to_rim": {
+      "with_treatment": 0.0009,
+      "with_outcome": 4e-05
+     },
+     "h_lateral": {
+      "with_treatment": 0.00063,
+      "with_outcome": 0.0001
+     },
+     "scr_dist_rim": {
+      "with_treatment": 0.00053,
+      "with_outcome": 8e-05
+     },
+     "h_speed": {
+      "with_treatment": 0.00045,
+      "with_outcome": 0.00023
+     },
+     "screen_lateral": {
+      "with_treatment": 0.00045,
+      "with_outcome": 7e-05
+     },
+     "h_three_pct": {
+      "with_treatment": 0.00032,
+      "with_outcome": 0.0004
+     },
+     "game_clock": {
+      "with_treatment": 0.00024,
+      "with_outcome": 0.00035
+     },
+     "n_beyond_arc": {
+      "with_treatment": 0.00013,
+      "with_outcome": 4e-05
+     },
+     "margin": {
+      "with_treatment": 8e-05,
+      "with_outcome": 0.00091
+     },
+     "shot_clock_missing": {
+      "with_treatment": 0.0,
+      "with_outcome": 0.0
+     }
+    },
+    "bounds": {
+     "h_v_to_rim": [
+      {
+       "k": 1,
+       "r2_confounder_treatment": 0.10259363792432481,
+       "r2_confounder_outcome": 0.0003599563392417821,
+       "adjusted_estimate": 0.015022001424998977,
+       "adjusted_ci95": [
+        -0.005923678308224864,
+        0.03596768115822282
+       ]
+      },
+      {
+       "k": 2,
+       "r2_confounder_treatment": 0.20518727584864963,
+       "r2_confounder_outcome": 0.0007370152823976155,
+       "adjusted_estimate": -0.007447440020396608,
+       "adjusted_ci95": [
+        -0.029699729599888338,
+        0.014804849559095123
+       ]
+      },
+      {
+       "k": 3,
+       "r2_confounder_treatment": 0.30778091377297445,
+       "r2_confounder_outcome": 0.0011380467776972106,
+       "adjusted_estimate": -0.033942963479568496,
+       "adjusted_ci95": [
+        -0.05778251928491994,
+        -0.010103407674217049
+       ]
+      }
+     ]
+    },
+    "strongest_observed_covariate": "h_v_to_rim"
+   },
+   "xfg_of_shot": {
+    "n": 69195,
+    "ato_overlap_weighted": 0.02520208894114384,
+    "ato_ci95_game_bootstrap": [
+     0.023154833863982656,
+     0.027443940226199774
+    ],
+    "sd_outcome": 0.11203230731364286,
+    "standardised_difference": 0.2249537615126385,
+    "e_value_estimate": 1.7551545048153532,
+    "e_value_ci_bound": 1.7066765436706615,
+    "estimate_ols_adjusted": 0.025248905021542308,
+    "se_classical": 0.0011015514343085259,
+    "t": 22.921222046605333,
+    "df": 68960,
+    "partial_r2_outcome_treatment": 0.0075610495590758275,
+    "rv_q1": 0.08355866203120495,
+    "rv_q1_alpha05": 0.07669906362516181,
+    "benchmark_partial_r2": {
+     "h_v_to_rim": {
+      "with_treatment": 0.09484,
+      "with_outcome": 0.00139
+     },
+     "h_dist_rim": {
+      "with_treatment": 0.07068,
+      "with_outcome": 0.00795
+     },
+     "d_screened_h": {
+      "with_treatment": 0.01286,
+      "with_outcome": 0.00175
+     },
+     "d_third_h": {
+      "with_treatment": 0.00603,
+      "with_outcome": 0.00024
+     },
+     "d_screener_def_h": {
+      "with_treatment": 0.00406,
+      "with_outcome": 0.00065
+     },
+     "h_three_rate": {
+      "with_treatment": 0.00145,
+      "with_outcome": 0.00282
+     },
+     "shot_clock": {
+      "with_treatment": 0.00129,
+      "with_outcome": 0.00556
+     },
+     "d_third_rim": {
+      "with_treatment": 0.00111,
+      "with_outcome": 0.00066
+     },
+     "screen_dist_rim": {
+      "with_treatment": 0.00097,
+      "with_outcome": 0.00046
+     },
+     "h_lateral": {
+      "with_treatment": 0.00076,
+      "with_outcome": 0.0007
+     },
+     "scr_v_to_rim": {
+      "with_treatment": 0.00072,
+      "with_outcome": 0.0002
+     },
+     "scr_dist_rim": {
+      "with_treatment": 0.00064,
+      "with_outcome": 0.00076
+     },
+     "h_speed": {
+      "with_treatment": 0.00055,
+      "with_outcome": 0.00069
+     },
+     "screen_lateral": {
+      "with_treatment": 0.00045,
+      "with_outcome": 0.00039
+     },
+     "h_three_pct": {
+      "with_treatment": 0.00044,
+      "with_outcome": 0.00065
+     },
+     "game_clock": {
+      "with_treatment": 0.00025,
+      "with_outcome": 0.00056
+     },
+     "n_beyond_arc": {
+      "with_treatment": 0.0001,
+      "with_outcome": 0.00016
+     },
+     "margin": {
+      "with_treatment": 0.0001,
+      "with_outcome": 0.00017
+     },
+     "shot_clock_missing": {
+      "with_treatment": 0.0,
+      "with_outcome": 0.0
+     }
+    },
+    "bounds": {
+     "h_v_to_rim": [
+      {
+       "k": 1,
+       "r2_confounder_treatment": 0.10477652144635902,
+       "r2_confounder_outcome": 0.0017224940129899257,
+       "adjusted_estimate": 0.02114167975169691,
+       "adjusted_ci95": [
+        0.01886177905620815,
+        0.023421580447185668
+       ]
+      },
+      {
+       "k": 2,
+       "r2_confounder_treatment": 0.20955304289271803,
+       "r2_confounder_outcome": 0.0035306332968092053,
+       "adjusted_estimate": 0.016398964888653868,
+       "adjusted_ci95": [
+        0.013974858755405096,
+        0.01882307102190264
+       ]
+      },
+      {
+       "k": 3,
+       "r2_confounder_treatment": 0.31432956433907705,
+       "r2_confounder_outcome": 0.005459910458993523,
+       "adjusted_estimate": 0.010776821171184555,
+       "adjusted_ci95": [
+        0.008176604998540801,
+        0.01337703734382831
+       ]
+      }
+     ]
+    },
+    "strongest_observed_covariate": "h_v_to_rim"
+   }
+  },
+  "B_early_vs_late_help": {
+   "points": {
+    "n": 44621,
+    "ato_overlap_weighted": -0.009867771342665366,
+    "ato_ci95_game_bootstrap": [
+     -0.03325701653493061,
+     0.01944273400060122
+    ],
+    "sd_outcome": 1.105555978307525,
+    "standardised_difference": -0.00892561890694287,
+    "e_value_estimate": 1.0988300766858508,
+    "e_value_ci_bound": 1.0,
+    "estimate_ols_adjusted": -0.012232468460084,
+    "se_classical": 0.013871910491563989,
+    "t": -0.8818156999731945,
+    "df": 44386,
+    "partial_r2_outcome_treatment": 1.7518706488348062e-05,
+    "rv_q1": 0.004176821710737358,
+    "rv_q1_alpha05": 0.0,
+    "benchmark_partial_r2": {
+     "h_v_to_rim": {
+      "with_treatment": 0.12411,
+      "with_outcome": 0.00037
+     },
+     "h_dist_rim": {
+      "with_treatment": 0.10295,
+      "with_outcome": 0.00028
+     },
+     "d_screener_def_h": {
+      "with_treatment": 0.00552,
+      "with_outcome": 9e-05
+     },
+     "d_screened_h": {
+      "with_treatment": 0.0055,
+      "with_outcome": 0.00014
+     },
+     "d_third_h": {
+      "with_treatment": 0.00374,
+      "with_outcome": 0.00012
+     },
+     "shot_clock": {
+      "with_treatment": 0.00215,
+      "with_outcome": 0.00115
+     },
+     "h_lateral": {
+      "with_treatment": 0.00154,
+      "with_outcome": 0.00019
+     },
+     "screen_lateral": {
+      "with_treatment": 0.00112,
+      "with_outcome": 0.00024
+     },
+     "scr_v_to_rim": {
+      "with_treatment": 0.00086,
+      "with_outcome": 0.00012
+     },
+     "d_third_rim": {
+      "with_treatment": 0.00074,
+      "with_outcome": 0.00045
+     },
+     "h_three_pct": {
+      "with_treatment": 0.0006,
+      "with_outcome": 0.0003
+     },
+     "h_speed": {
+      "with_treatment": 0.00054,
+      "with_outcome": 0.00039
+     },
+     "n_beyond_arc": {
+      "with_treatment": 0.0005,
+      "with_outcome": 0.00016
+     },
+     "h_three_rate": {
+      "with_treatment": 0.00037,
+      "with_outcome": 0.00031
+     },
+     "scr_dist_rim": {
+      "with_treatment": 0.00022,
+      "with_outcome": 0.00036
+     },
+     "game_clock": {
+      "with_treatment": 0.00021,
+      "with_outcome": 0.00032
+     },
+     "screen_dist_rim": {
+      "with_treatment": 0.00015,
+      "with_outcome": 0.00032
+     },
+     "margin": {
+      "with_treatment": 0.0001,
+      "with_outcome": 0.00121
+     },
+     "shot_clock_missing": {
+      "with_treatment": 0.0,
+      "with_outcome": 0.0
+     }
+    },
+    "bounds": {
+     "h_v_to_rim": [
+      {
+       "k": 1,
+       "r2_confounder_treatment": 0.14169595588951925,
+       "r2_confounder_outcome": 0.0004919636436793839,
+       "adjusted_estimate": 0.014105600790939936,
+       "adjusted_ci95": [
+        -0.015234515235193707,
+        0.04344571681707358
+       ]
+      },
+      {
+       "k": 2,
+       "r2_confounder_treatment": 0.2833919117790385,
+       "r2_confounder_outcome": 0.0010315262743791987,
+       "adjusted_estimate": 0.046794747791903214,
+       "adjusted_ci95": [
+        0.01469332366009845,
+        0.07889617192370799
+       ]
+      },
+      {
+       "k": 3,
+       "r2_confounder_treatment": 0.4250878676685578,
+       "r2_confounder_outcome": 0.001650832330902635,
+       "adjusted_estimate": 0.08987308961236078,
+       "adjusted_ci95": [
+        0.05404449654294479,
+        0.12570168268177676
+       ]
+      }
+     ]
+    },
+    "strongest_observed_covariate": "h_v_to_rim"
+   },
+   "xfg_of_shot": {
+    "n": 34493,
+    "ato_overlap_weighted": -0.007770405640047051,
+    "ato_ci95_game_bootstrap": [
+     -0.011421759136866296,
+     -0.0036955343316199237
+    ],
+    "sd_outcome": 0.1115444158320559,
+    "standardised_difference": -0.06966198695008068,
+    "e_value_estimate": 1.3295052076097365,
+    "e_value_ci_bound": 1.2082164271849969,
+    "estimate_ols_adjusted": -0.008004405140072167,
+    "se_classical": 0.0015737703597149477,
+    "t": -5.0861328596390525,
+    "df": 34258,
+    "partial_r2_outcome_treatment": 0.0007545457502608196,
+    "rv_q1": 0.027104401219366313,
+    "rv_q1_alpha05": 0.016747882426945217,
+    "benchmark_partial_r2": {
+     "h_v_to_rim": {
+      "with_treatment": 0.12314,
+      "with_outcome": 0.00163
+     },
+     "h_dist_rim": {
+      "with_treatment": 0.10357,
+      "with_outcome": 0.00435
+     },
+     "d_screener_def_h": {
+      "with_treatment": 0.00575,
+      "with_outcome": 0.00086
+     },
+     "d_screened_h": {
+      "with_treatment": 0.0051,
+      "with_outcome": 0.00053
+     },
+     "d_third_h": {
+      "with_treatment": 0.00394,
+      "with_outcome": 0.00031
+     },
+     "shot_clock": {
+      "with_treatment": 0.00228,
+      "with_outcome": 0.00169
+     },
+     "h_lateral": {
+      "with_treatment": 0.00183,
+      "with_outcome": 0.00084
+     },
+     "screen_lateral": {
+      "with_treatment": 0.00102,
+      "with_outcome": 0.0008
+     },
+     "scr_v_to_rim": {
+      "with_treatment": 0.00077,
+      "with_outcome": 0.00065
+     },
+     "d_third_rim": {
+      "with_treatment": 0.00074,
+      "with_outcome": 0.00058
+     },
+     "h_speed": {
+      "with_treatment": 0.00061,
+      "with_outcome": 0.00012
+     },
+     "h_three_pct": {
+      "with_treatment": 0.00058,
+      "with_outcome": 0.00113
+     },
+     "n_beyond_arc": {
+      "with_treatment": 0.00056,
+      "with_outcome": 0.00014
+     },
+     "h_three_rate": {
+      "with_treatment": 0.00047,
+      "with_outcome": 0.00104
+     },
+     "game_clock": {
+      "with_treatment": 0.00032,
+      "with_outcome": 0.00036
+     },
+     "scr_dist_rim": {
+      "with_treatment": 0.00021,
+      "with_outcome": 0.00024
+     },
+     "screen_dist_rim": {
+      "with_treatment": 0.0002,
+      "with_outcome": 0.00025
+     },
+     "margin": {
+      "with_treatment": 0.00015,
+      "with_outcome": 0.00049
+     },
+     "shot_clock_missing": {
+      "with_treatment": 0.0,
+      "with_outcome": 0.0
+     }
+    },
+    "bounds": {
+     "h_v_to_rim": [
+      {
+       "k": 1,
+       "r2_confounder_treatment": 0.14042728482049655,
+       "r2_confounder_outcome": 0.0021612104747977356,
+       "adjusted_estimate": -0.002531028496380574,
+       "adjusted_ci95": [
+        -0.0058544442315183656,
+        0.0007923872387572174
+       ]
+      },
+      {
+       "k": 2,
+       "r2_confounder_treatment": 0.2808545696409931,
+       "r2_confounder_outcome": 0.0045273212186269975,
+       "adjusted_estimate": 0.004243883248624869,
+       "adjusted_ci95": [
+        0.0006147567934918648,
+        0.007873009703757873
+       ]
+      },
+      {
+       "k": 3,
+       "r2_confounder_treatment": 0.42128185446148964,
+       "r2_confounder_outcome": 0.007234517278652803,
+       "adjusted_estimate": 0.013134377351561125,
+       "adjusted_ci95": [
+        0.009094338181454577,
+        0.017174416521667672
+       ]
+      }
+     ]
+    },
+    "strongest_observed_covariate": "h_v_to_rim"
+   }
+  }
+ }
+}

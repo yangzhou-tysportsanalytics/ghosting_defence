@@ -1,0 +1,138 @@
+{
+  "config": {
+    "model": {
+      "d_model": 128,
+      "n_heads": 8,
+      "n_blocks": 4,
+      "n_comp": 4,
+      "dropout": 0.1,
+      "mode": "online",
+      "min_sigma_ft": 0.5,
+      "anchor": "rule",
+      "gamma": [
+        0.6198,
+        0.1081,
+        0.2721
+      ],
+      "anchor_id_bias": 5.0,
+      "anchor_cover_bias": 1.0,
+      "offset_scale_ft": 10.0,
+      "condition": "lineup",
+      "n_players": 440,
+      "n_teams": 31,
+      "id_dim": 8,
+      "id_dropout": 0.3
+    },
+    "train": {
+      "epochs": 30,
+      "batch_size": 64,
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "loss": "nll",
+      "schedule": "mixed",
+      "seed": 9,
+      "max_batches_per_epoch": null,
+      "device": "cuda",
+      "checkpoint_path": "runs/phase3/v1.6_all_gpu_d128_lr1e-3_lineup/checkpoint.pt",
+      "amp": false,
+      "lr_cosine": true
+    }
+  },
+  "n_params": 1166162,
+  "val_team": {
+    "nll_ft": 4.885539726842984,
+    "rmse_ft": 5.411880331200271,
+    "n_obs": 1862115.0,
+    "schedule": "team",
+    "slot_mixture_nll_ft": 6.058237987229491
+  },
+  "val_individual": {
+    "nll_ft": 4.245750704404019,
+    "rmse_ft": 4.8582686017499555,
+    "n_obs": 372423.0,
+    "schedule": "individual"
+  },
+  "val_untrained": {
+    "team": {
+      "nll_ft": 5.754685015570382,
+      "rmse_ft": 6.044147971565235,
+      "n_obs": 1862115.0,
+      "schedule": "team",
+      "slot_mixture_nll_ft": 6.630579739805275
+    },
+    "individual": {
+      "nll_ft": 7.241671841411575,
+      "rmse_ft": 9.128815540943144,
+      "n_obs": 372423.0,
+      "schedule": "individual"
+    }
+  },
+  "val_team_excl_imputed_sc": {
+    "nll_ft": 4.880431131280159,
+    "rmse_ft": 5.382312151880521,
+    "n_obs": 1758205.0,
+    "schedule": "team",
+    "slot_mixture_nll_ft": 6.054329571379817
+  },
+  "share_steps_sc_imputed_val": 0.055802138965638536,
+  "calibration_val": {
+    "individual": {
+      "coverage": {
+        "0.5": 0.47999998927116394,
+        "0.8": 0.7648723125457764,
+        "0.9": 0.863968551158905,
+        "0.95": 0.9170923233032227
+      },
+      "pit_hist": [
+        0.09265226125717163,
+        0.0949312373995781,
+        0.0901375263929367,
+        0.10168958455324173,
+        0.0971316322684288,
+        0.09760314226150513,
+        0.09626719355583191,
+        0.09445972740650177,
+        0.09909626841545105,
+        0.13603143393993378
+      ],
+      "n": 12725
+    },
+    "team": {
+      "coverage": {
+        "0.5": 0.4781768023967743,
+        "0.8": 0.7790176868438721,
+        "0.9": 0.8888015747070312,
+        "0.95": 0.9458231925964355
+      },
+      "pit_hist": [
+        0.09356384724378586,
+        0.09890766441822052,
+        0.0910019651055336,
+        0.09622003883123398,
+        0.09467976540327072,
+        0.09895481169223785,
+        0.10434577614068985,
+        0.10134381055831909,
+        0.10978388786315918,
+        0.11119842529296875
+      ],
+      "n": 63625
+    }
+  },
+  "baseline_attacker_mixture": {
+    "gamma": [
+      0.6198,
+      0.1081,
+      0.2721
+    ],
+    "sigma_ft": 3.216,
+    "val_nll_ft": 6.626590700052398,
+    "val_rmse_ft_best_permutation": 6.0798129123152584
+  },
+  "baseline_individual_leftover": {
+    "rmse_ft": 8.275353135313976,
+    "sigma_ft": 5.851558318693869,
+    "nll_ft": 6.371293076479381
+  },
+  "note": "NLL = -log density of the true defender position in ft^-2 units, mean per defender-step; lower is better."
+}

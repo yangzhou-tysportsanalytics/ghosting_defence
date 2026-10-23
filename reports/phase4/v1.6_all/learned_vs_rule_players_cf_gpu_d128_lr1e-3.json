@@ -1,0 +1,143 @@
+{
+ "ghost": "cf_gpu_d128_lr1e-3",
+ "n_players": 348,
+ "min_possessions": 300,
+ "specifications": {
+  "raw": "player means of the per-possession values",
+  "main": "context-adjusted (D-021 phases), within team"
+ },
+ "correlations": {
+  "raw": {
+   "nll_ind__dev_ft": {
+    "pearson": 0.6869887177558633,
+    "pearson_ci95_player_bootstrap": [
+     0.6244223759348079,
+     0.7412596610924336
+    ],
+    "spearman": 0.6754865550470431
+   },
+   "nll_ind__sag_ft": {
+    "pearson": -0.2980230726983449,
+    "pearson_ci95_player_bootstrap": [
+     -0.3922608408073635,
+     -0.20067115780597355
+    ],
+    "spearman": -0.3179829538093393
+   },
+   "nll_team__dev_ft": {
+    "pearson": 0.9133591625918499,
+    "pearson_ci95_player_bootstrap": [
+     0.8968396873051213,
+     0.9273266098806137
+    ],
+    "spearman": 0.9232724950291671
+   },
+   "nll_team__sag_ft": {
+    "pearson": -0.7511587391283933,
+    "pearson_ci95_player_bootstrap": [
+     -0.7943859307301715,
+     -0.7038659387442018
+    ],
+    "spearman": -0.7887526349044001
+   },
+   "d_mean__dev_ft": {
+    "pearson": 0.6098635095999767,
+    "pearson_ci95_player_bootstrap": [
+     0.5349158294241944,
+     0.6723663277924399
+    ],
+    "spearman": 0.5788646142482874
+   },
+   "d_mean__sag_ft": {
+    "pearson": -0.2944454363558917,
+    "pearson_ci95_player_bootstrap": [
+     -0.38913495482236926,
+     -0.19964965774388474
+    ],
+    "spearman": -0.2972414191738181
+   },
+   "d_mode__dev_ft": {
+    "pearson": 0.6117432711972385,
+    "pearson_ci95_player_bootstrap": [
+     0.544885281968734,
+     0.6720333209295167
+    ],
+    "spearman": 0.5987900866375643
+   },
+   "d_mode__sag_ft": {
+    "pearson": -0.22531696104417856,
+    "pearson_ci95_player_bootstrap": [
+     -0.31967327255788713,
+     -0.1266252322312698
+    ],
+    "spearman": -0.2481273421570182
+   }
+  },
+  "main": {
+   "nll_ind__dev_ft": {
+    "pearson": 0.7321354212034313,
+    "pearson_ci95_player_bootstrap": [
+     0.6773229562249904,
+     0.7799295210492401
+    ],
+    "spearman": 0.7044980519574816
+   },
+   "nll_ind__sag_ft": {
+    "pearson": -0.26796290184977384,
+    "pearson_ci95_player_bootstrap": [
+     -0.36820489234224263,
+     -0.15549326584130693
+    ],
+    "spearman": -0.25470623894678424
+   },
+   "nll_team__dev_ft": {
+    "pearson": 0.877133481253813,
+    "pearson_ci95_player_bootstrap": [
+     0.8533361378646203,
+     0.8992493209338843
+    ],
+    "spearman": 0.8744519840193029
+   },
+   "nll_team__sag_ft": {
+    "pearson": -0.6136948925948091,
+    "pearson_ci95_player_bootstrap": [
+     -0.6845253012928866,
+     -0.5325844823234102
+    ],
+    "spearman": -0.64677716631639
+   },
+   "d_mean__dev_ft": {
+    "pearson": 0.6776717585252594,
+    "pearson_ci95_player_bootstrap": [
+     0.6137121696948005,
+     0.7354073764501291
+    ],
+    "spearman": 0.6407082372457529
+   },
+   "d_mean__sag_ft": {
+    "pearson": -0.37857168041783945,
+    "pearson_ci95_player_bootstrap": [
+     -0.47615049841919055,
+     -0.27894988922637093
+    ],
+    "spearman": -0.3621400079214416
+   },
+   "d_mode__dev_ft": {
+    "pearson": 0.6679235751760001,
+    "pearson_ci95_player_bootstrap": [
+     0.6073063450600433,
+     0.719707784802199
+    ],
+    "spearman": 0.6476282514713181
+   },
+   "d_mode__sag_ft": {
+    "pearson": -0.3102721703490823,
+    "pearson_ci95_player_bootstrap": [
+     -0.41415417020566503,
+     -0.2067629896443898
+    ],
+    "spearman": -0.31954645617993455
+   }
+  }
+ }
+}
