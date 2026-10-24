@@ -118,6 +118,9 @@ def ovb(X: np.ndarray, t: np.ndarray, y: np.ndarray) -> dict:
                 continue
             r2dz = k * r2dxj / (1 - r2dxj)
             r2zxj = k * r2dxj**2 / ((1 - k * r2dxj) * (1 - r2dxj))
+            if r2zxj >= 1:  # as sensemakr: no confounder of that strength exists
+                rows.append({"k": k, "note": "bound undefined (implied R2 of Z with X_j >= 1)"})
+                continue
             r2yz = min(((math.sqrt(k) + math.sqrt(r2zxj)) / math.sqrt(1 - r2zxj)) ** 2
                        * (r2yxj / (1 - r2yxj)), 1.0)  # fmt: skip
             if r2dz >= 1:

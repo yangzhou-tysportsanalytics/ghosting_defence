@@ -4,9 +4,12 @@ Inputs: the bundle given to annotators (data/annotations/bundles/<bundle>.json) 
 they saved (data/annotations/raw/<bundle>__<initials>.json). Only possessions marked ``done``.
 
 * Matchup lanes. Truth per defender and 5 Hz step = the model lane overridden by the annotator's
-  ``matchup`` segments (the tool's own rule). Compared: the HMM lane (the pre-label) and the
-  min-residual baseline (each step, the attacker whose rule position g_o O_k + g_b B + g_h H is
-  nearest; it never says "no man"). Frame accuracy over all defender-steps and over steps with a
+  ``matchup`` segments (the tool's own rule). Compared (writing request A1a): the HMM lane (the
+  pre-label: strong / weak side weights, help state, stable path) and three baselines that never
+  say "no man": min-residual (each step, the attacker whose rule position g_o O_k + g_b B + g_h H
+  is nearest), nearest defender (each step, the nearest attacker; Keshri et al. 2019) and the
+  published Franks et al. (2015) model (weights 0.62 / 0.11 / 0.27, pooled, no help state,
+  Viterbi path; sigma and stickiness of the pooled fit). Accuracies also population-weighted. Frame accuracy over all defender-steps and over steps with a
   man; accuracy within 1 s of annotated switches; share of defender-steps the annotator changed
   (anchoring: an untouched lane counts as agreement).
 * Events (switch, help_rotation, closeout). A model pre-label matches an annotated event of the
@@ -38,6 +41,7 @@ import numpy as np
 
 from ghost import data as D
 from ghost.court import HOOP_LEFT
+from ghost.matchup.hmm import FRANKS_GAMMA, HMMParams, MatchupInputs, posteriors
 
 EVENT_TYPES = ("switch", "help_rotation", "closeout")
 PRINCIPAL = {"switch": "defender_1", "help_rotation": "helper", "closeout": "defender"}
@@ -45,6 +49,8 @@ KIND = {"switch": "switch_kind", "help_rotation": "help_kind"}
 TOL = 2  # steps (0.4 s)
 UNLABELLED = -2  # blind bundles: lane not labelled yet
 GAMMA = (0.62, 0.11, 0.27)  # Franks et al. (2015)
+POOLED = {"sigma_ft": 3.216, "rho": 0.98392}  # pooled HMM fit (matchup_fit.json, models.hmm)
+BASELINES = ("min_residual", "nearest_defender", "franks_fixed")
 
 
 def principal(seg: dict) -> int | None:
@@ -89,6 +95,30 @@ def min_residual(poss: dict, gamma=GAMMA) -> np.ndarray:
     return d.argmin(-1).T  # (5, n)
 
 
+def nearest_defender(poss: dict) -> np.ndarray:
+    """(5, n) nearest attacker of each defender at every step (Keshri et al. 2019 baseline)."""
+    off = np.asarray(poss["off"], dtype=float)  # (n, 5, 2)
+    dfn = np.asarray(poss["def"], dtype=float)  # (n, 5, 2)
+    return np.linalg.norm(dfn[:, :, None] - off[:, None], axis=-1).argmin(-1).T
+
+
+def franks_fixed(poss: dict, sigma_ft: float = POOLED["sigma_ft"], rho: float = POOLED["rho"]):
+    """(5, n) Viterbi path of the published Franks et al. (2015) HMM: fixed weights, one pooled
+    group, no help state."""
+    off = np.asarray(poss["off"], dtype=float)[None]
+    inp = MatchupInputs(off_xy=off, def_xy=np.asarray(poss["def"], dtype=float)[None],
+                        ball=np.asarray(poss["ball"], dtype=float)[None, :, :2],
+                        valid=np.ones(off.shape[:2], dtype=bool))  # fmt: skip
+    prm = HMMParams(gamma={"all": np.asarray(FRANKS_GAMMA, dtype=float)},
+                    sigma2={"all": sigma_ft**2}, rho=rho)  # fmt: skip
+    return posteriors(inp, prm)[1][0].astype(int)
+
+
+def baseline_lanes(poss: dict) -> dict[str, np.ndarray]:
+    return {"min_residual": min_residual(poss), "nearest_defender": nearest_defender(poss),
+            "franks_fixed": franks_fixed(poss)}  # fmt: skip
+
+
 def match_events(pred: list[dict], ref: list[dict], tol: int = TOL) -> list[tuple[int, int]]:
     """Greedy one-to-one matches (index in pred, index in ref): same type and principal player,
     start within ``tol`` steps; closest starts first."""
@@ -125,8 +155,9 @@ def weighted(by_stratum: dict, weights: dict | None) -> dict | None:
     if not weights:
         return None
     out = {}
-    for key, num, den in (("frame_accuracy_hmm", "hmm", "n"),
-                          ("frame_accuracy_hmm_steps_with_man", "hmm_man", "n_man")):  # fmt: skip
+    methods = ["hmm"] + [m for m in BASELINES if any(m in v for v in by_stratum.values())]
+    for key, num, den in [(f"frame_accuracy_{m}{sfx}", f"{m}{c}", d) for m in methods
+                          for sfx, c, d in (("", "", "n"), ("_steps_with_man", "_man", "n_man"))]:  # fmt: skip
         ks = [k for k, v in by_stratum.items() if v[den] and k in weights]
         tot = sum(weights[k] for k in ks)
         out[key] = (
@@ -169,6 +200,13 @@ def evaluate(bundle: dict, ann: dict, weights: dict | None = None) -> dict:
         st["n_man"] += int(man.sum())
         lanes["base_man"] += int(((base == truth) & man).sum())
         lanes["changed"] += int((hmm != truth).sum())
+        others = baseline_lanes(p)
+        for m, lane in others.items():
+            ok = lane == truth
+            lanes[f"{m}_all"] += int(ok.sum())
+            lanes[f"{m}_man"] += int((ok & man).sum())
+            st[m] += int(ok.sum())
+            st[f"{m}_man"] += int((ok & man).sum())
         def_ids = [q["id"] for q in p["defense"]]
         fin = final_events(segs)
         for s in fin:  # lane accuracy within 1 s of annotated switches, switching defenders
@@ -181,6 +219,8 @@ def evaluate(bundle: dict, ann: dict, weights: dict | None = None) -> dict:
                     sw_acc["n"] += b0 - a0 + 1
                     sw_acc["hmm"] += int((hmm[d, a0 : b0 + 1] == truth[d, a0 : b0 + 1]).sum())
                     sw_acc["base"] += int((base[d, a0 : b0 + 1] == truth[d, a0 : b0 + 1]).sum())
+                    for m, lane in others.items():
+                        sw_acc[m] += int((lane[d, a0 : b0 + 1] == truth[d, a0 : b0 + 1]).sum())
         pre = [s for s in p["prelabels"] if s["type"] in EVENT_TYPES]
         for s in segs:
             if s.get("source") in ("model_confirmed", "model_edited"):
@@ -235,6 +275,14 @@ def evaluate(bundle: dict, ann: dict, weights: dict | None = None) -> dict:
             "accuracy_within_1s_of_switches_hmm": acc(sw_acc["hmm"], sw_acc["n"]),
             "accuracy_within_1s_of_switches_min_residual": acc(sw_acc["base"], sw_acc["n"]),
             "n_defender_steps": lanes["n"],
+            "baselines": {
+                m: {
+                    "frame_accuracy": acc(lanes[f"{m}_all"], lanes["n"]),
+                    "frame_accuracy_steps_with_man": acc(lanes[f"{m}_man"], lanes["n_man"]),
+                    "accuracy_within_1s_of_switches": acc(sw_acc[m], sw_acc["n"]),
+                }
+                for m in BASELINES
+            },  # fmt: skip
         },
         "events": {f"{t}{'/' + k if k else ''}": prf(*v) for (t, k), v in sorted(ev.items())},
         "prelabel_review": {
@@ -279,9 +327,12 @@ def blind_eval(core: dict, blind: dict, b_ann: dict, a_ann: dict, reps: int = 20
         lab = tb != UNLABELLED
         hmm, base = np.array(p["matchup_prelabel"], dtype=int), min_residual(p)
         mb, ma = lab & (tb >= 0), lab & (ta >= 0)
+        oth = baseline_lanes(p)
         rows.append([lab.sum(), ((hmm == tb) & lab).sum(), ((hmm == ta) & lab).sum(),
                      mb.sum(), ((base == tb) & mb).sum(), ma.sum(), ((base == ta) & ma).sum(),
-                     ((tb == ta) & lab).sum()])  # fmt: skip
+                     ((tb == ta) & lab).sum(), ((hmm == tb) & mb).sum(),
+                     ((oth["nearest_defender"] == tb) & mb).sum(),
+                     ((oth["franks_fixed"] == tb) & mb).sum()])  # fmt: skip
         pre = [q for q in p["prelabels"] if q["type"] in EVENT_TYPES]
         eb, ea = final_events(x["segments"]), final_events(y["segments"])
         ev["tp_blind"] += len(match_events(pre, eb))
@@ -296,7 +347,8 @@ def blind_eval(core: dict, blind: dict, b_ann: dict, a_ann: dict, reps: int = 20
 
     def stats(r: np.ndarray) -> np.ndarray:
         t = r.sum(0)
-        return np.array([t[1] / t[0], t[2] / t[0], t[4] / t[3], t[6] / t[5], t[7] / t[0]])
+        return np.array([t[1] / t[0], t[2] / t[0], t[4] / t[3], t[6] / t[5], t[7] / t[0],
+                         t[8] / t[3], t[9] / t[3], t[10] / t[3]])  # fmt: skip
 
     est = stats(R)
     rng = np.random.default_rng(9)
@@ -313,6 +365,12 @@ def blind_eval(core: dict, blind: dict, b_ann: dict, a_ann: dict, reps: int = 20
         "min_residual_accuracy_steps_with_man_vs_blind": float(est[2]),
         "min_residual_accuracy_steps_with_man_vs_assisted": float(est[3]),
         "lane_agreement_blind_vs_assisted": float(est[4]),
+        "steps_with_man_vs_blind": {
+            "hmm": float(est[5]),
+            "min_residual": float(est[2]),
+            "nearest_defender": float(est[6]),
+            "franks_fixed": float(est[7]),
+        },  # fmt: skip
         "events_model_vs_blind": prf(ev["tp_blind"], ev["n_pred"], ev["n_blind"]),
         "events_model_vs_assisted": prf(ev["tp_assisted"], ev["n_pred"], ev["n_assisted"]),
         "events_blind_vs_assisted": prf(ev["tp_blind_assisted"], ev["n_blind"], ev["n_assisted"]),

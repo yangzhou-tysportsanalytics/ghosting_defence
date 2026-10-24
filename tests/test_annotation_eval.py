@@ -151,3 +151,17 @@ def test_unlabelled_steps_are_excluded():
     }
     t = ae.truth_lanes(bp, [seg])
     assert (t[0, :5] == 0).all() and (t[0, 5:] == ae.UNLABELLED).all() and (t[1:] == -2).all()
+
+
+def test_baselines_recover_simple_matchups():
+    p = _poss()
+    # defenders on their attackers' rule positions: the Franks HMM and min-residual recover d
+    assert (ae.franks_fixed(p) == np.arange(5)[:, None]).all()
+    # defenders 0.1 ft from their own attacker (fixture attackers can be < 1 ft apart)
+    q = copy.deepcopy(p)
+    q["def"] = (np.asarray(p["off"]) + np.array([0.1, 0.0])).tolist()
+    assert (ae.nearest_defender(q) == np.arange(5)[:, None]).all()
+    r = ae.evaluate({"possessions": [p]}, _confirm_all(p), {"x": 1.0})
+    b = r["lanes"]["baselines"]
+    assert b["franks_fixed"]["frame_accuracy"] == 1.0 and b["min_residual"]["frame_accuracy"] == 1.0
+    assert set(b) == {"min_residual", "nearest_defender", "franks_fixed"}

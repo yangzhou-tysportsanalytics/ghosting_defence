@@ -1,0 +1,56 @@
+{
+ "model_run": "gpu_d128_lr1e-3_final",
+ "selection_rule": {
+  "test_games": true,
+  "screen_confidence_min": 0.81,
+  "nll_ind_between_league_quantiles": [
+   0.25,
+   0.75
+  ],
+  "nll_ind_bounds": [
+   3.607950210571289,
+   4.674156188964844
+  ],
+  "min_steps_after_contact": 7,
+  "seed": 9,
+  "eligible_screens": {
+   "switch": 648,
+   "no_switch": 4298
+  },
+  "nll_source": "learned_ghost_dev_cf_gpu_d128_lr1e-3 (cross-fitted)"
+ },
+ "possessions": [
+  {
+   "panel_row": "a",
+   "switched": true,
+   "window_uid": "0021500569:454",
+   "game_id": "0021500569",
+   "possession_id": 149,
+   "contact_step": 25,
+   "steps": [
+    25,
+    30,
+    49
+   ],
+   "third_panel": "shot release",
+   "screened_defender_nll_ind": 3.8632287979125977,
+   "screen_confidence": 0.9674313068389893
+  },
+  {
+   "panel_row": "b",
+   "switched": false,
+   "window_uid": "0021500639:392",
+   "game_id": "0021500639",
+   "possession_id": 144,
+   "contact_step": 6,
+   "steps": [
+    6,
+    11,
+    63
+   ],
+   "third_panel": "shot release",
+   "screened_defender_nll_ind": 3.977240562438965,
+   "screen_confidence": 0.9734311699867249
+  }
+ ]
+}

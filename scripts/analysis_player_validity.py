@@ -2,6 +2,8 @@
 
 Our measures (players with >= 300 defensive half-court possessions):
   sag_effect, dev_effect  within-team player effects from phase4_hier.py (rule ghost)
+  nll_ind_learned_effect, nll_team_learned_effect  the same for the learned ghost (cross-fitted
+             deviations, main specification with phases; phase4_hier.py --ghost learned:...)
   help_b_rate, help_a_rate  help onsets per defensive possession (phase2_events.py)
   indiv_dep  mean expected points conceded vs the individual rule ghost, per shot defended
              (phase4_ghost_points.py; defenders with >= 100 shots)
@@ -31,6 +33,7 @@ from scipy import stats
 from ghost import data as D
 
 MIN_POSS = 300
+LEARNED = "cf_gpu_d128_lr1e-3"  # cross-fitted learned ghost
 
 
 def main() -> None:
@@ -69,6 +72,16 @@ def main() -> None:
                 .group_by("player_id")
                 .agg((pl.col("effect_mean") * pl.col("n_poss")).sum() / pl.col("n_poss").sum())
                 .rename({"effect_mean": f"{m.split('_')[0]}_effect"})
+            )
+            P = P.join(h, on="player_id", how="left")
+    for m in ("nll_ind", "nll_team"):  # learned ghost (D-026), main specification (D-021)
+        f = hier / f"hier_players_{m}_learned_{LEARNED}_phases.csv"
+        if f.exists():
+            h = (
+                pl.read_csv(f)
+                .group_by("player_id")
+                .agg((pl.col("effect_mean") * pl.col("n_poss")).sum() / pl.col("n_poss").sum())
+                .rename({"effect_mean": f"{m}_learned_effect"})
             )
             P = P.join(h, on="player_id", how="left")
     gp = src / "analysis" / "ghost_points.parquet"
@@ -110,7 +123,15 @@ def main() -> None:
 
     ours = [
         c
-        for c in ("sag_effect", "dev_effect", "help_b_rate", "help_a_rate", "indiv_dep")
+        for c in (
+            "sag_effect",
+            "dev_effect",
+            "nll_ind_learned_effect",
+            "nll_team_learned_effect",
+            "help_b_rate",
+            "help_a_rate",
+            "indiv_dep",
+        )
         if c in X.columns
     ]
     ext = ["dbpm", "raptor_defense", "predator_defense", "dpoy_share"]

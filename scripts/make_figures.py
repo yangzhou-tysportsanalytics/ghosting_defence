@@ -286,6 +286,161 @@ def tab_ghost_vs_baseline(tag: str, tab_dir: Path) -> str:
     return out.name
 
 
+def _n(x: float, d: int = 2, sign: bool = False) -> str:
+    """Number for LaTeX: true minus sign, optional explicit plus."""
+    s = f"{abs(x):.{d}f}"
+    return ("$-$" if x < 0 else ("+" if sign else "")) + s
+
+
+def _ci(lo: float, hi: float, d: int = 2) -> str:
+    return f"({_n(lo, d)} to {_n(hi, d)})"
+
+
+def _tex(name: str, cols: str, header: str, rows: list[str], note: str = "") -> str:
+    lines = [rf"\begin{{tabular}}{{{cols}}}", r"\hline", header + r" \\", r"\hline"]
+    lines += [r + r" \\" for r in rows] + [r"\hline", r"\end{tabular}"]
+    if note:
+        lines.append(r"\par\smallskip{\footnotesize " + note + "}")
+    (TAB / name).write_text("\n".join(lines) + "\n")
+    return name
+
+
+def tab_screen_confidence() -> str:
+    """Table 4: team help / switch rate vs points allowed by screen confidence."""
+    h = _load("reports/analysis/help_timing.json")
+    if h is None:
+        return "skip screen confidence table"
+    cs = h["confidence_sensitivity"]
+    rows = []
+    for key, lab in (("all", "all"), ("confidence_ge_0.5", r"confidence $\geq$ 0.5"),
+                     ("top_half_ge_0.81", r"top half ($\geq$ 0.81)")):  # fmt: skip
+        c = cs[key]
+        a, s = c["help_rate_3s_vs_pts"], c["switch_rate_vs_pts"]
+        rows.append(f"{lab} & {c['n_screens']:,} & {100 * c['league_switch_rate']:.1f}\\% & "
+                    f"{_n(a['r'])} {_ci(*a['ci95'])} & {_n(s['r'])} {_ci(*s['ci95'])}")  # fmt: skip
+    return _tex("screen_confidence.tex", "lrrcc",
+                r"screens & $n$ & league switch rate & help $r$ (95\% CI) & switch $r$ (95\% CI)",
+                rows)  # fmt: skip
+
+
+def tab_team_game_panel() -> str:
+    """Table 5: points allowed per 100 possessions per 10 pp of each rate (team-game panel)."""
+    p = _load("reports/analysis/team_game_panel.json")
+    if p is None:
+        return "skip team-game panel table"
+    labs = {"early_help_rate": r"early help ($\leq$ 1 s)", "help_rate_3s": "help within 3 s",
+            "switch_rate": "switch rate"}  # fmt: skip
+    rows = []
+    for k, lab in labs.items():
+        cells = []
+        for spec in ("pooled", "team_fe", "team_and_opponent_fe"):
+            m = p["models"][k][spec]
+            cell = f"{_n(m['coef'], sign=True)} {_ci(*m['ci95_cluster'])}"
+            if k == "early_help_rate" and spec == "team_and_opponent_fe":
+                cell += "; game bootstrap " + _ci(*m["ci95_game_bootstrap"])[1:-1]
+            cells.append(cell)
+        rows.append(" & ".join([lab, *cells]))
+    return _tex("team_game_panel.tex", "lccc",
+                r"rate & pooled & team fixed effects & team + opponent fixed effects", rows)  # fmt: skip
+
+
+def tab_help_matched() -> str:
+    """Table 6: early help adjusted for the state at screen contact (overlap weights)."""
+    m = _load("reports/analysis/help_timing_matched.json")
+    if m is None:
+        return "skip matched table"
+    c = m["comparisons"]
+    rows = []
+    for k, lab in (("A_early_vs_rest", "A: early help vs all other screens ({n:,} screens; "
+                    "{t:,} early)"), ("B_early_vs_late_help", "B: early vs late help ({n:,} "
+                    "helped screens)")):  # fmt: skip
+        cells = [f"{_n(c[k][y]['ato_overlap_weighted'], 3, True)} "
+                 f"{_ci(*c[k][y]['ato_ci95_game_bootstrap'], 3)}"
+                 for y in ("points", "xfg_of_shot")]  # fmt: skip
+        rows.append(" & ".join([lab.format(n=c[k]["n"], t=c[k]["n_treated"]), *cells]))
+    return _tex("help_timing_matched.tex", "lcc",
+                r"comparison & points per possession & xFG of the possession's shot", rows)  # fmt: skip
+
+
+def tab_meta_metrics() -> str:
+    """Table 7: meta-metrics (Franks et al. 2016) of the rule-ghost player measures."""
+    mm = _load("reports/analysis/meta_metrics.json")
+    if mm is None:
+        return "skip meta-metrics table"
+    rows = []
+    for k, lab in (("sag_ft_within_team", "sag"), ("dev_ft_within_team", "deviation"),
+                   ("help_b_rate", "help rate (definition B)")):  # fmt: skip
+        v = mm["metrics"][k]
+        ind = v["independence"]
+        ext = v["external_correlations"]
+        rows.append(" & ".join([
+            lab, f"{v['discrimination']:.3f}", f"{v['stability_parity']['stability']:.3f}",
+            f"{v['stability_date']['stability']:.3f}",
+            *[f"{ind[s]['independence']:.3f}" for s in
+              ("position", "position_height", "position_height_guarded_threat")],
+            _n(ext["raptor_defense"]["pearson"], sign=True), _n(ext["dbpm"]["pearson"], sign=True),
+        ]))  # fmt: skip
+    return _tex("meta_metrics.tex", "lcccccccc",
+                r"measure & discrimination & stability (parity) & stability (date) & "
+                r"independence: position & + height & + guarded threat & $r$ RAPTOR D & $r$ DBPM",
+                rows)  # fmt: skip
+
+
+def tab_help_sensitivity() -> str:
+    """Table 8: E-values, robustness values and bounds (k x handler velocity toward the rim)."""
+    s = _load("reports/analysis/help_timing_sensitivity.json")
+    if s is None:
+        return "skip sensitivity table"
+    rows = []
+    for comp, cl in (("A_early_vs_rest", "A"), ("B_early_vs_late_help", "B")):
+        for y, yl in (("points", "points"), ("xfg_of_shot", "xFG")):
+            r = s["comparisons"][comp][y]
+            cells = [f"{r['e_value_estimate']:.2f} / {r['e_value_ci_bound']:.2f}",
+                     f"{100 * r['rv_q1']:.1f}\\%"]  # fmt: skip
+            for b in r["bounds"]["h_v_to_rim"]:
+                if "adjusted_estimate" not in b:
+                    cells.append("undefined")
+                    continue
+                flip = (b["adjusted_estimate"] > 0) != (r["estimate_ols_adjusted"] > 0)
+                dag = r"$^\dagger$" if flip else ""
+                cells.append(f"{_n(b['adjusted_estimate'], 3, True)}{dag} "
+                             f"{_ci(*b['adjusted_ci95'], 3)}")  # fmt: skip
+            rows.append(" & ".join([f"{cl}, {yl}", *cells]))
+    return _tex("help_timing_sensitivity.tex", "lcccccc",
+                r"comparison, outcome & E-value (estimate / bound) & RV & $1\times$ & $2\times$ & "
+                r"$3\times$", rows,
+                note=r"$^\dagger$ sign reversed relative to the unadjusted estimate.")  # fmt: skip
+
+
+def tab_learned_reliability() -> str:
+    """Table 10: reliability of the learned-ghost player measures and the rule-ghost ones."""
+    R4 = f"reports/phase4/{V}_all"
+    rl = _load(f"{R4}/reliability_learned_{LEARNED_CF}_phases.json")
+    hl = _load(f"{R4}/hier_learned_{LEARNED_CF}_phases.json")
+    rr, hr = _load(f"{R4}/reliability_phases.json"), _load(f"{R4}/hier_phases.json")
+    if None in (rl, hl, rr, hr):
+        return "skip learned reliability table"
+
+    def cells(rel, hier, k):
+        m = rel["metrics"][k]
+        return (m["split_half_r_player_within_team"],
+                m["within_position"]["split_half_r_within_position"],
+                m["variance_shares_adjusted"]["share_team_of_systematic"],
+                hier["metrics"][k]["share_player_intervals_excluding_zero"])  # fmt: skip
+
+    rows = []
+    for k, lab in (("nll_ind", "individual-ghost NLL"), ("nll_team", "team-ghost NLL"),
+                   ("d_mean", "distance to individual-ghost mean")):  # fmt: skip
+        a, b, c, d = cells(rl, hl, k)
+        rows.append(f"{lab} & {a:.3f} & {b:.3f} & {c:.2f} & {100 * d:.0f}\\%")
+    s, v = cells(rr, hr, "sag_ft"), cells(rr, hr, "dev_ft")
+    rows.append(f"rule ghost: sag / deviation & {s[0]:.3f} / {v[0]:.3f} & {s[1]:.3f} / {v[1]:.3f} "
+                f"& {s[2]:.2f} / {v[2]:.2f} & {100 * s[3]:.0f}\\% / {100 * v[3]:.0f}\\%")  # fmt: skip
+    return _tex("learned_reliability.tex", "lcccc",
+                r"metric & split-half $r$, within team & within listed position & team share of "
+                r"systematic variance (descriptive) & player intervals excluding 0", rows)  # fmt: skip
+
+
 LEARNED_FINAL = "gpu_d128_lr1e-3_final"  # chosen model scored on test (D-026)
 LEARNED_CF = "cf_gpu_d128_lr1e-3"  # its cross-fitted deviations
 
@@ -420,6 +575,23 @@ def fig_learned_vs_rule_reliability(fig_dir: Path) -> str:
     return out.name
 
 
+def fig_learned_ghost_frames() -> str:
+    """Figure C (D-029): two held-out possessions at three moments around a screen; needs the
+    packed arrays and the final learned-ghost model (tracking-derived inputs; skipped without)."""
+    import importlib.util
+
+    run = Path("runs/phase3") / f"{V}_all_{LEARNED_FINAL}" / "model.pt"
+    arr = D.DataConfig.load().processed_dir / "all" / "ghost_arrays" / "test" / "feats.npy"
+    if not (run.exists() and arr.exists()):
+        return "skip learned ghost frames (needs the packed arrays and the final model)"
+    spec = importlib.util.spec_from_file_location(
+        "frames", Path(__file__).parent / "make_figure_learned_ghost_frames.py"
+    )
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod.render(FIG).name
+
+
 def main() -> None:
     import argparse
 
@@ -450,9 +622,16 @@ def main() -> None:
         ("fig_team_effects_phases", lambda: fig_team_effects("_phases")),
         ("tab_franks", tab_franks),
         ("tab_xfg", tab_xfg),
+        ("tab_screen_confidence", tab_screen_confidence),
+        ("tab_team_game_panel", tab_team_game_panel),
+        ("tab_help_matched", tab_help_matched),
+        ("tab_meta_metrics", tab_meta_metrics),
+        ("tab_help_sensitivity", tab_help_sensitivity),
+        ("tab_learned_reliability", tab_learned_reliability),
         ("fig_ghost_ablations", lambda: fig_ghost_ablations(FIG)),
         ("fig_release_baseline", lambda: fig_release_baseline(FIG)),
         ("fig_learned_vs_rule_reliability", lambda: fig_learned_vs_rule_reliability(FIG)),
+        ("fig_learned_ghost_frames", fig_learned_ghost_frames),
     ):
         print(name, "->", f())
 

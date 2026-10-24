@@ -1,0 +1,176 @@
+{
+  "nbacore_version": "v1.6",
+  "game_set": "all",
+  "emissions": "stratified (strong / weak side) with help state, as hmm_strat_help",
+  "covariates": {
+    "screen": "screen contact (nbacore screen_candidate, offence_match) within 1 s",
+    "involved": "defender is the screened defender or the screener's defender",
+    "pass": "completed pass / handoff from release to catch + 1 s",
+    "drive": "same ball handler gains >= 8 ft toward the rim within 2 s"
+  },
+  "n_fit_train": 20000,
+  "n_eval_val": 5000,
+  "models": {
+    "constant_rho": {
+      "params": {
+        "gamma": {
+          "strong": [
+            0.6438,
+            0.101,
+            0.2552
+          ],
+          "weak": [
+            0.5831,
+            0.0959,
+            0.321
+          ]
+        },
+        "sigma_ft": {
+          "strong": 2.457,
+          "weak": 2.629
+        },
+        "help_lam": 0.6656,
+        "help_sigma_ft": 14.853,
+        "stratify": true,
+        "help_state": true,
+        "beta": {
+          "intercept": -3.7756,
+          "screen": 0.0,
+          "involved": 0.0,
+          "pass": 0.0,
+          "drive": 0.0
+        }
+      },
+      "em_iterations": 7,
+      "converged": true,
+      "train_loglik_per_obs": -5.031681050863482,
+      "train_loglik": -25656692.62878442,
+      "val_loglik_per_obs": -5.035553050199601,
+      "val": {
+        "viterbi_changes_per_possession": 4.8594,
+        "switch_b_per_possession": 2.9358,
+        "switch_b_share_within_1s_of_screen": 0.5195176783159616
+      },
+      "fit_seconds": 386.3
+    },
+    "event_dependent": {
+      "params": {
+        "gamma": {
+          "strong": [
+            0.6437,
+            0.101,
+            0.2553
+          ],
+          "weak": [
+            0.583,
+            0.0959,
+            0.321
+          ]
+        },
+        "sigma_ft": {
+          "strong": 2.453,
+          "weak": 2.63
+        },
+        "help_lam": 0.6669,
+        "help_sigma_ft": 14.817,
+        "stratify": true,
+        "help_state": true,
+        "beta": {
+          "intercept": -4.0988,
+          "screen": -0.3311,
+          "involved": 0.8598,
+          "pass": 0.3088,
+          "drive": 0.471
+        }
+      },
+      "em_iterations": 7,
+      "converged": true,
+      "train_loglik_per_obs": -5.030463051435901,
+      "train_loglik": -25650482.0131632,
+      "val_loglik_per_obs": -5.034359412217698,
+      "val": {
+        "viterbi_changes_per_possession": 4.8902,
+        "switch_b_per_possession": 2.9622,
+        "switch_b_share_within_1s_of_screen": 0.5248801566403349
+      },
+      "fit_seconds": 279.3
+    }
+  },
+  "lr_statistic_train": 12421.231242440641,
+  "val_loglik_gain_per_obs": 0.001193637981903528,
+  "patterns_val": [
+    {
+      "pattern": "none",
+      "share_of_transitions": 0.22401811352320897,
+      "switch_prob_per_step_constant_rho": 0.022409015751876704,
+      "switch_prob_per_step_event_dependent": 0.0163215777745489
+    },
+    {
+      "pattern": "screen",
+      "share_of_transitions": 0.10018821334062593,
+      "switch_prob_per_step_constant_rho": 0.022409015751876704,
+      "switch_prob_per_step_event_dependent": 0.011774708582709681
+    },
+    {
+      "pattern": "screen+involved",
+      "share_of_transitions": 0.07726720664055274,
+      "switch_prob_per_step_constant_rho": 0.022409015751876704,
+      "switch_prob_per_step_event_dependent": 0.02738101604105747
+    },
+    {
+      "pattern": "pass",
+      "share_of_transitions": 0.15816355256702083,
+      "switch_prob_per_step_constant_rho": 0.022409015751876704,
+      "switch_prob_per_step_event_dependent": 0.022096599186301913
+    },
+    {
+      "pattern": "screen+pass",
+      "share_of_transitions": 0.0599298623790488,
+      "switch_prob_per_step_constant_rho": 0.022409015751876704,
+      "switch_prob_per_step_event_dependent": 0.01596703719763859
+    },
+    {
+      "pattern": "screen+involved+pass",
+      "share_of_transitions": 0.04937463302420231,
+      "switch_prob_per_step_constant_rho": 0.022409015751876704,
+      "switch_prob_per_step_event_dependent": 0.03692229062328478
+    },
+    {
+      "pattern": "drive",
+      "share_of_transitions": 0.16245063421461148,
+      "switch_prob_per_step_constant_rho": 0.022409015751876704,
+      "switch_prob_per_step_event_dependent": 0.025885488439782334
+    },
+    {
+      "pattern": "screen+drive",
+      "share_of_transitions": 0.07675082644960467,
+      "switch_prob_per_step_constant_rho": 0.022409015751876704,
+      "switch_prob_per_step_event_dependent": 0.018725019803923604
+    },
+    {
+      "pattern": "screen+involved+drive",
+      "share_of_transitions": 0.05943439478150361,
+      "switch_prob_per_step_constant_rho": 0.022409015751876704,
+      "switch_prob_per_step_event_dependent": 0.043141181841540366
+    },
+    {
+      "pattern": "pass+drive",
+      "share_of_transitions": 0.017353430871813846,
+      "switch_prob_per_step_constant_rho": 0.022409015751876704,
+      "switch_prob_per_step_event_dependent": 0.034924339503133894
+    },
+    {
+      "pattern": "screen+pass+drive",
+      "share_of_transitions": 0.008040892163407788,
+      "switch_prob_per_step_constant_rho": 0.022409015751876704,
+      "switch_prob_per_step_event_dependent": 0.02532854797651629
+    },
+    {
+      "pattern": "screen+involved+pass+drive",
+      "share_of_transitions": 0.007028240044399044,
+      "switch_prob_per_step_constant_rho": 0.022409015751876704,
+      "switch_prob_per_step_event_dependent": 0.05784765968751571
+    }
+  ],
+  "total_seconds": 911.3
+}

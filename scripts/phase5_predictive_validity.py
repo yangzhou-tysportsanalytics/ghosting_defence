@@ -290,7 +290,8 @@ def main() -> None:
             .filter(pl.col("n_shots") >= MIN_SHOTS_OUTCOME)
             .rename({"primary_def_id": "def_id"})
         )
-        J = tr.join(oc, on="def_id").filter(pl.col("def_id").is_in(list(pos)))
+        # sorted: group_by order is not deterministic, and the bootstrap draws index rows
+        J = tr.join(oc, on="def_id").filter(pl.col("def_id").is_in(list(pos))).sort("def_id")
         grp = [pos[p] for p in J["def_id"].to_list()]
         a = J["trait"].to_numpy()
         res_pl = {}

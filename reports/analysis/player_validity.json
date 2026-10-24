@@ -42,6 +42,46 @@
       "p": 0.10500830574565628,
       "n": 348
     },
+    "nll_ind_learned_effect__dbpm": {
+      "rho": 0.10742358220935103,
+      "p": 0.04522570713111154,
+      "n": 348
+    },
+    "nll_ind_learned_effect__raptor_defense": {
+      "rho": -0.021309304390933106,
+      "p": 0.6920056859753015,
+      "n": 348
+    },
+    "nll_ind_learned_effect__predator_defense": {
+      "rho": 0.015821243074077437,
+      "p": 0.7686830337250165,
+      "n": 348
+    },
+    "nll_ind_learned_effect__dpoy_share": {
+      "rho": 0.08823447924912571,
+      "p": 0.10032560060154817,
+      "n": 348
+    },
+    "nll_team_learned_effect__dbpm": {
+      "rho": -0.025962693107316758,
+      "p": 0.6293325063348305,
+      "n": 348
+    },
+    "nll_team_learned_effect__raptor_defense": {
+      "rho": -0.15344333563877086,
+      "p": 0.004115641512492714,
+      "n": 348
+    },
+    "nll_team_learned_effect__predator_defense": {
+      "rho": -0.1076239746901113,
+      "p": 0.04482354871239368,
+      "n": 348
+    },
+    "nll_team_learned_effect__dpoy_share": {
+      "rho": 0.023838018764924734,
+      "p": 0.6576532685498817,
+      "n": 348
+    },
     "help_b_rate__dbpm": {
       "rho": -0.0952596124380812,
       "p": 0.07594923223418679,
@@ -106,15 +146,27 @@
   "all_defense": {
     "sag_effect": {
       "mean_all_defense": 0.041765133370159684,
-      "mean_others": -0.018299178783434997,
+      "mean_others": -0.01829917878343499,
       "n_all_defense": 49,
       "p_mannwhitney": 0.7108374287291489
     },
     "dev_effect": {
       "mean_all_defense": 0.06517341503986114,
-      "mean_others": -0.01584627747605383,
+      "mean_others": -0.015846277476053824,
       "n_all_defense": 49,
       "p_mannwhitney": 0.0030638596299356604
+    },
+    "nll_ind_learned_effect": {
+      "mean_all_defense": 0.04423118623668015,
+      "mean_others": -0.008567958365431642,
+      "n_all_defense": 49,
+      "p_mannwhitney": 0.052446896859015955
+    },
+    "nll_team_learned_effect": {
+      "mean_all_defense": 0.0392759591089568,
+      "mean_others": -0.007842582955675699,
+      "n_all_defense": 49,
+      "p_mannwhitney": 0.055111010360159675
     },
     "help_b_rate": {
       "mean_all_defense": 0.5159435881041291,
