@@ -1,0 +1,26 @@
+{
+ "model_run": "gpu_d128_lr1e-3_final",
+ "split": "test",
+ "n_games": 126,
+ "definition": {
+  "w_min": 0.15,
+  "sep_ft": 5.0,
+  "window_steps_after_contact": 7
+ },
+ "share_bimodal_steps": {
+  "switch": 0.18156027055716015,
+  "no_switch": 0.0887686831997328,
+  "away": 0.12508680080232254
+ },
+ "n": {
+  "switch": 1929,
+  "no_switch": 15968,
+  "away": 16701
+ },
+ "weight_on_real_man_end_of_window": {
+  "switch": 0.7713550721290833,
+  "no_switch": 0.8157271500490816
+ },
+ "bimodal_steps_mean_to_nearest_component_ft": 1.8471661806106567,
+ "note": "screened defender's individual ghost; 'away' uses the same defender's ghost at steps far from any on-ball screen of the possession"
+}

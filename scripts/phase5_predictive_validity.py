@@ -134,7 +134,14 @@ def main() -> None:
     ap.add_argument("--context", default="base", choices=["base", "phases"], help="D-021")
     ap.add_argument("--xfg-variant", default=None, choices=["m3d", "m3h", "m3c"],
                     help="also an xFG variant (A4b): m3d height + closing, m3h height, m3c closing; separate *_<variant>.json")  # fmt: skip
+    ap.add_argument(
+        "--ghost",
+        default="rule",
+        help="rule, or learned:<name> - the learned ghost pre-shot NLL (individual / team) of the "
+        "same primary defender as predictor and its player trait; separate *_learned_<name>.json",
+    )
     args = ap.parse_args()
+    learned = args.ghost.split(":", 1)[1] if args.ghost.startswith("learned:") else None
     cfg = D.DataConfig.load(game_set="all")
     base = cfg.processed_dir / "all"
     prm = json.loads((base / "matchups" / "hmm_strat_help_params.json").read_text())
@@ -178,6 +185,9 @@ def main() -> None:
         path = np.full((n, 5, T), -1, dtype=np.int8)
         ri = np.array([key[int(p)] for p in M["possession_id"]])
         path[ri, M["def_slot"].to_numpy(), M["step"].to_numpy()] = M["state"].to_numpy()
+        if learned:  # per-step learned-ghost metrics (same 5 Hz grid, keyed by defender id)
+            Lg = pl.read_parquet(base / "learned_ghost" / learned / f"{gid}.parquet")
+            lg = {(int(a), int(b)): g for (a, b), g in Lg.group_by(["possession_id", "def_id"])}
         for r in Sg.iter_rows(named=True):
             i = key.get(int(r["possession_id"]))
             if i is None:
@@ -202,8 +212,19 @@ def main() -> None:
             dv = pt.def_xy[i, tt, d] - mu
             u = HOOP_LEFT - om
             u = u / np.maximum(np.linalg.norm(u, axis=1, keepdims=True), 1e-6)
+            lrn = {}
+            if learned:
+                g_ = lg.get((int(r["possession_id"]), int(pt.def_ids[i, d])))
+                if g_ is None:
+                    continue
+                g_ = g_.filter(pl.col("step").is_in(tt.tolist()))
+                if g_.height < MIN_PRE:
+                    continue
+                lrn = {"pre_nll_ind": float(g_["nll_ind"].mean()),
+                       "pre_nll_team": float(g_["nll_team"].mean())}  # fmt: skip
             rows.append(
                 {
+                    **lrn,
                     "game_id": gid,
                     "possession_id": int(r["possession_id"]),
                     "event_uid": r["event_uid"],
@@ -228,8 +249,13 @@ def main() -> None:
 
     rep: dict = {"n_shot_possessions": V.height, "possession_level": {}}
     outcomes = ("def1_ft", "xfg_m2_cf", "xfg_m3_cf") + (("xfg_m3d_cf",) if args.xfg_variant else ())
+    predictors = ["pre_nll_ind", "pre_nll_team"] if learned else ["pre_sag_ft", "pre_dev_ft"]
     for y in outcomes:
-        rep["possession_level"][y] = ols_boot(V, y, ["pre_sag_ft", "pre_dev_ft"], 500, rng)
+        rep["possession_level"][y] = ols_boot(V, y, predictors, 500, rng)
+        if learned:  # does the learned deviation add to the rule-ghost sag and deviation?
+            rep["possession_level"][y + "__with_rule_terms"] = ols_boot(
+                V, y, ["pre_nll_ind", "pre_sag_ft", "pre_dev_ft"], 500, rng
+            )
 
     # player level, out of sample across game parity; outcomes adjusted for shot location
     X0 = design(V, [])
@@ -238,10 +264,16 @@ def main() -> None:
         V = V.with_columns(pl.Series(f"{y}_resid", Y - X0 @ np.linalg.lstsq(X0, Y, rcond=None)[0]))
     pos = listed_positions(cfg)
     dev = pl.read_parquet(base / "analysis" / "rule_ghost_dev.parquet")
+    trait_col = "sag_ft"
+    if learned:  # trait = the learned individual-ghost deviation (same rows as the rule table)
+        lgd_ = pl.read_parquet(base / "analysis" / f"learned_ghost_dev_{learned}.parquet")
+        dev = dev.join(lgd_.select(["game_id", "possession_id", "def_id", "nll_ind"]),
+                       on=["game_id", "possession_id", "def_id"], how="inner")  # fmt: skip
+        trait_col = "nll_ind"
     extra: tuple[str, ...] = ()
     if args.context == "phases":
         dev, extra = with_phases(dev, base), tuple(PHASE_COVS)
-    adj, _ = adjust(dev, "sag_ft", extra)
+    adj, _ = adjust(dev, trait_col, extra)
     dev = dev.with_columns(pl.Series("sag_adj", adj))
     rep["player_level"] = {}
     for trait_par, out_par in ((0, 1), (1, 0)):
@@ -272,9 +304,12 @@ def main() -> None:
     out = Path("reports/phase5") / f"{cfg.version}_all"
     out.mkdir(parents=True, exist_ok=True)
     rep["context"] = args.context
+    rep["ghost"] = args.ghost
+    rep["player_trait"] = trait_col
     sfx = ("" if args.context == "base" else "_phases") + (
         f"_{args.xfg_variant}" if args.xfg_variant else ""
     )
+    sfx += f"_learned_{learned}" if learned else ""
     (out / f"predictive_validity{sfx}.json").write_text(json.dumps(rep, indent=2))
     print(json.dumps(rep, indent=1))
 

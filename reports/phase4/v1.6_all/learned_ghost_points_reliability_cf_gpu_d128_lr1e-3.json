@@ -1,0 +1,16 @@
+{
+ "ghost": "cf_gpu_d128_lr1e-3",
+ "n_shots": 64060,
+ "n_defender_shots": 320300,
+ "league_mean_xfg_real": 0.4280252623565563,
+ "league_mean_xfg_individual_ghost": 0.42753202504541354,
+ "league_mean_xfg_team_ghost": 0.4544425461936554,
+ "league_mean_dEP_individual_per_defender_shot": 0.0010335717107843787,
+ "league_mean_dEP_team_per_shot": -0.05987398093501505,
+ "player_dEP_individual_split_half_r": 0.481307925258973,
+ "player_n_ge_100_per_half": 331,
+ "player_dEP_individual_sd_ge_200": 0.0041721977367819175,
+ "team_dEP_team_split_half_r": 0.6669350508553341,
+ "n_teams": 30,
+ "note": "team-ghost slots are drawn independently (the model gives each slot's distribution, not their joint), so the team ghost's defence is less coordinated than a real one and its xFG is biased upward; the team dEP level is not interpretable, its ranking is"
+}

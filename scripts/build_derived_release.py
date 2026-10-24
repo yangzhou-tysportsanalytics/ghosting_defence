@@ -87,7 +87,14 @@ DESCRIPTIONS = {
     "ghost_models_crossfit.zip": "the five cross-fitting models (state dicts + configuration)",
     "annotations.json": "the 100 annotated possessions (core sample): reviewed matchup corrections and events "
     "per annotator (anonymised A1, A2); notes and video links removed",
-    "annotation_eval.json": "accuracy of the matchup model and events against the annotations",
+    "annotations_blind.json": "the 10 blind possessions (no model output shown; D-027), same "
+    "format and annotator codes as annotations.json",
+    "annotation_eval.json": "accuracy of the matchup model and events against the annotations, "
+    "and the blind-vs-assisted comparison (anchoring)",
+    "hier_players_nll_ind_learned_phases.csv": "player effects (95 % intervals) of the learned "
+    "individual-ghost deviation, main specification (D-021)",
+    "hier_players_nll_team_learned_phases.csv": "player effects (95 % intervals) of the learned "
+    "team-ghost deviation, main specification (D-021)",
 }
 
 
@@ -117,6 +124,13 @@ def add_optional(out: Path, base: Path, cfg, args, zstd: dict) -> tuple[list[str
             (ana / f"learned_ghost_dev_{n}.parquet", "learned_ghost_deviations.parquet"),
             (ana / f"learned_ghost_points_{n}.parquet", "learned_ghost_points.parquet"),
             (ana / f"breakdowns_learned_{n}_nll_ind.parquet", "breakdowns_learned_ghost.parquet"),
+        ]
+        items += [
+            (
+                r4 / f"hier_players_{m}_learned_{n}_phases.csv",
+                f"hier_players_{m}_learned_phases.csv",
+            )
+            for m in ("nll_ind", "nll_team")
         ]
     included, skipped = [], []
     for src, name in items:
@@ -151,10 +165,19 @@ def add_optional(out: Path, base: Path, cfg, args, zstd: dict) -> tuple[list[str
             included.append("ghost_models_crossfit.zip")
         else:
             skipped.append("ghost_models_crossfit.zip")
-    raw = sorted(Path("data/annotations/raw").glob("gd_v2_core100__*.json"))
-    if raw:
+    # annotations: initials replaced by A1, A2, ... (same code for an annotator in both bundles)
+    raw_dir = Path("data/annotations/raw")
+    initials = sorted({json.loads(f.read_text(encoding="utf-8")).get("annotator", f.stem)
+                       for f in raw_dir.glob("gd_v2_*__*.json")})  # fmt: skip
+    code = {a: f"A{j}" for j, a in enumerate(initials, 1)}
+    for bundle, name in (("gd_v2_core100", "annotations.json"),
+                         ("gd_v2_blind10", "annotations_blind.json")):  # fmt: skip
+        raw = sorted(raw_dir.glob(f"{bundle}__*.json"))
+        if not raw:
+            skipped.append(name)
+            continue
         anns = []
-        for j, f in enumerate(raw, 1):  # anonymise; drop free text and video links
+        for f in raw:  # drop free text and video links
             a = json.loads(f.read_text(encoding="utf-8"))
             poss = {}
             for key, x in a["possessions"].items():
@@ -162,12 +185,9 @@ def add_optional(out: Path, base: Path, cfg, args, zstd: dict) -> tuple[list[str
                 poss[key] = {"segments": segs, "status": x.get("status"),
                              "rejected_prelabels": x.get("rejected_prelabels", []),
                              "time_spent_s": x.get("time_spent_s")}  # fmt: skip
-            anns.append({"annotator": f"A{j}", "possessions": poss})
-        data = {"bundle": "gd_v2_core100", "annotators": anns}
-        (out / "annotations.json").write_text(json.dumps(data))
-        included.append("annotations.json")
-    else:
-        skipped.append("annotations.json")
+            anns.append({"annotator": code.get(a.get("annotator"), "A?"), "possessions": poss})
+        (out / name).write_text(json.dumps({"bundle": bundle, "annotators": anns}))
+        included.append(name)
     ev_p = Path("reports/phase2") / f"{cfg.version}_all" / "annotation_eval.json"
     if ev_p.exists():
         e = json.loads(ev_p.read_text())
@@ -176,6 +196,10 @@ def add_optional(out: Path, base: Path, cfg, args, zstd: dict) -> tuple[list[str
             a.pop("annotator", None)
         for a in e.get("agreement", []):
             a.pop("pair", None)
+        if "blind_vs_assisted" in e:  # keyed by initials
+            e["blind_vs_assisted"] = {
+                code.get(k, "A?"): v for k, v in e["blind_vs_assisted"].items()
+            }
         (out / "annotation_eval.json").write_text(json.dumps(e, indent=1))
         included.append("annotation_eval.json")
     else:

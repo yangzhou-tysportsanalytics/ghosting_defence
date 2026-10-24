@@ -1,0 +1,15 @@
+{
+ "ghost": "cf_gpu_d128_lr1e-3",
+ "k_samples": 100,
+ "n_shots": 64060,
+ "mean_xfg_real": 0.4280252623565563,
+ "mean_xfg_team_ghost": 0.4544425461936554,
+ "mean_dEP_team_per_shot": -0.05987398093501505,
+ "mean_dEP_ind_per_defender_shot": 0.001033571710784379,
+ "team_dEP_range": [
+  -0.07577200742506182,
+  -0.044000507092061866
+ ],
+ "note": "team ghost slots drawn independently; xFG M3 cross-fitted by fold",
+ "seconds": 31035
+}
