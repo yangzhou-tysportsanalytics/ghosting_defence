@@ -1,0 +1,40 @@
+{
+  "dev_ft": {
+    "split_half_r_within_position": 0.9207512477466361,
+    "n_players": 348,
+    "share_player_variance_explained_by_position": 0.14714009760965907,
+    "by_position": {
+      "C": {
+        "r": 0.8843934120449518,
+        "n_players": 49
+      },
+      "F": {
+        "r": 0.9409568608960767,
+        "n_players": 143
+      },
+      "G": {
+        "r": 0.9112675916961203,
+        "n_players": 156
+      }
+    }
+  },
+  "sag_ft": {
+    "split_half_r_within_position": 0.924084256272071,
+    "n_players": 348,
+    "share_player_variance_explained_by_position": 0.4816980159823252,
+    "by_position": {
+      "C": {
+        "r": 0.9211805885539166,
+        "n_players": 49
+      },
+      "F": {
+        "r": 0.9372807989822537,
+        "n_players": 143
+      },
+      "G": {
+        "r": 0.909852535237571,
+        "n_players": 156
+      }
+    }
+  }
+}

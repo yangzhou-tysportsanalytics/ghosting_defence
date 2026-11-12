@@ -41,8 +41,9 @@ from ghost import data as D
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from phase4_reliability import (  # noqa: E402
+    CONTEXT_SUFFIX,
+    CONTEXTS,
     MIN_POSS,
-    PHASE_COVS,
     adjust,
     listed_positions,
     load_dev,
@@ -114,6 +115,8 @@ def external(pt: pl.DataFrame, ext: pl.DataFrame, disc: float) -> dict:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--ghost", default="rule", help='"rule" or "learned:<name>"')
+    ap.add_argument("--context", default="phases", choices=["phases", "offense_phases"],
+                    help="phases = main specification (D-021); offense_phases = review A6")  # fmt: skip
     args = ap.parse_args()
     cfg = D.DataConfig.load(game_set="all")
     base = cfg.processed_dir / "all"
@@ -170,11 +173,11 @@ def main() -> None:
 
     rng = np.random.default_rng(9)
     rep: dict = {"ghost": args.ghost, "n_players": len(players), "bootstrap": f"games, B={B}",
-                 "date_cutoff": str(cutoff), "context": "D-021 phase shares (main spec)",
+                 "date_cutoff": str(cutoff), "context": args.context,
                  "metrics": {}}  # fmt: skip
     versions = []
     for y in metrics:
-        res, _ = adjust(df, y, tuple(PHASE_COVS))
+        res, _ = adjust(df, y, CONTEXTS[args.context])
         d = df.with_columns(pl.Series("adj", res))
         tm = d.group_by("defense_team_id").agg(pl.col("adj").mean().alias("tm"))
         d = d.join(tm, on="defense_team_id").with_columns((pl.col("adj") - pl.col("tm")).alias("w"))
@@ -199,6 +202,7 @@ def main() -> None:
               flush=True)  # fmt: skip
     rep["sources"] = {"basketball_reference": "local research use only; do not redistribute",
                       "raptor": "FiveThirtyEight, CC BY 4.0 (attribution required)"}  # fmt: skip
+    sfx += "" if args.context == "phases" else CONTEXT_SUFFIX[args.context]
     p = Path("reports/analysis") / f"meta_metrics{sfx}.json"
     p.write_text(json.dumps(rep, indent=1))
     print(f"wrote {p}")

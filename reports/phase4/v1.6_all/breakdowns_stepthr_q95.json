@@ -1,34 +1,81 @@
 {
   "threshold_ft": 6.536266187609136,
+  "threshold_rule": "step",
+  "ghost": "rule",
   "n_breakdowns": 66755,
   "gaps": {
     "0.5s": {
       "n_cascades": 60223,
       "share_breakdowns_in_multi_cascades": 0.1866826454947195,
       "league_initiated_per_100_poss": 13.582307343598117,
-      "split_half_r_player_rate": 0.9105487815331701,
+      "split_half_r_player_rate": 0.9105487815331699,
       "n_players": 348
     },
     "1s": {
       "n_cascades": 58028,
       "share_breakdowns_in_multi_cascades": 0.2446857913264924,
       "league_initiated_per_100_poss": 13.08726118815588,
-      "split_half_r_player_rate": 0.9047344187970713,
+      "split_half_r_player_rate": 0.904734418797071,
       "n_players": 348
     },
     "2s": {
       "n_cascades": 54845,
       "share_breakdowns_in_multi_cascades": 0.3261778143959254,
       "league_initiated_per_100_poss": 12.369387879375633,
-      "split_half_r_player_rate": 0.9065605102309102,
+      "split_half_r_player_rate": 0.9065605102309104,
       "n_players": 348
     }
   },
   "possession_outcomes": {
+    "n_possessions_scored": 89245,
     "share_possessions_with_breakdown": 0.5123872485853549,
     "points_with": 1.026701364590623,
     "points_without": 1.048440839212262,
-    "note": "descriptive; breakdowns and scoring share causes (penetration, mismatches)"
+    "duration_s_with": 11.0075518063331,
+    "duration_s_without": 9.184144610152355,
+    "within_length_quintile": [
+      {
+        "quintile": "q1",
+        "points_with": 1.0805923616523772,
+        "points_without": 1.0826173739477567,
+        "difference": -0.002025012295379547,
+        "n_with": 6415,
+        "n_without": 11523
+      },
+      {
+        "quintile": "q2",
+        "points_with": 1.0476310167148424,
+        "points_without": 1.0650463896732554,
+        "difference": -0.017415372958413,
+        "n_with": 7957,
+        "n_without": 9916
+      },
+      {
+        "quintile": "q3",
+        "points_with": 1.0283289241622575,
+        "points_without": 1.0386167146974064,
+        "difference": -0.010287790535148833,
+        "n_with": 9072,
+        "n_without": 8675
+      },
+      {
+        "quintile": "q4",
+        "points_with": 1.0494733790704416,
+        "points_without": 1.0302310231023102,
+        "difference": 0.019242355968131397,
+        "n_with": 10349,
+        "n_without": 7575
+      },
+      {
+        "quintile": "q5",
+        "points_with": 0.96279849183075,
+        "points_without": 0.9909059711736444,
+        "difference": -0.02810747934289448,
+        "n_with": 11935,
+        "n_without": 5828
+      }
+    ],
+    "note": "descriptive; breakdowns and scoring share causes (penetration, mismatches); compare within possession-length quintiles (the possession maximum grows with length)"
   },
   "player_rate_quantiles_per_100": {
     "0.1": 6.327744726879394,

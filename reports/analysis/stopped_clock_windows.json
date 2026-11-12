@@ -1,0 +1,12 @@
+{
+ "n_halfcourt_windows": 89245,
+ "share_stopped_start_gt_1s": 0.02362037088912544,
+ "share_stopped_start_gt_3s": 0.020897529273348647,
+ "quantiles_s_among_gt_1s": {
+  "0.25": 5.0,
+  "0.5": 12.4,
+  "0.75": 18.8,
+  "0.95": 23.8
+ },
+ "definition": "leading run of valid 5 Hz steps whose game clock equals the clock at the first step"
+}

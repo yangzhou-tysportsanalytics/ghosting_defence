@@ -12,11 +12,12 @@ from ghost import data as D
 try:
     from nbacore import paths
 
-    HAVE_RELEASE = (paths.data_root() / "releases" / "v1.2" / "MANIFEST.json").exists()
+    PINNED = D.DataConfig.load().version  # the release this code is pinned to
+    HAVE_RELEASE = (paths.data_root() / "releases" / PINNED / "MANIFEST.json").exists()
 except Exception:  # noqa: BLE001
     HAVE_RELEASE = False
 
-pytestmark = pytest.mark.skipif(not HAVE_RELEASE, reason="nbacore v1.2 release not present")
+pytestmark = pytest.mark.skipif(not HAVE_RELEASE, reason="pinned nbacore release not present")
 
 
 def test_config_pins_version():

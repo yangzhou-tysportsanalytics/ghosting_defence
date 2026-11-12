@@ -12,12 +12,30 @@ from ghost.ghost.model import N_CTX, N_FEAT, V_SCALE, X_SCALE, Y_SCALE
 from ghost.tensors import PossessionTensors
 
 
-def build_arrays(pt: PossessionTensors, possessions: pl.DataFrame) -> dict[str, np.ndarray]:
+def backward_velocity(xy: np.ndarray, valid: np.ndarray, dt: float = 0.2) -> np.ndarray:
+    """(N, T, A, 2) velocities from the step before, (x_t - x_{t-1}) / dt; 0 at the first step and
+    where the previous step is invalid. Strictly causal, unlike the stored central differences."""
+    v = np.zeros_like(xy)
+    ok = valid[:, 1:] & valid[:, :-1]
+    v[:, 1:] = np.where(ok[..., None, None], (xy[:, 1:] - xy[:, :-1]) / dt, 0.0)
+    return v
+
+
+def build_arrays(
+    pt: PossessionTensors, possessions: pl.DataFrame, velocity: str = "central"
+) -> dict[str, np.ndarray]:
     """Unmasked features (N, 11, T, N_FEAT), context (N, T, N_CTX), targets (N, 5, T, 2) feet,
-    valid (N, T). Agent order: ball, offence 0-4, defence 0-4."""
+    valid (N, T). Agent order: ball, offence 0-4, defence 0-4.
+    ``velocity``: "central" = the stored central differences (reach 0.2 s ahead; all runs up to
+    2026-10-30), "backward" = from the step before (strictly causal)."""
     N, T = pt.valid.shape
     xy = np.concatenate([pt.ball[:, :, None, :2], pt.off_xy, pt.def_xy], axis=2)  # (N,T,11,2)
-    v = np.concatenate([pt.ball_v[:, :, None], pt.off_v, pt.def_v], axis=2)
+    if velocity == "central":
+        v = np.concatenate([pt.ball_v[:, :, None], pt.off_v, pt.def_v], axis=2)
+    elif velocity == "backward":
+        v = backward_velocity(xy.astype(np.float64), pt.valid).astype(np.float32)
+    else:
+        raise ValueError(velocity)
     f = np.zeros((N, T, 11, N_FEAT), dtype=np.float32)
     f[..., 0] = xy[..., 0] / X_SCALE - 0.5
     f[..., 1] = xy[..., 1] / Y_SCALE - 0.5

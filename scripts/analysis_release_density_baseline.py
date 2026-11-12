@@ -10,14 +10,18 @@ stopping on validation) sees only the snapshot at the release - no history:
 * "team_shot_features": shooter location, distance, angle, three-point flag, ball and context
   only -> any defender (the few-features version).
 Scored on the test games by NLL (ft^-2 units, as the ghosts) against, on the same defenders at
-the same step: the learned ghost (cross-fitted, out of fold: nll_ind / nll_team of
-phase4_learned_ghost_dev.py) and the rule ghost (individual: left-over attacker, sigma fitted on
+the same step: the learned ghost (nll_ind / nll_team of phase4_learned_ghost_dev.py; by default
+cross-fitted, out of fold; ``--learned gpu_d128_lr1e-3_final_test`` = the final model, trained on
+the same train games as the MDNs with validation for selection: the like-for-like comparison,
+review R3 2026-11-02) and the rule ghost (individual: left-over attacker, sigma fitted on
 validation; team: equal-weight attacker mixture). Differences with game-bootstrap intervals.
 
-Output: reports/phase3/<version>_all_release_density_baseline.json
+Output: reports/phase3/<version>_all_release_density_baseline[_<learned>].json (suffix when
+--learned is not the default)
 
 Usage:
     uv run python scripts/analysis_release_density_baseline.py [--epochs 40]
+    uv run python scripts/analysis_release_density_baseline.py --learned gpu_d128_lr1e-3_final_test
 """
 
 from __future__ import annotations
@@ -177,6 +181,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--epochs", type=int, default=40)
     ap.add_argument("--boot", type=int, default=1000)
+    ap.add_argument("--learned", default=LEARNED, help="learned_ghost/<name> to compare with")
     args = ap.parse_args()
     cfg = D.DataConfig.load(game_set="all")
     base = cfg.processed_dir / "all"
@@ -185,9 +190,9 @@ def main() -> None:
     gamma = rb["gamma"]
     te = snap["test"]
     n = len(te["step"])
-    # learned ghost (cross-fitted) at the same (possession, defender slot, step)
+    # learned ghost at the same (possession, defender slot, step)
     lg = pl.concat([
-        pl.read_parquet(base / "learned_ghost" / LEARNED / f"{g}.parquet")
+        pl.read_parquet(base / "learned_ghost" / args.learned / f"{g}.parquet")
         for g in np.unique(te["game"])
     ]).select(["game_id", "possession_id", "def_slot", "step", "nll_ind", "nll_team"])  # fmt: skip
     key = pl.DataFrame({"game_id": np.repeat(te["game"], 5), "possession_id": np.repeat(te["poss"], 5),
@@ -200,7 +205,7 @@ def main() -> None:
         te, gamma, rb["team_sigma_ft"], rb["val"]["individual_leftover"]["sigma_ft"]
     )
     rep: dict = {"n_test_shots": n, "n_train_shots": len(snap["train"]["step"]),
-                 "learned_ghost": LEARNED, "mdn_components": K_COMP, "models": {}}  # fmt: skip
+                 "learned_ghost": args.learned, "mdn_components": K_COMP, "models": {}}  # fmt: skip
     games = np.repeat(te["game"], 1)
     ug, inv = np.unique(games, return_inverse=True)
     rng = np.random.default_rng(9)
@@ -241,10 +246,13 @@ def main() -> None:
         print(f"{kind:>19}: test NLL  MDN {t['mdn_snapshot']:.3f}  learned {t['learned_ghost']:.3f}"
               f"  rule {t['rule_ghost']:.3f}  (n {res['n_shots_compared']}, best epoch "
               f"{res['best_epoch']})", flush=True)  # fmt: skip
+    trained = ("cross-fitted (out of fold; trained on four fifths of all games)"
+               if args.learned.startswith("cf_") else "trained on the train games")
     rep["note"] = ("Single-moment baselines see the snapshot at the release only; the learned ghost "
-                   "sees the possession up to the release (online). Learned values are cross-fitted "
-                   "(out of fold); the MDNs are fitted on train games. Same test defenders and step.")  # fmt: skip
-    p = Path("reports/phase3") / f"{cfg.version}_all_release_density_baseline.json"
+                   f"sees the possession up to the release (online). Learned values: {trained}; the "
+                   "MDNs are fitted on train games. Same test defenders and step.")  # fmt: skip
+    suffix = "" if args.learned == LEARNED else f"_{args.learned}"
+    p = Path("reports/phase3") / f"{cfg.version}_all_release_density_baseline{suffix}.json"
     p.write_text(json.dumps(rep, indent=1))
     print(f"wrote {p}")
 

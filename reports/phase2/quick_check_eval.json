@@ -1,0 +1,763 @@
+{
+ "version": "gdq_v1",
+ "annotators": [
+  "A1",
+  "A2"
+ ],
+ "split": "test",
+ "primary": "A1",
+ "by_annotator": {
+  "A1": {
+   "matchups": {
+    "hmm": {
+     "estimate": 0.8604060913705583,
+     "ci95": [
+      0.8232323232323232,
+      0.8959390862944162
+     ]
+    },
+    "hmm_steps_with_man": {
+     "estimate": 0.9148351648351648,
+     "ci95": [
+      0.8911160778601271,
+      0.9381803087804037
+     ]
+    },
+    "hmm_pool_weighted": {
+     "estimate": 0.8611207374042029,
+     "ci95": [
+      0.8165206580620853,
+      0.900994512273661
+     ]
+    },
+    "min_residual": {
+     "estimate": 0.8578680203045685,
+     "ci95": [
+      0.8205128205128205,
+      0.8940605900845489
+     ]
+    },
+    "min_residual_steps_with_man": {
+     "estimate": 0.9285714285714286,
+     "ci95": [
+      0.9093484419263456,
+      0.9466702127659574
+     ]
+    },
+    "min_residual_pool_weighted": {
+     "estimate": 0.8624414071900126,
+     "ci95": [
+      0.8136636753625907,
+      0.9042678259916769
+     ]
+    },
+    "nearest_defender": {
+     "estimate": 0.7360406091370558,
+     "ci95": [
+      0.6954314720812182,
+      0.7749360613810742
+     ]
+    },
+    "nearest_defender_steps_with_man": {
+     "estimate": 0.7967032967032966,
+     "ci95": [
+      0.7589883749883283,
+      0.8328881278538812
+     ]
+    },
+    "nearest_defender_pool_weighted": {
+     "estimate": 0.7184788350428201,
+     "ci95": [
+      0.6677329907262743,
+      0.7682572090951666
+     ]
+    },
+    "franks_fixed": {
+     "estimate": 0.8629441624365483,
+     "ci95": [
+      0.8261937356258898,
+      0.8984835828567757
+     ]
+    },
+    "franks_fixed_steps_with_man": {
+     "estimate": 0.9340659340659341,
+     "ci95": [
+      0.9119296659779614,
+      0.954177897574124
+     ]
+    },
+    "franks_fixed_pool_weighted": {
+     "estimate": 0.8622403595079835,
+     "ci95": [
+      0.8140586533781513,
+      0.9028782513899627
+     ]
+    },
+    "hmm_minus_best_baseline": {
+     "estimate": -0.002538071065989911,
+     "ci95": [
+      -0.02518891687657432,
+      0.01526717557251911
+     ]
+    },
+    "counts": {
+     "possessions": 40,
+     "defender_moments": 394,
+     "with_man": 364,
+     "cant_tell": 6,
+     "by_stratum": {
+      "ball_movement": 6,
+      "drive": 8,
+      "other": 6,
+      "pnr_no_switch": 10,
+      "pnr_switch": 10
+     }
+    },
+    "weights": {
+     "ball_movement": 0.028243752139678193,
+     "drive": 0.20946023051466392,
+     "other": 0.06458975236791054,
+     "pnr_no_switch": 0.5613374415154627,
+     "pnr_switch": 0.1363688234622846
+    }
+   },
+   "events": {
+    "decoy_help": {
+     "answered": 8,
+     "cant_tell": 0,
+     "decided": 8,
+     "confirmed": 0,
+     "share_confirmed": 0.0,
+     "wilson95": [
+      0.0,
+      0.3244156195108769
+     ],
+     "bootstrap95": [
+      0.0,
+      0.0
+     ],
+     "prepositioned": 1,
+     "share_prepositioned": 0.125,
+     "share_confirmed_lenient": 0.125,
+     "wilson95_lenient": [
+      0.02241690886329617,
+      0.4708948057698615
+     ],
+     "stunt": 0,
+     "stunt_share_of_confirmed": null,
+     "stunt_wilson95": null
+    },
+    "decoy_switch": {
+     "answered": 7,
+     "cant_tell": 0,
+     "decided": 7,
+     "confirmed": 1,
+     "share_confirmed": 0.14285714285714285,
+     "wilson95": [
+      0.02567895594897479,
+      0.51313450331903
+     ],
+     "bootstrap95": [
+      0.0,
+      0.42857142857142855
+     ],
+     "only_one_or_other": 0
+    },
+    "help_corner": {
+     "answered": 10,
+     "cant_tell": 0,
+     "decided": 10,
+     "confirmed": 3,
+     "share_confirmed": 0.3,
+     "wilson95": [
+      0.10778928748621183,
+      0.6032267800204347
+     ],
+     "bootstrap95": [
+      0.0,
+      0.6
+     ],
+     "prepositioned": 1,
+     "share_prepositioned": 0.1,
+     "share_confirmed_lenient": 0.4,
+     "wilson95_lenient": [
+      0.16817758120350967,
+      0.6873304525498135
+     ],
+     "stunt": 2,
+     "stunt_share_of_confirmed": 0.6666666666666666,
+     "stunt_wilson95": [
+      0.2076549551264879,
+      0.9385096847238394
+     ]
+    },
+    "help_early": {
+     "answered": 25,
+     "cant_tell": 0,
+     "decided": 25,
+     "confirmed": 5,
+     "share_confirmed": 0.2,
+     "wilson95": [
+      0.08860454100652487,
+      0.3913133553653824
+     ],
+     "bootstrap95": [
+      0.04,
+      0.36
+     ],
+     "prepositioned": 5,
+     "share_prepositioned": 0.2,
+     "share_confirmed_lenient": 0.4,
+     "wilson95_lenient": [
+      0.23403057664190918,
+      0.5926087221487266
+     ],
+     "stunt": 2,
+     "stunt_share_of_confirmed": 0.4,
+     "stunt_wilson95": [
+      0.1176182311592533,
+      0.769280067791163
+     ]
+    },
+    "help_late": {
+     "answered": 15,
+     "cant_tell": 0,
+     "decided": 15,
+     "confirmed": 4,
+     "share_confirmed": 0.26666666666666666,
+     "wilson95": [
+      0.1089727610318281,
+      0.5195088965768675
+     ],
+     "bootstrap95": [
+      0.06666666666666667,
+      0.5333333333333333
+     ],
+     "prepositioned": 2,
+     "share_prepositioned": 0.13333333333333333,
+     "share_confirmed_lenient": 0.4,
+     "wilson95_lenient": [
+      0.19824228082594664,
+      0.642535572434923
+     ],
+     "stunt": 2,
+     "stunt_share_of_confirmed": 0.5,
+     "stunt_wilson95": [
+      0.15003570882017148,
+      0.8499642911798285
+     ]
+    },
+    "switch": {
+     "answered": 25,
+     "cant_tell": 0,
+     "decided": 25,
+     "confirmed": 22,
+     "share_confirmed": 0.88,
+     "wilson95": [
+      0.7004380781662651,
+      0.9583325864293191
+     ],
+     "bootstrap95": [
+      0.7590000000000001,
+      1.0
+     ],
+     "only_one_or_other": 2
+    },
+    "help_detected": {
+     "confirmed": 12,
+     "decided": 50,
+     "share_confirmed": 0.24,
+     "wilson95": [
+      0.14297252401872207,
+      0.3741294937519236
+     ],
+     "note": "unweighted pool of the sampled clips"
+    },
+    "all_detected": {
+     "confirmed": 34,
+     "decided": 75,
+     "share_confirmed": 0.4533333333333333,
+     "wilson95": [
+      0.3456961212759212,
+      0.5655182630085175
+     ],
+     "note": "unweighted pool of the sampled clips"
+    }
+   }
+  },
+  "A2": {
+   "matchups": {
+    "hmm": {
+     "estimate": 0.8753246753246753,
+     "ci95": [
+      0.8328934324235628,
+      0.9164545256744996
+     ]
+    },
+    "hmm_steps_with_man": {
+     "estimate": 0.925207756232687,
+     "ci95": [
+      0.9009274386446308,
+      0.9494389493186708
+     ]
+    },
+    "hmm_pool_weighted": {
+     "estimate": 0.8667772561809086,
+     "ci95": [
+      0.8254915369075722,
+      0.9112814439172798
+     ]
+    },
+    "min_residual": {
+     "estimate": 0.8545454545454545,
+     "ci95": [
+      0.8160621761658031,
+      0.8928594740768371
+     ]
+    },
+    "min_residual_steps_with_man": {
+     "estimate": 0.9113573407202216,
+     "ci95": [
+      0.8888815207780725,
+      0.9342465753424658
+     ]
+    },
+    "min_residual_pool_weighted": {
+     "estimate": 0.8624812019748759,
+     "ci95": [
+      0.8214784980351787,
+      0.9044573855812348
+     ]
+    },
+    "nearest_defender": {
+     "estimate": 0.7298701298701299,
+     "ci95": [
+      0.6875,
+      0.7656694623847795
+     ]
+    },
+    "nearest_defender_steps_with_man": {
+     "estimate": 0.778393351800554,
+     "ci95": [
+      0.7416666666666667,
+      0.8125043044077135
+     ]
+    },
+    "nearest_defender_pool_weighted": {
+     "estimate": 0.71461060133974,
+     "ci95": [
+      0.651850561111383,
+      0.7641490317497402
+     ]
+    },
+    "franks_fixed": {
+     "estimate": 0.8779220779220779,
+     "ci95": [
+      0.8374591581779742,
+      0.9168765743073047
+     ]
+    },
+    "franks_fixed_steps_with_man": {
+     "estimate": 0.9362880886426593,
+     "ci95": [
+      0.9159663865546218,
+      0.9580076320767167
+     ]
+    },
+    "franks_fixed_pool_weighted": {
+     "estimate": 0.8744840874552893,
+     "ci95": [
+      0.8323156536332883,
+      0.9168690179108421
+     ]
+    },
+    "hmm_minus_best_baseline": {
+     "estimate": -0.0025974025974025983,
+     "ci95": [
+      -0.015706806282722585,
+      0.010698077756901313
+     ]
+    },
+    "counts": {
+     "possessions": 40,
+     "defender_moments": 385,
+     "with_man": 361,
+     "cant_tell": 15,
+     "by_stratum": {
+      "ball_movement": 6,
+      "drive": 8,
+      "other": 6,
+      "pnr_no_switch": 10,
+      "pnr_switch": 10
+     }
+    },
+    "weights": {
+     "ball_movement": 0.028243752139678193,
+     "drive": 0.20946023051466392,
+     "other": 0.06458975236791054,
+     "pnr_no_switch": 0.5613374415154627,
+     "pnr_switch": 0.1363688234622846
+    }
+   },
+   "events": {
+    "decoy_help": {
+     "answered": 8,
+     "cant_tell": 0,
+     "decided": 8,
+     "confirmed": 1,
+     "share_confirmed": 0.125,
+     "wilson95": [
+      0.02241690886329617,
+      0.4708948057698615
+     ],
+     "bootstrap95": [
+      0.0,
+      0.375
+     ],
+     "prepositioned": 5,
+     "share_prepositioned": 0.625,
+     "share_confirmed_lenient": 0.75,
+     "wilson95_lenient": [
+      0.40926987910258916,
+      0.9285223111419724
+     ],
+     "stunt": 1,
+     "stunt_share_of_confirmed": 1.0,
+     "stunt_wilson95": [
+      0.20654329147389294,
+      1.0
+     ]
+    },
+    "decoy_switch": {
+     "answered": 7,
+     "cant_tell": 1,
+     "decided": 6,
+     "confirmed": 3,
+     "share_confirmed": 0.5,
+     "wilson95": [
+      0.18761280689940868,
+      0.8123871931005913
+     ],
+     "bootstrap95": [
+      0.16666666666666666,
+      0.8333333333333334
+     ],
+     "only_one_or_other": 1
+    },
+    "help_corner": {
+     "answered": 10,
+     "cant_tell": 0,
+     "decided": 10,
+     "confirmed": 5,
+     "share_confirmed": 0.5,
+     "wilson95": [
+      0.23658959361548731,
+      0.7634104063845126
+     ],
+     "bootstrap95": [
+      0.2,
+      0.8
+     ],
+     "prepositioned": 2,
+     "share_prepositioned": 0.2,
+     "share_confirmed_lenient": 0.7,
+     "wilson95_lenient": [
+      0.39677321997956516,
+      0.892210712513788
+     ],
+     "stunt": 3,
+     "stunt_share_of_confirmed": 0.6,
+     "stunt_wilson95": [
+      0.23071993220883708,
+      0.8823817688407467
+     ]
+    },
+    "help_early": {
+     "answered": 25,
+     "cant_tell": 1,
+     "decided": 24,
+     "confirmed": 15,
+     "share_confirmed": 0.625,
+     "wilson95": [
+      0.42709619037907065,
+      0.7884086656636855
+     ],
+     "bootstrap95": [
+      0.4166666666666667,
+      0.7916666666666666
+     ],
+     "prepositioned": 3,
+     "share_prepositioned": 0.125,
+     "share_confirmed_lenient": 0.75,
+     "wilson95_lenient": [
+      0.5510017468789357,
+      0.8800079652065766
+     ],
+     "stunt": 10,
+     "stunt_share_of_confirmed": 0.6666666666666666,
+     "stunt_wilson95": [
+      0.41713125151212976,
+      0.8482389930530876
+     ]
+    },
+    "help_late": {
+     "answered": 15,
+     "cant_tell": 0,
+     "decided": 15,
+     "confirmed": 11,
+     "share_confirmed": 0.7333333333333333,
+     "wilson95": [
+      0.4804911034231324,
+      0.8910272389681718
+     ],
+     "bootstrap95": [
+      0.4666666666666667,
+      0.9333333333333333
+     ],
+     "prepositioned": 3,
+     "share_prepositioned": 0.2,
+     "share_confirmed_lenient": 0.9333333333333333,
+     "wilson95_lenient": [
+      0.7018292244757601,
+      0.9881334113938051
+     ],
+     "stunt": 6,
+     "stunt_share_of_confirmed": 0.5454545454545454,
+     "stunt_wilson95": [
+      0.28008775568998817,
+      0.7872904245601196
+     ]
+    },
+    "switch": {
+     "answered": 25,
+     "cant_tell": 0,
+     "decided": 25,
+     "confirmed": 21,
+     "share_confirmed": 0.84,
+     "wilson95": [
+      0.6534598601976183,
+      0.9359665239142201
+     ],
+     "bootstrap95": [
+      0.68,
+      0.96
+     ],
+     "only_one_or_other": 3
+    },
+    "help_detected": {
+     "confirmed": 31,
+     "decided": 49,
+     "share_confirmed": 0.6326530612244898,
+     "wilson95": [
+      0.49266811386889864,
+      0.7533501747521878
+     ],
+     "note": "unweighted pool of the sampled clips"
+    },
+    "all_detected": {
+     "confirmed": 52,
+     "decided": 74,
+     "share_confirmed": 0.7027027027027027,
+     "wilson95": [
+      0.5906687497464007,
+      0.7947292893483764
+     ],
+     "note": "unweighted pool of the sampled clips"
+    }
+   }
+  }
+ },
+ "minutes": {
+  "A1": {
+   "M": 88.5,
+   "E": 33.3
+  },
+  "A2": {
+   "M": 160.0,
+   "E": 85.4
+  }
+ },
+ "agreement": {
+  "matchups": {
+   "n": 379,
+   "agreement": 0.8759894459102903,
+   "kappa": 0.8489514877595842
+  },
+  "events_confirmed": {
+   "n": 88,
+   "agreement": 0.6818181818181818,
+   "kappa": 0.4007782101167315
+  }
+ },
+ "consensus": {
+  "events": {
+   "decoy_help": {
+    "answered": 8,
+    "cant_tell": 0,
+    "decided": 8,
+    "confirmed": 1,
+    "share_confirmed": 0.125,
+    "wilson95": [
+     0.02241690886329617,
+     0.4708948057698615
+    ],
+    "bootstrap95": [
+     0.0,
+     0.375
+    ],
+    "prepositioned": 1,
+    "share_prepositioned": 0.125,
+    "share_confirmed_lenient": 0.25,
+    "wilson95_lenient": [
+     0.07147768885802763,
+     0.5907301208974108
+    ],
+    "stunt": 1,
+    "stunt_share_of_confirmed": 1.0,
+    "stunt_wilson95": [
+     0.20654329147389294,
+     1.0
+    ]
+   },
+   "decoy_switch": {
+    "answered": 7,
+    "cant_tell": 1,
+    "decided": 6,
+    "confirmed": 1,
+    "share_confirmed": 0.16666666666666666,
+    "wilson95": [
+     0.03005258587173032,
+     0.563509436563646
+    ],
+    "bootstrap95": [
+     0.0,
+     0.5
+    ],
+    "only_one_or_other": 1
+   },
+   "help_corner": {
+    "answered": 10,
+    "cant_tell": 0,
+    "decided": 10,
+    "confirmed": 2,
+    "share_confirmed": 0.2,
+    "wilson95": [
+     0.056680947980693314,
+     0.5098431532792765
+    ],
+    "bootstrap95": [
+     0.0,
+     0.5
+    ],
+    "prepositioned": 2,
+    "share_prepositioned": 0.2,
+    "share_confirmed_lenient": 0.4,
+    "wilson95_lenient": [
+     0.16817758120350967,
+     0.6873304525498135
+    ],
+    "stunt": 1,
+    "stunt_share_of_confirmed": 0.5,
+    "stunt_wilson95": [
+     0.09452865480086614,
+     0.9054713451991339
+    ]
+   },
+   "help_early": {
+    "answered": 25,
+    "cant_tell": 2,
+    "decided": 23,
+    "confirmed": 6,
+    "share_confirmed": 0.2608695652173913,
+    "wilson95": [
+     0.1254844588924897,
+     0.4647039054375056
+    ],
+    "bootstrap95": [
+     0.08695652173913043,
+     0.43478260869565216
+    ],
+    "prepositioned": 2,
+    "share_prepositioned": 0.08695652173913043,
+    "share_confirmed_lenient": 0.34782608695652173,
+    "wilson95_lenient": [
+     0.18811054636982238,
+     0.5511002309310836
+    ],
+    "stunt": 1,
+    "stunt_share_of_confirmed": 0.16666666666666666,
+    "stunt_wilson95": [
+     0.03005258587173032,
+     0.563509436563646
+    ]
+   },
+   "help_late": {
+    "answered": 15,
+    "cant_tell": 0,
+    "decided": 15,
+    "confirmed": 4,
+    "share_confirmed": 0.26666666666666666,
+    "wilson95": [
+     0.1089727610318281,
+     0.5195088965768675
+    ],
+    "bootstrap95": [
+     0.06666666666666667,
+     0.5333333333333333
+    ],
+    "prepositioned": 1,
+    "share_prepositioned": 0.06666666666666667,
+    "share_confirmed_lenient": 0.3333333333333333,
+    "wilson95_lenient": [
+     0.15176100694691236,
+     0.5828687484878701
+    ],
+    "stunt": 2,
+    "stunt_share_of_confirmed": 0.5,
+    "stunt_wilson95": [
+     0.15003570882017148,
+     0.8499642911798285
+    ]
+   },
+   "switch": {
+    "answered": 25,
+    "cant_tell": 0,
+    "decided": 25,
+    "confirmed": 21,
+    "share_confirmed": 0.84,
+    "wilson95": [
+     0.6534598601976183,
+     0.9359665239142201
+    ],
+    "bootstrap95": [
+     0.68,
+     0.96
+    ],
+    "only_one_or_other": 3
+   },
+   "help_detected": {
+    "confirmed": 12,
+    "decided": 48,
+    "share_confirmed": 0.25,
+    "wilson95": [
+     0.1492048880971003,
+     0.3878464374792707
+    ],
+    "note": "unweighted pool of the sampled clips"
+   },
+   "all_detected": {
+    "confirmed": 33,
+    "decided": 73,
+    "share_confirmed": 0.4520547945205479,
+    "wilson95": [
+     0.3431446980664788,
+     0.565758812531947
+    ],
+    "note": "unweighted pool of the sampled clips"
+   }
+  },
+  "n_reviewed": 42,
+  "n_unresolved": 0,
+  "note": "agreed answers of the two annotators, review answer where they differed"
+ }
+}

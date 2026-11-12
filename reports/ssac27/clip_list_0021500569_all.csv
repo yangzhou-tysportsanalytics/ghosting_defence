@@ -1,0 +1,57 @@
+game_id,possession_id,period,game_clock,clock_s,defender,def_id,defender_team,defender_position,has_matchup,man,man_id,man_team,man_position,duration_s,peak_nll_ind,initiator_1s,cascade_1s,defenders_involved,terminal_type,terminal_desc,points,xfg_real,left_out
+0021500569,14,1,7:39,459.0,George Hill,201588,IND,guard,true,PJ Tucker,200782,PHX,forward,2.6,13.410523414611816,true,0,1,fg_missed,MISS Leuer 25' 3PT Jump Shot,0,0.38317232839767573,
+0021500569,16,1,6:56,416.56000366210935,George Hill,201588,IND,guard,true,Devin Booker,1626164,PHX,guard,3.0,17.823123931884766,true,0,2,turnover,George STEAL (1 STL),0,,
+0021500569,16,1,6:54,414.9600036621094,Ian Mahinmi,101133,IND,center,true,Archie Goodwin,203462,PHX,guard,1.0,10.029029846191406,false,0,2,turnover,George STEAL (1 STL),0,,follows another in its cascade
+0021500569,24,1,5:25,325.0,George Hill,201588,IND,guard,false,,,,,2.0,11.239009857177734,true,0,1,fg_missed,MISS Goodwin 1' Driving Layup,2,0.3646377786850582,
+0021500569,35,1,2:30,150.78000183105468,Archie Goodwin,203462,PHX,guard,true,Jordan Hill,201941,IND,center,1.2,10.080292701721191,true,0,1,turnover,Miles Bad Pass Turnover (P1.T5),0,,
+0021500569,36,1,2:24,144.17999267578125,CJ Miles,101139,IND,forward-guard,false,,,,,2.0,10.671854019165039,true,0,1,foul,George Shooting Block Foul (P2.T3) (M.Ervin),2,,
+0021500569,40,1,1:34,94.28999786376953,Monta Ellis,101145,IND,guard,false,,,,,2.0,13.10302734375,true,0,1,fg_made,Mark Morris  Dunk (6 PTS) (Brown 1 AST),2,0.7263818066286334,
+0021500569,45,1,0:26,26.990000534057618,TJ Warren,203933,PHX,forward,false,,,,,1.0,9.796311378479004,true,0,1,fg_missed,MISS Hill 20' Jump Shot,0,0.43225491919956677,
+0021500569,46,1,0:04,4.920000076293945,CJ Miles,101139,IND,forward-guard,true,PJ Tucker,200782,PHX,forward,3.0,16.00872802734375,true,0,5,fg_missed,MISS Mark Morris  3PT Jump Shot,0,0.4172180841458131,end of period
+0021500569,46,1,0:04,4.720000076293945,Glenn Robinson,203922,IND,guard-forward,true,PJ Tucker,200782,PHX,forward,3.0,15.091865539550781,false,0,5,fg_missed,MISS Mark Morris  3PT Jump Shot,0,0.4172180841458131,end of period
+0021500569,46,1,0:04,4.720000076293945,Monta Ellis,101145,IND,guard,true,TJ Warren,203933,PHX,forward,2.6,14.590262413024902,false,0,5,fg_missed,MISS Mark Morris  3PT Jump Shot,0,0.4172180841458131,end of period
+0021500569,46,1,0:04,4.520000076293945,Jordan Hill,201941,IND,center,false,,,,,3.0,15.069145202636719,false,0,5,fg_missed,MISS Mark Morris  3PT Jump Shot,0,0.4172180841458131,end of period
+0021500569,46,1,0:04,4.320000076293946,George Hill,201588,IND,guard,true,Lorenzo Brown,203485,PHX,guard,2.2,10.885958671569824,false,0,5,fg_missed,MISS Mark Morris  3PT Jump Shot,0,0.4172180841458131,end of period
+0021500569,52,2,10:37,637.5299926757813,Markieff Morris,202693,PHX,forward,false,,,,,1.6,10.732014656066895,true,0,1,foul,Warren S.FOUL (P1.T2) (T.Brown),2,,
+0021500569,58,2,8:45,525.1799926757812,TJ Warren,203933,PHX,forward,true,Glenn Robinson,203922,IND,guard-forward,1.2,11.958324432373047,true,0,1,turnover,G. Hill Bad Pass Turnover (P1.T7),0,,
+0021500569,64,2,7:01,421.70000610351565,Mirza Teletovic,203141,PHX,forward,true,Jordan Hill,201941,IND,center,1.2,11.02437973022461,true,0,1,fg_missed,MISS Miles 17' Jump Shot,0,0.431052426704136,
+0021500569,65,2,6:48,408.2199951171875,Jordan Hill,201941,IND,center,true,TJ Warren,203933,PHX,forward,1.2,10.266940116882324,true,0,1,fg_made,Brown 26' 3PT Jump Shot (3 PTS) (Booker 1 AST),3,0.41130820041096405,
+0021500569,66,2,6:38,398.3800048828125,Markieff Morris,202693,PHX,forward,true,Jordan Hill,201941,IND,center,2.2,11.910341262817383,true,0,5,fg_made,Miles 19' Step Back Jump Shot (9 PTS) (Hill 1 AST),2,0.3011274480887773,
+0021500569,66,2,6:38,398.3800048828125,Devin Booker,1626164,PHX,guard,true,CJ Miles,101139,IND,forward-guard,2.8,21.46208953857422,false,0,5,fg_made,Miles 19' Step Back Jump Shot (9 PTS) (Hill 1 AST),2,0.3011274480887773,follows another in its cascade
+0021500569,66,2,6:38,398.3800048828125,TJ Warren,203933,PHX,forward,true,Glenn Robinson,203922,IND,guard-forward,3.2,23.39786720275879,false,0,5,fg_made,Miles 19' Step Back Jump Shot (9 PTS) (Hill 1 AST),2,0.3011274480887773,follows another in its cascade
+0021500569,66,2,6:38,398.3800048828125,Mirza Teletovic,203141,PHX,forward,true,Glenn Robinson,203922,IND,guard-forward,2.8,23.35906219482422,false,0,5,fg_made,Miles 19' Step Back Jump Shot (9 PTS) (Hill 1 AST),2,0.3011274480887773,follows another in its cascade
+0021500569,66,2,6:37,397.7800048828125,Lorenzo Brown,203485,PHX,guard,true,George Hill,201588,IND,guard,1.2,10.641962051391602,false,0,5,fg_made,Miles 19' Step Back Jump Shot (9 PTS) (Hill 1 AST),2,0.3011274480887773,follows another in its cascade
+0021500569,70,2,4:55,295.56000366210935,TJ Warren,203933,PHX,forward,true,Chase Budinger,201978,IND,forward,3.2,12.589675903320312,true,0,2,fg_missed,MISS Miles 1' Driving Layup,0,0.4554165614115602,
+0021500569,70,2,4:54,294.36000366210936,Lorenzo Brown,203485,PHX,guard,true,Monta Ellis,101145,IND,guard,1.0,10.288670539855957,false,0,2,fg_missed,MISS Miles 1' Driving Layup,0,0.4554165614115602,follows another in its cascade
+0021500569,71,2,4:44,284.1600036621094,Monta Ellis,101145,IND,guard,false,,,,,1.0,10.770025253295898,true,0,1,foul,Brown Offensive Charge Foul (P1.PN) (T.Brown),0,,
+0021500569,72,2,4:32,272.0,TJ Warren,203933,PHX,forward,false,,,,,15.6,13.325894355773926,false,0,3,foul,Teletovic S.FOUL (P2.PN) (T.Brown),2,,longer than 6 s
+0021500569,72,2,4:32,272.0,Lorenzo Brown,203485,PHX,guard,true,Ian Mahinmi,101133,IND,center,14.6,11.531764030456543,false,0,3,foul,Teletovic S.FOUL (P2.PN) (T.Brown),2,,longer than 6 s
+0021500569,72,2,4:32,272.0,Jon Leuer,202720,PHX,forward,true,Ian Mahinmi,101133,IND,center,14.4,10.801587104797363,true,0,3,foul,Teletovic S.FOUL (P2.PN) (T.Brown),2,,longer than 6 s
+0021500569,77,2,3:24,204.1999969482422,TJ Warren,203933,PHX,forward,false,,,,,4.2,15.16574764251709,true,0,1,fg_made,G. Hill 24' 3PT Jump Shot (11 PTS) (Ellis 4 AST),3,0.4319664204684212,
+0021500569,80,2,2:29,149.9800048828125,Lavoy Allen,202730,IND,forward-center,true,Markieff Morris,202693,PHX,forward,1.0,11.5454683303833,true,0,1,foul,Allen P.FOUL (P1.T4) (M.Ervin),0,,
+0021500569,81,2,2:06,126.84000549316406,Lorenzo Brown,203485,PHX,guard,true,Ian Mahinmi,101133,IND,center,2.0,13.884532928466797,true,0,1,fg_made,Miles 19' Pullup Jump Shot (11 PTS),2,0.3327064498516367,
+0021500569,85,2,0:58,58.89999847412109,Archie Goodwin,203462,PHX,guard,true,Monta Ellis,101145,IND,guard,1.0,9.952898979187012,true,0,1,fg_made,G. Hill 19' Jump Shot (13 PTS) (Ellis 5 AST),2,0.3787856642834357,
+0021500569,89,3,10:45,645.0299926757813,Tyson Chandler,2199,PHX,center,false,,,,,1.2,9.915895462036133,true,0,1,fg_made,Allen 20' Jump Shot (8 PTS) (Mahinmi 2 AST),2,0.40495313135526895,
+0021500569,90,3,10:22,622.5900024414062,George Hill,201588,IND,guard,true,Archie Goodwin,203462,PHX,guard,2.0,11.732702255249023,true,0,2,fg_missed,Allen BLOCK (1 BLK),0,,
+0021500569,90,3,10:21,621.9900024414062,Paul George,202331,IND,forward,true,Jon Leuer,202720,PHX,forward,1.8,14.686788558959961,false,0,2,fg_missed,Allen BLOCK (1 BLK),0,,follows another in its cascade
+0021500569,95,3,8:57,537.9400268554688,Tyson Chandler,2199,PHX,center,true,Ian Mahinmi,101133,IND,center,1.0,10.509303092956543,true,0,1,fg_missed,MISS Mahinmi 21' Jump Shot,0,0.5666461428914464,
+0021500569,100,3,7:55,475.66998901367185,Monta Ellis,101145,IND,guard,true,Devin Booker,1626164,PHX,guard,3.2,13.306013107299805,true,0,1,fg_missed,MISS Tucker 1' Layup,2,0.37020623698701927,
+0021500569,109,3,5:16,316.8,Mirza Teletovic,203141,PHX,forward,true,Monta Ellis,101145,IND,guard,1.4,9.892828941345215,true,0,2,turnover,G. Hill Bad Pass Turnover (P2.T10),0,,
+0021500569,109,3,5:16,316.8,Devin Booker,1626164,PHX,guard,true,Monta Ellis,101145,IND,guard,1.0,9.483189582824707,false,0,2,turnover,G. Hill Bad Pass Turnover (P2.T10),0,,follows another in its cascade
+0021500569,109,3,5:14,314.4,PJ Tucker,200782,PHX,forward,true,Lavoy Allen,202730,IND,forward-center,1.6,9.913217544555664,true,1,1,turnover,G. Hill Bad Pass Turnover (P2.T10),0,,
+0021500569,109,3,5:09,309.6,Devin Booker,1626164,PHX,guard,true,Ian Mahinmi,101133,IND,center,1.8,12.451184272766113,true,2,2,turnover,G. Hill Bad Pass Turnover (P2.T10),0,,
+0021500569,109,3,5:09,309.2,Mirza Teletovic,203141,PHX,forward,true,Ian Mahinmi,101133,IND,center,1.0,9.662513732910156,false,2,2,turnover,G. Hill Bad Pass Turnover (P2.T10),0,,follows another in its cascade
+0021500569,114,3,4:11,251.87000122070313,Devin Booker,1626164,PHX,guard,true,George Hill,201588,IND,guard,1.4,10.359844207763672,true,0,1,fg_made,Ellis 25' 3PT Jump Shot (6 PTS) (G. Hill 3 AST),3,0.4048039982967165,
+0021500569,120,3,2:39,159.90999755859374,Archie Goodwin,203462,PHX,guard,true,CJ Miles,101139,IND,forward-guard,1.0,10.406391143798828,true,0,1,fg_missed,MISS Miles 13' Jump Shot,0,0.4932137481442222,
+0021500569,125,3,1:37,97.8199966430664,Glenn Robinson,203922,IND,guard-forward,true,Devin Booker,1626164,PHX,guard,1.0,14.764695167541504,true,0,1,fg_made,Mark Morris  Driving Layup (12 PTS),3,0.477361515640955,
+0021500569,138,4,10:15,615.52001953125,Markieff Morris,202693,PHX,forward,false,,,,,3.8,14.305233001708984,true,0,1,turnover,Robinson III Bad Pass Turnover (P2.T12),0,,
+0021500569,142,4,9:12,552.030029296875,Markieff Morris,202693,PHX,forward,true,Paul George,202331,IND,forward,2.0,17.397857666015625,true,0,3,foul,Mark Morris S.FOUL (P3.T3) (M.Davis),0,,
+0021500569,142,4,9:12,552.030029296875,Mirza Teletovic,203141,PHX,forward,false,,,,,1.6,13.324176788330078,false,0,3,foul,Mark Morris S.FOUL (P3.T3) (M.Davis),0,,follows another in its cascade
+0021500569,142,4,9:12,552.030029296875,Archie Goodwin,203462,PHX,guard,true,Paul George,202331,IND,forward,1.2,11.916638374328613,false,0,3,foul,Mark Morris S.FOUL (P3.T3) (M.Davis),0,,follows another in its cascade
+0021500569,151,4,6:23,383.1499938964844,PJ Tucker,200782,PHX,forward,false,,,,,1.0,10.059309959411621,true,0,2,fg_missed,MISS Ellis  3PT Jump Shot,0,0.29824785387517994,
+0021500569,151,4,6:22,382.34999389648436,TJ Warren,203933,PHX,forward,false,,,,,1.4,9.982995986938477,false,0,2,fg_missed,MISS Ellis  3PT Jump Shot,0,0.29824785387517994,follows another in its cascade
+0021500569,159,4,4:12,252.8699981689453,Archie Goodwin,203462,PHX,guard,true,George Hill,201588,IND,guard,2.6,12.678611755371094,true,0,1,fg_made,Miles 26' 3PT Jump Shot (19 PTS) (G. Hill 5 AST),3,0.44705210342220314,
+0021500569,164,4,2:55,175.02999572753907,George Hill,201588,IND,guard,false,,,,,2.8,12.119241714477539,true,0,1,foul,S. Hill S.FOUL (P1.T4) (T.Brown),0,,
+0021500569,165,4,2:42,162.51000061035157,TJ Warren,203933,PHX,forward,false,,,,,1.2,10.507781982421875,true,0,1,fg_missed,MISS G. Hill 24' 3PT Jump Shot,2,0.41304275400960877,
+0021500569,166,4,2:19,139.8699981689453,Myles Turner,1626167,IND,forward-center,true,Mirza Teletovic,203141,PHX,forward,1.0,11.686993598937988,true,0,1,fg_made,Teletovic 26' 3PT Jump Shot (19 PTS) (Goodwin 3 AST),3,0.3834397240008908,
+0021500569,172,4,0:53,53.91000061035156,Glenn Robinson,203922,IND,guard-forward,true,TJ Warren,203933,PHX,forward,1.0,9.980941772460938,true,0,1,turnover,Young STEAL (1 STL),0,,

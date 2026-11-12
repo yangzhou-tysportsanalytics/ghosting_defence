@@ -1,0 +1,63 @@
+{
+ "model_run": "gpu_d128_lr1e-3_final",
+ "n_test_possessions": 17526,
+ "sharpness": {
+  "level": 0.8,
+  "n_possessions": 2000,
+  "n_defender_steps": 21265,
+  "learned_area_sqft": {
+   "mean": 73.39111328125,
+   "median": 33.5,
+   "p10_p90": [
+    15.75,
+    126.75
+   ]
+  },
+  "learned_coverage": 0.7892311309663766,
+  "rule_area_sqft": 346.2558912532042,
+  "rule_sigma_ft": 5.851558318693869,
+  "rule_coverage": 0.8598636256759934,
+  "learned_equivalent_radius_ft": 4.833333969116211,
+  "rule_equivalent_radius_ft": 10.498412896017875
+ },
+ "lookahead": {
+  "note": "same final model; inputs with backward-difference velocities, not retrained",
+  "team_nll": {
+   "central": 6.074382356917425,
+   "backward": 6.091041357185956,
+   "difference": 0.016659000268530733,
+   "ci95": [
+    0.015854878939879267,
+    0.017507657208315063
+   ]
+  },
+  "individual_nll": {
+   "central": 4.260014763505214,
+   "backward": 4.312771558229437,
+   "difference": 0.0527567947242229,
+   "ci95": [
+    0.05045101617200929,
+    0.0550344902814442
+   ]
+  },
+  "team_mse": {
+   "central": 29.82002410212978,
+   "backward": 30.35285120178188,
+   "difference": 0.5328270996521027,
+   "ci95": [
+    0.5023007556374195,
+    0.563454886375647
+   ]
+  },
+  "individual_mse": {
+   "central": 22.226212310629872,
+   "backward": 23.809831046550094,
+   "difference": 1.583618735920222,
+   "ci95": [
+    1.4879925307553115,
+    1.6839469276653942
+   ]
+  },
+  "rule_individual_nll_test": 6.347880389857889
+ }
+}

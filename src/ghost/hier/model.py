@@ -33,6 +33,7 @@ class Cells:
     n_team: int
     n_player: int
     sigma_e: float
+    se: np.ndarray | None = None  # per-cell SE of ybar; None = sigma_e / sqrt(n)
 
 
 def model(cells: Cells, prior_scale: float = 1.0):
@@ -46,7 +47,7 @@ def model(cells: Cells, prior_scale: float = 1.0):
     beta = numpyro.deterministic("beta_team", tau_t * z_t)
     alpha = numpyro.deterministic("alpha_player", tau_p * z_p)
     loc = mu + beta[cells.team_idx] + alpha[cells.player_idx]
-    scale = cells.sigma_e / jnp.sqrt(cells.n)
+    scale = cells.se if cells.se is not None else cells.sigma_e / jnp.sqrt(cells.n)
     numpyro.sample("ybar", dist.Normal(loc, scale), obs=cells.ybar)
 
 

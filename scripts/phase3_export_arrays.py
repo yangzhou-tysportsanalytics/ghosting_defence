@@ -46,13 +46,15 @@ def sha256(path) -> str:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--splits", default="train,val,test")
+    ap.add_argument("--velocity", default="central", choices=["central", "backward"],
+                    help="backward: strictly causal velocities (review 2026-10-30); writes ghost_arrays_bwd")  # fmt: skip
     args = ap.parse_args()
     cfg = D.DataConfig.load(game_set="all")
     base = cfg.processed_dir / "all"
-    out_root = base / "ghost_arrays"
+    out_root = base / ("ghost_arrays" if args.velocity == "central" else "ghost_arrays_bwd")
     P = pl.read_parquet(base / "possessions.parquet").filter(~pl.col("is_transition"))
     manifest = {"nbacore_version": cfg.version, "windows_release": cfg.windows_release,
-                "processed_dir": str(cfg.processed_dir), "splits": {}}  # fmt: skip
+                "processed_dir": str(cfg.processed_dir), "velocity": args.velocity, "splits": {}}  # fmt: skip
     for split in args.splits.split(","):
         Ps = P.filter(pl.col("split") == split)
         games = sorted(Ps["game_id"].unique().to_list())
@@ -64,7 +66,7 @@ def main() -> None:
             Pg = Ps.filter(pl.col("game_id") == gid)
             pt = load_game_set(base / "frames", [gid], Pg)
             fill_shot_clock(pt, {gid: D.shot_clock(gid, cfg)})
-            a = build_arrays(pt, Pg)
+            a = build_arrays(pt, Pg, args.velocity)
             n = len(a["valid"])
             if not mm:  # allocate once the per-row shapes are known
                 for k in KEYS:

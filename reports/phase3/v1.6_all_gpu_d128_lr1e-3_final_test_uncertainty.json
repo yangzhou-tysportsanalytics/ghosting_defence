@@ -1,0 +1,129 @@
+{
+ "model_run": "gpu_d128_lr1e-3_final",
+ "n_test_games": 126,
+ "n_test_possessions": 17526,
+ "bootstrap": "games, B=2000, seed 9",
+ "metrics": {
+  "learned_team_nll": {
+   "estimate": 6.074382356917425,
+   "ci95": [
+    6.058001239432033,
+    6.09145527062587
+   ],
+   "se_bootstrap": 0.008627346240476676,
+   "n_defender_steps": 4462280.0,
+   "design_effect_vs_independent_possessions": 6.040753129345294,
+   "effective_possessions": 2901.293865968579
+  },
+  "learned_team_rmse_ft": {
+   "estimate": 5.460771383433825,
+   "ci95": [
+    5.289815985458329,
+    5.6652163577157815
+   ],
+   "se_bootstrap": 0.0957473268096271,
+   "n_defender_steps": 4462280.0
+  },
+  "learned_individual_nll": {
+   "estimate": 4.260014763505214,
+   "ci95": [
+    4.228784606905957,
+    4.290109083054887
+   ],
+   "se_bootstrap": 0.01563711557936689,
+   "n_defender_steps": 892456.0,
+   "design_effect_vs_independent_possessions": 2.8975482499062784,
+   "effective_possessions": 6048.561918017027
+  },
+  "learned_individual_rmse_ft": {
+   "estimate": 4.714468401700225,
+   "ci95": [
+    4.502681730682452,
+    4.9598191538545935
+   ],
+   "se_bootstrap": 0.115573306189147,
+   "n_defender_steps": 892456.0
+  },
+  "rule_team_nll": {
+   "estimate": 6.610386504182402,
+   "ci95": [
+    6.546676229212101,
+    6.696384662907272
+   ],
+   "se_bootstrap": 0.038607145217676504,
+   "n_defender_steps": 4462280.0,
+   "design_effect_vs_independent_possessions": 2.86385149560134,
+   "effective_possessions": 6119.730728677313
+  },
+  "rule_team_rmse_ft": {
+   "estimate": 6.076328457852649,
+   "ci95": [
+    5.923943442559771,
+    6.262617221553902
+   ],
+   "se_bootstrap": 0.08754595298372976,
+   "n_defender_steps": 4462280.0
+  },
+  "rule_individual_nll": {
+   "estimate": 6.34788038985789,
+   "ci95": [
+    6.304677711571385,
+    6.400356081403764
+   ],
+   "se_bootstrap": 0.02468165690375854,
+   "n_defender_steps": 4462280.0,
+   "design_effect_vs_independent_possessions": 3.160350447242034,
+   "effective_possessions": 5545.587520300017
+  },
+  "rule_individual_rmse_ft": {
+   "estimate": 8.177905253121782,
+   "ci95": [
+    7.994970383469299,
+    8.394745186538987
+   ],
+   "se_bootstrap": 0.10304619967731117,
+   "n_defender_steps": 4462280.0
+  }
+ },
+ "differences": {
+  "learned_minus_rule_team_nll": {
+   "estimate": -0.5360041472649764,
+   "ci95": [
+    -0.6135325758690875,
+    -0.4769296635893405
+   ]
+  },
+  "learned_minus_rule_team_rmse_ft": {
+   "estimate": -0.6155570744188239,
+   "ci95": [
+    -0.649802912559872,
+    -0.5800007881115473
+   ]
+  },
+  "learned_minus_rule_individual_nll": {
+   "estimate": -2.0878656263526763,
+   "ci95": [
+    -2.130732322017652,
+    -2.0519608484301273
+   ]
+  },
+  "learned_minus_rule_individual_rmse_ft": {
+   "estimate": -3.463436851421557,
+   "ci95": [
+    -3.6048720695705394,
+    -3.325928507718584
+   ]
+  }
+ },
+ "check_against_eval": {
+  "learned_team_nll": 6.074382336496141,
+  "learned_team_rmse_ft": 5.4607713781874505,
+  "learned_individual_nll": 4.260014772234034,
+  "learned_individual_rmse_ft": 4.714468419845727,
+  "rule_team_nll": 6.610386504182401,
+  "rule_team_rmse_ft": 6.076328457852649,
+  "rule_individual_nll": 6.34788038985789,
+  "rule_individual_rmse_ft": 8.177905253121782
+ },
+ "max_abs_deviation_from_eval": 2.0421284219196423e-08
+}

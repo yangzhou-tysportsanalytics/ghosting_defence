@@ -1,0 +1,149 @@
+{
+ "spread": {
+  "defender_step": {
+   "r": 0.46922567486763,
+   "n": 22802480.0,
+   "entropy_mean": 4.1576948165893555,
+   "nll_mean": 4.2253947257995605,
+   "coverage_80": 0.7911829327336325
+  },
+  "player_level": {
+   "n_players": 349,
+   "r2_mean_departure_on_mean_entropy": 0.301459802223055,
+   "r2_within_team": 0.22254263394856288
+  }
+ },
+ "versions": {
+  "departure": {
+   "ghost": "cf_gpu_d128_lr1e-3",
+   "split_half_r_within_team": 0.8624176556104997,
+   "share_unexplained_by_role": 0.9523872187908058,
+   "predictive_rho_xfg_m3": {
+    "trait_parity0_outcome_parity1": {
+     "rho": 0.1604156307978893,
+     "ci95": [
+      0.03628409573244871,
+      0.26839924710788343
+     ]
+    },
+    "trait_parity1_outcome_parity0": {
+     "rho": 0.05959272831733047,
+     "ci95": [
+      -0.05063412920279205,
+      0.1703579991590965
+     ]
+    }
+   },
+   "detroit": {
+    "Drummond": {
+     "effect_mean": 0.15191681761179315,
+     "effect_lo95": 0.09860717409545043,
+     "effect_hi95": 0.20562865866828614
+    },
+    "Caldwell-Pope": {
+     "effect_mean": 0.2908145809162055,
+     "effect_lo95": 0.2216844771988443,
+     "effect_hi95": 0.3582982666032027
+    },
+    "S. Johnson": {
+     "effect_mean": 0.4691022921938096,
+     "effect_lo95": 0.35081435765949054,
+     "effect_hi95": 0.5777452598999414
+    }
+   },
+   "detroit_percentile": {
+    "Drummond": 0.8939828080229226,
+    "Caldwell-Pope": 0.9799426934097422,
+    "S. Johnson": 0.997134670487106
+   }
+  },
+  "excess": {
+   "ghost": "cf_gpu_d128_lr1e-3_excess",
+   "split_half_r_within_team": 0.8927220254030375,
+   "share_unexplained_by_role": 0.9850563108134295,
+   "predictive_rho_xfg_m3": {
+    "trait_parity0_outcome_parity1": {
+     "rho": 0.23737158344686796,
+     "ci95": [
+      0.12190445054418439,
+      0.34050956622317696
+     ]
+    },
+    "trait_parity1_outcome_parity0": {
+     "rho": 0.1263738514787204,
+     "ci95": [
+      0.01157968886051091,
+      0.24138404129864827
+     ]
+    }
+   },
+   "detroit": {
+    "Drummond": {
+     "effect_mean": 0.23725665610408259,
+     "effect_lo95": 0.19264058695406966,
+     "effect_hi95": 0.28066278971508274
+    },
+    "Caldwell-Pope": {
+     "effect_mean": 0.27313185913240384,
+     "effect_lo95": 0.20552690395006426,
+     "effect_hi95": 0.3362770251129721
+    },
+    "S. Johnson": {
+     "effect_mean": 0.4195255709079452,
+     "effect_lo95": 0.30743318543763004,
+     "effect_hi95": 0.5313502106353987
+    }
+   },
+   "detroit_percentile": {
+    "Drummond": 0.9684813753581661,
+    "Caldwell-Pope": 0.9770773638968482,
+    "S. Johnson": 0.997134670487106
+   },
+   "rank_corr_with_departure_effects": 0.9462454063285066
+  },
+  "pit": {
+   "ghost": "cf_gpu_d128_lr1e-3_pit",
+   "split_half_r_within_team": 0.92647299184678,
+   "share_unexplained_by_role": 0.98870141776883,
+   "predictive_rho_xfg_m3": {
+    "trait_parity0_outcome_parity1": {
+     "rho": 0.22275979702300097,
+     "ci95": [
+      0.10713819893906308,
+      0.3238773895822124
+     ]
+    },
+    "trait_parity1_outcome_parity0": {
+     "rho": 0.13135232340739747,
+     "ci95": [
+      0.015360219444784983,
+      0.2474585028658469
+     ]
+    }
+   },
+   "detroit": {
+    "Drummond": {
+     "effect_mean": 0.04841000229243913,
+     "effect_lo95": 0.04027718026799832,
+     "effect_hi95": 0.05660509581110931
+    },
+    "Caldwell-Pope": {
+     "effect_mean": 0.06285568697874228,
+     "effect_lo95": 0.05120720869657909,
+     "effect_hi95": 0.07448380050308406
+    },
+    "S. Johnson": {
+     "effect_mean": 0.09190038706858435,
+     "effect_lo95": 0.07652052203537711,
+     "effect_hi95": 0.10675334268591809
+    }
+   },
+   "detroit_percentile": {
+    "Drummond": 0.9541547277936963,
+    "Caldwell-Pope": 0.9770773638968482,
+    "S. Johnson": 0.997134670487106
+   },
+   "rank_corr_with_departure_effects": 0.9285794562602554
+  }
+ }
+}

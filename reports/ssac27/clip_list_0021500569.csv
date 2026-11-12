@@ -1,0 +1,11 @@
+game_id,possession_id,period,game_clock,clock_s,defender,def_id,defender_team,defender_position,has_matchup,man,man_id,man_team,man_position,duration_s,peak_nll_ind,defenders_involved,terminal_type,terminal_desc,points,xfg_real,rank_by_shot_quality
+0021500569,14,1,7:39,459.0,George Hill,201588,IND,guard,true,PJ Tucker,200782,PHX,forward,2.6,13.410523414611816,1,fg_missed,MISS Leuer 25' 3PT Jump Shot,0,0.38317232839767573,10
+0021500569,64,2,7:01,421.70000610351565,Mirza Teletovic,203141,PHX,forward,true,Jordan Hill,201941,IND,center,1.2,11.02437973022461,1,fg_missed,MISS Miles 17' Jump Shot,0,0.431052426704136,6
+0021500569,65,2,6:48,408.2199951171875,Jordan Hill,201941,IND,center,true,TJ Warren,203933,PHX,forward,1.2,10.266940116882324,1,fg_made,Brown 26' 3PT Jump Shot (3 PTS) (Booker 1 AST),3,0.41130820041096405,7
+0021500569,70,2,4:55,295.56000366210935,TJ Warren,203933,PHX,forward,true,Chase Budinger,201978,IND,forward,3.2,12.589675903320312,2,fg_missed,MISS Miles 1' Driving Layup,0,0.4554165614115602,4
+0021500569,95,3,8:57,537.9400268554688,Tyson Chandler,2199,PHX,center,true,Ian Mahinmi,101133,IND,center,1.0,10.509303092956543,1,fg_missed,MISS Mahinmi 21' Jump Shot,0,0.5666461428914464,1
+0021500569,114,3,4:11,251.87000122070313,Devin Booker,1626164,PHX,guard,true,George Hill,201588,IND,guard,1.4,10.359844207763672,1,fg_made,Ellis 25' 3PT Jump Shot (6 PTS) (G. Hill 3 AST),3,0.4048039982967165,8
+0021500569,120,3,2:39,159.90999755859374,Archie Goodwin,203462,PHX,guard,true,CJ Miles,101139,IND,forward-guard,1.0,10.406391143798828,1,fg_missed,MISS Miles 13' Jump Shot,0,0.4932137481442222,2
+0021500569,125,3,1:37,97.8199966430664,Glenn Robinson,203922,IND,guard-forward,true,Devin Booker,1626164,PHX,guard,1.0,14.764695167541504,1,fg_made,Mark Morris  Driving Layup (12 PTS),3,0.477361515640955,3
+0021500569,159,4,4:12,252.8699981689453,Archie Goodwin,203462,PHX,guard,true,George Hill,201588,IND,guard,2.6,12.678611755371094,1,fg_made,Miles 26' 3PT Jump Shot (19 PTS) (G. Hill 5 AST),3,0.44705210342220314,5
+0021500569,166,4,2:19,139.8699981689453,Myles Turner,1626167,IND,forward-center,true,Mirza Teletovic,203141,PHX,forward,1.0,11.686993598937988,1,fg_made,Teletovic 26' 3PT Jump Shot (19 PTS) (Goodwin 3 AST),3,0.3834397240008908,9

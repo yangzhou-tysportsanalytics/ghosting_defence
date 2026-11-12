@@ -1,0 +1,30 @@
+{
+ "cut_date": "2016-01-23",
+ "n_teams": 30,
+ "games_after_per_team": [
+  36,
+  41
+ ],
+ "possession_estimate": "FGA - OREB + TOV + 0.44 FTA per team, mean of the two teams",
+ "r_early_help_vs_drtg_after": {
+  "r": -0.1915799760712119,
+  "ci95_team_bootstrap": [
+   -0.4836956676910591,
+   0.1256141244750252
+  ],
+  "p_permutation": 0.3097
+ },
+ "r_early_help_vs_drtg_before": -0.39203987623564485,
+ "r_drtg_before_vs_after": 0.6027591706485078,
+ "regression_drtg_after": {
+  "early_help_per_sd": 0.17546970378002336,
+  "ci95_team_bootstrap": [
+   -0.7082046916894678,
+   1.0532669111251654
+  ],
+  "drtg_before_coef": 0.7135719282719827,
+  "note": "later rating on standardised early help and the tracking-period rating"
+ },
+ "mean_drtg_after": 105.29024851598797,
+ "note": "points allowed per 100 possessions; nbacore full-season play-by-play and box scores; correlations only"
+}

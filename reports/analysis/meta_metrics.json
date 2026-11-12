@@ -3,7 +3,7 @@
  "n_players": 348,
  "bootstrap": "games, B=200",
  "date_cutoff": "2015-12-09",
- "context": "D-021 phase shares (main spec)",
+ "context": "phases",
  "metrics": {
   "dev_ft_adjusted": {
    "discrimination": 0.9608749390119738,
@@ -141,12 +141,12 @@
    "discrimination": 0.9799613102230694,
    "stability_parity": {
     "stability": 0.995054137460338,
-    "r_between_halves": 0.9575491744918049,
+    "r_between_halves": 0.957549174491805,
     "n_players": 348
    },
    "stability_date": {
     "stability": 0.9542765807703403,
-    "r_between_halves": 0.9190003756027926,
+    "r_between_halves": 0.9190003756027925,
     "n_players": 344
    },
    "independence": {
@@ -161,22 +161,22 @@
      "n_players": 348
     },
     "position_height_guarded_threat": {
-     "independence": 0.31435363048805803,
-     "r2_raw": 0.6766344806884202,
+     "independence": 0.3143536304880581,
+     "r2_raw": 0.6766344806884201,
      "n_players": 348
     }
    },
    "external_correlations": {
     "raptor_defense": {
-     "pearson": 0.31065396359235564,
+     "pearson": 0.31065396359235575,
      "spearman": 0.31015974717446276,
-     "pearson_disattenuated_by_D": 0.31381408644949604,
+     "pearson_disattenuated_by_D": 0.31381408644949615,
      "n_players": 348
     },
     "dbpm": {
-     "pearson": 0.22141012149052236,
+     "pearson": 0.22141012149052242,
      "spearman": 0.21294951872024653,
-     "pearson_disattenuated_by_D": 0.22366241268176745,
+     "pearson_disattenuated_by_D": 0.2236624126817675,
      "n_players": 348
     }
    }

@@ -30,17 +30,42 @@ rel = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(rel)
 
 
+def cell_se_game_clustered(d: pl.DataFrame, c: pl.DataFrame, sigma_e: float) -> np.ndarray:
+    """Per-cell SE of the mean residual with possessions clustered by game (review A8): within a
+    game a defender's possessions share opponent, lineup and plan, so they are not independent.
+    se_c^2 = G/(G-1) * sum_g (sum_{i in g} (r_i - ybar_c))^2 / n_c^2, floored at sigma_e^2 / n_c."""
+    g = (
+        d.group_by(["def_id", "defense_team_id", "game_id"])
+        .agg(pl.col("r").sum().alias("s"), pl.len().alias("m"))
+        .join(
+            c.select(["def_id", "defense_team_id", "ybar", "n"]), on=["def_id", "defense_team_id"]
+        )
+        .with_columns(((pl.col("s") - pl.col("m") * pl.col("ybar")) ** 2).alias("q"))
+        .group_by(["def_id", "defense_team_id"])
+        .agg(pl.col("q").sum(), pl.len().alias("G"))
+    )
+    j = c.join(g, on=["def_id", "defense_team_id"], how="left").sort(["def_id", "defense_team_id"])
+    assert j["def_id"].to_list() == c["def_id"].to_list()  # c is sorted the same way
+    G = j["G"].to_numpy().astype(float)
+    n = j["n"].to_numpy().astype(float)
+    v = np.where(G > 1, G / np.maximum(G - 1, 1) * j["q"].to_numpy() / n**2, 0.0)
+    return np.sqrt(np.maximum(v, sigma_e**2 / n))
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--context", default="base", choices=["base", "phases"], help="D-021")
+    ap.add_argument("--context", default="base", choices=list(rel.CONTEXTS), help="D-021")
     ap.add_argument("--ghost", default="rule", help='"rule" or "learned:<name>"')
+    ap.add_argument("--cell-variance", default="pooled", choices=["pooled", "game_clustered"],
+                    help="SE of a cell mean: pooled sigma_e/sqrt(n), or clustered by game (review A8;"
+                    " never below the pooled value)")  # fmt: skip
     args = ap.parse_args()
-    extra = tuple(rel.PHASE_COVS) if args.context == "phases" else ()
-    suffix = "" if args.context == "base" else "_phases"  # prefixed by the ghost suffix below
+    extra = rel.CONTEXTS[args.context]
+    suffix = rel.CONTEXT_SUFFIX[args.context]  # prefixed by the ghost suffix below
     cfg = D.DataConfig.load(game_set="all")
     base = cfg.processed_dir / "all"
     df, metrics, gsfx = rel.load_dev(base, args.ghost)
-    suffix = gsfx + suffix
+    suffix = gsfx + suffix + ("_gclust" if args.cell_variance == "game_clustered" else "")
     if extra:
         df = rel.with_phases(df, base)
     ros = (
@@ -69,8 +94,10 @@ def main() -> None:
                 .mean()
             )
         )
-        c = d.group_by(["def_id", "defense_team_id"]).agg(
-            pl.col("r").mean().alias("ybar"), pl.len().alias("n")
+        c = (
+            d.group_by(["def_id", "defense_team_id"])
+            .agg(pl.col("r").mean().alias("ybar"), pl.len().alias("n"))
+            .sort(["def_id", "defense_team_id"])  # group_by order varies; NUTS depends on it
         )
         teams = sorted(c["defense_team_id"].unique().to_list())
         players = sorted(c["def_id"].unique().to_list())
@@ -84,6 +111,9 @@ def main() -> None:
             n_team=len(teams),
             n_player=len(players),
             sigma_e=sigma_e,
+            se=cell_se_game_clustered(d, c, sigma_e)
+            if args.cell_variance == "game_clustered"
+            else None,
         )
         met = {
             "sigma_e_ft": sigma_e,
@@ -128,6 +158,7 @@ def main() -> None:
         report["metrics"][y] = met
         print(y, json.dumps({k: v for k, v in met.items() if k != "team_effects"}, indent=1)[:2500])
     report["context"] = args.context
+    report["cell_variance"] = args.cell_variance
     (out_dir / f"hier{suffix}.json").write_text(json.dumps(report, indent=2))
 
 

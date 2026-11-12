@@ -36,6 +36,18 @@ COVS = ["man_to_hoop_ft", "man_to_ball_ft", "share_strong", "share_on_ball"]
 
 # D-021: the context term adds the phase shares of D-020 ("other" is the reference)
 PHASE_COVS = ["share_pre_screen", "share_screen", "share_help", "share_closeout", "share_recovery"]
+# Context specifications (extra covariates on top of COVS) and their output suffixes.
+# offense_phases (review A6): only the phases set by the offence (pre-screen, screen); help,
+# closeout and recovery are the defender's own events. help_only: to measure what the help share
+# alone removes from the within-team player variance.
+CONTEXTS = {
+    "base": (),
+    "phases": tuple(PHASE_COVS),
+    "offense_phases": ("share_pre_screen", "share_screen"),
+    "help_only": ("share_help",),
+}
+CONTEXT_SUFFIX = {"base": "", "phases": "_phases", "offense_phases": "_ophases",
+                  "help_only": "_helponly"}  # fmt: skip
 
 
 def with_phases(df: pl.DataFrame, base) -> pl.DataFrame:
@@ -198,14 +210,14 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--game-set", default="all")
     ap.add_argument("--reps", type=int, default=20)
-    ap.add_argument("--context", default="base", choices=["base", "phases"], help="D-021")
+    ap.add_argument("--context", default="base", choices=list(CONTEXTS), help="D-021")
     ap.add_argument("--ghost", default="rule", help='"rule" or "learned:<name>"')
     args = ap.parse_args()
-    extra = tuple(PHASE_COVS) if args.context == "phases" else ()
+    extra = CONTEXTS[args.context]
     cfg = D.DataConfig.load(game_set=args.game_set)
     base = cfg.processed_dir / cfg.game_set
     df, metrics, gsfx = load_dev(base, args.ghost)
-    suffix = gsfx + ("" if args.context == "base" else "_phases")
+    suffix = gsfx + CONTEXT_SUFFIX[args.context]
     if extra:
         df = with_phases(df, base)
     rng = np.random.default_rng(9)

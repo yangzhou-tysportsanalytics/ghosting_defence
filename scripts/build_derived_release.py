@@ -11,6 +11,8 @@ Output: data/derived_release/<package_id>/ and data/derived_release/<package_id>
 Usage:
     uv run python scripts/build_derived_release.py [--package-id ghost-defense-derived-v1.1]
         [--ghost-crossfit <config tag>] [--ghost-final <run tag>]   # v1.2 learned-ghost outputs
+        [--anonymous]   # double-blind review: the nbacore link is replaced by a neutral note
+Anonymity of the result is checked with check_identity.py (private term list).
 """
 
 from __future__ import annotations
@@ -36,6 +38,7 @@ NBACORE_PACKAGE = {
     "zip_sha256": "d44a4a92f584204f10972d56a3ed5c3c9cc278df39fbe53d5c305aacd7c0a92f",
     "manifest_sha256": "1551d916078c58df702cf9d32a438eed6c54e48a3c1accd4fd582ae0db855fda",
 }
+ANON_RELEASE = "nbacore data layer, release data-v1.6 (link in the camera-ready version)"
 MATCHUP_MODEL = "hmm_strat_help"
 
 DESCRIPTIONS = {
@@ -85,16 +88,27 @@ DESCRIPTIONS = {
     "test games",
     "ghost_model_config.json": "its configuration (model and training) and evaluation summary",
     "ghost_models_crossfit.zip": "the five cross-fitting models (state dicts + configuration)",
-    "annotations.json": "the 100 annotated possessions (core sample): reviewed matchup corrections and events "
-    "per annotator (anonymised A1, A2); notes and video links removed",
-    "annotations_blind.json": "the 10 blind possessions (no model output shown; D-027), same "
-    "format and annotator codes as annotations.json",
-    "annotation_eval.json": "accuracy of the matchup model and events against the annotations, "
-    "and the blind-vs-assisted comparison (anchoring)",
+    "quick_check_matchups.csv": "matchup check (D-036): 40 test-game possessions, two moments "
+    "each; per defender the attacker named by each analyst (A1, A2; -1 nobody, -9 can't tell); "
+    "step = 5 Hz index from the possession start",
+    "quick_check_events.csv": "event check (D-036): 90 test-game clips (detected early / late / "
+    "corner help, screen switches, and clips without a detected event); answers of A1, A2 and "
+    "the joint consensus review; notes removed",
+    "quick_check_eval.json": "accuracy of the matchup model and baselines, event precision per "
+    "type (each analyst and consensus), agreement between the analysts",
     "hier_players_nll_ind_learned_phases.csv": "player effects (95 % intervals) of the learned "
     "individual-ghost deviation, main specification (D-021)",
     "hier_players_nll_team_learned_phases.csv": "player effects (95 % intervals) of the learned "
     "team-ghost deviation, main specification (D-021)",
+    # SSAC cards (Figures 4 and 6 of the SSAC paper): intervals clustered by game
+    "hier_players_nll_ind_learned_phases_gclust.csv": "player effects of the learned "
+    "individual-ghost deviation with game-clustered variation (the player-card intervals)",
+    "hier_players_sag_ft_phases_gclust.csv": "player sag effects with game-clustered variation "
+    "(the player-card intervals)",
+    "player_cards.csv": "player-card values: sag, departure and help rate with 95 % intervals and "
+    "percentiles within listed position (>= 300 defensive possessions); not a ranking",
+    "team_cards.csv": "team-card values: points allowed per 100 possessions, help and switch rates, "
+    "corner help per drive and team sag, with 95 % intervals",
 }
 
 
@@ -104,6 +118,57 @@ def sha256(p: Path) -> str:
         for chunk in iter(lambda: f.read(1 << 22), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def quick_check_files(out: Path) -> tuple[list[str], list[str]]:
+    """Quick check (D-036): long tables of the analysts' answers (codes A1, A2; no notes, no
+    times) keyed by player ids, and the evaluation summary."""
+    root = Path("data/annotations")
+    raw = {c: root / "raw" / f"{c}_gdq_v1_answers.json" for c in ("A1", "A2", "ADJ")}
+    alloc_p, bundle_p = (
+        root / "quick" / "gdq_v1" / "allocation.json",
+        root / "bundles" / "gdq_v1.json",
+    )
+    names = ["quick_check_matchups.csv", "quick_check_events.csv"]
+    if not (alloc_p.exists() and bundle_p.exists() and raw["A1"].exists()):
+        return [], names + ["quick_check_eval.json"]
+    alloc = json.loads(alloc_p.read_text())["items"]
+    by = {(b["game_id"], int(b["possession_id"])): b for b in
+          json.loads(bundle_p.read_text(encoding="utf-8"))["possessions"]}  # fmt: skip
+    ans = {c: json.loads(f.read_text(encoding="utf-8"))["answers"] for c, f in raw.items()
+           if f.exists()}  # fmt: skip
+    m_rows, e_rows = [], []
+    for i, a in sorted(alloc.items(), key=lambda t: t[1]["index"]):
+        b = by[(a["game_id"], a["possession_id"])]
+        off = [int(x["id"]) for x in b["offense"]]
+        dfn = [int(x["id"]) for x in b["defense"]]
+        row = {"item": i, "game_id": a["game_id"], "possession_id": a["possession_id"],
+               "category": a["category"]}  # fmt: skip
+        if a["task"] == "M":
+            for j, k in enumerate(a["keyframes"]):
+                for d in range(5):
+                    r = row | {"moment": j + 1, "step": k, "defender_id": dfn[d]}
+                    for c in ("A1", "A2"):
+                        v = (ans.get(c, {}).get(i) or {}).get("km", [[None] * 5] * 2)[j][d]
+                        r[f"{c.lower()}_attacker_id"] = off[v] if v is not None and v >= 0 else v
+                    m_rows.append(r)
+        else:
+            x = {c: (ans.get(c, {}).get(i) or {}).get("a") for c in ("A1", "A2", "ADJ")}
+            cons = x["A1"] if x["A1"] == x["A2"] else x["ADJ"]
+            e_rows.append(row | {"kind": "switch" if "switch" in a["category"] else "help",
+                                 "defender_ids": " ".join(str(d) for d in a["defs"]),
+                                 "t_ms": a["t_ms"], "a1": x["A1"], "a2": x["A2"],
+                                 "reviewed": x["A1"] != x["A2"], "consensus": cons})  # fmt: skip
+    pl.DataFrame(m_rows).write_csv(out / names[0])
+    pl.DataFrame(e_rows).write_csv(out / names[1])
+    included, skipped = list(names), []
+    ev = Path("reports/phase2/quick_check_eval.json")
+    if ev.exists():
+        shutil.copy2(ev, out / "quick_check_eval.json")
+        included.append("quick_check_eval.json")
+    else:
+        skipped.append("quick_check_eval.json")
+    return included, skipped
 
 
 def add_optional(out: Path, base: Path, cfg, args, zstd: dict) -> tuple[list[str], list[str]]:
@@ -117,6 +182,9 @@ def add_optional(out: Path, base: Path, cfg, args, zstd: dict) -> tuple[list[str
         (rep / "analysis" / "help_timing_players.csv", "help_timing_players.csv"),
         (r4 / "hier_players_sag_ft_phases.csv", "hier_players_sag_ft_phases.csv"),
         (r4 / "hier_players_dev_ft_phases.csv", "hier_players_dev_ft_phases.csv"),
+        (r4 / "hier_players_sag_ft_phases_gclust.csv", "hier_players_sag_ft_phases_gclust.csv"),
+        (rep / "ssac27" / "player_cards.csv", "player_cards.csv"),
+        (rep / "ssac27" / "team_cards.csv", "team_cards.csv"),
     ]
     if args.ghost_crossfit:
         n = f"cf_{args.ghost_crossfit}"
@@ -132,6 +200,8 @@ def add_optional(out: Path, base: Path, cfg, args, zstd: dict) -> tuple[list[str
             )
             for m in ("nll_ind", "nll_team")
         ]
+        items.append((r4 / f"hier_players_nll_ind_learned_{n}_phases_gclust.csv",
+                      "hier_players_nll_ind_learned_phases_gclust.csv"))  # fmt: skip
     included, skipped = [], []
     for src, name in items:
         if not src.exists():
@@ -165,45 +235,9 @@ def add_optional(out: Path, base: Path, cfg, args, zstd: dict) -> tuple[list[str
             included.append("ghost_models_crossfit.zip")
         else:
             skipped.append("ghost_models_crossfit.zip")
-    # annotations: initials replaced by A1, A2, ... (same code for an annotator in both bundles)
-    raw_dir = Path("data/annotations/raw")
-    initials = sorted({json.loads(f.read_text(encoding="utf-8")).get("annotator", f.stem)
-                       for f in raw_dir.glob("gd_v2_*__*.json")})  # fmt: skip
-    code = {a: f"A{j}" for j, a in enumerate(initials, 1)}
-    for bundle, name in (("gd_v2_core100", "annotations.json"),
-                         ("gd_v2_blind10", "annotations_blind.json")):  # fmt: skip
-        raw = sorted(raw_dir.glob(f"{bundle}__*.json"))
-        if not raw:
-            skipped.append(name)
-            continue
-        anns = []
-        for f in raw:  # drop free text and video links
-            a = json.loads(f.read_text(encoding="utf-8"))
-            poss = {}
-            for key, x in a["possessions"].items():
-                segs = [{k: v for k, v in sg.items() if k != "note"} for sg in x["segments"]]
-                poss[key] = {"segments": segs, "status": x.get("status"),
-                             "rejected_prelabels": x.get("rejected_prelabels", []),
-                             "time_spent_s": x.get("time_spent_s")}  # fmt: skip
-            anns.append({"annotator": code.get(a.get("annotator"), "A?"), "possessions": poss})
-        (out / name).write_text(json.dumps({"bundle": bundle, "annotators": anns}))
-        included.append(name)
-    ev_p = Path("reports/phase2") / f"{cfg.version}_all" / "annotation_eval.json"
-    if ev_p.exists():
-        e = json.loads(ev_p.read_text())
-        e.pop("files", None)
-        for a in e.get("per_annotator", []):
-            a.pop("annotator", None)
-        for a in e.get("agreement", []):
-            a.pop("pair", None)
-        if "blind_vs_assisted" in e:  # keyed by initials
-            e["blind_vs_assisted"] = {
-                code.get(k, "A?"): v for k, v in e["blind_vs_assisted"].items()
-            }
-        (out / "annotation_eval.json").write_text(json.dumps(e, indent=1))
-        included.append("annotation_eval.json")
-    else:
-        skipped.append("annotation_eval.json")
+    included_q, skipped_q = quick_check_files(out)
+    included += included_q
+    skipped += skipped_q
     return included, skipped
 
 
@@ -212,7 +246,9 @@ def main() -> None:
     ap.add_argument("--package-id", default="ghost-defense-derived-v1.1")
     ap.add_argument("--ghost-crossfit", default=None, help="cross-fitting config tag (cf_<tag>)")
     ap.add_argument("--ghost-final", default=None, help="run tag of the model scored on test")
+    ap.add_argument("--anonymous", action="store_true", help="neutral nbacore source (review)")
     args = ap.parse_args()
+    nbacore = dict(NBACORE_PACKAGE, release=ANON_RELEASE) if args.anonymous else NBACORE_PACKAGE
     cfg = D.DataConfig.load(game_set="all")
     base = cfg.processed_dir / "all"
     out = Path("data/derived_release") / args.package_id
@@ -276,7 +312,7 @@ def main() -> None:
             "nbacore_data_version": cfg.version,
             "windows_release": cfg.windows_release,
             "matchup_model": MATCHUP_MODEL,
-            "nbacore_public_package": NBACORE_PACKAGE,
+            "nbacore_public_package": nbacore,
         },
         "coordinate_policy": "no player or ball tracks; only shots.parquet shot_x / shot_y",
         "optional": {"included": included, "skipped_missing_source": skipped},
@@ -321,7 +357,7 @@ def main() -> None:
         "ids are NBA ids. Split columns follow the fixed nbacore split (train / val / test by date).",
         "",
         "Inputs: nbacore public data package "
-        f"`{NBACORE_PACKAGE['package_id']}` ({NBACORE_PACKAGE['release']}).",
+        f"`{nbacore['package_id']}` ({nbacore['release']}; zip sha256 `{nbacore['zip_sha256']}`).",
         "",
         "Terms: underlying tracking and play-by-play data (c) NBA / NBA.com; these derived tables are",
         "shared for research reproducibility. Point estimates of individual players describe observed",

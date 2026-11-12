@@ -15,6 +15,11 @@ confounder would have to be:
   observed covariate group (each covariate with its decile terms): the handler's velocity
   toward the rim (named in the request), and the covariate with the largest partial R2 with
   the treatment.
+Review A5 (2026-10-30), added without changing the values above: a third benchmark, the
+covariate with the largest partial R2 with the outcome; a contour grid of the adjusted estimate
+over partial R2 of the confounder with treatment and outcome (with the zero contour); variance
+ratios treated / control before and after overlap weighting; and a note that the matched
+analysis refits the propensity model in every bootstrap draw.
 Classical OLS standard errors as in Cinelli & Hazlett (games as clusters are not reflected; the
 matched analysis's game-bootstrap intervals are the reference for uncertainty).
 
@@ -39,8 +44,12 @@ from analysis_help_timing_matched import (  # noqa: E402
     analysis_frame,
     comparisons,
     design,
+    estimates,
     outcome_samples,
 )
+
+GRID_D = np.round(np.linspace(0.0, 0.40, 41), 3)  # partial R2 of the confounder with treatment
+GRID_Y = np.round(np.linspace(0.0, 0.02, 41), 4)  # ... and with the outcome
 
 Z = 1.959963984540054  # normal 97.5 % quantile (df in the tens of thousands)
 
@@ -104,12 +113,13 @@ def ovb(X: np.ndarray, t: np.ndarray, y: np.ndarray) -> dict:
         r2yx = 1 - ryd_full / float(ry_r @ ry_r)
         bench[name] = (max(r2dx, 0.0), max(r2yx, 0.0))
     strongest = max(bench, key=lambda c: bench[c][0])
+    strongest_y = max(bench, key=lambda c: bench[c][1])
     out["benchmark_partial_r2"] = {
         c: {"with_treatment": round(v[0], 5), "with_outcome": round(v[1], 5)}
         for c, v in sorted(bench.items(), key=lambda kv: -kv[1][0])
     }
     out["bounds"] = {}
-    for name in dict.fromkeys(["h_v_to_rim", strongest]):
+    for name in dict.fromkeys(["h_v_to_rim", strongest, strongest_y]):
         r2dxj, r2yxj = bench[name]
         rows = []
         for k in (1, 2, 3):
@@ -134,6 +144,35 @@ def ovb(X: np.ndarray, t: np.ndarray, y: np.ndarray) -> dict:
                          "adjusted_ci95": [adj - Z * adj_se, adj + Z * adj_se]})  # fmt: skip
         out["bounds"][name] = rows
     out["strongest_observed_covariate"] = strongest
+    out["strongest_observed_covariate_with_outcome"] = strongest_y
+    # contour grid (Cinelli & Hazlett 2020, Fig. 2): adjusted estimate for a confounder with
+    # partial R2 r2dz (treatment) and r2yz (outcome); zero contour = r2yz at which it reaches 0
+    adj = np.array([[beta - math.copysign(se * math.sqrt(df) * math.sqrt(ry * rd / (1 - rd)), beta)
+                     for ry in GRID_Y] for rd in GRID_D])  # fmt: skip
+    zero = [float(beta**2 * (1 - rd) / (se**2 * df * rd)) if rd > 0 else None for rd in GRID_D]
+    out["contour"] = {"r2_treatment": GRID_D.tolist(), "r2_outcome": GRID_Y.tolist(),
+                      "adjusted_estimate": adj.round(6).tolist(),
+                      "r2_outcome_for_zero": zero}  # fmt: skip
+    return out
+
+
+def variance_ratios(X: np.ndarray, lin: np.ndarray, t: np.ndarray) -> dict:
+    """Variance ratio treated / control of each standardised covariate, before and after
+    overlap weighting (propensity fitted once, as in the matched analysis)."""
+    e = estimates(X, t, np.zeros(len(t)))["e"]
+    w = np.where(t == 1, 1 - e, e)
+
+    def wvar(a, ww):
+        m = np.average(a, weights=ww)
+        return float(np.average((a - m) ** 2, weights=ww))
+
+    out = {}
+    for j, c in enumerate(NUM):
+        a = lin[:, j]
+        out[c] = {
+            "before": float(a[t == 1].var() / max(a[t == 0].var(), 1e-12)),
+            "overlap_weighted": wvar(a[t == 1], w[t == 1]) / max(wvar(a[t == 0], w[t == 0]), 1e-12),
+        }
     return out
 
 
@@ -149,7 +188,7 @@ def main() -> None:
     for comp, sub in comparisons(df):
         rep["comparisons"][comp] = {}
         for yname, d, y in outcome_samples(sub):
-            X, _ = design(d)
+            X, lin = design(d)
             t = d["early"].to_numpy().astype(float)
             m = matched["comparisons"][comp][yname]
             est, (lo, hi) = m["ato_overlap_weighted"], m["ato_ci95_game_bootstrap"]
@@ -165,6 +204,8 @@ def main() -> None:
                 "e_value_ci_bound": 1.0 if near == 0.0 else e_value(near, sd),
             }
             res.update(ovb(X, t, y))
+            res["variance_ratios"] = variance_ratios(X, lin, t)
+            res["propensity_refit_in_each_bootstrap_draw"] = True  # analysis_help_timing_matched
             rep["comparisons"][comp][yname] = res
             b = res["bounds"].get("h_v_to_rim", [])
             print(f"{comp} {yname}: ATO {est:+.4f} E {res['e_value_estimate']:.2f} "

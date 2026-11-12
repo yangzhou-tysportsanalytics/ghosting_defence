@@ -9,7 +9,7 @@
   "added_halfcourt": 3368,
   "release_windows_missing": 0,
   "release_windows_unchanged": true,
-  "wall_seconds": 555
+  "wall_seconds": 2
  },
  "main": {
   "n_possessions": 108005,
@@ -28,45 +28,45 @@
   },
   "sag_ft_base": {
    "n_players_ge300": 348,
-   "split_half_r_adjusted": 0.9575909006497471,
+   "split_half_r_adjusted": 0.9575909006497476,
    "split_half_r_within_position": 0.9215081415530499,
    "hier_team_share": {
-    "mean": 0.0777668675780262,
-    "lo95": 0.07375819499542705,
-    "hi95": 0.08151114808318942
+    "mean": 0.07780755964112604,
+    "lo95": 0.07407473419083682,
+    "hi95": 0.08152795992599522
    },
-   "share_player_intervals_excluding_zero": 0.9054441260744985
+   "share_player_intervals_excluding_zero": 0.9083094555873925
   },
   "dev_ft_base": {
    "n_players_ge300": 348,
    "split_half_r_adjusted": 0.9318103873690456,
    "split_half_r_within_position": 0.9209759570664919,
    "hier_team_share": {
-    "mean": 0.14422806489398363,
-    "lo95": 0.13430679371984058,
-    "hi95": 0.1541588221657254
+    "mean": 0.14405338226495715,
+    "lo95": 0.13511320435539614,
+    "hi95": 0.1533388152536564
    },
-   "share_player_intervals_excluding_zero": 0.7908309455587392
+   "share_player_intervals_excluding_zero": 0.7879656160458453
   },
   "sag_ft_phases": {
    "n_players_ge300": 348,
-   "split_half_r_adjusted": 0.9602241766914922,
+   "split_half_r_adjusted": 0.9602241766914924,
    "split_half_r_within_position": 0.9250382475730206,
    "hier_team_share": {
-    "mean": 0.0740443360287306,
-    "lo95": 0.07063286314650569,
-    "hi95": 0.07764799935688628
+    "mean": 0.07399345284655308,
+    "lo95": 0.0703681157435732,
+    "hi95": 0.077577642711387
    },
-   "share_player_intervals_excluding_zero": 0.9083094555873925
+   "share_player_intervals_excluding_zero": 0.9140401146131805
   },
   "dev_ft_phases": {
    "n_players_ge300": 348,
    "split_half_r_adjusted": 0.9306286194122991,
    "split_half_r_within_position": 0.9198849384012998,
    "hier_team_share": {
-    "mean": 0.14401506792338534,
-    "lo95": 0.13518316417381007,
-    "hi95": 0.1533010355920286
+    "mean": 0.1441351180336912,
+    "lo95": 0.13506070061337175,
+    "hi95": 0.15434307972588845
    },
    "share_player_intervals_excluding_zero": 0.7851002865329513
   },
@@ -110,12 +110,12 @@
     "per_sd": 0.37290114577552724
    },
    "xfg_m3_per_ft_sag": {
-    "coef": 0.007337083076814426,
+    "coef": 0.007337083076814405,
     "ci95": [
-     0.007094215760052673,
-     0.007592511665753842
+     0.007094215760052681,
+     0.007592511665753843
     ],
-    "per_sd": 0.017928888359908936
+    "per_sd": 0.017928888359908884
    },
    "player_rho": {
     "def1_ft": [
@@ -154,47 +154,47 @@
   },
   "sag_ft_base": {
    "n_players_ge300": 351,
-   "split_half_r_adjusted": 0.9584263726495343,
-   "split_half_r_within_position": 0.9226428740833463,
+   "split_half_r_adjusted": 0.9584263726495345,
+   "split_half_r_within_position": 0.9226428740833461,
    "hier_team_share": {
-    "mean": 0.07581036437029741,
-    "lo95": 0.07244116623433083,
-    "hi95": 0.07963823196077184
+    "mean": 0.07591943853243885,
+    "lo95": 0.07224409787329833,
+    "hi95": 0.07980351578035103
    },
-   "share_player_intervals_excluding_zero": 0.9090909090909091
+   "share_player_intervals_excluding_zero": 0.9119318181818182
   },
   "dev_ft_base": {
    "n_players_ge300": 351,
-   "split_half_r_adjusted": 0.9342158684666826,
-   "split_half_r_within_position": 0.9215190685699995,
+   "split_half_r_adjusted": 0.9342158684666824,
+   "split_half_r_within_position": 0.9215190685699999,
    "hier_team_share": {
-    "mean": 0.1408635490924321,
-    "lo95": 0.1320480540026236,
-    "hi95": 0.14986408159058723
+    "mean": 0.1408126856377219,
+    "lo95": 0.13184191436906237,
+    "hi95": 0.14973524659672274
    },
-   "share_player_intervals_excluding_zero": 0.7869318181818182
+   "share_player_intervals_excluding_zero": 0.7897727272727273
   },
   "sag_ft_phases": {
    "n_players_ge300": 351,
-   "split_half_r_adjusted": 0.9610014524040179,
-   "split_half_r_within_position": 0.9261386497753071,
+   "split_half_r_adjusted": 0.9610014524040181,
+   "split_half_r_within_position": 0.9261386497753075,
    "hier_team_share": {
-    "mean": 0.07209563629319038,
-    "lo95": 0.06891468077496843,
-    "hi95": 0.0754484910940772
+    "mean": 0.07213341541526101,
+    "lo95": 0.06883935570123137,
+    "hi95": 0.07589949493627422
    },
-   "share_player_intervals_excluding_zero": 0.90625
+   "share_player_intervals_excluding_zero": 0.9119318181818182
   },
   "dev_ft_phases": {
    "n_players_ge300": 351,
-   "split_half_r_adjusted": 0.9332091686906685,
-   "split_half_r_within_position": 0.9206986059606537,
+   "split_half_r_adjusted": 0.9332091686906684,
+   "split_half_r_within_position": 0.920698605960654,
    "hier_team_share": {
-    "mean": 0.14158214990216716,
-    "lo95": 0.1324721061748768,
-    "hi95": 0.15098795001908677
+    "mean": 0.1413468491438188,
+    "lo95": 0.1319153930385587,
+    "hi95": 0.1508525818659433
    },
-   "share_player_intervals_excluding_zero": 0.7926136363636364
+   "share_player_intervals_excluding_zero": 0.7840909090909091
   },
   "team": {
    "n_on_ball_screens": 96966,
@@ -236,12 +236,12 @@
     "per_sd": 0.3757141167150198
    },
    "xfg_m3_per_ft_sag": {
-    "coef": 0.007358365434661403,
+    "coef": 0.007358365434661399,
     "ci95": [
-     0.00713596440333001,
-     0.00762129943562066
+     0.007135964403330024,
+     0.007621299435620665
     ],
-    "per_sd": 0.01811228680072979
+    "per_sd": 0.01811228680072978
    },
    "player_rho": {
     "def1_ft": [
@@ -266,25 +266,25 @@
  "player_effects_main_vs_with_sc": {
   "base": {
    "sag_ft": {
-    "pearson_r": 0.9997338010893017,
-    "max_abs_change_ft": 0.05382490587801536,
+    "pearson_r": 0.9996764019273244,
+    "max_abs_change_ft": 0.055123530625837996,
     "n_player_cells": 349
    },
    "dev_ft": {
-    "pearson_r": 0.9983091265238353,
-    "max_abs_change_ft": 0.03873230723054799,
+    "pearson_r": 0.9982744294256276,
+    "max_abs_change_ft": 0.038812457328574634,
     "n_player_cells": 349
    }
   },
   "phases": {
    "sag_ft": {
-    "pearson_r": 0.9997328221421526,
-    "max_abs_change_ft": 0.05902636729764854,
+    "pearson_r": 0.999729498697155,
+    "max_abs_change_ft": 0.05718065233604058,
     "n_player_cells": 349
    },
    "dev_ft": {
-    "pearson_r": 0.9983736524516773,
-    "max_abs_change_ft": 0.03923651356287525,
+    "pearson_r": 0.9984132251186527,
+    "max_abs_change_ft": 0.03865492892556607,
     "n_player_cells": 349
    }
   }

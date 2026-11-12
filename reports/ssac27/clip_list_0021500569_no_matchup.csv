@@ -1,0 +1,4 @@
+game_id,possession_id,period,game_clock,clock_s,defender,def_id,defender_team,defender_position,has_matchup,man,man_id,man_team,man_position,duration_s,peak_nll_ind,defenders_involved,terminal_type,terminal_desc,points,xfg_real,rank_by_shot_quality
+0021500569,40,1,1:34,94.28999786376953,Monta Ellis,101145,IND,guard,false,,,,,2.0,13.10302734375,1,fg_made,Mark Morris  Dunk (6 PTS) (Brown 1 AST),2,0.7263818066286334,1
+0021500569,45,1,0:26,26.990000534057618,TJ Warren,203933,PHX,forward,false,,,,,1.0,9.796311378479004,1,fg_missed,MISS Hill 20' Jump Shot,0,0.43225491919956677,2
+0021500569,77,2,3:24,204.1999969482422,TJ Warren,203933,PHX,forward,false,,,,,4.2,15.16574764251709,1,fg_made,G. Hill 24' 3PT Jump Shot (11 PTS) (Ellis 4 AST),3,0.4319664204684212,3

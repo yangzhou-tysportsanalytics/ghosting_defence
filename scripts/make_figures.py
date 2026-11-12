@@ -99,7 +99,8 @@ def fig_help_vs_points() -> str:
     ax.set_xlabel("share of on-ball screens with third-defender help within 3 s")
     ax.set_ylabel("points allowed per possession (tracked games)")
     ax.legend(fontsize=8, frameon=False)
-    ax.set_title(f"r = {r['pearson_r']:.2f} (p = {r['p']:.3f}), 30 teams", fontsize=9)
+    p_perm = v["inference_pts_allowed_per_poss"]["help_r_permutation_p"]  # as in the text
+    ax.set_title(f"r = {r['pearson_r']:.2f} (permutation p = {p_perm:.3f}), 30 teams", fontsize=9)
     fig.savefig(FIG / "help_vs_points.png", dpi=200, bbox_inches="tight")
     plt.close(fig)
     return "help_vs_points.png"
@@ -173,7 +174,7 @@ def tab_franks() -> str:
         r"\hline",
         r"\end{tabular}",
     ]
-    (TAB / "franks_weights.tex").write_text("\n".join(lines) + "\n")
+    (TAB / "franks_weights.tex").write_text("\n".join(lines) + "\n", newline="\n")
     return "franks_weights.tex"
 
 
@@ -188,7 +189,7 @@ def tab_xfg() -> str:
             rf"{name.replace('_', ' ')} & {t['log_loss']:.4f} & {t['brier']:.4f} & {t['auc']:.3f} \\"
         )
     lines += [r"\hline", r"\end{tabular}"]
-    (TAB / "xfg_models.tex").write_text("\n".join(lines) + "\n")
+    (TAB / "xfg_models.tex").write_text("\n".join(lines) + "\n", newline="\n")
     return "xfg_models.tex"
 
 
@@ -282,7 +283,7 @@ def tab_ghost_vs_baseline(tag: str, tab_dir: Path) -> str:
         lines.append(rf"{lab} & {a:.3f} & {b_:.3f} & {c:.2f} & {d:.2f} \\")
     lines += [r"\hline", r"\end{tabular}"]
     out = tab_dir / f"ghost_vs_baseline_{tag}.tex"
-    out.write_text("\n".join(lines) + "\n")
+    out.write_text("\n".join(lines) + "\n", newline="\n")
     return out.name
 
 
@@ -301,7 +302,7 @@ def _tex(name: str, cols: str, header: str, rows: list[str], note: str = "") -> 
     lines += [r + r" \\" for r in rows] + [r"\hline", r"\end{tabular}"]
     if note:
         lines.append(r"\par\smallskip{\footnotesize " + note + "}")
-    (TAB / name).write_text("\n".join(lines) + "\n")
+    (TAB / name).write_text("\n".join(lines) + "\n", newline="\n")  # LF on every platform
     return name
 
 
@@ -344,6 +345,44 @@ def tab_team_game_panel() -> str:
                 r"rate & pooled & team fixed effects & team + opponent fixed effects", rows)  # fmt: skip
 
 
+def tab_team_game_panel_inference() -> str:
+    """Review A2: team-game panel with two-way clustered intervals and wild-cluster p, the
+    early-vs-late help contrast, and early help vs points in screen / non-screen possessions."""
+    p = _load("reports/analysis/team_game_panel.json")
+    if p is None or "early_vs_3s_help" not in p:
+        return "skip team-game panel inference table"
+    specs = (
+        ("pooled", "pooled"),
+        ("team_fe", "team FE"),
+        ("team_and_opponent_fe", "team + opp. FE"),
+    )
+    labs = {"early_help_rate": r"early help ($\leq$ 1 s)", "help_rate_3s": "help within 3 s",
+            "switch_rate": "switch rate"}  # fmt: skip
+    rows = []
+    for k, lab in labs.items():
+        for s, sl in specs:
+            m = p["models"][k][s]
+            rows.append(f"{lab} & {sl} & {_n(m['coef'], sign=True)} & {_ci(*m['ci95_cluster'])} & "
+                        f"{_ci(*m['ci95_twoway_team_opponent'])} & {m['p_wild_cluster_team']:.3f}")  # fmt: skip
+    for s, sl in specs:
+        d = p["early_vs_3s_help"][s]
+        rows.append(f"early $-$ late help (joint model) & {sl} & {_n(d['b_difference'], sign=True)}"
+                    f" & {_ci(*d['b_ci95_cluster_team'])} & & ")  # fmt: skip
+    for k, kl in (("screen", "possessions with an on-ball screen"),
+                  ("noscreen_halfcourt", "half-court possessions without one"),
+                  ("noscreen_all", "all possessions without one")):  # fmt: skip
+        for s, sl in specs:
+            m = p["by_screen_possessions"][k][s]
+            rows.append(f"early help, {kl} & {sl} & {_n(m['coef'], sign=True)} & "
+                        f"{_ci(*m['ci95_cluster'])} & {_ci(*m['ci95_twoway_team_opponent'])} & "
+                        f"{m['p_wild_cluster_team']:.3f}")  # fmt: skip
+    return _tex("team_game_panel_inference.tex", "llcccc",
+                "predictor / outcome & model & coefficient & 95\\% CI (team clusters) & "
+                "95\\% CI (team $\\times$ opponent) & wild-cluster $p$", rows,
+                note="Points allowed per 100 possessions per 10 percentage points of the rate; "
+                "late help = help after 1 s and within 3 s.")  # fmt: skip
+
+
 def tab_help_matched() -> str:
     """Table 6: early help adjusted for the state at screen contact (overlap weights)."""
     m = _load("reports/analysis/help_timing_matched.json")
@@ -369,7 +408,7 @@ def tab_meta_metrics() -> str:
         return "skip meta-metrics table"
     rows = []
     for k, lab in (("sag_ft_within_team", "sag"), ("dev_ft_within_team", "deviation"),
-                   ("help_b_rate", "help rate (definition B)")):  # fmt: skip
+                   ("help_b_rate", "help rate (third-defender)")):  # fmt: skip
         v = mm["metrics"][k]
         ind = v["independence"]
         ext = v["external_correlations"]
@@ -387,29 +426,46 @@ def tab_meta_metrics() -> str:
 
 
 def tab_help_sensitivity() -> str:
-    """Table 8: E-values, robustness values and bounds (k x handler velocity toward the rim)."""
+    """Table 8: E-values, robustness values and bounds for a confounder k = 1, 2, 3 times as
+    strong as a benchmark covariate: the handler's velocity toward the rim, the covariate most
+    related to the treatment and the one most related to the outcome (review A5)."""
     s = _load("reports/analysis/help_timing_sensitivity.json")
     if s is None:
         return "skip sensitivity table"
+    label = {"h_v_to_rim": "handler velocity to rim", "h_dist_rim": "handler distance to rim",
+             "shot_clock": "shot clock", "margin": "score margin"}  # fmt: skip
     rows = []
     for comp, cl in (("A_early_vs_rest", "A"), ("B_early_vs_late_help", "B")):
         for y, yl in (("points", "points"), ("xfg_of_shot", "xFG")):
             r = s["comparisons"][comp][y]
-            cells = [f"{r['e_value_estimate']:.2f} / {r['e_value_ci_bound']:.2f}",
-                     f"{100 * r['rv_q1']:.1f}\\%"]  # fmt: skip
-            for b in r["bounds"]["h_v_to_rim"]:
-                if "adjusted_estimate" not in b:
-                    cells.append("undefined")
-                    continue
-                flip = (b["adjusted_estimate"] > 0) != (r["estimate_ols_adjusted"] > 0)
-                dag = r"$^\dagger$" if flip else ""
-                cells.append(f"{_n(b['adjusted_estimate'], 3, True)}{dag} "
-                             f"{_ci(*b['adjusted_ci95'], 3)}")  # fmt: skip
-            rows.append(" & ".join([f"{cl}, {yl}", *cells]))
-    return _tex("help_timing_sensitivity.tex", "lcccccc",
-                r"comparison, outcome & E-value (estimate / bound) & RV & $1\times$ & $2\times$ & "
-                r"$3\times$", rows,
-                note=r"$^\dagger$ sign reversed relative to the unadjusted estimate.")  # fmt: skip
+            marks = {}
+            for nm, tag in ((r.get("strongest_observed_covariate"), "T"),
+                            (r.get("strongest_observed_covariate_with_outcome"), "Y")):  # fmt: skip
+                if nm:
+                    marks.setdefault(nm, []).append(tag)
+            first = True
+            for nm in dict.fromkeys(["h_v_to_rim", *marks]):
+                cells = ([f"{r['e_value_estimate']:.2f} / {r['e_value_ci_bound']:.2f}",
+                          f"{100 * r['rv_q1']:.1f}\\%"] if first else ["", ""])  # fmt: skip
+                bl = label.get(nm, nm.replace("_", " "))
+                if marks.get(nm):
+                    bl += " (" + ", ".join(marks[nm]) + ")"
+                cells.append(bl)
+                for b in r["bounds"][nm]:
+                    if "adjusted_estimate" not in b:
+                        cells.append("undefined")
+                        continue
+                    flip = (b["adjusted_estimate"] > 0) != (r["estimate_ols_adjusted"] > 0)
+                    dag = r"$^\dagger$" if flip else ""
+                    cells.append(f"{_n(b['adjusted_estimate'], 3, True)}{dag} "
+                                 f"{_ci(*b['adjusted_ci95'], 3)}")  # fmt: skip
+                rows.append(" & ".join([f"{cl}, {yl}" if first else "", *cells]))
+                first = False
+    return _tex("help_timing_sensitivity.tex", "lcclccc",
+                r"comparison, outcome & E-value (estimate / bound) & RV & benchmark & $1\times$ & "
+                r"$2\times$ & $3\times$", rows,
+                note=r"$^\dagger$ sign reversed relative to the unadjusted estimate. Benchmarks: "
+                r"T = largest partial $R^2$ with early help, Y = with the outcome.")  # fmt: skip
 
 
 def tab_learned_reliability() -> str:
@@ -439,6 +495,139 @@ def tab_learned_reliability() -> str:
     return _tex("learned_reliability.tex", "lcccc",
                 r"metric & split-half $r$, within team & within listed position & team share of "
                 r"systematic variance (descriptive) & player intervals excluding 0", rows)  # fmt: skip
+
+
+def tab_ghost_coverage() -> str:
+    """Review A4: HPD coverage of the learned ghosts on all test possessions, overall and by game
+    situation, with game-bootstrap 95 % intervals."""
+    c = _load(f"reports/phase3/{V}_all_{LEARNED_FINAL}_calibration_by_context.json")
+    if c is None or "game_bootstrap" not in c:
+        return "skip coverage table (run phase3_calibration_by_context.py)"
+    g = c["game_bootstrap"]["coverage"]
+    rows = []
+    for ghost in ("individual", "team"):
+        for ctx, lab in (("all", "all steps"), ("release", "shot release"), ("screen", "screen"),
+                         ("early", "first 2 s"), ("other", "other")):  # fmt: skip
+            v = g[ghost][ctx]
+            cells = [f"{100 * v[q]['coverage']:.1f} ({100 * v[q]['ci95'][0]:.1f}--"
+                     f"{100 * v[q]['ci95'][1]:.1f})" for q in ("0.5", "0.8", "0.9", "0.95")]  # fmt: skip
+            rows.append(" & ".join([ghost if ctx == "all" else "", lab, f"{v['n_defender_steps']:,}",
+                                    *cells]))  # fmt: skip
+    return _tex("ghost_coverage.tex", "llrcccc",
+                r"ghost & situation & defender-steps & 50\% & 80\% & 90\% & 95\%", rows,
+                note="Coverage (\\%) of the highest-density regions on all test possessions; "
+                "95\\% intervals from a game bootstrap.")  # fmt: skip
+
+
+def tab_rule_reliability() -> str:
+    """Split-half reliability of sag and dev (348 players), main and base specification."""
+    R4 = f"reports/phase4/{V}_all"
+    rel = {s: _load(f"{R4}/reliability{s}.json") for s in ("_phases", "")}
+    pos = {s: _load(f"{R4}/reliability_within_position{s}.json") for s in ("_phases", "")}
+    if None in (*rel.values(), *pos.values()):
+        return "skip rule reliability table"
+    rows = []
+    for k, lab in (("sag_ft", "sag"), ("dev_ft", "dev")):
+        for s, spec in (("_phases", "main (with phases)"), ("", "base")):
+            m = rel[s]["metrics"][k]
+            rows.append(f"{lab} & {spec if k == 'sag_ft' else spec.split(' ')[0]} & "
+                        f"{m['split_half_r_adjusted']:.3f} & {m['split_half_r_player_within_team']:.3f} & "
+                        f"{pos[s][k]['split_half_r_within_position']:.3f}")  # fmt: skip
+    return _tex("rule_reliability.tex", "llccc",
+                "metric & specification & adjusted & within team & within listed position", rows)  # fmt: skip
+
+
+def tab_predictive_validity_player() -> str:
+    """Player-level predictive validity (main specification), both parity directions."""
+    pv = _load(f"reports/phase5/{V}_all/predictive_validity_phases.json")
+    if pv is None:
+        return "skip player predictive validity table"
+    pl_ = pv["player_level"]
+    dirs = ("trait_parity0_outcome_parity1", "trait_parity1_outcome_parity0")
+    rows = []
+    for y, lab in (("def1_ft", "space allowed"), ("xfg_m3_cf", "shooter-aware xFG allowed")):
+        pooled = " / ".join(f"{pl_[d][y]['rho']:.2f}" for d in dirs)
+        within = " / ".join(
+            f"{pl_[d][y + '__within_position']['rho']:.2f} "
+            f"({pl_[d][y + '__within_position']['ci95'][0]:.2f}--"
+            f"{pl_[d][y + '__within_position']['ci95'][1]:.2f})"
+            for d in dirs
+        )
+        rows.append(f"{lab} & {pooled} & {within}")
+    return _tex("predictive_validity_player.tex", "lcc",
+                r"outcome & pooled $\rho$ & within listed position $\rho$ (95\% CI)", rows)  # fmt: skip
+
+
+def tab_second_chance() -> str:
+    """Main results with and without second-chance possessions (D-018)."""
+    s = _load("reports/analysis/second_chance_sensitivity.json")
+    if s is None:
+        return "skip second-chance table"
+
+    def cells(m):
+        t = m["team"]
+        rr = [" / ".join(f"{x:.3f}" for x in m["hmm_strat_help_gamma"]["strong"]),
+              f"{m['sag_ft_base']['split_half_r_within_position']:.3f} / "
+              f"{m['sag_ft_phases']['split_half_r_within_position']:.3f}",
+              f"{100 * m['sag_ft_base']['hier_team_share']['mean']:.1f}\\% / "
+              f"{100 * m['sag_ft_phases']['hier_team_share']['mean']:.1f}\\%"]  # fmt: skip
+        for k in ("help_rate_3s_vs_pts", "early_help_rate_vs_pts", "switch_rate_vs_pts"):
+            rr.append(f"{_n(t[k]['r'])} {_ci(*t[k]['ci95'])}")
+        rr.append(f"{m['predictive_validity']['space_per_ft_sag']['coef']:.2f} ft")
+        return rr
+
+    labs = ["strong-side weights (man, ball, rim)", "sag within-position reliability, base / main",
+            "team share of sag, base / main", "help rate vs points allowed",
+            "early-help rate vs points allowed", "switch rate vs points allowed",
+            "space per ft of pre-release sag"]  # fmt: skip
+    rows = [" & ".join(r) for r in zip(labs, cells(s["main"]), cells(s["with_sc"]), strict=True)]
+    return _tex("second_chance.tex", "lcc", "quantity & main & with second chances", rows)
+
+
+def tab_ghost_ablations() -> str:
+    """Validation NLL of the chosen learned ghost, its ablations and the conditioned ghosts."""
+    variants = (("", "chosen (anchored, NLL loss)"), ("_noanchor", "unanchored head"),
+                ("_l2", "L2 loss"), ("_lineup", "+ defending lineup (player identities)"),
+                ("_scheme", "+ defending team (scheme)"))  # fmt: skip
+    ev = [(lab, _ghost_eval(f"gpu_d128_lr1e-3{t}")) for t, lab in variants]
+    if any(e is None for _, e in ev):
+        return "skip ablation table"
+    rows = [f"{lab} & {e['val_team']['slot_mixture_nll_ft']:.3f} & "
+            f"{e['val_individual']['nll_ft']:.3f}" for lab, e in ev]  # fmt: skip
+    return _tex("ghost_ablations.tex", "lcc", "variant & team NLL & individual NLL", rows)
+
+
+def tab_release_density_baseline() -> str:
+    """NLL at the shot release: learned ghost vs single-moment networks vs rule ghost (B3)."""
+    r = _load(f"reports/phase3/{V}_all_release_density_baseline.json")
+    if r is None:
+        return "skip release baseline table"
+    m = r["models"]
+    ind, team = m["ind_snapshot"]["test_nll"], m["team_snapshot"]["test_nll"]
+    few = m["team_shot_features"]["test_nll"]["mdn_snapshot"]
+    rows = [f"individual & {ind['learned_ghost']:.3f} & {ind['mdn_snapshot']:.3f} & --- & "
+            f"{ind['rule_ghost']:.3f}",
+            f"team & {team['learned_ghost']:.3f} & {team['mdn_snapshot']:.3f} & {few:.3f} & "
+            f"{team['rule_ghost']:.3f}"]  # fmt: skip
+    return _tex("release_density_baseline.tex", "lcccc",
+                f"task ({r['n_test_shots']:,} test shots) & learned ghost (online, possession "
+                "history) & single-moment network & few-features network & rule ghost", rows)  # fmt: skip
+
+
+def tab_stability_curves() -> str:
+    """Split-half r at n defensive possessions per player per half (main specification)."""
+    rel = _load(f"reports/phase4/{V}_all/reliability_phases.json")
+    if rel is None:
+        return "skip stability curve table"
+    m = rel["metrics"]
+    ns = sorted(int(k) for k in m["sag_ft"]["stability_curve_adjusted"])
+    rows = [" & ".join([str(n)] + [f"{m[k][c][str(n)]['r']:.2f}" for k in ("sag_ft", "dev_ft")
+                                   for c in ("stability_curve_adjusted",
+                                             "stability_curve_within_position")])
+            for n in ns]  # fmt: skip
+    return _tex("stability_curves.tex", "rcccc",
+                "$n$ & sag, pooled & sag, within position & dev, pooled & dev, within position",
+                rows)  # fmt: skip
 
 
 LEARNED_FINAL = "gpu_d128_lr1e-3_final"  # chosen model scored on test (D-026)
@@ -504,6 +693,52 @@ def fig_ghost_ablations(fig_dir: Path) -> str:
         ax.legend(fontsize=7, frameon=False, loc="center right")
     axs[0].set_ylabel("validation NLL (lower is better)")
     out = fig_dir / "ghost_ablations.png"
+    fig.savefig(out, dpi=200, bbox_inches="tight")
+    plt.close(fig)
+    return out.name
+
+
+def fig_sensitivity_contours(fig_dir: Path) -> str:
+    """Review A5: Cinelli-Hazlett contours of the adjusted early-help estimate over the partial R2
+    of a confounder with the treatment and with the outcome; benchmarks = k x the strongest
+    observed covariates (with the treatment / with the outcome)."""
+    s = _load("reports/analysis/help_timing_sensitivity.json")
+    if s is None or "contour" not in s["comparisons"]["A_early_vs_rest"]["points"]:
+        return "skip sensitivity contours (run analysis_help_timing_sensitivity.py)"
+    fig, axs = plt.subplots(2, 2, figsize=(9, 7.2))
+    for ax, (comp, y, title) in zip(axs.ravel(), (
+            ("A_early_vs_rest", "points", "A, points"), ("A_early_vs_rest", "xfg_of_shot", "A, xFG"),
+            ("B_early_vs_late_help", "points", "B, points"),
+            ("B_early_vs_late_help", "xfg_of_shot", "B, xFG")), strict=True):  # fmt: skip
+        r = s["comparisons"][comp][y]
+        c = r["contour"]
+        X, Y = np.meshgrid(c["r2_treatment"], c["r2_outcome"], indexing="ij")
+        Z = np.array(c["adjusted_estimate"])
+        lim = np.abs(Z).max()
+        # symmetric levels around zero, so the colour of 0 is the neutral middle of the map
+        lev = np.linspace(-lim, lim, 22)
+        cs = ax.contourf(X, Y, Z, levels=lev, cmap="RdBu_r")
+        ax.contour(X, Y, Z, levels=[0.0], colors="k", linewidths=1.4)
+        names = {"h_v_to_rim": "handler velocity to rim", "h_dist_rim": "handler distance to rim",
+                 "shot_clock": "shot clock", "margin": "score margin"}  # fmt: skip
+        bench = dict.fromkeys(["h_v_to_rim", r["strongest_observed_covariate"],
+                               r["strongest_observed_covariate_with_outcome"]])  # fmt: skip
+        ytop = c["r2_outcome"][-1]
+        for name, mk in zip(bench, ("^", "o", "s"), strict=False):
+            pts = [b for b in r["bounds"][name] if "r2_confounder_treatment" in b]
+            ax.scatter([b["r2_confounder_treatment"] for b in pts],
+                       [min(b["r2_confounder_outcome"], ytop) for b in pts],
+                       marker=mk, s=24, facecolor="k" if mk != "^" else "w", edgecolor="k",
+                       zorder=3, label=f"{names.get(name, name)}, 1-3x")  # fmt: skip
+        ax.set_title(f"{title}: OLS-adjusted estimate "
+                     f"{_n(r['estimate_ols_adjusted'], 3, True)}".replace("$", ""), fontsize=9)  # fmt: skip
+        ax.set_xlabel("partial $R^2$ of confounder with early help", fontsize=8)
+        ax.set_ylabel("partial $R^2$ with outcome", fontsize=8)
+        ax.tick_params(labelsize=7)
+        fig.colorbar(cs, ax=ax, shrink=0.85).ax.tick_params(labelsize=7)
+        ax.legend(fontsize=6, frameon=False, loc="upper right")
+    fig.tight_layout()
+    out = fig_dir / "help_timing_sensitivity_contours.png"
     fig.savefig(out, dpi=200, bbox_inches="tight")
     plt.close(fig)
     return out.name
@@ -624,12 +859,21 @@ def main() -> None:
         ("tab_xfg", tab_xfg),
         ("tab_screen_confidence", tab_screen_confidence),
         ("tab_team_game_panel", tab_team_game_panel),
+        ("tab_team_game_panel_inference", tab_team_game_panel_inference),
         ("tab_help_matched", tab_help_matched),
         ("tab_meta_metrics", tab_meta_metrics),
         ("tab_help_sensitivity", tab_help_sensitivity),
         ("tab_learned_reliability", tab_learned_reliability),
+        ("tab_ghost_coverage", tab_ghost_coverage),
+        ("tab_rule_reliability", tab_rule_reliability),
+        ("tab_predictive_validity_player", tab_predictive_validity_player),
+        ("tab_second_chance", tab_second_chance),
+        ("tab_ghost_ablations", tab_ghost_ablations),
+        ("tab_release_density_baseline", tab_release_density_baseline),
+        ("tab_stability_curves", tab_stability_curves),
         ("fig_ghost_ablations", lambda: fig_ghost_ablations(FIG)),
         ("fig_release_baseline", lambda: fig_release_baseline(FIG)),
+        ("fig_sensitivity_contours", lambda: fig_sensitivity_contours(FIG)),
         ("fig_learned_vs_rule_reliability", lambda: fig_learned_vs_rule_reliability(FIG)),
         ("fig_learned_ghost_frames", fig_learned_ghost_frames),
     ):

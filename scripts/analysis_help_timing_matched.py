@@ -1,7 +1,8 @@
 """Early help and the possession outcome, adjusted for the state at screen contact (Phase 5 task 3b).
 
 The naive contrast is biased: help is triggered by threat. Here the comparison conditions on the
-state of the play at the moment of on-ball screen contact (nothing after the contact is used):
+state of the play at the moment of on-ball screen contact (nothing after the contact is used;
+velocities are backward differences over the 0.2 s before the contact):
 handler distance to the rim, speed and velocity toward the rim, lateral position; screen
 location; screener distance to the rim and velocity toward it (roll); distances of the screened
 defender and of the screener's defender to the handler; the nearest third defender's distance to
@@ -78,13 +79,18 @@ def state_features(base: Path, S: pl.DataFrame, P: pl.DataFrame, cfg) -> pl.Data
                 continue
             ds, dsc = ids.index(r["screened_def_id"]), ids.index(r["screener_def_id"])
             off, dfn = pt.off_xy[i, k].astype(float), pt.def_xy[i, k].astype(float)
-            hv = pt.off_v[i, k, h].astype(float)
+            # velocities at contact from the step before (backward difference): the stored
+            # velocities are central differences and would reach 0.2 s past the contact (review
+            # 2026-10-30); at the first step of a window there is no earlier step -> 0
+            prev = pt.off_xy[i, k - 1].astype(float) if k >= 1 and pt.valid[i, k - 1] else off
+            vel = (off - prev) / 0.2
+            hv = vel[h]
             to_rim = HOOP_LEFT - off[h]
             dr = max(float(np.linalg.norm(to_rim)), 1e-6)
             # screener: the attacker (not the handler) nearest the screened defender
             cand = [j for j in range(5) if j != h]
             sc = cand[int(np.argmin([np.linalg.norm(off[j] - dfn[ds]) for j in cand]))]
-            sv = pt.off_v[i, k, sc].astype(float)
+            sv = vel[sc]
             to_rim_s = HOOP_LEFT - off[sc]
             ds_r = max(float(np.linalg.norm(to_rim_s)), 1e-6)
             third = [j for j in range(5) if j not in (ds, dsc)]
@@ -163,7 +169,8 @@ def analysis_frame() -> pl.DataFrame:
     base = cfg.processed_dir / "all"
     S = pl.read_parquet(base / "analysis" / "onball_screens.parquet")
     P = pl.read_parquet(base / "possessions.parquet").filter(~pl.col("is_transition"))
-    cache = base / "analysis" / "screen_state.parquet"  # state at contact (no coordinates)
+    # state at contact (no coordinates); _bwd: backward-difference velocities (2026-10-30)
+    cache = base / "analysis" / "screen_state_bwd.parquet"
     if cache.exists():
         st = pl.read_parquet(cache)
     else:

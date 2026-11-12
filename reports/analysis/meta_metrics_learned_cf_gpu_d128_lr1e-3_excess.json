@@ -1,0 +1,585 @@
+{
+ "ghost": "learned:cf_gpu_d128_lr1e-3_excess",
+ "n_players": 348,
+ "bootstrap": "games, B=200",
+ "date_cutoff": "2015-12-09",
+ "context": "phases",
+ "metrics": {
+  "nll_ind_adjusted": {
+   "discrimination": 0.9524237745440357,
+   "stability_parity": {
+    "stability": 0.9963855247468067,
+    "r_between_halves": 0.9070921291120467,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.9226678468257354,
+    "r_between_halves": 0.8456815929410969,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.9889045764296106,
+     "r2_raw": 0.016270325916400208,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.9734553402517083,
+     "r2_raw": 0.033708723835217724,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.97763824453036,
+     "r2_raw": 0.03540020375227715,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": 0.05492137757252551,
+     "spearman": 0.03658669579357782,
+     "pearson_disattenuated_by_D": 0.05627640002713671,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": 0.1290459803498,
+     "spearman": 0.10709299332800934,
+     "pearson_disattenuated_by_D": 0.1322298080099927,
+     "n_players": 348
+    }
+   }
+  },
+  "nll_ind_within_team": {
+   "discrimination": 0.9441975201834653,
+   "stability_parity": {
+    "stability": 0.9946694708526786,
+    "r_between_halves": 0.8929535326130296,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.9102549393734186,
+    "r_between_halves": 0.8212185655812897,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.9912771089111132,
+     "r2_raw": 0.013952350393545365,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.9828108252726201,
+     "r2_raw": 0.024735192496103342,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.9850563108134295,
+     "r2_raw": 0.028315705017707637,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": 0.08584751568309282,
+     "spearman": 0.07861361673605283,
+     "pearson_disattenuated_by_D": 0.08834791486748786,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": 0.1715218137196049,
+     "spearman": 0.1570761520605337,
+     "pearson_disattenuated_by_D": 0.17651756694225668,
+     "n_players": 348
+    }
+   }
+  },
+  "nll_team_adjusted": {
+   "discrimination": 0.9693701754882531,
+   "stability_parity": {
+    "stability": 1.0070291475390136,
+    "r_between_halves": 0.9472961231827353,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.9382050967109228,
+    "r_between_halves": 0.8861254209760758,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.8396597175476944,
+     "r2_raw": 0.1602969316133328,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.8007031941616547,
+     "r2_raw": 0.20016766167008404,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.7611394042215844,
+     "r2_raw": 0.24261718580765812,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": -0.12383343210519153,
+     "spearman": -0.1584635706225564,
+     "pearson_disattenuated_by_D": -0.1257746399982913,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": -0.019644212950973253,
+     "spearman": -0.04318450794226087,
+     "pearson_disattenuated_by_D": -0.0199521548418333,
+     "n_players": 348
+    }
+   }
+  },
+  "nll_team_within_team": {
+   "discrimination": 0.9649210438949881,
+   "stability_parity": {
+    "stability": 1.008034619377648,
+    "r_between_halves": 0.9398783847646083,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.9294383070843681,
+    "r_between_halves": 0.8711298934625186,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.8155417867972121,
+     "r2_raw": 0.1827254352026807,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.7824067669323442,
+     "r2_raw": 0.21679060409529682,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.7462644370334381,
+     "r2_raw": 0.25571612745681327,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": -0.11284813723673459,
+     "spearman": -0.1550318950497254,
+     "pearson_disattenuated_by_D": -0.11488107892122422,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": 0.006496237736375226,
+     "spearman": -0.027171813750879712,
+     "pearson_disattenuated_by_D": 0.006613266451336882,
+     "n_players": 348
+    }
+   }
+  },
+  "d_mean_adjusted": {
+   "discrimination": 0.9027425914145446,
+   "stability_parity": {
+    "stability": 1.018702523045225,
+    "r_between_halves": 0.8338074154471632,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.8645720156669834,
+    "r_between_halves": 0.7174425346096107,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.9702381514506863,
+     "r2_raw": 0.03247612235798181,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.9413953109601755,
+     "r2_raw": 0.061093090505423775,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.9274698901024235,
+     "r2_raw": 0.07894178277425301,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": -0.12834632518792669,
+     "spearman": -0.14343874279716864,
+     "pearson_disattenuated_by_D": -0.13508324101074112,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": -0.023316976256793052,
+     "spearman": -0.043420948072819765,
+     "pearson_disattenuated_by_D": -0.024540887467765178,
+     "n_players": 348
+    }
+   }
+  },
+  "d_mean_within_team": {
+   "discrimination": 0.8715107352781912,
+   "stability_parity": {
+    "stability": 1.0269661201466465,
+    "r_between_halves": 0.7880540443283186,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.8232810564118901,
+    "r_between_halves": 0.649293825188456,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.9598893789959777,
+     "r2_raw": 0.0405190452370886,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.9408447983160046,
+     "r2_raw": 0.05975421124037783,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.9277488178907684,
+     "r2_raw": 0.07646958746080501,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": -0.09197619916296473,
+     "spearman": -0.10418005533619569,
+     "pearson_disattenuated_by_D": -0.0985233313667199,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": 0.05353425308725566,
+     "spearman": 0.03388272531197198,
+     "pearson_disattenuated_by_D": 0.057344976248043564,
+     "n_players": 348
+    }
+   }
+  },
+  "d_mode_adjusted": {
+   "discrimination": 0.9086079646038656,
+   "stability_parity": {
+    "stability": 0.9949417645537136,
+    "r_between_halves": 0.825431161929,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.8873491236175572,
+    "r_between_halves": 0.7491952095205303,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.9578379789070917,
+     "r2_raw": 0.04385163722835839,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.934133857499154,
+     "r2_raw": 0.06797462990160408,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.9052985181718486,
+     "r2_raw": 0.0992158791409381,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": -0.13343480094850635,
+     "spearman": -0.15145158566930914,
+     "pearson_disattenuated_by_D": -0.13998478751292062,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": -0.004498464619352995,
+     "spearman": -0.018030696462320008,
+     "pearson_disattenuated_by_D": -0.004719283195974739,
+     "n_players": 348
+    }
+   }
+  },
+  "d_mode_within_team": {
+   "discrimination": 0.8791887488238017,
+   "stability_parity": {
+    "stability": 0.9970674243410396,
+    "r_between_halves": 0.7799066502231622,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.8533777851451092,
+    "r_between_halves": 0.6870410983014764,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.942805455322219,
+     "r2_raw": 0.05575866299800525,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.9293165288585411,
+     "r2_raw": 0.07025237671196427,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.8962679311154652,
+     "r2_raw": 0.10429516774230696,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": -0.09068477224479243,
+     "spearman": -0.11457046965151066,
+     "pearson_disattenuated_by_D": -0.09671488188513218,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": 0.08630934159208357,
+     "spearman": 0.05915148087947972,
+     "pearson_disattenuated_by_D": 0.09204850573069877,
+     "n_players": 348
+    }
+   }
+  },
+  "dev_ft_adjusted": {
+   "discrimination": 0.96070669148565,
+   "stability_parity": {
+    "stability": 1.005204394147262,
+    "r_between_halves": 0.9309783359268203,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.943749021824046,
+    "r_between_halves": 0.873978170966439,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.8497636748798072,
+     "r2_raw": 0.14926484087111858,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.7911261875740513,
+     "r2_raw": 0.20757713380450216,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.7581216035934616,
+     "r2_raw": 0.2434350845306179,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": -0.036358753150199555,
+     "spearman": -0.05320777098548485,
+     "pearson_disattenuated_by_D": -0.037094846110491166,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": 0.030229362135821277,
+     "spearman": 0.018892563468351272,
+     "pearson_disattenuated_by_D": 0.03084136388875162,
+     "n_players": 348
+    }
+   }
+  },
+  "dev_ft_within_team": {
+   "discrimination": 0.955198085094483,
+   "stability_parity": {
+    "stability": 1.0059504436417648,
+    "r_between_halves": 0.9219269244215924,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.9355631578399642,
+    "r_between_halves": 0.8579684199852187,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.8186672818471064,
+     "r2_raw": 0.17797403306886017,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.7615025398465338,
+     "r2_raw": 0.23448829144103778,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.7393320677954878,
+     "r2_raw": 0.2598109864929472,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": -0.01018567049398257,
+     "spearman": -0.03903203514136014,
+     "pearson_disattenuated_by_D": -0.010421803996034215,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": 0.07843510698384006,
+     "spearman": 0.05401716920101184,
+     "pearson_disattenuated_by_D": 0.08025346116158727,
+     "n_players": 348
+    }
+   }
+  },
+  "sag_ft_adjusted": {
+   "discrimination": 0.9813947060010261,
+   "stability_parity": {
+    "stability": 0.9954992348479678,
+    "r_between_halves": 0.9604321528803995,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.9577616085648635,
+    "r_between_halves": 0.924174276863582,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.5090215951097197,
+     "r2_raw": 0.48483009949697853,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.4594931121842689,
+     "r2_raw": 0.5345101031736325,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.3579894609449155,
+     "r2_raw": 0.635396209006137,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": 0.29227200982326024,
+     "spearman": 0.2940719883074738,
+     "pearson_disattenuated_by_D": 0.29502945062427993,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": 0.20100245930434688,
+     "spearman": 0.18582997817895425,
+     "pearson_disattenuated_by_D": 0.20289881736725637,
+     "n_players": 348
+    }
+   }
+  },
+  "sag_ft_within_team": {
+   "discrimination": 0.9799181893341776,
+   "stability_parity": {
+    "stability": 0.995047062233853,
+    "r_between_halves": 0.9575491744918049,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.9547832816863164,
+    "r_between_halves": 0.9190003756027925,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.4749834931849788,
+     "r2_raw": 0.5172716499464325,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.42213345426842663,
+     "r2_raw": 0.5700118359495885,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.3143234589071642,
+     "r2_raw": 0.6766344806884204,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": 0.3106539635923557,
+     "spearman": 0.31015974717446276,
+     "pearson_disattenuated_by_D": 0.31382099100216093,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": 0.22141012149052236,
+     "spearman": 0.21294951872024653,
+     "pearson_disattenuated_by_D": 0.22366733371295816,
+     "n_players": 348
+    }
+   }
+  },
+  "help_b_rate": {
+   "discrimination": 0.9024445041728839,
+   "stability_parity": {
+    "stability": 0.9911933942528779,
+    "r_between_halves": 0.8205929914082946,
+    "n_players": 348
+   },
+   "stability_date": {
+    "stability": 0.9312760934524685,
+    "r_between_halves": 0.7696046444745703,
+    "n_players": 344
+   },
+   "independence": {
+    "position": {
+     "independence": 0.691926325359092,
+     "r2_raw": 0.28218066606112757,
+     "n_players": 348
+    },
+    "position_height": {
+     "independence": 0.6934877839212235,
+     "r2_raw": 0.28286435479128913,
+     "n_players": 348
+    },
+    "position_height_guarded_threat": {
+     "independence": 0.2585251195072377,
+     "r2_raw": 0.6739073670373639,
+     "n_players": 348
+    }
+   },
+   "external_correlations": {
+    "raptor_defense": {
+     "pearson": -0.28505575616407797,
+     "spearman": -0.29400741531947155,
+     "pearson_disattenuated_by_D": -0.3000679166121747,
+     "n_players": 348
+    },
+    "dbpm": {
+     "pearson": -0.07394854591854015,
+     "spearman": -0.0952596124380812,
+     "pearson_disattenuated_by_D": -0.07784296801747011,
+     "n_players": 348
+    }
+   }
+  }
+ },
+ "sources": {
+  "basketball_reference": "local research use only; do not redistribute",
+  "raptor": "FiveThirtyEight, CC BY 4.0 (attribution required)"
+ }
+}

@@ -1,0 +1,23 @@
+{
+ "model_run": "gpu_d128_lr1e-3_final",
+ "n_steps": 892456,
+ "n_possessions": 17526,
+ "team_ghost_slot_modes": {
+  "share_steps_any_pair_within_2ft": 0.11298596233315704,
+  "share_steps_any_pair_within_3ft": 0.2127981659600025,
+  "share_steps_any_pair_within_5ft": 0.4543428471543695,
+  "share_pairs_within_2ft": 0.011756882132004267,
+  "share_pairs_within_3ft": 0.023128983389657305,
+  "share_pairs_within_5ft": 0.05624434145773013,
+  "median_min_pair_distance_ft": 5.352361679077148
+ },
+ "real_defenders": {
+  "share_steps_any_pair_within_2ft": 0.016671970382853608,
+  "share_steps_any_pair_within_3ft": 0.05958164884319227,
+  "share_steps_any_pair_within_5ft": 0.2551352671728354,
+  "share_pairs_within_2ft": 0.0017073110607133573,
+  "share_pairs_within_3ft": 0.006181145064854738,
+  "share_pairs_within_5ft": 0.029521343349139903,
+  "median_min_pair_distance_ft": 6.695968151092529
+ }
+}

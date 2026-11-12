@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matchup and Event Check</title>
+<style>
+  :root { --bg:#f6f4ef; --card:#fff; --ink:#1f2328; --muted:#6a6f76; --line:#d9d4c7; --acc:#2f5d9e; --ok:#1a9c6b; --bad:#b4442f; --warn:#c77c11; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; }
+  header { display:flex; gap:16px; align-items:center; padding:10px 18px; background:#1f2328; color:#fff; flex-wrap:wrap; }
+  header h1 { font-size:17px; margin:0; font-weight:600; }
+  header .sp { flex:1; }
+  header .who { opacity:.85; font-size:14px; }
+  .bar { width:180px; height:8px; background:#444; border-radius:4px; overflow:hidden; }
+  .bar > div { height:100%; background:#6fcf97; }
+  button { font:inherit; border:1px solid var(--line); background:#fff; border-radius:6px; padding:6px 12px; cursor:pointer; }
+  button:hover { border-color:#999; }
+  button:disabled { opacity:.5; cursor:default; }
+  button.primary { background:var(--acc); border-color:var(--acc); color:#fff; }
+  button.sel { background:var(--acc); border-color:var(--acc); color:#fff; }
+  button.small { padding:2px 8px; font-size:13px; }
+  button.opt { display:block; width:100%; text-align:left; margin:5px 0; padding:8px 12px; }
+  button.opt kbd { display:inline-block; min-width:20px; text-align:center; margin-right:8px; }
+  main { max-width:1180px; margin:0 auto; padding:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px 22px; margin-bottom:14px; }
+  .card h2 { margin-top:0; }
+  .muted { color:var(--muted); }
+  .grid { display:grid; grid-template-columns: minmax(300px, 600px) minmax(320px, 1fr); gap:16px; align-items:start; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+  canvas { width:100%; height:auto; display:block; background:#efe6d2; border-radius:8px; }
+  #tl { background:#fff; border:1px solid var(--line); margin-top:6px; cursor:pointer; border-radius:6px; }
+  .ctrl { display:flex; gap:8px; align-items:center; margin-top:8px; flex-wrap:wrap; }
+  .ctrl .t { font-variant-numeric: tabular-nums; color:var(--muted); min-width:110px; }
+  .panel h3 { margin:14px 0 6px; font-size:16px; }
+  .panel h3:first-child { margin-top:0; }
+  table.q { border-collapse:collapse; width:100%; }
+  table.q td { padding:3px 4px; vertical-align:middle; }
+  table.q select { width:100%; }
+  select { font:inherit; padding:3px 4px; border-radius:5px; border:1px solid var(--line); max-width:100%; }
+  select.unanswered { border-color:var(--warn); background:#fff7e8; }
+  .tag { display:inline-block; font-size:12px; padding:1px 7px; border-radius:10px; background:#eee; margin-right:4px; }
+  .tag.practice { background:#fde7c2; }
+  .help { background:#f3f6fb; border:1px solid #d7e1f0; border-radius:8px; padding:8px 12px; margin-bottom:10px; font-size:14px; }
+  .help summary { cursor:pointer; font-weight:600; }
+  .nav { display:flex; gap:10px; justify-content:space-between; margin-top:14px; }
+  textarea { width:100%; font:inherit; min-height:40px; border-radius:6px; border:1px solid var(--line); padding:6px; }
+  .legend span { display:inline-flex; align-items:center; gap:6px; margin-right:14px; }
+  .dot { width:14px; height:14px; border-radius:50%; display:inline-block; }
+  ul.tight li { margin:3px 0; }
+  kbd { font:12px ui-monospace, monospace; border:1px solid #bbb; border-bottom-width:2px; border-radius:4px; padding:0 4px; background:#fafafa; color:#333; }
+  .warnbox { background:#fff2e0; border:1px solid #f0c48a; border-radius:8px; padding:8px 12px; }
+  .q-text { font-size:16px; font-weight:600; margin:4px 0 8px; }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title">Matchup and Event Check</h1>
+  <span class="who" id="who"></span>
+  <span class="sp"></span>
+  <span class="who" id="prog"></span>
+  <div class="bar"><div id="progbar" style="width:0"></div></div>
+  <button class="small" id="bDownloadTop">Download my answers</button>
+</header>
+<main id="app"></main>
+
+<script>
+const DATA = /*__GDQ_DATA__*/null;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const SLOT_COL = ["#2f5d9e", "#1a9c6b", "#8e44ad", "#d35400", "#c0392b"];
+const NOBODY = -1, CANT_TELL = -9;
+
+// ---------- interface text (DATA.lang: "en" or "zh"; answer codes are the same in both) ----------
+const TXT = {
+  en: {
+    title: "Matchup and Event Check", download: "Download my answers", annotator: "Annotator", done_n: (d, n) => `${d} / ${n} done`,
+    opt_help: ["Yes: full help (commits to the ball or the driver / roller)", "Yes: stunt or show (a step or fake toward the ball, then back to his man)", "He was already in a help spot (away from his man) and only sank toward the ball", "No: he did not leave his man to help", "Can't tell"],
+    opt_switch: ["Yes: they switched (exchanged the men they guard)", "No: each stayed with his own man (hedge, show, over / under, ...)", "Only one of them changed man, or something else", "Can't tell"],
+    q_help: "In the shaded window, did the highlighted defender leave his man to help?",
+    q_switch: "At this screen, did the two highlighted defenders exchange the men they guard?",
+    intro: (nM, nE, min, resume) => `<h2>Matchup and event check</h2>
+      <p><b>${nM}</b> possessions (Part 1, about a minute each) and <b>${nE}</b> short clips (Part 2, about 20 seconds each), each part after one practice item. About <b>${min} minutes</b> in total. You can stop at any time and continue later in the same browser; progress is saved after every answer.</p>
+      <p class="legend"><span><i class="dot" style="background:#2f5d9e"></i>offense (filled, jersey number)</span>
+        <span><i class="dot" style="background:#fff;border:3px solid #b4442f"></i>defense (white, red ring)</span>
+        <span><i class="dot" style="border:3px solid #e08a1e"></i>ball handler (orange ring)</span>
+        <span><i class="dot" style="border:3px solid #1a9c6b"></i>defender(s) asked about (green ring)</span></p>
+      <p>Half court from above; the offense always attacks the <b>left</b> basket. Tails show the last second of movement (5 frames per second, so movement is a little jumpy).</p>
+      <h3>Part 1: who guards whom</h3>
+      <p>The clip pauses at moments 1 and 2. For each defender pick the attacker he is guarding at that moment, <b>Nobody</b> if he is helping or roaming and guards no one, or <b>Can't tell</b>. The computer's answer is never shown. Clips stop shortly after moment 2.</p>
+      <h3>Part 2: did this happen?</h3>
+      <ul class="tight">
+        <li><b>Help clips</b> (one defender ringed): did he leave his man to help on the ball, a driver or a roller, within the shaded part of the time bar? A <b>stunt</b> is a step or fake toward the ball and straight back to his man; a <b>full help</b> commits to the ball. If he was already standing in a help spot, away from his man, and only sank toward the ball, pick that option.</li>
+        <li><b>Screen clips</b> (two defenders ringed): did they exchange the men they guard (a switch)?</li>
+        <li>Some clips show nothing of the kind: answering <b>No</b> is often right. Use <b>Can't tell</b> when the dots do not settle it.</li>
+      </ul>
+      <p><b>Keys:</b> <kbd>Space</kbd> play / pause · <kbd>R</kbd> replay · <kbd>←</kbd> <kbd>→</kbd> one frame · in Part 2 number keys answer and <kbd>Enter</kbd> next.</p>
+      <div class="warnbox">This page holds tracking data for this study only. Do not share or upload it.</div>`,
+    start: "Start", resume: "Continue where I left off",
+    almost: "Almost there", all_done: "All done, thank you!",
+    done_txt: (d, n, open) => `${d} of ${n} items complete.${open ? ` ${open} still open; go back to them or download what you have.` : ""}`,
+    save_to: (f) => `and save <code>${f}</code> into <code>data/annotations/raw/</code>.`,
+    back_last: "Back to the last item", part1: "Part 1", part2: "Part 2",
+    practice: "PRACTICE: not used", k_of: (k, n) => `${k} of ${n}`,
+    part1_long: "Part 1: who guards whom", part2_help: "Part 2: help", part2_switch: "Part 2: screen",
+    replay: "⏮ Replay", play: "▶ Play", pause: "❚❚ Pause", half: "½ speed", normal: "Normal speed",
+    t_of: (a, b) => `${a} s of ${b} s`, back: "← Back", next: "Next →", finish: "Finish",
+    open: (n) => `${n} open`, answered: "✓ answered",
+    howto: "How to answer",
+    howto_m: "Press <b>Play</b> (<kbd>Space</kbd>). The clip pauses at moments 1 and 2: pick whom each defender is guarding then. Choosing an answer jumps to that moment and rings the defender.",
+    moment: (j) => `Moment ${j}`, show: "show", choose: "choose…", nobody: "Nobody (helping / roaming)", cant: "Can't tell",
+    notes: "Notes (optional)", ringed: "Ringed: ", and: " and ", practice_clip: "Practice clip: not used.",
+    miss_moment: (j, d) => `moment ${j}: ${d}`, miss_answer: "answer",
+    confirm: (m) => `Not answered yet:\n- ${m}\n\nGo on anyway? You can come back later.`,
+    attacker: (k) => `Attacker ${k}`, defender: (d) => `Defender ${d}`,
+    intro_adj: (n) => `<h2>Consensus review</h2>
+      <p><b>${n}</b> clips on which the two annotators answered differently. Watch each together and pick one answer you both accept. The two original answers are shown; the clip may or may not contain a detected event.</p>
+      <p>Before starting, agree on the borderline cases (for example a small step toward the ball and back; moving to cover a teammate's man) and apply the same rule throughout.</p>
+      <div class="warnbox">This page holds tracking data for this study only. Do not share or upload it.</div>`,
+    prior: "Original answers", consensus: "Consensus answer",
+  },
+  zh: {
+    title: "对位与事件核对", download: "下载我的答案", annotator: "标注人", done_n: (d, n) => `已完成 ${d} / ${n}`,
+    opt_help: ["是：完全协防（真的扑向持球人，或突破 / 顺下的人）", "是：佯协防（向球迈一两步或虚晃一下，马上回到自己的人）", "他本来就站在协防位置（不在自己人身边），只是向球收缩", "否：他没有离开自己的人去协防", "看不清"],
+    opt_switch: ["是：两人换防（交换了防守对象）", "否：各自跟住自己的人（延阻、上提、挤过 / 绕后等）", "只有一人换了人，或其他情况", "看不清"],
+    q_help: "在绿色时间窗口内，绿圈的防守者有没有离开自己的人去协防？",
+    q_switch: "这次掩护中，两名绿圈的防守者有没有交换防守对象（换防）？",
+    intro: (nM, nE, min) => `<h2>对位与事件核对</h2>
+      <p>第一部分 <b>${nM}</b> 个回合（每个约 1 分钟），第二部分 <b>${nE}</b> 个短片段（每个约 20 秒），每部分开头有一道练习题。共约 <b>${min} 分钟</b>。可以随时停下，下次用同一个浏览器继续；每答一题自动保存。</p>
+      <p class="legend"><span><i class="dot" style="background:#2f5d9e"></i>进攻（彩色实心，球衣号）</span>
+        <span><i class="dot" style="background:#fff;border:3px solid #b4442f"></i>防守（白色，红边）</span>
+        <span><i class="dot" style="border:3px solid #e08a1e"></i>持球人（橙色圈）</span>
+        <span><i class="dot" style="border:3px solid #1a9c6b"></i>被问到的防守者（绿色圈）</span></p>
+      <p>俯视半场，进攻方永远朝<b>左边</b>的篮筐。拖尾是最近 1 秒的移动轨迹（每秒 5 帧，动作会有点跳）。</p>
+      <h3>第一部分：谁防谁</h3>
+      <p>片段在时刻 1 和时刻 2 自动暂停。给每名防守者选他此刻在防的进攻者；在协防或游走、不对位任何人，选<b>没人</b>；看不清选<b>看不清</b>。页面不显示模型的答案。片段在时刻 2 之后不久结束。</p>
+      <h3>第二部分：有没有发生</h3>
+      <ul class="tight">
+        <li><b>协防片段</b>（圈一人）：在时间条的绿色窗口内，他有没有离开自己的人，去协防持球人或突破、顺下的人？<b>佯协防</b>是向球迈一两步或虚晃，马上回到自己的人；<b>完全协防</b>是真的扑上去。如果他本来就站在协防位置、不在自己人身边，只是向球收缩，选“本来就在协防位置”。</li>
+        <li><b>掩护片段</b>（圈两人）：两人有没有交换防守对象（换防）？</li>
+        <li>有些片段里什么都没发生，答<b>否</b>常常是对的。点的信息不足以判断时，选<b>看不清</b>。</li>
+      </ul>
+      <p><b>按键：</b><kbd>空格</kbd> 播放 / 暂停 · <kbd>R</kbd> 重播 · <kbd>←</kbd> <kbd>→</kbd> 逐帧 · 第二部分 数字键作答，<kbd>Enter</kbd> 下一题。</p>
+      <div class="warnbox">本页面含追踪数据，仅供本研究使用，请勿转发或上传。</div>`,
+    start: "开始", resume: "从上次的位置继续",
+    almost: "还差一点", all_done: "全部完成，谢谢！",
+    done_txt: (d, n, open) => `已完成 ${d} / ${n} 题。${open ? `还有 ${open} 题未答，可以回去补，也可以先下载已答的部分。` : ""}`,
+    save_to: (f) => `，把 <code>${f}</code> 放进 <code>data/annotations/raw/</code>。`,
+    back_last: "回到最后一题", part1: "第一部分", part2: "第二部分",
+    practice: "练习题：不计分", k_of: (k, n) => `${k} / ${n}`,
+    part1_long: "第一部分：谁防谁", part2_help: "第二部分：协防", part2_switch: "第二部分：掩护",
+    replay: "⏮ 重播", play: "▶ 播放", pause: "❚❚ 暂停", half: "½ 速", normal: "正常速度",
+    t_of: (a, b) => `${a} 秒 / 共 ${b} 秒`, back: "← 上一题", next: "下一题 →", finish: "完成",
+    open: (n) => `${n} 项未答`, answered: "✓ 已答",
+    howto: "怎么答",
+    howto_m: "点<b>播放</b>（<kbd>空格</kbd>）。片段在时刻 1 和时刻 2 暂停：选出每名防守者此刻在防谁。点开下拉框，画面会跳到该时刻，并圈出这名防守者。",
+    moment: (j) => `时刻 ${j}`, show: "查看", choose: "请选择…", nobody: "没人（协防 / 游走）", cant: "看不清",
+    notes: "备注（可选）", ringed: "绿圈：", and: " 和 ", practice_clip: "练习片段：不计分。",
+    miss_moment: (j, d) => `时刻 ${j}：${d}`, miss_answer: "答案",
+    confirm: (m) => `还有未答的项目：\n- ${m}\n\n仍然继续吗？之后可以回来补。`,
+    attacker: (k) => `进攻者 ${k}`, defender: (d) => `防守者 ${d}`,
+    intro_adj: (n) => `<h2>共识复核</h2>
+      <p>下面是两名标注人答案不同的 <b>${n}</b> 个片段。请两人一起看，商量后选一个双方都接受的答案。页面显示两人原来的答案；片段里不一定有模型检测到的事件。</p>
+      <p>开始前，先商量好边界情况怎么算（比如向球迈一小步又退回；去补防队友的人），然后整轮用同一个标准。</p>
+      <div class="warnbox">本页面含追踪数据，仅供本研究使用，请勿转发或上传。</div>`,
+    prior: "原答案", consensus: "共识答案",
+  },
+};
+const L = TXT[(DATA && DATA.lang) || "en"] || TXT.en;
+const CODES = { help: ["full", "stunt", "prepositioned", "no", "cant"], switch: ["yes", "no", "other", "cant"] };
+const OPTIONS = { help: CODES.help.map((c, i) => [c, L.opt_help[i]]), switch: CODES.switch.map((c, i) => [c, L.opt_switch[i]]) };
+const QUESTION = { help: L.q_help, switch: L.q_switch };
+
+if (!DATA) {
+  $("app").innerHTML = '<div class="card"><h2>No data in this page</h2><p>This is the empty template. Open your personal file instead (for example <code>A1.html</code>).</p></div>';
+  throw new Error("template without data");
+}
+document.documentElement.lang = DATA.lang || "en";
+document.title = L.title;
+$("title").textContent = L.title;
+$("bDownloadTop").textContent = L.download;
+const HZ = DATA.hz || 5;
+const ITEMS = DATA.items;
+const STORE = `gdq:${DATA.version}:${DATA.annotator}`;
+let S = null;
+try { S = JSON.parse(localStorage.getItem(STORE) || "null"); } catch (e) { S = null; }
+if (!S) S = { annotator: DATA.annotator, started: new Date().toISOString(), screen: "intro", idx: 0, answers: {}, times: {} };
+function save() { try { localStorage.setItem(STORE, JSON.stringify(S)); } catch (e) {} }
+
+// ---------- labels ----------
+const label = (p, fallback) => (p && p.name ? `#${p.jersey} ${p.name}${p.pos ? ` (${p.pos})` : ""}` : fallback);
+const offLabel = (it, k) => label(it.people.off[k], L.attacker(k + 1));
+const defLabel = (it, d) => label(it.people.def[d], L.defender(d + 1));
+const tsec = (s) => (s / HZ).toFixed(1) + (DATA.lang === "zh" ? " 秒" : " s");
+
+// ---------- answers ----------
+function ans(it) {
+  if (!S.answers[it.id]) S.answers[it.id] = it.task === "M" ? { task: "M", km: it.keyframes.map(() => [null, null, null, null, null]), note: "" } : { task: "E", kind: it.kind, a: null, note: "" };
+  return S.answers[it.id];
+}
+function missing(it) {
+  const a = ans(it), m = [];
+  if (it.task === "M") a.km.forEach((row, j) => row.forEach((v, d) => { if (v === null || v === undefined) m.push(L.miss_moment(j + 1, defLabel(it, d))); }));
+  else if (!a.a) m.push(L.miss_answer);
+  return m;
+}
+const scored = () => ITEMS.filter((it) => !it.practice);
+const nDone = () => scored().filter((it) => S.answers[it.id] && missing(it).length === 0).length;
+
+// ---------- active time per item (visible, input within 90 s) ----------
+let lastInput = Date.now();
+["mousedown", "keydown", "wheel", "touchstart"].forEach((ev) => document.addEventListener(ev, () => { lastInput = Date.now(); }, true));
+setInterval(() => {
+  if (S.screen !== "item" || document.hidden || Date.now() - lastInput > 90000) return;
+  const id = ITEMS[S.idx].id; S.times[id] = (S.times[id] || 0) + 1;
+  if (S.times[id] % 5 === 0) save();
+}, 1000);
+
+// ---------- download ----------
+const outName = () => `${DATA.annotator}_${DATA.version}_answers.json`;
+function download() {
+  S.saved = new Date().toISOString(); save();
+  const out = { tool: "gdq-1", version: DATA.version, annotator: DATA.annotator, lang: DATA.lang || "en", started: S.started, saved: S.saved,
+    complete: nDone(), total: scored().length, answers: S.answers, seconds: S.times };
+  const blob = new Blob([JSON.stringify(out, null, 1)], { type: "application/json" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = outName(); document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+$("bDownloadTop").onclick = download;
+
+function header() {
+  $("who").textContent = `${L.annotator} ${DATA.annotator}`;
+  const n = scored().length, d = nDone();
+  $("prog").textContent = L.done_n(d, n);
+  $("progbar").style.width = `${(100 * d) / n}%`;
+}
+const nOf = (t) => scored().filter((it) => it.task === t).length;
+function estimateMin() { const e = DATA.estimate_min; return Math.round(e.guide + e.M * nOf("M") + e.E * nOf("E")); }
+
+// ---------- screens ----------
+function render() {
+  header();
+  if (S.screen === "intro") return renderIntro();
+  if (S.screen === "done") return renderDone();
+  renderItem();
+}
+function go(screen, idx) { stop(); S.screen = screen; if (idx !== undefined) S.idx = idx; save(); render(); window.scrollTo(0, 0); }
+
+function renderIntro() {
+  $("app").innerHTML = `<div class="card">${DATA.mode === "adjudicate" ? L.intro_adj(nOf("E")) : L.intro(nOf("M"), nOf("E"), estimateMin())}
+    <div class="nav"><span></span><button class="primary" id="bStart">${S.idx > 0 ? L.resume : L.start}</button></div>
+  </div>`;
+  $("bStart").onclick = () => go("item");
+}
+
+function renderDone() {
+  const inc = scored().filter((it) => missing(it).length > 0);
+  $("app").innerHTML = `<div class="card">
+    <h2>${inc.length ? L.almost : L.all_done}</h2>
+    <p>${L.done_txt(nDone(), scored().length, inc.length)}</p>
+    ${inc.length ? `<p>${inc.slice(0, 40).map((it) => `<button class="small" data-i="${ITEMS.indexOf(it)}">${it.task === "M" ? L.part1 : L.part2} · ${scored().filter((y) => y.task === it.task).indexOf(it) + 1}</button>`).join(" ")}</p>` : ""}
+    <p><button class="primary" id="bDl">${L.download}</button> ${L.save_to(outName())}</p>
+    <div class="nav"><button id="bBack">${L.back_last}</button><span></span></div>
+  </div>`;
+  $("bDl").onclick = download;
+  $("bBack").onclick = () => go("item", ITEMS.length - 1);
+  document.querySelectorAll("[data-i]").forEach((b) => (b.onclick = () => go("item", +b.dataset.i)));
+}
+
+// ---------- playback ----------
+let tf = 0, playing = false, speed = 1, lastTs = 0, raf = 0, hi = new Set(), pausedAt = new Set();
+function it() { return ITEMS[S.idx]; }
+function stop() { playing = false; cancelAnimationFrame(raf); updCtrl(); }
+function seek(t) { tf = Math.max(0, Math.min(it().n - 1, t)); draw(); }
+function play() { if (tf >= it().n - 1) tf = 0; playing = true; lastTs = performance.now(); updCtrl(); raf = requestAnimationFrame(loop); }
+function togglePlay() { if (playing) stop(); else play(); }
+function replay() { stop(); pausedAt = new Set(); tf = 0; play(); }
+function loop(ts) {
+  if (!playing) return;
+  const prev = tf; tf = Math.max(0, tf + (Math.max(0, ts - lastTs) / 1000) * HZ * speed); lastTs = ts;
+  const x = it();
+  if (x.task === "M") {
+    for (let j = 0; j < x.keyframes.length; j++) {
+      const k = x.keyframes[j];
+      if (prev < k && tf >= k && !pausedAt.has(j)) { tf = k; pausedAt.add(j); stop(); draw(); focusMoment(j); return; }
+    }
+  }
+  if (tf >= x.n - 1) { tf = x.n - 1; stop(); }
+  draw();
+  if (playing) raf = requestAnimationFrame(loop);
+}
+function updCtrl() { const b = $("bPlay"); if (b) b.textContent = playing ? L.pause : L.play; }
+const lerp = (a, b, f) => a + (b - a) * f;
+function at(arr, j) {
+  const i0 = Math.floor(tf), i1 = Math.min(i0 + 1, arr.length - 1), f = tf - i0;
+  const p = arr[i0][j], q = arr[i1][j];
+  return [lerp(p[0], q[0], f), lerp(p[1], q[1], f)];
+}
+
+// ---------- drawing ----------
+const SC = 11, PADX = 6, FT_W = 60, W = FT_W * SC + 2 * PADX, H = 50 * SC + 12;
+const X = (x) => PADX + x * SC, Y = (y) => 6 + y * SC;
+function drawCourt(ctx) {
+  ctx.clearRect(0, 0, W, H);
+  ctx.save(); ctx.fillStyle = "rgba(0,0,0,.05)"; ctx.fillRect(X(47), Y(0), (FT_W - 47) * SC, 50 * SC);
+  ctx.strokeStyle = "#8a7f6a"; ctx.lineWidth = 2;
+  ctx.strokeRect(X(0), Y(0), 47 * SC, 50 * SC);
+  ctx.beginPath(); ctx.arc(X(47), Y(25), 6 * SC, -Math.PI / 2, Math.PI / 2); ctx.stroke();
+  ctx.strokeRect(X(0), Y(17), 19 * SC, 16 * SC);
+  ctx.beginPath(); ctx.arc(X(19), Y(25), 6 * SC, -Math.PI / 2, Math.PI / 2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(X(5.25), Y(25), 0.75 * SC, 0, 2 * Math.PI); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(X(4), Y(22)); ctx.lineTo(X(4), Y(28)); ctx.stroke();
+  ctx.beginPath(); ctx.arc(X(5.25), Y(25), 4 * SC, -Math.PI / 2, Math.PI / 2); ctx.stroke();
+  const th = Math.asin(22 / 23.75);
+  ctx.beginPath(); ctx.moveTo(X(0), Y(3)); ctx.lineTo(X(5.25 + 23.75 * Math.cos(th)), Y(3));
+  ctx.arc(X(5.25), Y(25), 23.75 * SC, -th, th); ctx.lineTo(X(0), Y(47)); ctx.stroke();
+  ctx.beginPath(); ctx.arc(X(47), Y(25), 6 * SC, Math.PI / 2, 1.5 * Math.PI); ctx.stroke();
+  ctx.restore();
+}
+function inWindow(x) { return x.task === "E" && tf >= x.window[0] && tf <= x.window[1]; }
+function draw() {
+  const cv = $("court"); if (!cv) return;
+  const ctx = cv.getContext("2d"), x = it(), step = Math.round(tf);
+  drawCourt(ctx);
+  if (inWindow(x)) { ctx.save(); ctx.strokeStyle = "#1a9c6b"; ctx.lineWidth = 6; ctx.strokeRect(3, 3, W - 6, H - 6); ctx.restore(); }
+  const t0 = Math.max(0, Math.floor(tf) - HZ);
+  for (const [arr, col] of [[x.off, "rgba(47,93,158,.22)"], [x.def, "rgba(180,68,47,.22)"]]) {
+    for (let j = 0; j < 5; j++) {
+      ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath();
+      for (let t = t0; t <= Math.floor(tf); t++) { const q = arr[t][j]; t === t0 ? ctx.moveTo(X(q[0]), Y(q[1])) : ctx.lineTo(X(q[0]), Y(q[1])); }
+      const c = at(arr, j); ctx.lineTo(X(c[0]), Y(c[1])); ctx.stroke();
+    }
+  }
+  const h = x.handler[step];
+  for (let j = 0; j < 5; j++) {
+    const [px, py] = at(x.off, j), cx = X(px), cy = Y(py);
+    ctx.beginPath(); ctx.arc(cx, cy, 15, 0, 2 * Math.PI); ctx.fillStyle = SLOT_COL[j]; ctx.fill();
+    if (h === j) { ctx.beginPath(); ctx.arc(cx, cy, 20, 0, 2 * Math.PI); ctx.strokeStyle = "#e08a1e"; ctx.lineWidth = 3; ctx.stroke(); }
+    ctx.fillStyle = "#fff"; ctx.font = "bold 13px system-ui"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText(x.people.off[j].jersey || String(j + 1), cx, cy);
+  }
+  const ring = new Set([...(x.ring || []), ...hi]);
+  for (let d = 0; d < 5; d++) {
+    const [px, py] = at(x.def, d), cx = X(px), cy = Y(py);
+    ctx.beginPath(); ctx.arc(cx, cy, 15, 0, 2 * Math.PI); ctx.fillStyle = "#fff"; ctx.fill(); ctx.strokeStyle = "#b4442f"; ctx.lineWidth = 3; ctx.stroke();
+    if (ring.has(d)) { ctx.beginPath(); ctx.arc(cx, cy, 22, 0, 2 * Math.PI); ctx.strokeStyle = "#1a9c6b"; ctx.lineWidth = 4; ctx.stroke(); }
+    ctx.fillStyle = "#b4442f"; ctx.font = "bold 13px system-ui"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText(x.people.def[d].jersey || String(d + 1), cx, cy);
+  }
+  const i0 = Math.floor(tf), i1 = Math.min(i0 + 1, x.ball.length - 1), f = tf - i0;
+  const bx = lerp(x.ball[i0][0], x.ball[i1][0], f), by = lerp(x.ball[i0][1], x.ball[i1][1], f), bz = lerp(x.ball[i0][2], x.ball[i1][2], f);
+  ctx.beginPath(); ctx.arc(X(bx), Y(by), 6 + Math.min(bz, 15) * 0.5, 0, 2 * Math.PI); ctx.fillStyle = "#e08a1e"; ctx.fill();
+  ctx.strokeStyle = "#7a4a0c"; ctx.lineWidth = 1; ctx.stroke();
+  $("tlabel").textContent = L.t_of((tf / HZ).toFixed(1), ((x.n - 1) / HZ).toFixed(1));
+  drawTimeline();
+}
+const TW = 560, TH = 46;
+function drawTimeline() {
+  const cv = $("tl"); if (!cv) return;
+  const ctx = cv.getContext("2d"), x = it(), n = x.n, sx = (s) => 10 + (s / Math.max(1, n - 1)) * (TW - 20);
+  ctx.clearRect(0, 0, TW, TH);
+  ctx.fillStyle = "#eee"; ctx.fillRect(10, 18, TW - 20, 10);
+  if (x.task === "E") { ctx.fillStyle = "#1a9c6b"; ctx.globalAlpha = 0.55; ctx.fillRect(sx(x.window[0]), 18, Math.max(3, sx(x.window[1]) - sx(x.window[0])), 10); ctx.globalAlpha = 1; }
+  else x.keyframes.forEach((k, j) => {
+    ctx.fillStyle = "#c77c11"; ctx.beginPath(); ctx.moveTo(sx(k), 16); ctx.lineTo(sx(k) - 6, 4); ctx.lineTo(sx(k) + 6, 4); ctx.fill();
+    ctx.fillStyle = "#fff"; ctx.font = "bold 9px system-ui"; ctx.textAlign = "center"; ctx.fillText(String(j + 1), sx(k), 11);
+  });
+  ctx.fillStyle = "#1f2328"; ctx.fillRect(sx(tf) - 1, 14, 3, 30);
+}
+function tlSeek(ev) {
+  const r = $("tl").getBoundingClientRect(), x = ((ev.clientX - r.left) / r.width) * TW;
+  stop(); seek(((x - 10) / (TW - 20)) * (it().n - 1));
+}
+
+// ---------- item page ----------
+function focusMoment(j) { const el = document.querySelector(`[data-m="${j}"]`); if (el) el.scrollIntoView({ block: "nearest" }); }
+function next() {
+  const x = it(), m = missing(x);
+  if (m.length && !x.practice && !confirm(L.confirm(m.slice(0, 8).join("\n- ")))) return;
+  if (S.idx === ITEMS.length - 1) go("done"); else go("item", S.idx + 1);
+}
+function renderItem() {
+  const x = it(), idx = S.idx;
+  tf = 0; pausedAt = new Set(); hi = new Set();
+  const part = x.task === "M" ? L.part1_long : x.kind === "help" ? L.part2_help : L.part2_switch;
+  const nIn = ITEMS.slice(0, idx + 1).filter((y) => !y.practice && y.task === x.task).length;
+  const tags = `${x.practice ? `<span class="tag practice">${L.practice}</span>` : `<span class="tag">${L.k_of(nIn, nOf(x.task))}</span>`}<span class="tag">${part}</span>`;
+  $("app").innerHTML = `<div class="card">
+    <div style="margin-bottom:8px">${tags}</div>
+    <div class="grid">
+      <div>
+        <canvas id="court" width="${W}" height="${H}"></canvas>
+        <canvas id="tl" width="${TW}" height="${TH}"></canvas>
+        <div class="ctrl">
+          <button id="bRestart" title="R">${L.replay}</button>
+          <button id="bPlay" class="primary">${L.play}</button>
+          <button id="bSpeed">${speed === 1 ? L.half : L.normal}</button>
+          <span class="t" id="tlabel"></span>
+        </div>
+      </div>
+      <div class="panel" id="panel"></div>
+    </div>
+    <div class="nav">
+      <button id="bPrev" ${idx === 0 ? "disabled" : ""}>${L.back}</button>
+      <span class="muted" id="miss"></span>
+      <button class="primary" id="bNext">${idx === ITEMS.length - 1 ? L.finish : L.next}</button>
+    </div>
+  </div>`;
+  $("bPlay").onclick = togglePlay;
+  $("bRestart").onclick = replay;
+  $("bSpeed").onclick = (e) => { speed = speed === 1 ? 0.5 : 1; e.target.textContent = speed === 1 ? L.half : L.normal; };
+  let dragging = false;
+  $("tl").onmousedown = (e) => { dragging = true; tlSeek(e); };
+  window.onmousemove = (e) => { if (dragging) tlSeek(e); };
+  window.onmouseup = () => { dragging = false; };
+  $("bPrev").onclick = () => go("item", idx - 1);
+  $("bNext").onclick = next;
+  renderPanel();
+  draw();
+  if (x.task === "E") play();  // short clips start by themselves
+}
+function refresh() { save(); header(); const m = missing(it()); $("miss").textContent = m.length ? L.open(m.length) : L.answered; }
+
+function attackerOptions(x, v) {
+  let o = `<option value="" ${v === null || v === undefined ? "selected" : ""}>${L.choose}</option>`;
+  for (let k = 0; k < 5; k++) o += `<option value="${k}" ${v === k ? "selected" : ""}>${esc(offLabel(x, k))}</option>`;
+  o += `<option value="${NOBODY}" ${v === NOBODY ? "selected" : ""}>${L.nobody}</option>`;
+  o += `<option value="${CANT_TELL}" ${v === CANT_TELL ? "selected" : ""}>${L.cant}</option>`;
+  return o;
+}
+const val = (s) => (s === "" ? null : +s);
+
+function renderPanel() { const x = it(); if (x.task === "M") renderPanelM(x); else renderPanelE(x); refresh(); }
+
+function renderPanelM(x) {
+  const a = ans(x);
+  let h = `<details class="help" ${x.practice ? "open" : ""}><summary>${L.howto}</summary>${L.howto_m}</details>`;
+  x.keyframes.forEach((k, j) => {
+    h += `<div data-m="${j}" style="margin:8px 0 2px"><b>${L.moment(j + 1)}</b> <span class="muted">(${tsec(k)})</span> <button class="small" data-goto="${k}">${L.show}</button></div><table class="q">`;
+    for (let d = 0; d < 5; d++) {
+      const v = a.km[j][d];
+      h += `<tr><td style="white-space:nowrap;padding-right:8px">${esc(defLabel(x, d))}</td><td><select data-km="${j},${d}" class="${v === null || v === undefined ? "unanswered" : ""}">${attackerOptions(x, v)}</select></td></tr>`;
+    }
+    h += `</table>`;
+  });
+  h += `<h3>${L.notes}</h3><textarea id="note">${esc(a.note)}</textarea>`;
+  $("panel").innerHTML = h;
+  const P = $("panel");
+  P.querySelectorAll("[data-goto]").forEach((b) => (b.onclick = () => { stop(); seek(+b.dataset.goto); }));
+  P.querySelectorAll("[data-km]").forEach((s) => {
+    const [j, d] = s.dataset.km.split(",").map(Number);
+    s.onfocus = () => { stop(); hi = new Set([d]); seek(x.keyframes[j]); };
+    s.onchange = () => { a.km[j][d] = val(s.value); s.classList.toggle("unanswered", a.km[j][d] === null); refresh(); };
+    s.onblur = () => { hi = new Set(); draw(); };
+  });
+  $("note").oninput = (e) => { a.note = e.target.value; save(); };
+}
+
+function renderPanelE(x) {
+  const a = ans(x), opts = OPTIONS[x.kind];
+  const who = x.ring.map((d) => esc(defLabel(x, d))).join(L.and);
+  let h = `<p class="q-text">${QUESTION[x.kind]}</p><p class="muted" style="margin-top:0">${L.ringed}${who}</p>`;
+  if (x.prior) {
+    const txt = (c) => { const o = opts.find(([k]) => k === c); return o ? `${opts.indexOf(o) + 1} · ${o[1]}` : c; };
+    h += `<div class="help"><b>${L.prior}</b>${Object.entries(x.prior.answers).map(([who, c]) => `<div>${esc(who)}: ${esc(txt(c))}${x.prior.notes[who] ? ` <span class="muted">(${esc(x.prior.notes[who])})</span>` : ""}</div>`).join("")}</div><p style="margin:6px 0 2px"><b>${L.consensus}</b></p>`;
+  }
+  h += opts.map(([k, t], i) => `<button class="opt ${a.a === k ? "sel" : ""}" data-a="${k}"><kbd>${i + 1}</kbd>${esc(t)}</button>`).join("");
+  h += `<h3>${L.notes}</h3><textarea id="note">${esc(a.note)}</textarea>`;
+  if (x.practice) h += `<p class="muted">${L.practice_clip}</p>`;
+  $("panel").innerHTML = h;
+  $("panel").querySelectorAll("[data-a]").forEach((b) => (b.onclick = () => { a.a = b.dataset.a; renderPanel(); }));
+  $("note").oninput = (e) => { a.note = e.target.value; save(); };
+}
+
+document.addEventListener("keydown", (e) => {
+  if (S.screen !== "item" || ["INPUT", "SELECT", "TEXTAREA"].includes(document.activeElement.tagName)) return;
+  const x = it();
+  if (e.key === " ") { e.preventDefault(); togglePlay(); }
+  else if (e.key === "r" || e.key === "R") { e.preventDefault(); replay(); }
+  else if (e.key === "Enter") { e.preventDefault(); next(); }
+  else if (x.task === "E" && /^[1-9]$/.test(e.key) && +e.key <= OPTIONS[x.kind].length) { ans(x).a = OPTIONS[x.kind][+e.key - 1][0]; renderPanel(); }
+  else if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+    e.preventDefault(); stop();
+    seek(Math.round(tf) + (e.key === "ArrowRight" ? 1 : -1) * (e.shiftKey ? HZ : 1));
+  }
+});
+document.addEventListener("visibilitychange", () => { if (document.hidden) save(); });
+window.addEventListener("beforeunload", save);
+render();
+</script>
+</body>
+</html>

@@ -12,6 +12,12 @@ defensive possessions) against the player's mean location-adjusted openness / xF
 primary defender on the other parity (>= 30 shots); Spearman, player-bootstrap intervals; both
 directions.
 
+Review A7 (2026-10-30): ``--xfg-variant nodef`` = an xFG without any defender term (zone,
+geometry, dribble / catch-and-shoot, shooter), so the outcome is shot location and type given the
+shooter; ``--window lag`` measures the predictors 2-4 s before the release (primary defender
+defined on that window); the player level is also reported within team (trait and outcome
+centred on the defender's team; separate random stream, other intervals unchanged).
+
 Output: reports/phase5/<version>_all/predictive_validity{,_phases}.json. ``--context phases``
 adds the D-020 phase shares to the context adjustment of the player trait (D-021 main
 specification); the possession-level regressions do not use the adjustment and are unchanged.
@@ -40,7 +46,8 @@ from ghost.xfg import api
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from phase4_reliability import (  # noqa: E402
-    PHASE_COVS,
+    CONTEXT_SUFFIX,
+    CONTEXTS,
     _center,
     adjust,
     listed_positions,
@@ -79,6 +86,24 @@ def cross_fit_m3d(shots: pl.DataFrame, variant: str = "m3d") -> np.ndarray:
         other = api.trusted(S.filter(pl.col("fold").is_not_null() & (pl.col("fold") != k)))
         m, _ = fit_m3d(other, TERMS[variant])
         idx = ((S["fold"] == k).fill_null(False) & S["def1_ft"].is_not_null()).to_numpy()
+        out[idx] = m.predict(S.filter(pl.Series(idx)))
+    return out
+
+
+NODEF_GROUPS = ["zone", "geom", "dribble", "shooter"]  # M3 without the "defense" group
+
+
+def cross_fit_groups(shots: pl.DataFrame, groups: list[str]) -> np.ndarray:
+    """As cross_fit for an xFG with the given feature groups (review A7: no defender terms)."""
+    from ghost.xfg.model import fit_xfg
+
+    games = D.games(D.DataConfig.load(game_set="all")).select(["game_id", "fold"])
+    S = shots.join(games, on="game_id", how="left")
+    out = np.full(S.height, np.nan)
+    for k in sorted(S["fold"].drop_nulls().unique().to_list()):
+        other = api.trusted(S.filter(pl.col("fold").is_not_null() & (pl.col("fold") != k)))
+        m = fit_xfg(other, groups)
+        idx = ((S["fold"] == k).fill_null(False) & S["dist_ft"].is_not_null()).to_numpy()
         out[idx] = m.predict(S.filter(pl.Series(idx)))
     return out
 
@@ -131,8 +156,10 @@ def spearman_boot(a: np.ndarray, b: np.ndarray, reps: int, rng) -> dict:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--context", default="base", choices=["base", "phases"], help="D-021")
-    ap.add_argument("--xfg-variant", default=None, choices=["m3d", "m3h", "m3c"],
+    ap.add_argument("--context", default="base", choices=list(CONTEXTS), help="D-021")
+    ap.add_argument("--window", default="last2s", choices=["last2s", "lag"],
+                    help="predictor window: last 2 s before the release, or 2-4 s before (A7)")  # fmt: skip
+    ap.add_argument("--xfg-variant", default=None, choices=["m3d", "m3h", "m3c", "nodef"],
                     help="also an xFG variant (A4b): m3d height + closing, m3h height, m3c closing; separate *_<variant>.json")  # fmt: skip
     ap.add_argument(
         "--ghost",
@@ -150,7 +177,12 @@ def main() -> None:
     rng = np.random.default_rng(9)
 
     shots_all = pl.read_parquet(base / "analysis" / "shots.parquet")
-    if args.xfg_variant:
+    vcol = "xfg_nodef_cf" if args.xfg_variant == "nodef" else "xfg_m3d_cf"
+    if args.xfg_variant == "nodef":
+        shots_all = shots_all.with_columns(
+            pl.Series(vcol, cross_fit_groups(shots_all, NODEF_GROUPS))
+        )
+    elif args.xfg_variant:
         from analysis_xfg_defender_features import with_def1
 
         shots_all = with_def1(cfg, shots_all)
@@ -194,7 +226,8 @@ def main() -> None:
                 continue
             valid = np.flatnonzero(pt.valid[i])
             rel = int(valid[np.argmin(np.abs(pt.t[i, valid] - r["t_release_ms"]))])
-            pre = np.arange(max(0, rel - PRE_STEPS), rel)
+            lag = PRE_STEPS if args.window == "lag" else 0
+            pre = np.arange(max(0, rel - lag - PRE_STEPS), rel - lag)
             ks = np.flatnonzero(pt.off_ids[i] == r["shooter_id"])
             if ks.size == 0 or pre.size < MIN_PRE:
                 continue
@@ -236,7 +269,8 @@ def main() -> None:
                     "def1_ft": r["def1_ft"],
                     "xfg_m2_cf": r["xfg_m2_cf"],
                     "xfg_m3_cf": r["xfg_m3_cf"],
-                    **({"xfg_m3d_cf": r["xfg_m3d_cf"]} if args.xfg_variant else {}),
+                    **({vcol: r[vcol]} if args.xfg_variant else {}),
+                    "defense_team_id": r.get("defense_team_id"),
                     "made": bool(r["made"]),
                     "zone": r["zone"],
                     "dist_ft": r["dist_ft"],
@@ -248,7 +282,7 @@ def main() -> None:
     V = pl.DataFrame(rows)
 
     rep: dict = {"n_shot_possessions": V.height, "possession_level": {}}
-    outcomes = ("def1_ft", "xfg_m2_cf", "xfg_m3_cf") + (("xfg_m3d_cf",) if args.xfg_variant else ())
+    outcomes = ("def1_ft", "xfg_m2_cf", "xfg_m3_cf") + ((vcol,) if args.xfg_variant else ())
     predictors = ["pre_nll_ind", "pre_nll_team"] if learned else ["pre_sag_ft", "pre_dev_ft"]
     for y in outcomes:
         rep["possession_level"][y] = ols_boot(V, y, predictors, 500, rng)
@@ -271,11 +305,19 @@ def main() -> None:
                        on=["game_id", "possession_id", "def_id"], how="inner")  # fmt: skip
         trait_col = "nll_ind"
     extra: tuple[str, ...] = ()
-    if args.context == "phases":
-        dev, extra = with_phases(dev, base), tuple(PHASE_COVS)
+    if CONTEXTS[args.context]:
+        dev, extra = with_phases(dev, base), CONTEXTS[args.context]
     adj, _ = adjust(dev, trait_col, extra)
     dev = dev.with_columns(pl.Series("sag_adj", adj))
     rep["player_level"] = {}
+    rng_t = np.random.default_rng(11)  # within-team intervals: separate stream (A7)
+    team_of = (  # the team with most of the player's defensive possessions
+        dev.group_by(["def_id", "defense_team_id"])
+        .len()
+        .sort(["def_id", "len", "defense_team_id"], descending=[False, True, False])
+        .unique(subset=["def_id"], keep="first", maintain_order=True)
+        .select("def_id", pl.col("defense_team_id").alias("team"))
+    )
     for trait_par, out_par in ((0, 1), (1, 0)):
         tr = (
             dev.filter(pl.col("parity") == trait_par)
@@ -301,15 +343,21 @@ def main() -> None:
             res_pl[y + "__within_position"] = spearman_boot(
                 _center(a, grp), _center(b, grp), 1000, rng
             )
+        # within team (A7): centre trait and outcome on the defender's main team
+        Jt = J.join(team_of, on="def_id", how="left")
+        tg = Jt["team"].to_list()
+        for y in outcomes:
+            b = J[f"{y}_resid"].to_numpy()
+            res_pl[y + "__within_team"] = spearman_boot(_center(a, tg), _center(b, tg), 1000, rng_t)
         rep["player_level"][f"trait_parity{trait_par}_outcome_parity{out_par}"] = res_pl
     out = Path("reports/phase5") / f"{cfg.version}_all"
     out.mkdir(parents=True, exist_ok=True)
     rep["context"] = args.context
+    rep["window"] = args.window
     rep["ghost"] = args.ghost
     rep["player_trait"] = trait_col
-    sfx = ("" if args.context == "base" else "_phases") + (
-        f"_{args.xfg_variant}" if args.xfg_variant else ""
-    )
+    sfx = CONTEXT_SUFFIX[args.context] + (f"_{args.xfg_variant}" if args.xfg_variant else "")
+    sfx += "_lag2to4s" if args.window == "lag" else ""
     sfx += f"_learned_{learned}" if learned else ""
     (out / f"predictive_validity{sfx}.json").write_text(json.dumps(rep, indent=2))
     print(json.dumps(rep, indent=1))

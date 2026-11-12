@@ -197,9 +197,9 @@ def render(out_dir="paper/figures") -> Path:
                      "screened_defender_nll_ind": float(c["nll_ind"]),
                      "screen_confidence": float(c["screen_confidence"])})  # fmt: skip
     handles = [
-        Line2D([], [], marker="o", ls="", color=OFF, label="offence (black edge: ball handler)"),
+        Line2D([], [], marker="o", ls="", color=OFF, label="offense (black edge: ball handler)"),
         Line2D([], [], marker="s", ls="", color=OFF, label="screener"),
-        Line2D([], [], marker="o", ls="", color=DEF, label="real defence (black edge: screened)"),
+        Line2D([], [], marker="o", ls="", color=DEF, label="real defense (black edge: screened)"),
         Line2D([], [], marker="o", ls="", color=BALL, label="ball"),
         Line2D([], [], marker="o", ls="", mfc="none", mec="0.35", label="team ghost: most likely "
                "position of each defender slot"),

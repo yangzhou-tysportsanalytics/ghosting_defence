@@ -1,0 +1,10 @@
+{
+ "level": 0.8,
+ "n_possessions": 2000,
+ "n_defender_steps": 21265,
+ "rule_sigma_ft": 5.851558318693869,
+ "rule_nominal_area_sqft": 346.2558912532042,
+ "rule_nominal_coverage": 0.8598636256759934,
+ "rule_radius_at_actual_level_ft": 7.894560437844392,
+ "rule_area_at_actual_level_sqft": 195.7968860282027
+}

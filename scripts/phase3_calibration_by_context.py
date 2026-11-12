@@ -12,6 +12,9 @@ draws farther from the shooter than the real defender, over all defenders and fo
 whose ghost is nearest to the shooter (0.5 if calibrated; > 0.5 = real defenders closer than the
 ghost expects). Defenders are never selected by their real position (selection bias).
 
+Review A4: game-bootstrap 95 % intervals (resampling games) for the coverage overall and by
+context, and the per-game hit counts (reports/phase3/<version>_all_<tag>_calibration_per_game.parquet).
+
 Output (aggregates only): reports/phase3/<version>_all_<tag>_calibration_by_context.json
 
 Usage:
@@ -100,6 +103,7 @@ def main() -> None:
     )
     g = torch.Generator().manual_seed(0)
     u_ind, u_team, nll_ind, nll_team, ctx_ind, ctx_team, farther = [], [], [], [], [], [], []
+    game_ind, game_team = [], []  # game of every appended step block (A4)
     for r in K.iter_rows(named=True):
         i = r["i"]
         n = int(A["valid"][i].sum())
@@ -125,6 +129,7 @@ def main() -> None:
             u_team.append(hpd_pit(lw, mu, sg, z[d], args.n_samples, g))
             nll_team.append(-mixture_log_density(lw, mu, sg, z[d][:, None])[:, 0])
             ctx_team.append(cx)
+            game_team.append(np.full(n, r["game_id"]))
         for d in range(5):  # individual ghost of d
             m = torch.zeros(1, 5, dtype=torch.bool)
             m[0, d] = True
@@ -133,6 +138,7 @@ def main() -> None:
             u_ind.append(hpd_pit(lg_d, mu_d, sg_d, z[d], args.n_samples, g))
             nll_ind.append(-mixture_log_density(lg_d, mu_d, sg_d, z[d][:, None])[:, 0])
             ctx_ind.append(cx)
+            game_ind.append(np.full(n, r["game_id"]))
             if k_rel is not None and k_rel < n and shooter in r["off_ids"]:
                 # no selection on the real positions (choosing the defender who is really
                 # nearest would bias the comparison: the minimum of five is small by selection)
@@ -166,6 +172,46 @@ def main() -> None:
                 "coverage": coverage_curve(u[sel], LEVELS),
                 "mean_nll": float(nl[sel].mean()),
             }
+    # A4: per-game hit counts and game-bootstrap intervals of the coverage
+    parts = []
+    for name, us, cs, gs in (("individual", u_ind, ctx_ind, game_ind),
+                             ("team", u_team, ctx_team, game_team)):  # fmt: skip
+        u, c, gm = torch.cat(us).numpy(), np.concatenate(cs), np.concatenate(gs)
+        parts.append(
+            pl.DataFrame({"game_id": gm, "ghost": name, "context": np.array(CONTEXTS)[c], "u": u})
+            .group_by(["game_id", "ghost", "context"])
+            .agg(pl.len().alias("n"), *[(pl.col("u") <= q).sum().alias(f"hit_{q}") for q in LEVELS])
+        )
+    PG = pl.concat(parts).sort(["game_id", "ghost", "context"])
+    PG.write_parquet(
+        Path("reports/phase3") / f"{cfg.version}_all_{args.model_run}_calibration_per_game.parquet"
+    )
+    ug = sorted(PG["game_id"].unique().to_list())
+    rng = np.random.default_rng(9)
+    W = np.stack(
+        [np.bincount(rng.integers(0, len(ug), len(ug)), minlength=len(ug)) for _ in range(2000)]
+    )
+    gidx = {gid: j for j, gid in enumerate(ug)}
+    rep["game_bootstrap"] = {"B": 2000, "seed": 9, "coverage": {}}
+    for name in ("individual", "team"):
+        for cname in ("all", *CONTEXTS):
+            sub = PG.filter(pl.col("ghost") == name)
+            if cname != "all":
+                sub = sub.filter(pl.col("context") == cname)
+            agg = sub.group_by("game_id").agg(
+                pl.col("n").sum(), *[pl.col(f"hit_{q}").sum() for q in LEVELS]
+            )
+            gi = np.array([gidx[x] for x in agg["game_id"]])
+            n = np.zeros(len(ug))
+            n[gi] = agg["n"].to_numpy()
+            out = {"n_defender_steps": int(n.sum())}
+            for q in LEVELS:
+                h = np.zeros(len(ug))
+                h[gi] = agg[f"hit_{q}"].to_numpy()
+                b = (W @ h) / (W @ n)
+                out[str(q)] = {"coverage": float(h.sum() / n.sum()),
+                               "ci95": [float(np.quantile(b, 0.025)), float(np.quantile(b, 0.975))]}  # fmt: skip
+            rep["game_bootstrap"]["coverage"].setdefault(name, {})[cname] = out
     F = pl.DataFrame(farther, schema=["key", "d", "share", "ghost_dist"], orient="row")
     if F.height:
         by_ghost = F.sort("ghost_dist").group_by("key", maintain_order=True).first()

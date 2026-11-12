@@ -1,0 +1,17 @@
+{
+ "ghost": "gpu_d128_lr1e-3_final_test",
+ "cross_fitted": false,
+ "n_possession_defender": 87630,
+ "league_mean": {
+  "nll_team": 6.100251197798617,
+  "nll_ind": 4.307308397235411,
+  "d_mean": 3.1833885929899566,
+  "d_mode": 2.0791657586480934
+ },
+ "corr_possession_defender": {
+  "nll_ind__nll_team": 0.7761834593599778,
+  "nll_ind__d_mean": 0.8023625283531857,
+  "d_mean__d_mode": 0.9152608151081284
+ },
+ "seconds": 4474
+}

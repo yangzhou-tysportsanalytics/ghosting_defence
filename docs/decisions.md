@@ -178,7 +178,7 @@ Public tags (data-v1.0, data-v1.1, xfg-v1.0) are never moved and their release a
 replaced; any change gets a new tag. A later archive (e.g. Zenodo) re-publishes the same tag with
 the same asset bytes.
 
-## D-025 Matchup validation sample of 100 possessions
+## D-025 Matchup validation sample of 100 possessions (superseded by D-036)
 
 The validation sample is 100 half-court possessions from the train and validation games, in the
 same strata as the original 200-possession design (screen with switch 25, screen without switch
@@ -195,7 +195,7 @@ the unanchored head has a better team NLL on validation (5.757 vs 6.079) and a s
 individual NLL (4.332 vs 4.281); individual attribution uses the individual ghost, and the
 anchor weights read as "whom the ghost guards". The unanchored head is reported as an ablation.
 
-## D-027 Blind annotation subset
+## D-027 Blind annotation subset (superseded by D-036)
 
 Ten of the 100 validation possessions (two per stratum) are annotated first without any model
 output, and again with the model pre-labels at least two days later by the same annotator. The
@@ -203,7 +203,7 @@ paired difference in matchup accuracy measures the anchoring of the pre-labels.
 
 ## D-028 Conditioned ghosts are not used as the reference
 
-The lineup- and scheme-conditioned ghosts improve validation NLL (lineup by 0.021 / 0.035, scheme
+The lineup- and scheme-conditioned ghosts improve validation NLL (lineup by 0.020 / 0.035, scheme
 by 0.030 / 0.060 for the team / individual ghost). A draft plan said such a ghost would then be
 used for deviations. It is not: the lineup ghost includes the evaluated defender's own identity,
 so his habits move into the reference and his effect is pulled toward zero by construction; the
@@ -222,3 +222,95 @@ ghost's most likely position for each defender, and the screened defender's indi
 among typical ones (individual-ghost NLL between the league quartiles), not chosen by hand; the
 selection is recorded in `paper/figures/learned_ghost_frames.json`. It is a rendering of
 positions at six moments, not a data table; no tracking data is distributed (D-019).
+
+## D-030 Constant switching in the matchup model
+
+A variant of the matchup HMM whose switching probability depends on screens, passes and drives
+(`scripts/phase2_event_hmm.py`) raises the switching probability of the two defenders of a
+screen about 1.7-fold, but improves held-out fit only slightly (0.001 nats per observation) and
+leaves the decoded matchups almost unchanged (2.96 vs 2.94 reassignments per possession;
+`reports/phase2/v1.6_all/event_hmm.json`). The constant-switching model is kept for all results;
+the event-dependent model is a sensitivity analysis.
+
+## Note: team-level test families
+
+The six team-level tests reported as the first family (help rate within 3 s, switch rate and
+median help delay, each against points per possession and per half-court possession) were
+computed first and grouped as a family afterwards, once their results were known; they were not
+pre-registered. Two later tests (early-help rate, rule-ghost expected points) form a second,
+exploratory family. Re-estimates of the same associations are not counted as tests.
+
+The event-dependent matchup model (D-030) is reported in the paper's supplement.
+
+## D-031 Velocity features of the learned ghost
+
+The velocity inputs are central differences and therefore include positions 0.2 s ahead. A
+prototype trained with backward (strictly causal) differences gives the same validation NLL
+(`reports/phase3/v1.6_all_v1nlla_g32_vel_{central,backward}_eval.json`), so the reported model
+is kept; the causal option is available (`build_arrays(..., velocity="backward")`).
+
+## D-032 Choices for the SSAC full paper
+
+- Effects are stated in points per 100 possessions; the wins conversion (2.60 wins per point of
+  net rating per 100 possessions, 2015-16, `analysis_wins_per_point.py`) is secondary. The main
+  team-game number is the joint-model early − late contrast (5 percentage points of help moved
+  from 1–3 s to within 1 s of the screen), stated as an association.
+- Disclosed: the 1 s early-help threshold was chosen after the first results
+  (`reports/analysis/help_threshold.json` gives the whole threshold curve), and dropping
+  fourth-quarter garbage time weakens the team-game association (intervals include zero).
+- Strong-side corner help is measured per drive opportunity
+  (`analysis_corner_help_opportunity.py`); the reading of the result (no shooter dependence,
+  uncertain scoring consequence) was fixed before the analysis was run.
+- Example teams and players on the cards follow fixed rules: the team with the fewest points
+  allowed and the team with the highest early-help rate; players with at least 1,000 defensive
+  possessions whose intervals exclude zero.
+
+## D-033 Stunts and clip lists
+
+- The paper does not introduce a geometric definition of a stunt. Whether detected help is full
+  help or a stunt is answered by the video check (D-036).
+- The review-queue table in the paper names defenders by team and listed position; the release
+  CSV keeps player names and IDs.
+
+## D-034 Departure is the paper's player measure
+
+Departure (the individual-ghost negative log-density) partly reflects how spread out the league
+map is (correlation 0.47 per defender-step). Spread-free versions (departure minus the map's
+entropy; PIT) are slightly more repeatable and give nearly the same ranking (rank correlation
+0.95 / 0.93; `reports/analysis/departure_spread.json`). The negative log-density is kept as the
+measure; the spread check is reported.
+
+## D-035 Second annotation round (on hold)
+
+A second, external annotation round was prepared and is on hold. The paper's numbers come from
+the check of D-036.
+
+## D-036 Video check on held-out games
+
+The 100-possession annotation (D-025, D-027) was not carried out. It is replaced by a shorter
+check, all on test games, so it is a held-out check of the matchup model and of the event rules
+(`select_quick_check.py`, pages `make_quick_check.py` with `tools/quick_check/`, evaluation
+`quick_check_eval.py`):
+
+- Matchups: 40 half-court possessions stratified by play type (pick-and-roll with switch 10,
+  without switch 10, drive 8, ball movement 6, other 6). At two random moments per possession
+  (one in each half, from 0.6 s) the annotator names whom each defender guards (or nobody),
+  without seeing the model's answer. Accuracy of the matchup model and three baselines, raw and
+  weighted by the shares of the strata among test possessions; intervals by bootstrap of
+  possessions within strata.
+- Events: 90 short clips with the asked defender(s) ringed: 25 early help, 15 late help, 10
+  strong-side corner help, 25 screen switches, and 15 clips without a detected event (8 help, 7
+  switch) mixed in blind. Help answers: full help, stunt, already in a help spot and only sank
+  toward the ball, no, can't tell. The main precision counts full help and stunts as confirmed;
+  a lenient version also counts "already in a help spot". Wilson intervals. Recall (missed
+  events) is not measured.
+- Two analysts (not coaches) labelled independently; the clips on which they disagreed were
+  reviewed together to a consensus (`make_quick_adjudication.py`). The release carries both
+  analysts' answers and the consensus, without notes.
+- Help events judged help on review were farther from the defender's man and closer to the ball
+  handler. Section 4 is refitted keeping only such events (within 8 ft of the handler; at least
+  12 ft from his man; both) as a sensitivity analysis (`analysis_help_strict_sensitivity.py`);
+  the thresholds were read off the reviewed clips, so the in-sample precision of each variant is
+  descriptive only.
+- Possessions that start during a stopped game clock (e.g. a baseline inbound) are not cut by
+  the segmentation; their share is measured (`analysis_stopped_clock_windows.py`).

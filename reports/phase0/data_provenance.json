@@ -1,0 +1,61 @@
+{
+ "nbacore_version": "v1.6",
+ "period": [
+  "2015-10-27",
+  "2016-01-23"
+ ],
+ "regular_season_games_in_period": 661,
+ "games_used": 631,
+ "games_missing_from_analysis": 30,
+ "missing_by_reason": {
+  "empty_archive": 3,
+  "failed:SchemaError": 1,
+  "missing_archive": 26,
+  "not_in_archive_table": 0
+ },
+ "games_per_team_used": {
+  "ATL": 43,
+  "BKN": 41,
+  "BOS": 42,
+  "CHA": 42,
+  "CHI": 39,
+  "CLE": 38,
+  "DAL": 43,
+  "DEN": 43,
+  "DET": 42,
+  "GSW": 42,
+  "HOU": 43,
+  "IND": 42,
+  "LAC": 39,
+  "LAL": 44,
+  "MEM": 43,
+  "MIA": 42,
+  "MIL": 45,
+  "MIN": 44,
+  "NOP": 42,
+  "NYK": 45,
+  "OKC": 44,
+  "ORL": 41,
+  "PHI": 41,
+  "PHX": 42,
+  "POR": 45,
+  "SAC": 40,
+  "SAS": 41,
+  "TOR": 42,
+  "UTA": 42,
+  "WAS": 40
+ },
+ "games_per_team_min_max": [
+  38,
+  45
+ ],
+ "raw_archives": {
+  "n_in_upstream_listing": 636,
+  "n_present_locally": 636,
+  "n_matching_upstream_git_sha": 636,
+  "n_used": 631,
+  "upstream": "github.com/linouk23/NBA-Player-Movements, data/2016.NBA.Raw.SportVU.Game.Logs"
+ },
+ "pbp_csv_sha256": "b10a0e3ff6870d9a7559281e910ebaed12fd244938049b7384480be64dd0d21f",
+ "checksums_file": "reports/phase0/raw_checksums.csv"
+}

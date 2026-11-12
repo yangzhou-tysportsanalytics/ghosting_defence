@@ -165,3 +165,28 @@ def test_baselines_recover_simple_matchups():
     b = r["lanes"]["baselines"]
     assert b["franks_fixed"]["frame_accuracy"] == 1.0 and b["min_residual"]["frame_accuracy"] == 1.0
     assert set(b) == {"min_residual", "nearest_defender", "franks_fixed"}
+
+
+def test_extra_lanes_are_evaluated_like_baselines():
+    p = _poss()
+    wrong = np.array(p["matchup_prelabel"])
+    wrong[0, :5] = 4  # B2 lane wrong for defender 0 on half the steps
+    p["_extra_lanes"] = {"event_hmm": wrong, "event_hmm_constant": np.array(p["matchup_prelabel"])}
+    r = ae.evaluate({"possessions": [p]}, _confirm_all(p))
+    b = r["lanes"]["baselines"]
+    assert np.isclose(b["event_hmm"]["frame_accuracy"], 45 / 50)
+    assert b["event_hmm_constant"]["frame_accuracy"] == 1.0
+    assert (
+        "event_hmm"
+        not in ae.evaluate({"possessions": [_poss()]}, _confirm_all(_poss()))["lanes"]["baselines"]
+    )
+
+
+def test_event_params_roundtrip():
+    d = {"gamma": {"strong": [0.64, 0.1, 0.26], "weak": [0.58, 0.1, 0.32]},
+         "sigma_ft": {"strong": 2.5, "weak": 2.6}, "help_lam": 0.67, "help_sigma_ft": 14.8,
+         "stratify": True, "help_state": True,
+         "beta": {"intercept": -4.1, "screen": -0.3, "involved": 0.9, "pass": 0.3, "drive": 0.5}}  # fmt: skip
+    prm = ae._event_params(d)
+    assert np.isclose(prm.emis.sigma2["weak"], 2.6**2) and prm.emis.n_states == 6
+    assert np.allclose(prm.beta, [-4.1, -0.3, 0.9, 0.3, 0.5])

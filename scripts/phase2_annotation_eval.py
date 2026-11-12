@@ -17,7 +17,13 @@ they saved (data/annotations/raw/<bundle>__<initials>.json). Only possessions ma
   starting within 2 steps (0.4 s). Precision, recall, F1 by type and kind; pre-label review
   counts (confirmed / edited / deleted); help kinds (annotated pre_positioned / leave_man /
   recovery_scramble) against model definitions A and B (D-018).
+* Intervals (review R1, 2026-11-02): 95 % intervals for frame accuracy (raw and population-
+  weighted) and event precision / recall / F1 from a bootstrap of possessions within strata, so
+  the defender-steps and events of one possession move together (``intervals``).
 * Two annotators on the double-annotated possessions: lane agreement and event F1 between them.
+* B2 (D-030): when reports/phase2/<version>_all/event_hmm.json exists, the event-dependent HMM
+  and its constant-switching refit are decoded on the bundle arrays and evaluated like the
+  baselines (``event_hmm``, ``event_hmm_constant``; ``--no-b2`` skips them).
 * Blind subset (``--blind gd_v2_blind10``; writing request A1b): the same annotator labels 10
   core possessions first without any model output, later again with the pre-labels. HMM and
   baseline accuracy against the blind and the assisted labels on the same steps (the difference
@@ -38,9 +44,12 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 import numpy as np
+import polars as pl
 
 from ghost import data as D
 from ghost.court import HOOP_LEFT
+from ghost.matchup import hmm_event as E
+from ghost.matchup.events import EventConfig, stable_path
 from ghost.matchup.hmm import FRANKS_GAMMA, HMMParams, MatchupInputs, posteriors
 
 EVENT_TYPES = ("switch", "help_rotation", "closeout")
@@ -51,6 +60,7 @@ UNLABELLED = -2  # blind bundles: lane not labelled yet
 GAMMA = (0.62, 0.11, 0.27)  # Franks et al. (2015)
 POOLED = {"sigma_ft": 3.216, "rho": 0.98392}  # pooled HMM fit (matchup_fit.json, models.hmm)
 BASELINES = ("min_residual", "nearest_defender", "franks_fixed")
+EXTRA = ("event_hmm", "event_hmm_constant")  # B2 lanes, when attached (attach_event_lanes)
 
 
 def principal(seg: dict) -> int | None:
@@ -115,8 +125,60 @@ def franks_fixed(poss: dict, sigma_ft: float = POOLED["sigma_ft"], rho: float = 
 
 
 def baseline_lanes(poss: dict) -> dict[str, np.ndarray]:
+    """The three baselines, plus any lanes attached by ``attach_event_lanes`` (B2)."""
     return {"min_residual": min_residual(poss), "nearest_defender": nearest_defender(poss),
-            "franks_fixed": franks_fixed(poss)}  # fmt: skip
+            "franks_fixed": franks_fixed(poss), **poss.get("_extra_lanes", {})}  # fmt: skip
+
+
+def _event_params(d: dict) -> E.EventHMMParams:
+    emis = HMMParams(gamma={g: np.asarray(v, dtype=float) for g, v in d["gamma"].items()},
+                     sigma2={g: s**2 for g, s in d["sigma_ft"].items()},
+                     help_lam=d["help_lam"], help_sigma2=d["help_sigma_ft"] ** 2,
+                     stratify=d["stratify"], help_state=d["help_state"])  # fmt: skip
+    return E.EventHMMParams(emis=emis, beta=np.array(list(d["beta"].values()), dtype=float))
+
+
+def attach_event_lanes(bundle: dict, cfg: D.DataConfig, report: Path) -> list[str]:
+    """B2 (D-030): stable lanes of the event-dependent HMM and of its constant-switching
+    refit, decoded on the bundle's own 5 Hz arrays; screens and passes from nbacore. Same
+    lane rule as the pre-labels (stable path, help state -> no man). Returns the method names."""
+    models = json.loads(report.read_text())["models"]
+    prm = {"event_hmm": _event_params(models["event_dependent"]["params"]),
+           "event_hmm_constant": _event_params(models["constant_rho"]["params"])}  # fmt: skip
+    hold = EventConfig().steps(EventConfig().min_hold_s)
+    cache: dict[str, tuple] = {}
+    for p in bundle["possessions"]:
+        gid = p["game_id"]
+        if gid not in cache:
+            sc = D.events(gid, "screen_candidate", cfg).with_columns(
+                pl.coalesce("user_def_id", "screened_def_id").alias("screened_def_id"))  # fmt: skip
+            ps = D.events(gid, ["pass", "handoff"], cfg).filter(pl.col("completed"))
+            cache[gid] = (
+                sc["t_contact_ms"].to_numpy(),
+                sc["screened_def_id"].fill_null(-1).to_numpy(),
+                sc["screener_def_id"].fill_null(-1).to_numpy(),
+                ps["t_release_ms"].to_numpy(),
+                ps["t_catch_ms"].to_numpy(),
+            )
+        tc, d1, d2, tr, tk = cache[gid]
+        n = p["n_steps"]
+        t = p["t_start_ms"] + 200 * np.arange(n)  # the 5 Hz grid (checked against the frames)
+        lo, hi = t[0] - 1000, t[-1] + 1000
+        ms, mp = (tc >= lo) & (tc <= hi), (tk >= lo) & (tr <= hi)
+        off = np.asarray(p["off"], dtype=float)
+        inp = MatchupInputs(off_xy=off[None], def_xy=np.asarray(p["def"], dtype=float)[None],
+                            ball=np.asarray(p["ball"], dtype=float)[None, :, :2],
+                            valid=np.ones((1, n), dtype=bool))  # fmt: skip
+        code = E.event_codes(t, inp.valid[0], np.asarray(p["handler"]), off,
+                             np.array([q["id"] for q in p["defense"]]),
+                             list(zip(tc[ms], d1[ms], d2[ms], strict=True)),
+                             list(zip(tr[mp], tk[mp], strict=True)), HOOP_LEFT)[None]  # fmt: skip
+        lanes = {}
+        for name, pr in prm.items():
+            st = stable_path(E.paths(inp, code, pr)[0], inp.valid[0], hold).astype(int)
+            lanes[name] = np.where(st >= 5, -1, st)
+        p["_extra_lanes"] = lanes
+    return list(prm)
 
 
 def match_events(pred: list[dict], ref: list[dict], tol: int = TOL) -> list[tuple[int, int]]:
@@ -155,7 +217,8 @@ def weighted(by_stratum: dict, weights: dict | None) -> dict | None:
     if not weights:
         return None
     out = {}
-    methods = ["hmm"] + [m for m in BASELINES if any(m in v for v in by_stratum.values())]
+    methods = ["hmm"] + [m for m in (*BASELINES, *EXTRA)
+                         if any(m in v for v in by_stratum.values())]  # fmt: skip
     for key, num, den in [(f"frame_accuracy_{m}{sfx}", f"{m}{c}", d) for m in methods
                           for sfx, c, d in (("", "", "n"), ("_steps_with_man", "_man", "n_man"))]:  # fmt: skip
         ks = [k for k, v in by_stratum.items() if v[den] and k in weights]
@@ -169,6 +232,51 @@ def weighted(by_stratum: dict, weights: dict | None) -> dict | None:
     return out
 
 
+def possession_bootstrap(per: list[dict], weights: dict | None, reps: int = 2000) -> dict:
+    """95 % intervals respecting the design: possessions resampled with replacement within their
+    stratum; a possession's defender-steps and events stay together."""
+    if not per:
+        return {}
+    strata = sorted({r["stratum"] for r in per})
+    keys = sorted({k for r in per for k in r if k != "stratum"})
+    col = {k: i for i, k in enumerate(keys)}
+    M = np.array([[r.get(k, 0) for k in keys] for r in per], dtype=float)
+    idx = {s: np.array([i for i, r in enumerate(per) if r["stratum"] == s]) for s in strata}
+    w = {s: weights[s] for s in strata if weights and s in weights}
+    div = lambda a, b: a / b if b else np.nan  # noqa: E731
+
+    def stats(rows: dict) -> dict:
+        S = {s: M[rows[s]].sum(0) for s in strata}
+        T = sum(S.values())
+        out = {"frame_accuracy_hmm": div(T[col["hmm"]], T[col["n"]]),
+               "frame_accuracy_hmm_steps_with_man": div(T[col["hmm_man"]], T[col["n_man"]])}  # fmt: skip
+        if len(w) == len(strata):
+            tot = sum(w.values())
+            for k, num, den in (("frame_accuracy_hmm_population_weighted", "hmm", "n"),
+                                ("frame_accuracy_hmm_steps_with_man_population_weighted",
+                                 "hmm_man", "n_man")):  # fmt: skip
+                out[k] = sum(w[s] / tot * div(S[s][col[num]], S[s][col[den]]) for s in strata)
+        for t in EVENT_TYPES:
+            tp, npred, nref = (T[col[f"{t}_{x}"]] for x in ("tp", "n_pred", "n_ref"))
+            pr, rc = div(tp, npred), div(tp, nref)
+            out[f"{t}_precision"], out[f"{t}_recall"] = pr, rc
+            out[f"{t}_f1"] = div(2 * pr * rc, pr + rc) if pr == pr and rc == rc else np.nan
+        return out
+
+    est = stats(idx)
+    rng = np.random.default_rng(9)
+    boot = [stats({s: rng.choice(idx[s], len(idx[s])) for s in strata}) for _ in range(reps)]
+    res = {}
+    for k, v in est.items():
+        b = np.array([x[k] for x in boot], dtype=float)
+        ok = b[~np.isnan(b)]
+        res[k] = {"estimate": None if v != v else float(v),
+                  "ci95": [float(np.quantile(ok, 0.025)), float(np.quantile(ok, 0.975))]
+                  if len(ok) else None}  # fmt: skip
+    res["method"] = "bootstrap of possessions within strata, 2000 draws, seed 9"
+    return res
+
+
 def evaluate(bundle: dict, ann: dict, weights: dict | None = None) -> dict:
     """Metrics of one annotator file against the model (lanes, baseline, events)."""
     poss = {p["key"]: p for p in bundle["possessions"]}
@@ -178,6 +286,7 @@ def evaluate(bundle: dict, ann: dict, weights: dict | None = None) -> dict:
     ev = defaultdict(lambda: [0, 0, 0])  # (type, kind) -> tp, n_pred, n_ref
     review = defaultdict(Counter)  # (type, kind) -> confirmed / edited / deleted
     help_map = defaultdict(Counter)  # annotated help_kind -> which model kinds matched
+    per: list[dict] = []  # per possession, for the bootstrap intervals
     times, n_done = [], 0
     for key, a in ann["possessions"].items():
         if a.get("status") != "done" or key not in poss:
@@ -198,6 +307,10 @@ def evaluate(bundle: dict, ann: dict, weights: dict | None = None) -> dict:
         st["n"] += truth.size
         st["hmm_man"] += int(((hmm == truth) & man).sum())
         st["n_man"] += int(man.sum())
+        rec = {"stratum": p.get("stratum", "all"), "hmm": int((hmm == truth).sum()),
+               "n": truth.size, "hmm_man": int(((hmm == truth) & man).sum()),
+               "n_man": int(man.sum())}  # fmt: skip
+        per.append(rec)
         lanes["base_man"] += int(((base == truth) & man).sum())
         lanes["changed"] += int((hmm != truth).sum())
         others = baseline_lanes(p)
@@ -235,9 +348,11 @@ def evaluate(bundle: dict, ann: dict, weights: dict | None = None) -> dict:
         for t in EVENT_TYPES:
             ps = [i for i, s in enumerate(pre) if s["type"] == t]
             rs = [j for j, s in enumerate(fin) if s["type"] == t]
-            ev[(t, "")][0] += sum(1 for i, j in m if pre[i]["type"] == t)
+            tp_t = sum(1 for i, j in m if pre[i]["type"] == t)
+            ev[(t, "")][0] += tp_t
             ev[(t, "")][1] += len(ps)
             ev[(t, "")][2] += len(rs)
+            rec.update({f"{t}_tp": tp_t, f"{t}_n_pred": len(ps), f"{t}_n_ref": len(rs)})
         for i, j in m:  # by kind (types with kinds only): the annotated kind is the reference
             if kind(fin[j]):
                 ev[(fin[j]["type"], kind(fin[j]))][0] += int(kind(pre[i]) == kind(fin[j]))
@@ -267,6 +382,7 @@ def evaluate(bundle: dict, ann: dict, weights: dict | None = None) -> dict:
             for k, v in sorted(by_stratum.items())
         },  # fmt: skip
         "lanes_population_weighted": weighted(by_stratum, weights),
+        "intervals": possession_bootstrap(per, weights),
         "lanes": {
             "frame_accuracy_hmm": acc(lanes["hmm"], lanes["n"]),
             "frame_accuracy_hmm_steps_with_man": acc(lanes["hmm_man"], lanes["n_man"]),
@@ -281,7 +397,8 @@ def evaluate(bundle: dict, ann: dict, weights: dict | None = None) -> dict:
                     "frame_accuracy_steps_with_man": acc(lanes[f"{m}_man"], lanes["n_man"]),
                     "accuracy_within_1s_of_switches": acc(sw_acc[m], sw_acc["n"]),
                 }
-                for m in BASELINES
+                for m in (*BASELINES, *EXTRA)
+                if f"{m}_all" in lanes
             },  # fmt: skip
         },
         "events": {f"{t}{'/' + k if k else ''}": prf(*v) for (t, k), v in sorted(ev.items())},
@@ -316,7 +433,7 @@ def blind_eval(core: dict, blind: dict, b_ann: dict, a_ann: dict, reps: int = 20
     """Same annotator, same possessions: blind labels (b_ann on the blind bundle) vs labels made
     with the model pre-labels (a_ann on the core bundle)."""
     poss = {p["key"]: p for p in core["possessions"]}
-    rows, ev = [], Counter()
+    rows, ev, ext = [], Counter(), Counter()
     for bp in blind["possessions"]:
         key = bp["key"]
         x, y = b_ann["possessions"].get(key), a_ann["possessions"].get(key)
@@ -333,6 +450,9 @@ def blind_eval(core: dict, blind: dict, b_ann: dict, a_ann: dict, reps: int = 20
                      ((tb == ta) & lab).sum(), ((hmm == tb) & mb).sum(),
                      ((oth["nearest_defender"] == tb) & mb).sum(),
                      ((oth["franks_fixed"] == tb) & mb).sum()])  # fmt: skip
+        for m in EXTRA:
+            if m in oth:
+                ext[m] += int(((oth[m] == tb) & mb).sum())
         pre = [q for q in p["prelabels"] if q["type"] in EVENT_TYPES]
         eb, ea = final_events(x["segments"]), final_events(y["segments"])
         ev["tp_blind"] += len(match_events(pre, eb))
@@ -370,6 +490,7 @@ def blind_eval(core: dict, blind: dict, b_ann: dict, a_ann: dict, reps: int = 20
             "min_residual": float(est[2]),
             "nearest_defender": float(est[6]),
             "franks_fixed": float(est[7]),
+            **{m: ext[m] / R[:, 3].sum() for m in EXTRA if m in ext},
         },  # fmt: skip
         "events_model_vs_blind": prf(ev["tp_blind"], ev["n_pred"], ev["n_blind"]),
         "events_model_vs_assisted": prf(ev["tp_assisted"], ev["n_pred"], ev["n_assisted"]),
@@ -392,6 +513,7 @@ def main() -> None:
     ap.add_argument("--raw-dir", default="data/annotations/raw")
     ap.add_argument("--out", default=None, help="output path (default: reports/phase2/...)")
     ap.add_argument("--blind", default=None, help="blind bundle paired with --bundle (A1b)")
+    ap.add_argument("--no-b2", action="store_true", help="skip the event-dependent HMM (B2)")
     args = ap.parse_args()
     cfg = D.DataConfig.load(game_set="all")
     bundle = json.loads(Path(f"data/annotations/bundles/{args.bundle}.json").read_text())
@@ -399,7 +521,10 @@ def main() -> None:
     if not files:
         raise SystemExit(f"no annotation files {args.raw_dir}/{args.bundle}__*.json")
     anns = [json.loads(f.read_text(encoding="utf-8")) for f in files]
+    ev_rep = Path("reports/phase2") / f"{cfg.version}_all" / "event_hmm.json"
+    extra = attach_event_lanes(bundle, cfg, ev_rep) if ev_rep.exists() and not args.no_b2 else []
     rep = {"bundle": args.bundle, "files": [f.name for f in files], "tolerance_steps": TOL,
+           "b2_lanes": extra,
            "per_annotator": [evaluate(bundle, a, pool_weights()) for a in anns], "agreement": []}  # fmt: skip
     for i in range(len(anns)):
         for j in range(i + 1, len(anns)):

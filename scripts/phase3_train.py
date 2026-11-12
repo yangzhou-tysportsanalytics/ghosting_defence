@@ -161,6 +161,8 @@ def main() -> None:
     ap.add_argument("--load-model", default=None, help="model.pt to evaluate instead of training")
     ap.add_argument("--fold-out", type=int, default=None, help="cross-fitting: hold out this fold")
     ap.add_argument("--condition", default="league", choices=["league", "lineup", "scheme"])
+    ap.add_argument("--velocity", default="central", choices=["central", "backward"],
+                    help="velocity features when building from frames (packed arrays carry their own)")  # fmt: skip
     ap.add_argument("--max-eval", type=int, default=None, help="dry runs: cap val / test size")
     ap.add_argument(
         "--anchor", default="none", choices=["none", "rule"], help="rule: residual on rule ghost"
@@ -209,7 +211,7 @@ def main() -> None:
             raise SystemExit("--eval-test needs --arrays-dir (final runs use the packed arrays)")
         pt = load_game_set(base / "frames", sorted(P["game_id"].unique().to_list()), P)
         fill_shot_clock(pt, {g: D.shot_clock(g, cfg) for g in np.unique(pt.game_id)})
-        arrs = build_arrays(pt, P)
+        arrs = build_arrays(pt, P, args.velocity)
         smap = dict(zip(P["game_id"].to_list(), P["split"].to_list(), strict=False))
         split = np.array([smap[g] for g in pt.game_id])
         tr, va = np.flatnonzero(split == "train"), np.flatnonzero(split == "val")
@@ -308,6 +310,7 @@ def main() -> None:
 
     result = {
         "config": config_dict(mcfg, tcfg),
+        "velocity_features": args.velocity if not args.arrays_dir else "from arrays",
         "n_params": sum(p.numel() for p in model.parameters()),
         "val_team": evaluate(model, val, "team", args.device),
         "val_individual": evaluate(model, val, "individual", args.device),
